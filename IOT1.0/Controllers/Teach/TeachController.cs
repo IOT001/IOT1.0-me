@@ -31,6 +31,9 @@ namespace IOT1._0.Controllers.Teach
         {
             return View();
         }
+        /// <summary>
+        /// 教师列表查询
+        /// </summary>
         public ActionResult Teacher(TeacherSearchModel search)
         {
             TeacherViewModel model = new TeacherViewModel();//页面模型
@@ -62,7 +65,7 @@ namespace IOT1._0.Controllers.Teach
             }
             Teachers btn = (Teachers)(JsonConvert.DeserializeObject(data.ToString(), typeof(Teachers)));
 
-            if (TeacherData.UpdateButton(btn))//注意时间类型，而且需要在前台把所有的值
+            if (TeacherData.UpdateTeacher(btn))//注意时间类型，而且需要在前台把所有的值
             {
                 ajax.msg = "保存成功！";
                 ajax.status = EnumAjaxStatus.Success;

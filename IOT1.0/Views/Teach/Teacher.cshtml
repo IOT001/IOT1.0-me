@@ -29,10 +29,10 @@
                             </div>
                             <div class="col-sm-3">
                                 @*<select data-placeholder="是否在职..." class=" form-control input-sm chosen-select" style="width:100%;height:100%;" tabindex="4">
-                                    <option value="">请选择是否在职</option>
-                                    <option value="110000" hassubinfo="true">是</option>
-                                    <option value="370000" hassubinfo="true">否</option>
-                                </select>*@
+                                        <option value="">请选择是否在职</option>
+                                        <option value="110000" hassubinfo="true">是</option>
+                                        <option value="370000" hassubinfo="true">否</option>
+                                    </select>*@
                                 @Html.DropDownListFor(t => t.search.DicItemID, Model.buttonIL, new { @class = "form-control input-sm chosen-select", @style = "width:100%;height:100%;", @tabindex = "4" })
 
                             </div>
@@ -74,7 +74,7 @@
                         </thead>
                         <!-- 循环数据 -->
                         <tbody>
-                          
+
                             @if (Model != null && Model.buttonlist.Count() > 0)
                             {
                                 foreach (var m in Model.buttonlist)
@@ -84,22 +84,25 @@
                                         @if (@m.sex == 1)
                                         {
                                             <td>男</td>
-                                        } else  {
+                                        }
+                                        else
+                                        {
                                             <td>女</td>
                                         }
                                         <td>@m.MobilePhone</td>
-                                      @if(m.LeaveDate ==null){
-                                               <td>是</td>
-                                      }
-                                      else
-                                      {
-                                          <td>否</td>
-                                      }
-                                       
-                                       @*javascript:convertTime(@m.EntryDate)*@
+                                        @if (m.LeaveDate == null)
+                                        {
+                                            <td>是</td>
+                                        }
+                                        else
+                                        {
+                                            <td>否</td>
+                                        }
+
+                                        @*javascript:convertTime(@m.EntryDate)*@
                                         <td>
-                                            @DateTime.Parse(m.EntryDate+"").ToString("yyyy-MM-dd")
-                                            
+                                            @DateTime.Parse(m.EntryDate + "").ToString("yyyy-MM-dd")
+
                                         </td>
                                         @*权限组 - 暂时省略*@
                                         <td></td>
@@ -273,18 +276,18 @@
                     }
                     $("#remark").val(json.data.Remark);
 
-                    if ( 1==json.data.sex){//如果停用true                        
+                    if (1 == json.data.sex) {//如果停用true
                         $("input#sex_boy").iCheck('check')
 
                     } else {
                         $("input#sex_girl").iCheck('check');
                     }
 
-                   
+
 
 
                     layer.close(loadindex);//关闭加载层
-                } 
+                }
             },
             error: function (xmLHttpRequest, textStatus, errorThrown) {
                 layer.msg("系统异常，请重试<br/>错误信息：" + xmLHttpRequest.responseText);
@@ -304,8 +307,8 @@
             return false;
         }
         var val = $('input:radio[name="a"]:checked').val();
-        obj.sex=val
-        
+        obj.sex = val
+
         obj.MobilePhone = $("#mobilephone").val().trim();
         obj.EntryDate = $("#inDate").val().trim();
         obj.Email = $("#email").val().trim();
@@ -368,9 +371,9 @@
                         <label class="">
                             <div class="iradio_square-green" style="position: relative;">
                                 <input type="radio" value="1" name="a" id="sex_boy" style="position: absolute; opacity: 0;">
-                            <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; border: 0px; opacity: 0; background: rgb(255, 255, 255);">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; border: 0px; opacity: 0; background: rgb(255, 255, 255);">
                                 </ins>
-                            </div> 
+                            </div>
                             <i></i> 男
                         </label>
                     </div>
@@ -382,10 +385,10 @@
                         <label class="">
                             <div class="iradio_square-green" style="position: relative;">
                                 <input type="radio" checked="checked" value="2" id="sex_girl" name="a" style="position: absolute; opacity: 0;">
-                            <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; border: 0px; opacity: 0; background: rgb(255, 255, 255);">
+                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; border: 0px; opacity: 0; background: rgb(255, 255, 255);">
                                 </ins>
                             </div> <i></i>
-                             女
+                            女
                         </label>
                     </div>
                 </div>

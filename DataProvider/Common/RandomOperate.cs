@@ -11,7 +11,10 @@ namespace DataProvider
 
     public class RandomOperate
     {
-        // 一：随机生成不重复数字字符串 
+        // 
+        /// <summary>
+        /// 随机生成不重复数字字符串 
+        /// </summary>
         private int rep = 0;
         public string GenerateCheckCodeNum(int codeCount)
         {
@@ -26,7 +29,11 @@ namespace DataProvider
             }
             return str;
         }
-        //方法二：随机生成字符串（数字和字母混和）
+        /// <summary>
+        /// 随机生成字符串（数字和字母混和）
+        /// </summary>
+        /// <param name="codeCount"></param>
+        /// <returns></returns>
         public string GenerateCheckCode(int codeCount)
         {
             string str = string.Empty;
@@ -49,7 +56,11 @@ namespace DataProvider
             }
             return str;
         }
-
+        /// <summary>
+        /// 字符串MD5加密
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         public string CreateMD5Hash(string input)
         {
             // Use input string to calculate MD5 hash  
