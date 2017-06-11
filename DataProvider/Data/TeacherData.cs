@@ -26,6 +26,16 @@ namespace DataProvider.Data
             orderby = "CreateTime";//排序信息
             StringBuilder sb = new StringBuilder();//构建where条件
             sb.Append(" 1=1 ");
+            switch (search.DicItemID)
+            {
+                case 1:
+                    sb.Append(" and LeaveDate is null ");
+                    break;
+                case 2:
+                    sb.Append(" and LeaveDate <> '' ");
+                    break;
+            }
+            
             if (!string.IsNullOrWhiteSpace(search.TeacherName))//按钮中文名称
              sb.AppendFormat(" and name like '%{0}%' ", search.TeacherName);
             //if (!string.IsNullOrWhiteSpace(search.BTN_Name_En))//城市
