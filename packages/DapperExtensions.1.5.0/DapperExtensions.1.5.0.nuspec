@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>DapperExtensions</id>
+    <version>1.5.0</version>
+    <title>DapperExtensions</title>
+    <authors>Thad Smith, Page Brooks</authors>
+    <owners>Thad Smith, Page Brooks</owners>
+    <licenseUrl>http://www.apache.org/licenses/LICENSE-2.0</licenseUrl>
+    <projectUrl>https://github.com/tmsmith/Dapper-Extensions</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>A small library that complements Dapper by adding basic CRUD operations (Get, Insert, Update, Delete) for your POCOs. For more advanced querying scenarios, Dapper Extensions provides a predicate system.</description>
+    <summary />
+    <releaseNotes>1.5.0
+      * Nuget Package Restore
+      * Do not set Guid on key when already set
+      * Do not include key in SET for UPDATEs
+      * Added Support for .NET 4.5 async/await</releaseNotes>
+    <tags>orm sql micro-orm Data Dapper</tags>
+    <dependencies>
+      <dependency id="Dapper" version="1.12.0" />
+    </dependencies>
+    <frameworkAssemblies>
+      <frameworkAssembly assemblyName="System.Core" targetFramework="" />
+      <frameworkAssembly assemblyName="System" targetFramework="" />
+      <frameworkAssembly assemblyName="System.Data" targetFramework="" />
+      <frameworkAssembly assemblyName="Microsoft.CSharp" targetFramework=".NETFramework4.0-Client, .NETFramework4.0" />
+    </frameworkAssemblies>
+  </metadata>
+</package>

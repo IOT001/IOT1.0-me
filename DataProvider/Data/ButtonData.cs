@@ -25,7 +25,7 @@ namespace DataProvider.Data
            orderby = "BTN_Id";//排序信息
            StringBuilder sb = new StringBuilder();//构建where条件
            sb.Append(" 1=1 ");
-           if (!string.IsNullOrWhiteSpace(search.BTN_Name)) ;//按钮中文名称
+           if (!string.IsNullOrWhiteSpace(search.BTN_Name)) //按钮中文名称
            sb.AppendFormat(" and BTN_Name like '%{0}%' ", search.BTN_Name);
            if (!string.IsNullOrWhiteSpace(search.BTN_Name_En))//城市
                sb.AppendFormat(" and BTN_Name_En like '%{0}%' ", search.BTN_Name_En);
