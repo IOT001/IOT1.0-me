@@ -175,10 +175,7 @@ namespace IOT1._0.Controllers.Teach
         {
             return View();
         }
-        public ActionResult Teacher()
-        {
-            return View();
-        }
+ 
 
 
         /// <summary>
