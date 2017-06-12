@@ -19,6 +19,8 @@
                     <!-- 功能操作区 -->
                     @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "frmQuery", @class = "form-horizontal" }))
                     {
+                        
+                    
                           
                         <div class="form-group">
                             <div class="col-sm-2">
@@ -109,7 +111,7 @@
                             }
                             else
                             {
-                                <tr><td colspan="7" style="text-align:center; color:red;">未查询到数据,请更换查询条件试试!</td></tr>
+                                <tr><td colspan="10" style="text-align:center; color:red;">未查询到数据,请更换查询条件试试!</td></tr>
                             }
                         </tbody>
                         @*<tfoot>
@@ -200,20 +202,21 @@
                     $("#BindPhone").val(json.data.BindPhone);
 
 
-                    if (json.data.Sex==1) {
+                    if (json.data.Sex == 1) {
                         $("#Sex").iCheck('check');
                     }
                     else {
                         $("#Sex1").iCheck('check');
+
                     }
-    
-                    
-                   
+
+                    $("#img").attr("scr", json.data.Picurl);
+                    $("#Picurl").val(json.data.Picurl);
 
                     $("#Birthday").val(ChangeDateFormat(json.data.Birthday));
                     $("#FatherName").val(json.data.FatherName);
                     $("#FatherContract").val(json.data.FatherContract);
-                     
+
                     $("#Wechart").val(json.data.MotherName);
                     $("#MotherName").val(json.data.MotherName);
                     $("#MotherContract").val(json.data.MotherContract);
@@ -221,7 +224,7 @@
                     $("#SourceID").val(json.data.SourceID);
                     $("#Remark").val(json.data.Remark);
 
-                   
+
 
                     layer.close(loadindex);//关闭加载层
                 }
@@ -257,30 +260,31 @@
 
 
         if ($("#Sex").is(':checked')) {//判断停用按钮是否选中 
-            obj.Sex = $("#Sex").val().trim(); 
+            obj.Sex = $("#Sex").val().trim();
         }
         else {
             obj.Sex = $("#Sex1").val().trim();
+
         }
-        
-         
-       
+
+
+
         obj.Birthday = $("#Birthday").val().trim();
         if (!obj.Birthday) {
             layer.msg("请选择出生年月日！");
             return false;
         }
-
-        obj.FatherName = $("#FatherName").val().trim(); 
+        obj.Picurl = $("#Picurl").val().trim();
+        obj.FatherName = $("#FatherName").val().trim();
         obj.FatherContract = $("#FatherContract").val().trim();
         obj.MotherName = $("#MotherName").val().trim();
         obj.MotherContract = $("#MotherContract").val().trim();
         obj.Address = $("#Address").val().trim();
         obj.Wechart = $("#Wechart").val().trim();
         obj.SourceID = $("#SourceID").val().trim();
-        obj.Remark = $("#Remark").val().trim(); 
+        obj.Remark = $("#Remark").val().trim();
 
-   
+
         var action = '';
         if (id) {//有ID就是修改模式，没有就是新增模式
             action = '@Url.Action("SaveStudent", "Teach")';
@@ -312,6 +316,102 @@
 
         $frm.submit();
     }
+
+
+
+
+
+
+    //打开选择文件对话框
+    self.OpenUploadWindow = function () {
+        $("#uploadFile").click();
+    };
+
+
+
+    //上传文件
+    function UploadPic() {
+        var extensionName = /.JPG|.JPEG|.jpg|.png|.gif|.jpeg/;
+        var file = $("#uploadFile")[0].files[0];
+
+        if (!file) {
+            layer.msg("未找到相关文件！");
+            return false;
+        }
+
+        //如果文件大于5M
+        if (file.size > 1048576 * 5) {
+            layer.msg("您上传的文件太大了，最多允许5MB，请重新选择文件！");
+            return false;
+        }
+
+        if (extensionName.test(file.name)) {
+            if (window.FileReader) {
+                var reader = new FileReader();
+                reader.onload = function (evt) {
+                    if (evt.target.readyState === FileReader.DONE) {
+                        var offset = evt.target.result.indexOf(";base64,");
+                        var fileTemp = null;
+                        if (offset > 0) {
+                            //前八个字节是数据流的头所以要去除。
+                            fileTemp = evt.target.result.substr(offset + 8);
+                        }
+                        //取得文件的扩展名
+                        var fileExt = file.name.replace(/.+\./, "");
+                        //将分离出来的二进制文件流放到参数里
+
+
+
+                        var obj = new Object;
+                        obj.fileTemp = fileTemp;
+                        obj.fileExt = fileExt;
+
+                        var action = '@Url.Action("Upload", "Teach")'
+                            $.post(action, {
+                                "data": JSON.stringify(obj)//序列化对象
+                            }, function (json) {
+                                if (json.status = 200) {//成功
+
+
+                                    $("#img").attr("src", json.data.thumbnailImage);
+                                    $("#Picurl").val(json.data.thumbnailImage);//弹出服务器返回的消息
+                                    layer.msg(json.msg);//弹出服务器返回的消息 
+                                }
+                            }, 'json');
+
+
+
+                        }
+                    }
+                    //reader.onprogress = function (e, file) {
+                    //    //console.info(e);
+                    //    if (e.lengthComputable) {
+                    //        var loaded = (e.loaded / e.total);
+                    //        if (loaded <= 1) {
+                    //            self.UploadStat('正在上传，请稍候……');
+                    //            self.UploadPrecent(loaded);
+                    //        }
+                    //    }
+
+                    //}
+                    reader.onerror = function () {
+                        layer.msg("文件读取时发生错误！");
+                        return false;
+                    }
+                    reader.readAsDataURL(file);    // 将文件读取成一段以 data:开头的字符串
+                }
+            }
+            else {
+                layer.msg("只支持jpg,png,gif,jpeg类型的文件上传，请重新选择文件！");
+                return false;
+            }
+
+
+
+        }
+
+
+
 </script>
 @*弹出层，新增报名*@
 <div class="ibox float-e-margins" id="buttoninfo" style="display:none">
@@ -321,6 +421,15 @@
                 <label class="col-xs-3 control-label">姓名：</label>
                 <div class="col-xs-8">
                     <input type="text" placeholder="姓名" class="form-control input-sm" id="Name">
+
+                    @*<img src="~/Images/pic/Student/Thumbnail_Image/201706121559407322.jpg" />*@
+                    <img  id="img" style="height: 180px;" /> 
+                    @*style="display:none"*@ 
+              <input class="form-control" type="text" id="Picurl"   />
+             <input type="file"     id="uploadFile" />
+            <button type="button"  class=" btn btn-primary" onclick="UploadPic()">&nbsp&nbsp上&nbsp&nbsp传&nbsp&nbsp</button>
+
+
                 </div>
  
                 @*            <label class="col-xs-2 control-label">照片：</label>
@@ -335,6 +444,9 @@
 
                     </div>*@
             </div>
+
+
+
             <div class="form-group ">
                 <label class="col-xs-3 control-label">绑定手机：</label>
                 <div class="col-xs-8">
