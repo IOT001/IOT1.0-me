@@ -1717,7 +1717,6 @@
     <Content Include="Pages\Admin\assets\lib\iCheck\demo\css\montserrat-regular.svg" />
     <Content Include="Pages\Admin\assets\lib\iCheck\demo\css\normalize.css" />
     <Content Include="Pages\Admin\assets\lib\iCheck\demo\index.html" />
-    <Content Include="Pages\Admin\assets\lib\iCheck\demo\js\custom.js" />
     <Content Include="Pages\Admin\assets\lib\iCheck\demo\js\custom.min.js" />
     <Content Include="Pages\Admin\assets\lib\iCheck\demo\js\jquery.js" />
     <Content Include="Pages\Admin\assets\lib\iCheck\demo\js\zepto.js" />
@@ -2592,7 +2591,6 @@
     <Content Include="Scripts\assets\lib\iCheck\.gitignore" />
     <Content Include="Scripts\assets\lib\iCheck\bower.json" />
     <Content Include="Scripts\assets\lib\iCheck\CHANGELOG.md" />
-    <Content Include="Scripts\assets\lib\iCheck\demo\css\custom.styl" />
     <Content Include="Scripts\assets\lib\iCheck\demo\css\montserrat-bold.eot" />
     <Content Include="Scripts\assets\lib\iCheck\demo\css\montserrat-bold.ttf" />
     <Content Include="Scripts\assets\lib\iCheck\demo\css\montserrat-bold.woff" />
@@ -2957,7 +2955,6 @@
     <Content Include="Pages\Admin\assets\lib\iCheck\.gitignore" />
     <Content Include="Pages\Admin\assets\lib\iCheck\bower.json" />
     <Content Include="Pages\Admin\assets\lib\iCheck\CHANGELOG.md" />
-    <Content Include="Pages\Admin\assets\lib\iCheck\demo\css\custom.styl" />
     <Content Include="Pages\Admin\assets\lib\iCheck\demo\css\montserrat-bold.eot" />
     <Content Include="Pages\Admin\assets\lib\iCheck\demo\css\montserrat-bold.ttf" />
     <Content Include="Pages\Admin\assets\lib\iCheck\demo\css\montserrat-bold.woff" />
@@ -3000,7 +2997,7 @@
     <Content Include="Scripts\assets\css\plugins\footable\fonts\footable.eot" />
     <Content Include="Scripts\assets\css\plugins\footable\fonts\footable.ttf" />
     <Content Include="Scripts\assets\css\plugins\footable\fonts\footable.woff" />
-    <None Include="Properties\PublishProfiles\11.pubxml" />
+    <None Include="Properties\PublishProfiles\22.pubxml" />
     <None Include="Scripts\jquery-1.7.1.intellisense.js" />
     <Content Include="Scripts\assets\css\main.css" />
     <Content Include="Scripts\assets\css\main.min.css" />
@@ -4172,7 +4169,6 @@
     <Content Include="Scripts\assets\lib\iCheck\demo\css\montserrat-regular.svg" />
     <Content Include="Scripts\assets\lib\iCheck\demo\css\normalize.css" />
     <Content Include="Scripts\assets\lib\iCheck\demo\index.html" />
-    <Content Include="Scripts\assets\lib\iCheck\demo\js\custom.js" />
     <Content Include="Scripts\assets\lib\iCheck\demo\js\custom.min.js" />
     <Content Include="Scripts\assets\lib\iCheck\demo\js\jquery.js" />
     <Content Include="Scripts\assets\lib\iCheck\demo\js\zepto.js" />
