@@ -198,6 +198,11 @@ namespace IOT1._0.Controllers.Teach
 
 
 
+        public ActionResult Shift()
+        {
+            return View();
+        }
+
 
 
         public ActionResult Curriculum()
