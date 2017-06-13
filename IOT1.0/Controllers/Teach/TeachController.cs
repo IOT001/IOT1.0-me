@@ -69,7 +69,7 @@ namespace IOT1._0.Controllers.Teach
                 ajax.status = EnumAjaxStatus.Success;
             }
             return Json(ajax);
-        }
+        } 
 
         /// <summary>
         /// 新增教师
