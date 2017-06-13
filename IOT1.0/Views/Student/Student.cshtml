@@ -21,7 +21,7 @@
                     {
                         
                     
-                          
+                        
                         <div class="form-group">
                             <div class="col-sm-2">
                                 <label class="control-label">姓名:</label>
@@ -210,7 +210,7 @@
 
                     }
 
-                    $("#img").attr("scr", json.data.Picurl);
+                    $("#img").attr("src", json.data.Picurl);
                     $("#Picurl").val(json.data.Picurl);
 
                     $("#Birthday").val(ChangeDateFormat(json.data.Birthday));
@@ -323,10 +323,29 @@
 
 
     //打开选择文件对话框
-    self.OpenUploadWindow = function () {
-        $("#uploadFile").click();
-    };
+    function OpenUploadWindow() {
+        $("#uploadFile").click(); 
+      
+    } 
+     
+    $(document).ready(function () {
 
+        //选择文件事件
+        $("#uploadFile").on("change", function () {
+            var d = document.getElementById('uploadFile').value; 
+            d = d.substr(d.lastIndexOf('\\') + 1); 
+            $("#Picurl").val(d);  
+        })
+
+         
+
+    });
+
+
+  
+
+
+     
 
 
     //上传文件
@@ -374,7 +393,7 @@
 
 
                                     $("#img").attr("src", json.data.thumbnailImage);
-                                    $("#Picurl").val(json.data.thumbnailImage);//弹出服务器返回的消息
+                                    $("#Picurl").val(json.data.thumbnailImage); 
                                     layer.msg(json.msg);//弹出服务器返回的消息 
                                 }
                             }, 'json');
@@ -405,14 +424,14 @@
                 layer.msg("只支持jpg,png,gif,jpeg类型的文件上传，请重新选择文件！");
                 return false;
             }
-
-
+         
 
         }
 
 
-
 </script>
+
+
 @*弹出层，新增报名*@
 <div class="ibox float-e-margins" id="buttoninfo" style="display:none">
     <div class="ibox-content">
@@ -420,31 +439,29 @@
             <div class="form-group ">
                 <label class="col-xs-3 control-label">姓名：</label>
                 <div class="col-xs-8">
-                    <input type="text" placeholder="姓名" class="form-control input-sm" id="Name">
-
-                    @*<img src="~/Images/pic/Student/Thumbnail_Image/201706121559407322.jpg" />*@
-                    <img  id="img" style="height: 180px;" /> 
-                    @*style="display:none"*@ 
-              <input class="form-control" type="text" id="Picurl"   />
-             <input type="file"     id="uploadFile" />
-            <button type="button"  class=" btn btn-primary" onclick="UploadPic()">&nbsp&nbsp上&nbsp&nbsp传&nbsp&nbsp</button>
-
-
-                </div>
- 
-                @*            <label class="col-xs-2 control-label">照片：</label>
-                    <div class="col-xs-4">
-
-                           <img class="img-preview img-preview-xs"></img>
-
-
-                    <label title="上传图片" for="inputImage" class="btn btn-primary">
-                                            <input type="file" accept="image/*" name="file" id="inputImage" class="hide"> 上传新图片
-                                        </label>
-
-                    </div>*@
+                    <input type="text" placeholder="姓名" class="form-control input-sm" id="Name"> 
+            
             </div>
+  </div>
 
+
+            
+            <div class="form-group ">
+                <label class="col-xs-3 control-label">图片显示区域：</label>
+                <div class="col-xs-8">
+                        <img  id="img" style="height: 180px;" src="~/favicon.ico" /> 
+                   
+                    
+
+
+                     <input type="text" id="Picurl"  class="form-control input-sm"  /> 
+                     <input id="uploadFile" class="hidden" type="file" />
+            <button type="button" onclick="OpenUploadWindow()" class=" btn btn-primary">选择文件</button>
+            <button type="button"  class=" btn btn-primary" onclick="UploadPic()">&nbsp&nbsp上&nbsp&nbsp传&nbsp&nbsp</button>
+                
+          </div>
+ 
+            </div>
 
 
             <div class="form-group ">
