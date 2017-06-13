@@ -193,7 +193,7 @@
 
     function loaddetail(id, loadindex) {
         $.ajax({
-            url: '@Url.Action("GetStudentByID", "Teach")',
+            url: '@Url.Action("GetStudentByID", "Student")',
             type: "post",
             data: { id: id },
             success: function (json) {
@@ -287,9 +287,9 @@
 
         var action = '';
         if (id) {//有ID就是修改模式，没有就是新增模式
-            action = '@Url.Action("SaveStudent", "Teach")';
+            action = '@Url.Action("SaveStudent", "Student")';
         }
-        else { action = '@Url.Action("AddStudent", "Teach")' }
+        else { action = '@Url.Action("AddStudent", "Student")' }
         $.post(action, {
             "data": JSON.stringify(obj)//序列化对象
         }, function (json) {
@@ -366,7 +366,7 @@
                         obj.fileTemp = fileTemp;
                         obj.fileExt = fileExt;
 
-                        var action = '@Url.Action("Upload", "Teach")'
+                        var action = '@Url.Action("Upload", "Student")'
                             $.post(action, {
                                 "data": JSON.stringify(obj)//序列化对象
                             }, function (json) {
