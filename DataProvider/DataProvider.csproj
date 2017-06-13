@@ -55,7 +55,6 @@
     <Reference Include="LinqKit">
       <HintPath>..\packages\LinqKit.1.1.2\lib\net45\LinqKit.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.QualityTools.Testing.Fakes, Version=11.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -104,6 +103,7 @@
     <Compile Include="Models\ButtonListViewModel.cs" />
     <Compile Include="Models\StudentListViewModel.cs" />
     <Compile Include="Models\TeacherViewModel.cs" />
+    <Compile Include="Models\ShiftListViewModel.cs" />
     <Compile Include="NERP.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -182,6 +182,9 @@
       <DependentUpon>NERP.tt</DependentUpon>
     </Compile>
     <Compile Include="vw_Authority.cs">
+      <DependentUpon>NERP.tt</DependentUpon>
+    </Compile>
+    <Compile Include="vw_Classes.cs">
       <DependentUpon>NERP.tt</DependentUpon>
     </Compile>
     <Compile Include="vw_Dics.cs">

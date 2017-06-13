@@ -69,7 +69,7 @@ namespace IOT1._0.Controllers.Teach
                 ajax.status = EnumAjaxStatus.Success;
             }
             return Json(ajax);
-        } 
+        }
 
         /// <summary>
         /// 新增教师
@@ -87,143 +87,10 @@ namespace IOT1._0.Controllers.Teach
             }
             Teachers btn = (Teachers)(JsonConvert.DeserializeObject(data.ToString(), typeof(Teachers)));
 
-
-        ///// <summary>
-        ///// 保存编辑按钮
-        ///// </summary>
-        ///// <param name="json"></param>
-        ///// <returns></returns>
-        //public JsonResult SaveStudent()
-        //{
-        //    AjaxStatusModel ajax = new AjaxStatusModel();//功能操作类的返回类型都是AjaxStatusModel，数据放到AjaxStatusModel.data中，前台获取json后加载
-        //    ajax.status = EnumAjaxStatus.Error;//默认失败
-        //    ajax.msg = "保存失败！";//前台获取，用于显示提示信息
-        //    var data = Request["data"];//获取前台传递的数据，主要序列化
-        //    if (string.IsNullOrEmpty(data))
-        //    {
-        //        return Json(ajax);
-        //    }
-        //    Students Stu = (Students)(JsonConvert.DeserializeObject(data.ToString(), typeof(Students)));
-
-        //    //判断手机号码是否唯一
-
-        //    int BindPhone_count = StudentData.BindPhone_update(Stu.ID, Stu.BindPhone);
-        //    if (BindPhone_count > 0)
-        //    {
-        //        ajax.msg = "手机号码已存在，不能重复使用！";
-        //        return Json(ajax);
-        //    }
-
-
-
-
-
-        //    if (StudentData.UpdateStudent(Stu))//注意时间类型，而且需要在前台把所有的值
-        //    {
-        //        ajax.msg = "保存成功！";
-        //        ajax.status = EnumAjaxStatus.Success;
-        //    }
-        //    return Json(ajax);
-        //}
-
-
-        ///// <summary>
-        ///// 新增按钮
-        ///// </summary>
-        ///// <returns></returns>
-        //public JsonResult AddStudent()
-        //{
-        //    AjaxStatusModel ajax = new AjaxStatusModel();//功能操作类的返回类型都是AjaxStatusModel，数据放到AjaxStatusModel.data中，前台获取json后加载
-        //    ajax.status = EnumAjaxStatus.Error;//默认失败
-        //    ajax.msg = "新增失败！";//前台获取，用于显示提示信息
-        //    var data = Request["data"];//获取前台传递的数据，主要序列化
-        //    if (string.IsNullOrEmpty(data))
-        //    {
-        //        return Json(ajax);
-        //    }
-        //    Students Stu = (Students)(JsonConvert.DeserializeObject(data.ToString(), typeof(Students)));
-
-        //    //判断手机号码是否唯一
-
-
-        //    int BindPhone_count = StudentData.BindPhone_insert(Stu.BindPhone);
-        //    if (BindPhone_count > 0)
-        //    {
-        //        ajax.msg = "手机号码已存在，不能重复使用！";
-        //        return Json(ajax);
-        //    }
-
-        //    Stu.CreateTime = DateTime.Now;
-        //    Stu.CreatorId = UserSession.userid;
-
-        //    Students query = StudentData.GetStudentsList();//获取创建时间最新的一条数据
-        //    string MAX_ID;
-        //    if (query != null)
-        //    {
-        //        MAX_ID = query.ID;
-        //    }
-        //    else
-        //    {
-        //        MAX_ID = null;
-        //    }
-
-        //    var year = Stu.Birthday.ToString().Substring(2, 2);
-
-        //    if (!string.IsNullOrEmpty(MAX_ID))
-        //    {
-        //        Stu.ID = year + (Convert.ToInt32(MAX_ID.Substring(2)) + 1).ToString().PadLeft(4, '0');
-        //    }
-        //    else
-        //    {
-        //        Stu.ID = year + "0001";
-        //    }
-
-
-        //    if (StudentData.AddStudent(Stu) != "")//注意时间类型，而且需要在前台把所有的值
-        //    {
-        //        ajax.msg = "新增成功！";
-        //        ajax.status = EnumAjaxStatus.Success;
-        //    }
-        //    return Json(ajax);
-        //}
-
-
-
-
-
-
-
-        ///// <summary>
-        ///// 上传图片
-        ///// </summary>
-        ///// <param name="json"></param>
-        ///// <returns></returns> 
-        //public JsonResult Upload()
-        //{
-
-        //    AjaxStatusModel ajax = new AjaxStatusModel();//功能操作类的返回类型都是AjaxStatusModel，数据放到AjaxStatusModel.data中，前台获取json后加载
-        //    ajax.status = EnumAjaxStatus.Error;//默认失败
-        //    ajax.msg = "新增失败！";//前台获取，用于显示提示信息
-        //    var data = Request["data"];//获取前台传递的数据，主要序列化
-        //    if (string.IsNullOrEmpty(data))
-        //    {
-        //        return Json(ajax);
-        //    }
-        //    JObject jsonObj = JObject.Parse(data);
-        //    Picture Picture = new Picture();
-        //    var ret = Picture.DPUpLoadPhoto(jsonObj);              //.DPUpLoadPhotos(json);
-        //    ajax.msg = "上传成功！";
-        //    ajax.status = EnumAjaxStatus.Success;
-        //    ajax.data = ret;
-        //    return Json(ajax);
-
-        //}
-
-
-
-
-        public ActionResult Shift()
-        {
+            btn.CreateTime = DateTime.Now;
+            btn.CreatorId = UserSession.userid;
+            if (!string.IsNullOrEmpty(TeacherData.AddTeach(btn)))//注意时间类型，而且需要在前台把所有的值
+            {
                 ajax.msg = "新增成功！";
                 ajax.status = EnumAjaxStatus.Success;
             }
@@ -243,12 +110,12 @@ namespace IOT1._0.Controllers.Teach
             ajax.msg = "获取失败！";//前台获取，用于显示提示信息
             Teachers btn = TeacherData.GetTeachByID(id);//业务层获取底层方法，返回数据
             if (btn != null)
-        {
+            {
                 ajax.data = btn;//放入数据
                 ajax.msg = "获取成功！";
-        }
+            }
             return Json(ajax);
-       
+
         }
 
     }
