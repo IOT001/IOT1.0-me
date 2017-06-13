@@ -18,7 +18,7 @@ namespace IOT1._0.Controllers.Teach
         //
         // GET: /ButtonList/
         /// <summary>
-        /// 按钮查询
+        ///学员查询
         /// </summary>
         /// <param name="search"></param>
         /// <returns></returns>
@@ -40,7 +40,7 @@ namespace IOT1._0.Controllers.Teach
 
         }
         /// <summary>
-        /// 根据按钮ID获取详细信息
+        /// 根据学号ID获取详细信息
         /// </summary>
         /// <param name="ID"></param>
         /// <returns></returns>

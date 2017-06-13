@@ -104,6 +104,7 @@
     <Compile Include="Models\ButtonListViewModel.cs" />
     <Compile Include="Models\StudentListViewModel.cs" />
     <Compile Include="Models\TeacherViewModel.cs" />
+    <Compile Include="Models\ShiftListViewModel.cs" />
     <Compile Include="NERP.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -182,6 +183,9 @@
       <DependentUpon>NERP.tt</DependentUpon>
     </Compile>
     <Compile Include="vw_Authority.cs">
+      <DependentUpon>NERP.tt</DependentUpon>
+    </Compile>
+    <Compile Include="vw_Classes.cs">
       <DependentUpon>NERP.tt</DependentUpon>
     </Compile>
     <Compile Include="vw_Dics.cs">

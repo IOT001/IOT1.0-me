@@ -169,36 +169,31 @@ namespace IOT1._0.Controllers.Teach
 
 
 
+
+        ////
+        //// GET: /ButtonList/
         ///// <summary>
-        ///// 上传图片
+        ///// 按钮查询
         ///// </summary>
-        ///// <param name="json"></param>
-        ///// <returns></returns> 
-        //public JsonResult Upload()
+        ///// <param name="search"></param>
+        ///// <returns></returns>
+        //public ActionResult Student(StudentListSearchModel search)
         //{
 
-        //    AjaxStatusModel ajax = new AjaxStatusModel();//功能操作类的返回类型都是AjaxStatusModel，数据放到AjaxStatusModel.data中，前台获取json后加载
-        //    ajax.status = EnumAjaxStatus.Error;//默认失败
-        //    ajax.msg = "新增失败！";//前台获取，用于显示提示信息
-        //    var data = Request["data"];//获取前台传递的数据，主要序列化
-        //    if (string.IsNullOrEmpty(data))
-        //    {
-        //        return Json(ajax);
-        //    }
-        //    JObject jsonObj = JObject.Parse(data);
-        //    Picture Picture = new Picture();
-        //    var ret = Picture.DPUpLoadPhoto(jsonObj);              //.DPUpLoadPhotos(json);
-        //    ajax.msg = "上传成功！";
-        //    ajax.status = EnumAjaxStatus.Success;
-        //    ajax.data = ret;
-        //    return Json(ajax);
+        //    StudentListViewModel model = new StudentListViewModel();//页面模型
+        //    model.search = search;//页面的搜索模型
+        //    model.search.PageSize = 15;//每页显示
+        //    model.search.CurrentPage = Convert.ToInt32(Request["pageindex"]) <= 0 ? 1 : Convert.ToInt32(Request["pageindex"]);//当前页
 
-        //}
+        //    //按钮下拉项
+        //    List<CommonEntity> SourceIL = CommonData.GetDictionaryList(2);//1是字典类型值,仅供测试参考
+        //    model.SourceIL = CommonData.Instance.GetBropDownListData(SourceIL);
+
+        //    model.Studentlist = StudentData.GetButtonList(search);//填充页面模型数据
+        //    return View(model);//返回页面模型
 
 
-
-
-        public ActionResult Shift()
+        public ActionResult Classes()
         {
             return View();
         }
