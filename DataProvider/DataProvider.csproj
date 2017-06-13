@@ -87,6 +87,7 @@
     <Compile Include="Common\AjaxStatusModel.cs" />
     <Compile Include="Common\Cloner.cs" />
     <Compile Include="Common\Common.cs" />
+    <Compile Include="Common\Picture.cs" />
     <Compile Include="Common\RandomOperate.cs" />
     <Compile Include="Common\ValidateCode.cs" />
     <Compile Include="Data\ButtonData.cs" />

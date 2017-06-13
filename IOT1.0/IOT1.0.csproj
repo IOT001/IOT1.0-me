@@ -159,7 +159,10 @@
     <Compile Include="Controllers\Enroll\WeixinController.cs" />
     <Compile Include="Controllers\Finance\FinanceController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\Teach\TeachController.cs" />
+    <Compile Include="Controllers\Student\StudentController.cs" />
+    <Compile Include="Controllers\Teach\TeachController.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -4629,7 +4632,7 @@
     <Content Include="Views\Weixin\Reservation.cshtml" />
     <Content Include="Views\Teach\Curriculum.cshtml" />
     <Content Include="Views\Teach\Shift.cshtml" />
-    <Content Include="Views\Teach\Student.cshtml" />
+    <Content Include="Views\Student\Student.cshtml" />
     <Content Include="Views\Finance\DailyReport.cshtml" />
     <Content Include="Views\Enroll\FollowList.cshtml" />
     <Content Include="Views\Teach\Teacher.cshtml" />
