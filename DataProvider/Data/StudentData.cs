@@ -14,11 +14,11 @@ namespace DataProvider.Data
     public class StudentData
     {
        /// <summary>
-       /// 分页获取按钮列表
+       /// 分页获取学生列表
        /// </summary>
        /// <param name="search"></param>
        /// <returns></returns>
-        public static PagedList<vw_Students> GetButtonList(StudentListSearchModel search)
+        public static PagedList<vw_Students> GetStudentList(StudentListSearchModel search)
        {
            string table = string.Empty, fields = string.Empty, orderby = string.Empty, where = string.Empty;//定义结构
            fields = @"  * ";//输出字段

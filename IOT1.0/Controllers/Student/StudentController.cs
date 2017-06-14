@@ -30,17 +30,17 @@ namespace IOT1._0.Controllers.Teach
             model.search.PageSize = 15;//每页显示
             model.search.CurrentPage = Convert.ToInt32(Request["pageindex"]) <= 0 ? 1 : Convert.ToInt32(Request["pageindex"]);//当前页
 
-            //按钮下拉项
+            //下拉项
             List<CommonEntity> SourceIL = CommonData.GetDictionaryList(2);//1是字典类型值,仅供测试参考
             model.SourceIL = CommonData.Instance.GetBropDownListData(SourceIL);
 
-            model.Studentlist = StudentData.GetButtonList(search);//填充页面模型数据
+            model.Studentlist = StudentData.GetStudentList(search);//填充页面模型数据
             return View(model);//返回页面模型
 
 
         }
         /// <summary>
-        /// 根据按钮ID获取详细信息
+        /// 根据学号ID获取详细信息
         /// </summary>
         /// <param name="ID"></param>
         /// <returns></returns>
@@ -87,6 +87,8 @@ namespace IOT1._0.Controllers.Teach
             }
 
 
+            Stu.UpdateTime = DateTime.Now;
+            Stu.UpdatorId = UserSession.userid;
 
 
 

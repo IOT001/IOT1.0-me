@@ -55,5 +55,51 @@ namespace DataProvider.Data
                 items.Insert(0, new SelectListItem { Value = string.Empty, Text = "--请选择--" });
             return items;
         }
+
+
+
+        #region 获取字典老师表列表 
+       
+        /// <summary>
+        /// 获取字典列表
+        /// </summary>
+        /// <param name="dicTypeID"></param>
+        /// <returns>用于下拉的绑定项目</returns>
+        public static List<CommonEntity> GetTeachersList()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append("select id,name from Teachers");
+            sb.Append(" WHERE 1=@one");
+            var parameters = new DynamicParameters();
+            var one = 1;
+            parameters.Add("@one", one);
+            return MsSqlMapperHepler.SqlWithParams<CommonEntity>(sb.ToString(), parameters, DBKeys.PRX);
+           
+        }
+        #endregion
+
+
+
+        #region 获取课程表列表
+
+        /// <summary>
+        /// 获取字典列表
+        /// </summary>
+        /// <param name="dicTypeID"></param>
+        /// <returns>用于下拉的绑定项目</returns>
+        public static List<CommonEntity> GetCourseList()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append(" select ID,CourseName name from Course");
+            sb.Append(" WHERE 1=@one");
+            var parameters = new DynamicParameters();
+            var one = 1;
+            parameters.Add("@one", one);
+            return MsSqlMapperHepler.SqlWithParams<CommonEntity>(sb.ToString(), parameters, DBKeys.PRX);
+
+        }
+        #endregion
+        
+
     }
 }
