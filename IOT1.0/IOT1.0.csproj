@@ -160,6 +160,7 @@
     <Compile Include="Controllers\Finance\FinanceController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\Student\StudentController.cs" />
+    <Compile Include="Controllers\Teach\ClassesController.cs" />
     <Compile Include="Controllers\Teach\TeachController.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -4643,6 +4644,7 @@
     <Content Include="Views\Weixin\FSConnectionlist.cshtml" />
     <Content Include="Views\Weixin\FSConnectionInfo.cshtml" />
     <Content Include="Views\Weixin\PaymentList.cshtml" />
+    <Content Include="Views\Teach\Classes.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

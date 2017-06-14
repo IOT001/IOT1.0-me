@@ -14,7 +14,7 @@ using System.Web.Mvc;
 
 namespace IOT1._0.Controllers.Teach
 {
-    public class TeachController : Controller
+    public partial class TeachController : Controller
     {
         public ActionResult Shift()
         {

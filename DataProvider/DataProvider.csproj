@@ -93,6 +93,7 @@
     <Compile Include="Data\CommonData.cs" />
     <Compile Include="Data\StudentData.cs" />
     <Compile Include="Data\TeacherData.cs" />
+    <Compile Include="Data\ClassesData.cs" />
     <Compile Include="DPBase.cs" />
     <Compile Include="Entities\Enroll.cs" />
     <Compile Include="Entities\Students.cs" />
@@ -100,12 +101,13 @@
     <Compile Include="Entities\Teachers.cs" />
     <Compile Include="Entities\vw_Classes.cs" />
     <Compile Include="Entities\vw_Students.cs" />
+    <Compile Include="Entities\Classes.cs" />
     <Compile Include="Implement\ExcuteModelImplement.cs" />
     <Compile Include="Interface\IExcuteModal.cs" />
     <Compile Include="Models\ButtonListViewModel.cs" />
     <Compile Include="Models\StudentListViewModel.cs" />
     <Compile Include="Models\TeacherViewModel.cs" />
-    <Compile Include="Models\ShiftListViewModel.cs" />
+    <Compile Include="Models\ClassesListViewModel.cs" />
     <Compile Include="NERP.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

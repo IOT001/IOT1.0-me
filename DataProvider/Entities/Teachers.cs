@@ -15,7 +15,7 @@ namespace DataProvider.Entities
       	/// <summary>
 		/// 教师号
         /// </summary>
-        public virtual string ID
+        public   string ID
         {
             get; 
             set; 
@@ -23,7 +23,7 @@ namespace DataProvider.Entities
 		/// <summary>
 		/// 教师姓名
         /// </summary>
-        public virtual string name
+        public   string name
         {
             get; 
             set; 
@@ -31,7 +31,7 @@ namespace DataProvider.Entities
 		/// <summary>
 		/// 性别，字典 1：男  2：女
         /// </summary>
-        public virtual int sex
+        public   int sex
         {
             get; 
             set; 
@@ -39,7 +39,7 @@ namespace DataProvider.Entities
 		/// <summary>
 		/// MobilePhone
         /// </summary>
-        public virtual string MobilePhone
+        public   string MobilePhone
         {
             get; 
             set; 
@@ -47,7 +47,7 @@ namespace DataProvider.Entities
 		/// <summary>
 		/// EntryDate
         /// </summary>
-        public virtual DateTime? EntryDate
+        public   DateTime? EntryDate
         {
             get; 
             set; 
@@ -55,7 +55,7 @@ namespace DataProvider.Entities
 		/// <summary>
 		/// 离职日期
         /// </summary>
-        public virtual DateTime? LeaveDate
+        public   DateTime? LeaveDate
         {
             get; 
             set; 
@@ -63,7 +63,7 @@ namespace DataProvider.Entities
 		/// <summary>
 		/// 邮箱
         /// </summary>
-        public virtual string Email
+        public   string Email
         {
             get; 
             set; 
@@ -71,7 +71,7 @@ namespace DataProvider.Entities
 		/// <summary>
 		/// WeChat
         /// </summary>
-        public virtual string WeChat
+        public   string WeChat
         {
             get; 
             set; 
@@ -79,7 +79,7 @@ namespace DataProvider.Entities
 		/// <summary>
 		/// 身份证号
         /// </summary>
-        public virtual string IDNumber
+        public   string IDNumber
         {
             get; 
             set; 
@@ -87,7 +87,7 @@ namespace DataProvider.Entities
 		/// <summary>
 		/// 联系地址
         /// </summary>
-        public virtual string ContactAddress
+        public   string ContactAddress
         {
             get; 
             set; 
@@ -95,7 +95,7 @@ namespace DataProvider.Entities
 		/// <summary>
 		/// 备注
         /// </summary>
-        public virtual string Remark
+        public   string Remark
         {
             get; 
             set; 
@@ -103,7 +103,7 @@ namespace DataProvider.Entities
 		/// <summary>
 		/// CreateTime
         /// </summary>
-        public virtual DateTime? CreateTime
+        public   DateTime? CreateTime
         {
             get; 
             set; 
@@ -111,7 +111,7 @@ namespace DataProvider.Entities
 		/// <summary>
 		/// CreatorId
         /// </summary>
-        public virtual string CreatorId
+        public   string CreatorId
         {
             get; 
             set; 
@@ -119,7 +119,7 @@ namespace DataProvider.Entities
 		/// <summary>
 		/// 绑定的账号，对应SYS_Account
         /// </summary>
-        public virtual int? BindAccountID
+        public   int? BindAccountID
         {
             get; 
             set; 
