@@ -94,6 +94,7 @@
     <Compile Include="Data\StudentData.cs" />
     <Compile Include="Data\TeacherData.cs" />
     <Compile Include="DPBase.cs" />
+    <Compile Include="Entities\Enroll.cs" />
     <Compile Include="Entities\Students.cs" />
     <Compile Include="Entities\SYSButton.cs" />
     <Compile Include="Entities\Teachers.cs" />
