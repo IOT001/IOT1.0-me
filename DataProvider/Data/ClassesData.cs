@@ -34,7 +34,7 @@ namespace DataProvider.Data
                sb.AppendFormat(" and CreateTime between '{0}'  and  '{1}'", search.StartTime_start, search.StartTime_end);
            if (search.EndTime_start != null && search.EndTime_end != null)//结班时间
                sb.AppendFormat(" and CreateTime between '{0}'  and  '{1}'", search.EndTime_start, search.EndTime_end);
-           if (search.TeacherID != 0)//当前讲师
+           if (!string.IsNullOrWhiteSpace(search.TeacherID))//当前讲师
                sb.AppendFormat(" and TeacherID = '{0}' ", search.TeacherID);
            where = sb.ToString();
 

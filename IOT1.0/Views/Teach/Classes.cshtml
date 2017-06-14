@@ -152,7 +152,7 @@
                                          <td>@m.EndTime</td>
                                          <td>@m.StateID</td> 
                                         <td>
-                                            <a href="javascript:modify(@m.ID);" class="btn btn-primary btn-xs" type="button"><i class="fa fa-edit"></i> 编辑</a>
+                                            <a href="javascript:modify('@m.ID');" class="btn btn-primary btn-xs" type="button"><i class="fa fa-edit"></i> 编辑</a>
                                                
 
                                         </td>
@@ -324,9 +324,9 @@
                     $("#ClassName").val(json.data.ClassName);
                     $("#TeachTypeID").val(json.data.TeachTypeID);
                     $("#CourseID").val(json.data.CourseID);
-                    $("#TeacherID").val(json.data.TeacherID);
-                    $("#StartTime").val(json.data.StartTime);
-                    $("#EndTime").val(json.data.EndTime);
+                    $("#TeacherID").val(json.data.TeacherID); 
+                    $("#StartTime").val(ChangeDateFormat(json.data.StartTime));
+                    $("#EndTime").val(ChangeDateFormat(json.data.EndTime));
                     $("#TotalLesson").val(json.data.TotalLesson);
                     $("#PlanEnroll").val(json.data.PlanEnroll);
                     layer.close(loadindex);//关闭加载层

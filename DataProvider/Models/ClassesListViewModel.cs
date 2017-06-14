@@ -90,7 +90,7 @@ namespace DataProvider.Models
         /// <summary>
         /// 当前讲师
         /// </summary>
-        public int TeacherID
+        public string TeacherID
         { set; get; }
 
 
