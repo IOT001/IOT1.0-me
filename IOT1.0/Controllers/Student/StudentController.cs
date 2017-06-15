@@ -18,7 +18,7 @@ namespace IOT1._0.Controllers.Teach
         //
         // GET: /ButtonList/
         /// <summary>
-        /// 按钮查询
+        /// 列表查询
         /// </summary>
         /// <param name="search"></param>
         /// <returns></returns>
@@ -61,7 +61,7 @@ namespace IOT1._0.Controllers.Teach
 
 
         /// <summary>
-        /// 保存编辑按钮
+        /// 保存编辑学生
         /// </summary>
         /// <param name="json"></param>
         /// <returns></returns>
@@ -102,7 +102,7 @@ namespace IOT1._0.Controllers.Teach
 
 
         /// <summary>
-        /// 新增按钮
+        /// 新增学生表
         /// </summary>
         /// <returns></returns>
         public JsonResult AddStudent()

@@ -95,8 +95,10 @@
     <Compile Include="Data\StudentData.cs" />
     <Compile Include="Data\TeacherData.cs" />
     <Compile Include="Data\ClassesData.cs" />
+    <Compile Include="Data\ClassListData.cs" />
     <Compile Include="DPBase.cs" />
     <Compile Include="Entities\Appointment.cs" />
+    <Compile Include="Entities\ClassList.cs" />
     <Compile Include="Entities\Enroll.cs" />
     <Compile Include="Entities\Students.cs" />
     <Compile Include="Entities\SYSButton.cs" />
@@ -104,6 +106,7 @@
     <Compile Include="Entities\vw_Classes.cs" />
     <Compile Include="Entities\vw_Students.cs" />
     <Compile Include="Entities\Classes.cs" />
+    <Compile Include="Entities\Date.cs" />
     <Compile Include="Implement\ExcuteModelImplement.cs" />
     <Compile Include="Interface\IExcuteModal.cs" />
     <Compile Include="Models\ButtonListViewModel.cs" />
