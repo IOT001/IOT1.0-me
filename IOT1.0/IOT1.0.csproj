@@ -159,7 +159,11 @@
     <Compile Include="Controllers\Enroll\WeixinController.cs" />
     <Compile Include="Controllers\Finance\FinanceController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\Teach\TeachController.cs" />
+    <Compile Include="Controllers\Student\StudentController.cs" />
+    <Compile Include="Controllers\Teach\ClassesController.cs" />
+    <Compile Include="Controllers\Teach\TeachController.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -1717,7 +1721,6 @@
     <Content Include="Pages\Admin\assets\lib\iCheck\demo\css\montserrat-regular.svg" />
     <Content Include="Pages\Admin\assets\lib\iCheck\demo\css\normalize.css" />
     <Content Include="Pages\Admin\assets\lib\iCheck\demo\index.html" />
-    <Content Include="Pages\Admin\assets\lib\iCheck\demo\js\custom.js" />
     <Content Include="Pages\Admin\assets\lib\iCheck\demo\js\custom.min.js" />
     <Content Include="Pages\Admin\assets\lib\iCheck\demo\js\jquery.js" />
     <Content Include="Pages\Admin\assets\lib\iCheck\demo\js\zepto.js" />
@@ -2592,7 +2595,6 @@
     <Content Include="Scripts\assets\lib\iCheck\.gitignore" />
     <Content Include="Scripts\assets\lib\iCheck\bower.json" />
     <Content Include="Scripts\assets\lib\iCheck\CHANGELOG.md" />
-    <Content Include="Scripts\assets\lib\iCheck\demo\css\custom.styl" />
     <Content Include="Scripts\assets\lib\iCheck\demo\css\montserrat-bold.eot" />
     <Content Include="Scripts\assets\lib\iCheck\demo\css\montserrat-bold.ttf" />
     <Content Include="Scripts\assets\lib\iCheck\demo\css\montserrat-bold.woff" />
@@ -2957,7 +2959,6 @@
     <Content Include="Pages\Admin\assets\lib\iCheck\.gitignore" />
     <Content Include="Pages\Admin\assets\lib\iCheck\bower.json" />
     <Content Include="Pages\Admin\assets\lib\iCheck\CHANGELOG.md" />
-    <Content Include="Pages\Admin\assets\lib\iCheck\demo\css\custom.styl" />
     <Content Include="Pages\Admin\assets\lib\iCheck\demo\css\montserrat-bold.eot" />
     <Content Include="Pages\Admin\assets\lib\iCheck\demo\css\montserrat-bold.ttf" />
     <Content Include="Pages\Admin\assets\lib\iCheck\demo\css\montserrat-bold.woff" />
@@ -3000,7 +3001,7 @@
     <Content Include="Scripts\assets\css\plugins\footable\fonts\footable.eot" />
     <Content Include="Scripts\assets\css\plugins\footable\fonts\footable.ttf" />
     <Content Include="Scripts\assets\css\plugins\footable\fonts\footable.woff" />
-    <None Include="Properties\PublishProfiles\11.pubxml" />
+    <None Include="Properties\PublishProfiles\22.pubxml" />
     <None Include="Scripts\jquery-1.7.1.intellisense.js" />
     <Content Include="Scripts\assets\css\main.css" />
     <Content Include="Scripts\assets\css\main.min.css" />
@@ -4172,7 +4173,6 @@
     <Content Include="Scripts\assets\lib\iCheck\demo\css\montserrat-regular.svg" />
     <Content Include="Scripts\assets\lib\iCheck\demo\css\normalize.css" />
     <Content Include="Scripts\assets\lib\iCheck\demo\index.html" />
-    <Content Include="Scripts\assets\lib\iCheck\demo\js\custom.js" />
     <Content Include="Scripts\assets\lib\iCheck\demo\js\custom.min.js" />
     <Content Include="Scripts\assets\lib\iCheck\demo\js\jquery.js" />
     <Content Include="Scripts\assets\lib\iCheck\demo\js\zepto.js" />
@@ -4633,7 +4633,7 @@
     <Content Include="Views\Weixin\Reservation.cshtml" />
     <Content Include="Views\Teach\Curriculum.cshtml" />
     <Content Include="Views\Teach\Shift.cshtml" />
-    <Content Include="Views\Teach\Student.cshtml" />
+    <Content Include="Views\Student\Student.cshtml" />
     <Content Include="Views\Finance\DailyReport.cshtml" />
     <Content Include="Views\Enroll\FollowList.cshtml" />
     <Content Include="Views\Teach\Teacher.cshtml" />
@@ -4644,6 +4644,7 @@
     <Content Include="Views\Weixin\FSConnectionlist.cshtml" />
     <Content Include="Views\Weixin\FSConnectionInfo.cshtml" />
     <Content Include="Views\Weixin\PaymentList.cshtml" />
+    <Content Include="Views\Teach\Classes.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

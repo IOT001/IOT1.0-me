@@ -1,4 +1,11 @@
-﻿using System;
+﻿using DataProvider;
+using DataProvider.Data;
+using DataProvider.Entities;
+using DataProvider.Models;
+using IOT1._0.Models;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -14,9 +21,15 @@ namespace IOT1._0.Controllers.Enroll
         /// 报名记录
         /// </summary>
         /// <returns></returns>
-        public ActionResult EnrollList()
+        public ActionResult EnrollList(EnrollListSearchModel search )
         {
-            return View();
+            EnrollListViewModel model = new EnrollListViewModel();//页面模型
+            model.search = search;//页面的搜索模型
+            model.search.PageSize = 15;//每页显示
+            model.search.CurrentPage = Convert.ToInt32(Request["pageindex"]) <= 0 ? 1 : Convert.ToInt32(Request["pageindex"]);//当前页
+
+            model.AppointmentList = AppointmentData.GetAPList(search); //填充页面模型数据
+            return View(model);//返回页面模型
         }
         /// <summary>
         /// 回访记录
