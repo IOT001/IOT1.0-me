@@ -4632,7 +4632,6 @@
     <Content Include="Views\Enroll\EnrollList.cshtml" />
     <Content Include="Views\Weixin\Reservation.cshtml" />
     <Content Include="Views\Teach\Curriculum.cshtml" />
-    <Content Include="Views\Teach\Shift.cshtml" />
     <Content Include="Views\Student\Student.cshtml" />
     <Content Include="Views\Finance\DailyReport.cshtml" />
     <Content Include="Views\Enroll\FollowList.cshtml" />

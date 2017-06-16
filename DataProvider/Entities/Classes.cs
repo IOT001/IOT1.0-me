@@ -38,7 +38,7 @@ namespace DataProvider.Entities
         /// <summary>
         /// 总课时
         /// </summary>	
-        public Nullable<int> TotalLesson { get; set; }
+        public int TotalLesson { get; set; }
         /// <summary>
         /// 目前已上课时
         /// </summary>	

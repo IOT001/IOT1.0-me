@@ -98,7 +98,9 @@
     <Compile Include="Data\ClassListData.cs" />
     <Compile Include="DPBase.cs" />
     <Compile Include="Entities\Appointment.cs" />
+    <Compile Include="Entities\AttendanceRecord.cs" />
     <Compile Include="Entities\ClassList.cs" />
+    <Compile Include="Entities\DictionaryItem.cs" />
     <Compile Include="Entities\Enroll.cs" />
     <Compile Include="Entities\Students.cs" />
     <Compile Include="Entities\SYSButton.cs" />
