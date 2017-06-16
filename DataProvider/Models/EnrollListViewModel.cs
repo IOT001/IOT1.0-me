@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Mvc;
 
 namespace DataProvider.Models
 {
@@ -19,7 +20,19 @@ namespace DataProvider.Models
        /// 页面的列表数据
        /// </summary>
        public PagedList<Appointment> AppointmentList { get; set; }
+       /// <summary>
+       /// 跟进方式下拉框
+       /// </summary>
+       public List<SelectListItem> FollowTypeIL { get; set; }
+       /// <summary>
+       /// 意向分类下拉框
+       /// </summary>
+       public List<SelectListItem> IntentTypeIL { get; set; }
 
+       /// <summary>
+       /// 待添加的跟进纪录
+       /// </summary>
+       public FollowRecord FollowRecordForADD { get; set; }
     }
 
    public class EnrollListSearchModel : CommonPageEntity

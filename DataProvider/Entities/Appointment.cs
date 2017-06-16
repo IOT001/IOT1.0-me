@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DapperExtensions.Mapper;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -72,7 +73,7 @@ namespace DataProvider.Entities
         /// <summary>
         /// UpdateTime
         /// </summary>				
-        public DateTime UpdateTime { get; set; }
+        public DateTime? UpdateTime { get; set; }
         /// <summary>
         /// UpdatorId
         /// </summary>				
@@ -84,7 +85,7 @@ namespace DataProvider.Entities
         /// <summary>
         /// DeleteTime
         /// </summary>				
-        public DateTime DeleteTime { get; set; }
+        public DateTime? DeleteTime { get; set; }
         /// <summary>
         /// 报名填写的年级
         /// </summary>				
@@ -107,4 +108,20 @@ namespace DataProvider.Entities
         /// </summary>
         public string StateName { get; set; }
     }
+   /// <summary>
+   /// Deploy：实体对象映射关系
+   /// </summary>
+   [Serializable]
+   public sealed class AppointmentORMMapper : ClassMapper<Appointment>
+   {
+       public AppointmentORMMapper()
+       {
+           base.Table("Appointment");
+
+           Map(f => f.IsJoin).Ignore();//设置忽略
+           Map(f => f.StateName).Ignore();//设置忽略
+           //Map(f => f.BTN_Id).Key(KeyType.Identity);//设置主键  (如果主键名称不包含字母“ID”，请设置)      
+           AutoMap();
+       }
+   }
 }

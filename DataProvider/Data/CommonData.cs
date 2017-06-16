@@ -99,7 +99,26 @@ namespace DataProvider.Data
 
         }
         #endregion
-        
 
+        public static string DPGetTableMaxId(string prefix, string field, string tablename, int digit)
+        {
+            try
+            {
+
+                    string retstr;
+                    var parameters = new DynamicParameters();
+                    parameters.Add("@title", prefix);//开头字母，前缀字母
+                    parameters.Add("@pkName", field);//要插入的表字段
+                    parameters.Add("@tableName", tablename);//所在表
+                    parameters.Add("@bitCount", digit);//不包括前缀的位数
+                    retstr = MsSqlMapperHepler.StoredProcWithParamsSingle<string>("sp_createKey", parameters, DBKeys.PRX);
+                    return retstr;//返回值
+   
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message + "转换的过程中发生了错误!");
+            }
+        }
     }
 }
