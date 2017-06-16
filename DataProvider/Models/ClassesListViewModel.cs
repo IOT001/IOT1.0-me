@@ -35,7 +35,19 @@ namespace DataProvider.Models
         /// <summary>
         /// 按钮下拉框，当前讲师
         /// </summary>
-        public List<SelectListItem> SourceIL2 { get; set; } 
+        public List<SelectListItem> SourceIL2 { get; set; }
+
+
+
+        /// <summary>
+        /// 按钮下拉框，当前教室
+        /// </summary>
+        public List<SelectListItem> SourceIL3 { get; set; }
+
+        /// <summary>
+        /// 按钮下拉框，当前上课的时段
+        /// </summary>
+        public List<SelectListItem> SourceIL4 { get; set; } 
 
 
     }
@@ -108,6 +120,19 @@ namespace DataProvider.Models
         /// 课程
         /// </summary>
         public int CourseIDS
+        { set; get; }
+
+
+        /// <summary>
+        /// 课程
+        /// </summary>
+        public int RoomID
+        { set; get; }
+        
+        /// <summary>
+        /// 上课的时段
+        /// </summary>
+        public string TimePeriod
         { set; get; }
         
         

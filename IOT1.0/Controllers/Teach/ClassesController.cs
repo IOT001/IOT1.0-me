@@ -42,6 +42,15 @@ namespace IOT1._0.Controllers.Teach
             model.SourceIL2 = CommonData.Instance.GetBropDownListData(SourceIL2);
 
 
+            //下拉项
+            List<CommonEntity> SourceIL3 = CommonData.GetDictionaryList(11);//获取教室信息
+            model.SourceIL3 = CommonData.Instance.GetBropDownListData(SourceIL3);
+
+
+            //下拉项
+            List<CommonEntity> SourceIL4 = CommonData.GetDictionaryList(8);//获取上课的时段信息
+            model.SourceIL4 = CommonData.Instance.GetBropDownListData(SourceIL4);
+
             model.Classeslist = ClassesData.GeClassesList(search);//填充页面模型数据
             return View(model);//返回页面模型
         }
@@ -51,7 +60,7 @@ namespace IOT1._0.Controllers.Teach
 
 
         /// <summary>
-        /// 根据学号ID获取详细信息
+        /// 根据班级号ID获取详细信息
         /// </summary>
         /// <param name="ID"></param>
         /// <returns></returns>
@@ -72,7 +81,7 @@ namespace IOT1._0.Controllers.Teach
 
 
         /// <summary>
-        /// 保存编辑按钮
+        /// 保存编辑班级表
         /// </summary>
         /// <param name="json"></param>
         /// <returns></returns>
@@ -103,7 +112,7 @@ namespace IOT1._0.Controllers.Teach
 
 
         /// <summary>
-        /// 新增按钮
+        /// 新增班级表
         /// </summary>
         /// <returns></returns>
         public JsonResult AddClasses()
@@ -155,6 +164,38 @@ namespace IOT1._0.Controllers.Teach
             return Json(ajax);
         }
 
+
+
+
+
+        /// <summary>
+        /// 新增排班表 ClassList
+        /// </summary>
+        /// <returns></returns>
+        public JsonResult ClassListSave()
+        {
+            AjaxStatusModel ajax = new AjaxStatusModel();//功能操作类的返回类型都是AjaxStatusModel，数据放到AjaxStatusModel.data中，前台获取json后加载
+            ajax.status = EnumAjaxStatus.Error;//默认失败
+            ajax.msg = "新增失败！";//前台获取，用于显示提示信息
+            var data = Request["data"];//获取前台传递的数据，主要序列化
+            if (string.IsNullOrEmpty(data))
+            {
+                return Json(ajax);
+            }
+            ClassList Clas = (ClassList)(JsonConvert.DeserializeObject(data.ToString(), typeof(ClassList)));
+          
+
+            Clas.StateID = 1;  //状态
+            Clas.CreateTIme = DateTime.Now; //创建时间
+            Clas.CreatorId = UserSession.userid; //创建人 
+
+            if (ClassListData.AddClassList(Clas) != "")//注意时间类型，而且需要在前台把所有的值
+            {
+                ajax.msg = "新增成功！";
+                ajax.status = EnumAjaxStatus.Success;
+            }
+            return Json(ajax);
+        }
 
 
 

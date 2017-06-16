@@ -154,7 +154,8 @@
                                         <td>
                                             <a href="javascript:modify('@m.ID');" class="btn btn-primary btn-xs" type="button"><i class="fa fa-edit"></i> 编辑</a>
                                                
-
+                                                <a href="javascript:ClassList('@m.ID','@m.ClassName','@m.Enroll')" class="btn btn-primary btn-xs" type="button"><i class="fa fa-forward"></i> 排课</a>
+                                    <a href="javascript:adjust('@m.ID')" class="btn btn-primary btn-xs" type="button"><i class="fa fa-adjust"></i> 分配</a>
                                         </td>
                                          
 
@@ -227,27 +228,25 @@
             forceParse: false,
             autoclose: true
         });
-        //激活日期
-        $(".chosen-select").chosen({
-            no_results_text: "未找到此选项!",
-            search_contains: true
-        });
+       
     
     }
 
 
 
     //排课弹窗
-    function generate(id) {
-        cleanData("generate");
+    function ClassList(id,ClassName, Enroll) {
+        cleanData("ClassList");
+        $("#ClassName_generate").html(ClassName);
+        $("#Enroll_generate").html(Enroll); 
         layer.open({
             type: 1,
             title: "<h5 class='ibox-title'>排课</h3>",
             area: ['800px', '500px'],
-            content: $('#generate'),
+            content: $('#ClassList'),
             btn: ['保存', '取消'],
             yes: function () {
-                save(id);
+                ClassListSave(id);
             },
             cancel: function (index) {
                 layer.close(index);
@@ -320,11 +319,12 @@
             success: function (json) {
                 if (json.status = 200) {//成功
                       
-                   
+                    
                     $("#ClassName").val(json.data.ClassName);
                     $("#TeachTypeID").val(json.data.TeachTypeID);
-                    $("#CourseID").val(json.data.CourseID);
-                    $("#TeacherID").val(json.data.TeacherID); 
+                    $("#CourseIDS").val(json.data.CourseID);
+                    $("#TeacherID").val(json.data.TeacherID);
+                    $("#RoomID_Classes").val(json.data.RoomID);
                     $("#StartTime").val(ChangeDateFormat(json.data.StartTime));
                     $("#EndTime").val(ChangeDateFormat(json.data.EndTime));
                     $("#TotalLesson").val(json.data.TotalLesson);
@@ -364,6 +364,12 @@
         obj.TeacherID = $("#TeacherID").val().trim();
         if (!obj.TeacherID) {
             layer.msg("请选择当前讲师！");
+            return false;
+        }
+
+        obj.RoomID = $("#RoomID_Classes").val().trim();
+        if (!obj.RoomID) {
+            layer.msg("请选择当前教室！");
             return false;
         }
 
@@ -411,6 +417,87 @@
             }
         }, 'json');
     }
+
+
+
+
+    //保存或者新增
+    function ClassListSave(id) {
+        var obj = new Object;
+        
+        obj.ClassName = $("#ClassName").val().trim();
+        if (!obj.ClassName) {
+            layer.msg("请输入班级名称！");
+            return false;
+        }
+        obj.TeachTypeID = $("#TeachTypeID").val().trim();//赋值必须和数据库字段对应
+        if (!obj.TeachTypeID) {
+            layer.msg("请选择授课方式！");
+            return false;
+        }
+
+        obj.CourseID = $("#CourseIDS").val().trim();
+        if (!obj.CourseID) {
+            layer.msg("请选择所属课程！");
+            return false;
+        }
+
+        obj.TeacherID = $("#TeacherID").val().trim();
+        if (!obj.TeacherID) {
+            layer.msg("请选择当前讲师！");
+            return false;
+        }
+        obj.RoomID = $("#RoomID_Classes").val().trim();
+        if (!obj.RoomID) {
+            layer.msg("请选择当前教室！");
+            return false;
+        }
+        
+
+        obj.StartTime = $("#StartTime").val().trim();
+        if (!obj.StartTime) {
+            layer.msg("请选择开班时间！");
+            return false;
+        }
+
+        obj.EndTime = $("#EndTime").val().trim();
+        if (!obj.EndTime) {
+            layer.msg("请选择结班时间！");
+            return false;
+        }
+
+        obj.TotalLesson = $("#TotalLesson").val().trim();
+        if (!obj.TotalLesson) {
+            layer.msg("请输入课时总数！");
+            return false;
+        }
+
+        obj.PlanEnroll = $("#PlanEnroll").val().trim();
+        if (!obj.PlanEnroll) {
+            layer.msg("请输入预招人数！");
+            return false;
+        }
+         
+      
+        // 排课只有新增
+        var action = '@Url.Action("ClassListSave", "Teach")';
+        
+        
+        $.post(action, {
+            "data": JSON.stringify(obj)//序列化对象
+        }, function (json) {
+            if (json.status = 200) {//成功
+
+                layer.msg(json.msg);//弹出服务器返回的消息
+                setTimeout(function () {//操作
+                    layer.closeAll();//关闭所有层
+                    window.location.reload(); //刷新
+                }, 3000);
+            }
+        }, 'json');
+    }
+
+
 
     function exportForm() {
         var $frm = $('#exportform');
@@ -462,6 +549,14 @@
                 </div>
             </div>
 
+                <div class="form-group">
+                <label class="col-sm-3 control-label">教室：</label>
+                <div class="col-sm-8">
+                      
+                                   @Html.DropDownListFor(t => t.search.RoomID, Model.SourceIL3, new { @class = "form-control input-sm chosen-select ",@style="width:100%;height:100%;", @tabindex="4",@id="RoomID_Classes"} ) 
+                </div>
+            </div>
+
             <div class="form-group ">
                 <label class="col-sm-3 control-label">开班时间：</label>
                 <div class="col-sm-8">
@@ -503,85 +598,81 @@
 
 
 @*弹出层，开班*@
-<div class="ibox float-e-margins" id="generate" style="margin:0px; display:none">
+<div class="ibox float-e-margins" id="ClassList" style="margin:0px; display:none">
     <div class="ibox-content">
         <form class="form-horizontal">
             <div class="form-group">
                 <label class="col-sm-3 control-label">班级名称：</label>
-                <label class="col-sm-5 form-control-static">暑期英语一班</label>
+                <label class="col-sm-5 form-control-static" id="ClassName_generate"></label>
             </div>
             <div class="form-group">
                 <label class="col-sm-3 control-label">报名学员数：</label>
-                <label class="col-sm-5 form-control-static">12/13</label>
+                <label class="col-sm-5 form-control-static" id="Enroll_generate"></label>
             </div>
             <div class="form-group">
-                <label class="col-sm-3 control-label">实际开班时间：</label>
+                <label class="col-sm-3 control-label">排课开始时间：</label>
                 <div class="col-sm-5">
                     <div class="DateS input-group date">
                         <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                        <input type="text" class="form-control input-sm" value="2014-11-11">
+                        <input type="text" class="form-control input-sm" id="Start_Date">
                     </div>
                 </div>
             </div>
+               <div class="form-group">
+                <label class="col-sm-3 control-label">排课结束时间：</label>
+                <div class="col-sm-5">
+                    <div class="DateS input-group date">
+                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                        <input type="text" class="form-control input-sm" id="End_Date">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-group ">
+                <label class="col-sm-3 control-label">当前讲师：</label>
+                <div class="col-sm-5"> 
+                                   @Html.DropDownListFor(t => t.search.TeacherID, Model.SourceIL2, new { @class = "form-control input-sm chosen-select",@style="width:100%;height:100%;", @tabindex="4",@id="TeacherID_ClassList"} )
+                </div>
+            </div>
+
             <div class="form-group">
                 <label class="col-sm-3 control-label">教室：</label>
                 <div class="col-sm-5">
-                    <select data-placeholder="选择教室..." class=" form-control input-sm" style="width:100%;height:100%;">
-                        <option value="">请选择教室</option>
-                        <option value="110000">101室</option>
-                        <option value="370000">102室</option>
-                        <option value="370000">103室</option>
-                    </select>
+                      
+                                   @Html.DropDownListFor(t => t.search.RoomID, Model.SourceIL3, new { @class = "form-control input-sm chosen-select ",@style="width:100%;height:100%;", @tabindex="4",@id="RoomID"} ) 
                 </div>
             </div>
+
             <div class="form-group">
                 <label class="col-sm-3 control-label">课时数：</label>
                 <div class="col-sm-5">
                     <input type="text" placeholder="请填写课时总数" class="form-control input-sm">
                 </div>
             </div>
+
+
             <div class="form-group">
                 <label class="col-sm-3 control-label">时段：</label>
                 <div class="col-sm-5">
-                    <select data-placeholder="选择上课时段..." class=" form-control input-sm" style="width:100%;height:100%;">
-                        <option value="">请选择所属课程</option>
-                        <option value="110000" >18:30-20:30</option>
-                        <option value="370000" >10:30-12:30</option>
-                        <option value="370000" >14:00-16:00</option>
-                    </select>
+              @Html.DropDownListFor(t => t.search.TimePeriod, Model.SourceIL4, new { @class = "form-control input-sm chosen-select",@style="width:100%;height:100%;", @tabindex="4",@id="TimePeriod"} )  
                  </div>
+             </div>
+
+
                 <div class="col-sm-2">
                     <a href="javascript:addTime()" class="btn btn-primary btn-sm" type="button"><i class="fa fa-adjust"></i> 添加时段</a>
                 </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-3 control-label">星期：</label>
-                <div class="col-sm-9">
-                    <label class="checkbox-inline i-checks">
-                        <input type="checkbox" value="option1">星期一
-                    </label>
-                    <label class="checkbox-inline i-checks">
-                        <input type="checkbox" value="option2">星期二
-                    </label>
-                    <label class="checkbox-inline i-checks">
-                        <input type="checkbox" value="option3">星期三
-                    </label>
-                    <label class="checkbox-inline i-checks">
-                        <input type="checkbox" value="option1">星期四
-                    </label>
-                    <label class="checkbox-inline i-checks">
-                        <input type="checkbox" value="option2">星期五
-                    </label>
-                    <label class="checkbox-inline i-checks">
-                        <input type="checkbox" value="option3">星期六
-                    </label>
-                    <label class="checkbox-inline i-checks">
-                        <input type="checkbox" value="option3">星期日
-                    </label>
+
+
+                 <div class="form-group ">
+                <label class="col-sm-3 control-label">课时总数：</label>
+                <div class="col-sm-5">
+                    <input type="text" placeholder="请填写课时总数" class="form-control input-sm" id="TotalLessoned">
                 </div>
             </div>
-        </form>
-    </div>
+
+             </form>
+            </div> 
 </div>
 
 @*弹出层，添加时段*@
