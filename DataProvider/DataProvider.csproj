@@ -110,6 +110,7 @@
     <Compile Include="Entities\vw_Students.cs" />
     <Compile Include="Entities\Classes.cs" />
     <Compile Include="Entities\Date.cs" />
+    <Compile Include="Entities\Weekday.cs" />
     <Compile Include="Implement\ExcuteModelImplement.cs" />
     <Compile Include="Interface\IExcuteModal.cs" />
     <Compile Include="Models\ButtonListViewModel.cs" />

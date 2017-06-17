@@ -470,6 +470,32 @@
             return false;
         }
       
+        if ($("#Monday").is(':checked')) {//判断停用按钮是否选中
+            obj.Monday = 1; //星期一
+        }
+        if ($("#Tuesday").is(':checked')) {//判断停用按钮是否选中
+            obj.Tuesday = 2;
+        }
+        if ($("#Wednesday").is(':checked')) {//判断停用按钮是否选中
+            obj.Wednesday = 3;
+        }
+        if ($("#Thursday").is(':checked')) {//判断停用按钮是否选中
+            obj.Thursday = 4;
+        }
+        if ($("#Friday").is(':checked')) {//判断停用按钮是否选中
+            obj.Friday = 5;
+        }
+        if ($("#Saturday").is(':checked')) {//判断停用按钮是否选中
+            obj.Saturday = 6;
+        }
+        if ($("#Sunday").is(':checked')) {//判断停用按钮是否选中
+            obj.Tuesday = 7;
+        }
+        if (!(obj.Monday || obj.Tuesday || obj.Wednesday || obj.Thursday || obj.Friday || obj.Saturday || obj.Tuesday)) {
+            layer.msg("请至少沟选一个星期！");
+            return false;
+        }
+
         // 排课只有新增
         var action = '@Url.Action("ClassListSave", "Teach")';
         
@@ -522,7 +548,11 @@
             if (json.status = 200) {//成功
 
                 layer.msg(json.msg);//弹出服务器返回的消息
-           
+                json = JSON.parse(json.data); //必须要把前台的值序列化，不然获取不到。
+
+                $("#TimePeriod").append("<option value='" + json["DicItemID"] + "'>" + json["DicItemName"] + "</option>");
+
+                
             }
         }, 'json');
     }
@@ -689,12 +719,9 @@
                 </div>
             </div>
 
-            <div class="form-group">
-                <label class="col-sm-3 control-label">课时总数：</label>
-                <div class="col-sm-5">
-          <input type="text" placeholder="请填写课时总数" class="form-control input-sm" id="TotalLesson_ClassList">
-                </div>
-            </div>
+          
+
+
 
 
             <div class="form-group">
@@ -708,13 +735,47 @@
                 </div>
              </div>
 
+             <div class="form-group">
+                <label class="col-sm-3 control-label">课时总数：</label>
+                <div class="col-sm-5">
+            <input type="text" placeholder="请填写课时总数" class="form-control input-sm" id="TotalLesson_ClassList">
+                </div>
+            </div>
 
-
- 
+             
+             <div class="form-group">
+                 <label class="col-sm-3 control-label">星期：</label>
+                 <div class="col-sm-9">
+                     <label class="checkbox-inline i-checks">
+                         <input type="checkbox"  id="Monday" >星期一
+                     </label>
+                     <label class="checkbox-inline i-checks">
+                         <input type="checkbox"  id="Tuesday">星期二
+                     </label>
+                     <label class="checkbox-inline i-checks">
+                         <input type="checkbox" id="Wednesday"  >星期三
+                    </label>
+                     <label class="checkbox-inline i-checks">
+                         <input type="checkbox"  id="Thursday">星期四
+                     </label>
+                    <label class="checkbox-inline i-checks">
+                         <input type="checkbox" id="Friday" >星期五
+                     </label>
+                     <label class="checkbox-inline i-checks">
+                         <input type="checkbox" id="Saturday" >星期六
+                     </label>
+                     <label class="checkbox-inline i-checks">
+                         <input type="checkbox" id="Sunday" >星期日
+                     </label>
+                </div> 
+             </div>  
 
              </form>
             </div> 
 </div>
+
+
+
 
 @*弹出层，添加时段*@
 <div class="ibox float-e-margins" id="addtime" style="margin:0px; display:none">
