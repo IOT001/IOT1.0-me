@@ -52,6 +52,11 @@ namespace DataProvider.Entities
             get;
             set;
         }
+        public string TimePeriodValue
+        {
+            get;
+            set;
+        }
         /// <summary>
         /// StateID
         /// </summary>

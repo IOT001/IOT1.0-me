@@ -61,5 +61,49 @@ namespace IOT1._0.Controllers.Attendance
             return Json(ajax);
         }
 
+        public JsonResult getModifyClassOptions()
+        {
+            AjaxStatusModel ajax = new AjaxStatusModel();//功能操作类的返回类型都是AjaxStatusModel，数据放到AjaxStatusModel.data中，前台获取json后加载
+            
+            
+
+            Object[] data = new Object[3];
+            
+            ///房间
+            data[0] = CommonData.GetDictionaryList(11);
+            ///时间段
+            data[1] = CommonData.GetDictionaryList(8);
+            ///老师列表
+            data[2] = TeacherData.getOnWorkTeachers();
+
+            
+                ajax.status = EnumAjaxStatus.Success;
+                ajax.msg = "获取成功";
+                ajax.data = data;
+            
+
+            return Json(ajax);
+        }
+        public JsonResult saveModifyClass()
+        {
+            AjaxStatusModel ajax = new AjaxStatusModel();//功能操作类的返回类型都是AjaxStatusModel，数据放到AjaxStatusModel.data中，前台获取json后加载
+            ajax.status = EnumAjaxStatus.Error;//默认失败
+            ajax.msg = "保存失败！";//前台获取，用于显示提示信息
+            var data = Request["data"];//获取前台传递的数据，主要序列化
+            if (string.IsNullOrEmpty(data))
+            {
+                return Json(ajax);
+            }
+            ClassList btn = (ClassList)(JsonConvert.DeserializeObject(data.ToString(), typeof(ClassList)));
+            int obj = ClassListData.UpdateClassList(btn);
+            if (obj > 0 )
+            {
+                ajax.status = EnumAjaxStatus.Success;
+                ajax.msg = "保存成功";
+                ajax.data = ajax.msg;
+            }
+
+            return Json(ajax);
+        }
     }
 }
