@@ -23,7 +23,8 @@ namespace DataProvider.Models
        /// <summary>
        /// 按钮下拉框，演示用
        /// </summary>
-       public List<SelectListItem> buttonIL { get; set; } 
+       public List<SelectListItem> buttonIL { get; set; }
+
     }
     /// <summary>
     /// 按钮查询模型对象

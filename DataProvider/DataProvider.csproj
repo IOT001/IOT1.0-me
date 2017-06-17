@@ -102,6 +102,7 @@
     <Compile Include="Entities\ClassList.cs" />
     <Compile Include="Entities\DictionaryItem.cs" />
     <Compile Include="Entities\Enroll.cs" />
+    <Compile Include="Entities\FollowRecord.cs" />
     <Compile Include="Entities\Students.cs" />
     <Compile Include="Entities\SYSButton.cs" />
     <Compile Include="Entities\Teachers.cs" />

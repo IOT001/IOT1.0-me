@@ -4644,6 +4644,7 @@
     <Content Include="Views\Weixin\FSConnectionInfo.cshtml" />
     <Content Include="Views\Weixin\PaymentList.cshtml" />
     <Content Include="Views\Teach\Classes.cshtml" />
+    <Content Include="Views\Finance\DiscountList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

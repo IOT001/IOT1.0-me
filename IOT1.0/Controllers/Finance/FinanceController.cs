@@ -16,5 +16,9 @@ namespace IOT1._0.Controllers.Finance
             return View();
         }
 
+        public ActionResult DiscountList()
+        {
+            return View();
+        }
     }
 }
