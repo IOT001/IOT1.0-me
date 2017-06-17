@@ -82,7 +82,7 @@
                                         <td class="jz">@m.ClassName</td>
                                         <td>@DateTime.Parse(m.ClassDate + "").ToString("yyyy-MM-dd")</td> @*按钮名称*@
                                         <td>@System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.GetDayName(DateTime.Parse(m.ClassDate + "").DayOfWeek)</td>
-                                        <td>@m.TimePeriod</td>
+                                        <td>@m.TimePeriodValue</td>
                                         <td>@m.RoomName</td>
                                         <td>@m.TeacherName</td>
                                         <td>@m.SumStudents</td>
@@ -151,6 +151,7 @@
 
     //点击列表的调课,调课操作
     function modify(id) {
+        var data = JSON.parse(id);
         cleanData("buttoninfo");
         layer.open({
             type: 1,
@@ -159,18 +160,22 @@
             content: $('#buttoninfo'),
             btn: ['保存', '取消'],
             yes: function (index) {
-                //save(id);
-                //alert($("#BTN_Name_En").val() + "-" + $(".class_date_picker").val() + " - " + $("#class-time").val() + "-" + $("#class-time").find("option:selected").text());
-               // layer.closeAll();
+                var loadindex = layer.load();
+                saveModifyClassList(data, loadindex);
             },
             cancel: function (index) {
                 layer.close(index);
               
+            }, success: function (layero, index) {
+                //传入参数，并赋值给iframe的元素 
+                $("#modiy_className").html ( data.ClassName);
+                $("#modify_date").val(data.ClassDate.substring(0,10));
             }
         });
         if (id) {//提供存着ID就是修改，则加载数据，不然打开空页面
             var loadindex = layer.load();
-            loaddetail(id, loadindex)
+            // loaddetail(id, loadindex)
+            loadModifyOptions(data, loadindex);
         }
         $(".chosen-select").chosen({
             no_results_text: "未找到此选项!",
@@ -181,6 +186,89 @@
             keyboardNavigation: false,
             forceParse: false,
             autoclose: true
+        });
+    }
+
+   
+    function saveModifyClassList(data, loadIndex) {
+        var jsonModify = new Object();
+        jsonModify.ClassID=data.ClassID;
+        jsonModify.ClassIndex=data.ClassIndex;
+        jsonModify.ClassDate = $("#modify_date").val();
+        jsonModify.TeacherID = $("#modify_teachers").val();
+        jsonModify.TimePeriod = $("#modify_period").val();
+        jsonModify.RoomID = $("#modify_room").val();
+        if (jsonModify.TimePeriod == null) {
+            layer.msg("请选择上课时段")
+            layer.close(loadIndex);//关闭加载层
+            return;
+        }
+        if (jsonModify.RoomID == null) {
+            layer.msg("请选择教室")
+            layer.close(loadIndex);//关闭加载层
+            return;
+        }
+        if (jsonModify.TeacherID == null) {
+            layer.msg("请选择老师")
+            layer.close(loadIndex);//关闭加载层
+            return;
+        }
+        if (jsonModify.ClassDate == null) {
+            layer.msg("请选择上课日期")
+            layer.close(loadIndex);//关闭加载层
+            return;
+        }
+        var action = '@Url.Action("saveModifyClass", "Attendance")';
+        $.post(action, {
+            "data": JSON.stringify(jsonModify)//序列化对象
+        }, function (json) {
+            layer.close(loadIndex);
+            if (json.status = 200) {//成功
+
+                layer.msg(json.msg);//弹出服务器返回的消息
+                setTimeout(function () {//操作
+                    layer.closeAll();//关闭所有层
+                    window.location.reload(); //刷新
+                }, 3000);
+            }
+        }, 'json');
+
+    }
+    function loadModifyOptions(data, loadIndex) {
+        $.ajax({
+            url: '@Url.Action("getModifyClassOptions", "Attendance")',
+            type: "post",
+            success: function (json) {
+                if (json.status = 200) {//成功
+                    $("#modify_room").empty();
+                    $("#modify_period").empty();
+                    $("#modify_teachers").empty();
+                    var option_room = "<option value=''>请选择</option>";
+                    var option_period = "<option value=''>请选择</option>";
+                    var option_teachers = "<option value=''>请选择</option>";
+                  
+                    $.each(json.data[0], function (index, value) {
+                        option_room += "<option value='" + value.id + "'>" + value.name + "</option>";
+                    });
+                    $.each(json.data[1], function (index, value) {
+                        option_period += "<option value='" + value.id + "'>" + value.name + "</option>";
+                    });
+                    $.each(json.data[2], function (index, value) {
+                        option_teachers += "<option value='" + value.ID + "'>" + value.name + "</option>";
+                    });
+                    $("#modify_room").append(option_room)
+                    $("#modify_period").append(option_period)
+                    $("#modify_teachers").append(option_teachers)
+                    $("#modify_room").val(data.RoomID)
+                    $("#modify_period").val(data.TimePeriod)
+                    $("#modify_teachers").val(data.TeacherID)
+                }
+                layer.close(loadIndex);//关闭加载层
+            },
+            error: function (xmLHttpRequest, textStatus, errorThrown) {
+                layer.close(loadindex);
+                layer.msg("系统异常，请重试<br/>错误信息：" + xmLHttpRequest.responseText);
+            }
         });
     }
     // 发布作业
@@ -348,17 +436,14 @@
             <div class="form-group">
                 <label class="col-sm-3 control-label">课程名称:</label>
                 <div class="col-sm-8">
-                    <label   class="form-control" id="BTN_Name">绘画</label>
+                    <label   class="form-control" id="modiy_className">绘画</label>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-3 control-label">教室名称：</label>
                 <div class="col-sm-8">
-                    <select data-placeholder="选择教室..." class=" form-control input-sm" style="width:100%;height:100%;">
-                        <option value="">请选择教室</option>
-                        <option value="110000">101室</option>
-                        <option value="370000">102室</option>
-                        <option value="370000">103室</option>
+                    <select data-placeholder="选择教室..." class=" form-control input-sm" style="width:100%;height:100%;" id="modify_room">
+                      
                     </select>
                 </div>
             </div>
@@ -367,32 +452,20 @@
                 <div class="col-sm-8">
                     <div class="DateS input-group date">
                         <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                        <input type="text" class="form-control input-sm" value="2014-11-11">
+                        <input type="text" class="form-control input-sm" value="2014-11-11" id="modify_date">
                     </div>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-3 control-label">上课时段：</label>
                 <div class="col-sm-8">
-                    <select class="selectpicker  form-control" id="class-time" data-live-search="true">
-                        <option value="1">9:00-10:00</option>
-                        <option value="2">10:00-11:00</option>
-                        <option value="3">13:00-14:00</option>
-                        <option value="4">14:00-15:00</option>
-                        <option value="5">15:00-16:00</option>
-                    </select>
+                    <select class=" form-control input-sm" style="width:100%;height:100%;" id="modify_period"></select>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-3 control-label">老师：</label>
                 <div class="col-sm-8">
-                    <select data-placeholder="选择教师..." class="chosen-select" style="width:100%;" tabindex="2">
-                        <option value="">请选择</option>
-                        <option value="老师A" hassubinfo="true">老师A</option>
-                        <option value="老师B" hassubinfo="true">老师B</option>
-                        <option value="老师C" hassubinfo="true">老师C</option>
-                        <option value="老师D" hassubinfo="true">老师D</option>
-                    </select>
+                    <select data-placeholder="选择教师..." class=" form-control input-sm" style="width:100%;height:100%;" id="modify_teachers"></select>
                 </div>
             </div>
             @*<div class="form-group">
