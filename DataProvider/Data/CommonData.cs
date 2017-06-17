@@ -99,7 +99,7 @@ namespace DataProvider.Data
 
         }
         #endregion
-<<<<<<< HEAD
+
 
 
 
@@ -121,9 +121,6 @@ namespace DataProvider.Data
             return MsSqlMapperHepler.SqlWithParamsSingle<int>(sb.ToString(), parameters, DBKeys.PRX);
         }
 
-
-=======
->>>>>>> f009f46ae15218dea5b53053879b18876e237071
 
         public static string DPGetTableMaxId(string prefix, string field, string tablename, int digit)
         {
