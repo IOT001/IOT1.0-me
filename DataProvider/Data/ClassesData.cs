@@ -96,20 +96,6 @@ namespace DataProvider.Data
         }
 
 
-        /// <summary>
-        /// 获取报表人数列表
-        /// </summary>
-        /// <param name="Stockid"></param>
-        /// <returns></returns>
-        //public static int Getnumber()
-        //{
-
-        //    string strsql = "select id from Classes  order by CreateTime desc     ";
-        //    var parameters = new DynamicParameters();
-        //    return MsSqlMapperHepler.SqlWithParamsSingle<int>(strsql.ToString(), parameters, DBKeys.PRX);
-
-
-        //}
 
 
 

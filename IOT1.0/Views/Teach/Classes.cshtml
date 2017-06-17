@@ -147,7 +147,7 @@
                                          <td>@m.Lesson</td>
                                          <td>@m.Enroll</td>
                                          <td>@m.RoomID</td>
-                                         <td>@m.TeachTypeID</td> 
+                                         <td>@m.name</td> 
                                          <td>@m.StartTime</td>
                                          <td>@m.EndTime</td>
                                          <td>@m.StateID</td> 
@@ -252,15 +252,17 @@
                 layer.close(index);
             }
         });
+        //激活日期控件
+        $('.DateS').datepicker({
+            keyboardNavigation: false,
+            forceParse: false,
+            autoclose: true
+        });
 
-        if (id) {//提供存着ID就是修改，则加载数据，不然打开空页面
-            var loadindex = layer.load();
-            loaddetail(id, loadindex)
-        }
     }
 
     //加时段弹窗
-    function addTime(id) {
+    function addTime() {
         cleanData("addtime");//清空数据
         layer.open({
             type: 1,
@@ -269,7 +271,7 @@
             content: $('#addtime'),
             btn: ['保存', '取消'],
             yes: function () {
-                save(id);
+                addTime_save();
             },
             cancel: function (index) {
                 layer.close(index);
@@ -420,64 +422,53 @@
 
 
 
-
-    //保存或者新增
+    //课程表保存 
     function ClassListSave(id) {
         var obj = new Object;
         
-        obj.ClassName = $("#ClassName").val().trim();
-        if (!obj.ClassName) {
-            layer.msg("请输入班级名称！");
+        obj.ClassID = id;  //班级
+
+
+        obj.Start_Date = $("#Start_Date").val().trim();
+        if (!obj.Start_Date) {
+            layer.msg("请选择排课开始时间！");
             return false;
         }
-        obj.TeachTypeID = $("#TeachTypeID").val().trim();//赋值必须和数据库字段对应
-        if (!obj.TeachTypeID) {
-            layer.msg("请选择授课方式！");
+        obj.End_Date = $("#End_Date").val().trim();//赋值必须和数据库字段对应
+        if (!obj.End_Date) {
+            layer.msg("请选择排课结束时间！");
             return false;
         }
 
-        obj.CourseID = $("#CourseIDS").val().trim();
-        if (!obj.CourseID) {
-            layer.msg("请选择所属课程！");
-            return false;
-        }
-
-        obj.TeacherID = $("#TeacherID").val().trim();
+        obj.TeacherID = $("#TeacherID_ClassList").val().trim();
         if (!obj.TeacherID) {
             layer.msg("请选择当前讲师！");
             return false;
         }
-        obj.RoomID = $("#RoomID_Classes").val().trim();
+         
+        obj.RoomID = $("#RoomID").val().trim();
         if (!obj.RoomID) {
             layer.msg("请选择当前教室！");
             return false;
         }
         
 
-        obj.StartTime = $("#StartTime").val().trim();
-        if (!obj.StartTime) {
-            layer.msg("请选择开班时间！");
-            return false;
-        }
-
-        obj.EndTime = $("#EndTime").val().trim();
-        if (!obj.EndTime) {
-            layer.msg("请选择结班时间！");
-            return false;
-        }
-
-        obj.TotalLesson = $("#TotalLesson").val().trim();
+        obj.TotalLesson = $("#TotalLesson_ClassList").val().trim();
         if (!obj.TotalLesson) {
             layer.msg("请输入课时总数！");
             return false;
         }
 
-        obj.PlanEnroll = $("#PlanEnroll").val().trim();
-        if (!obj.PlanEnroll) {
-            layer.msg("请输入预招人数！");
+        obj.TimePeriod = $("#TimePeriod").val().trim();
+        if (!obj.TimePeriod) {
+            layer.msg("请选择时段！");
             return false;
         }
          
+        if (obj.Start_Date > obj.End_Date) {
+            layer.msg("开始时间不能大于结束时间");
+            return false;
+        }
       
         // 排课只有新增
         var action = '@Url.Action("ClassListSave", "Teach")';
@@ -497,6 +488,61 @@
         }, 'json');
     }
 
+
+
+
+
+    //时钟表保存（字典表） 
+    function addTime_save(id) {
+        var obj = new Object;
+
+        obj.addtime_start = $("#addtime_start").val().trim();
+        if (!obj.addtime_start) {
+            layer.msg("请选择开始时间！");
+            return false;
+        }
+        obj.addtime_End = $("#addtime_End").val().trim();//赋值必须和数据库字段对应
+        if (!obj.addtime_End) {
+            layer.msg("请选择结束时间！");
+            return false;
+        }
+ 
+        if (obj.addtime_start > obj.addtime_End) {
+            layer.msg("开始时间不能大于结束时间");
+            return false;
+        } 
+
+        // 时钟只有新增
+        var action = '@Url.Action("addTime_save", "Teach")';
+
+
+        $.post(action, {
+            "data": JSON.stringify(obj)//序列化对象
+        }, function (json) {
+            if (json.status = 200) {//成功
+
+                layer.msg(json.msg);//弹出服务器返回的消息
+           
+            }
+        }, 'json');
+    }
+
+
+
+
+    //时间比较方法
+    function ComparDate(v1, v2) {
+          var d1 = new Date(v1().replace("/\-/g", "\/"));//获取开始时间
+         var d2 = new Date(v2().replace("/\-/g", "\/"));//获取结束时间
+
+        if (d1 > d2) {
+            alert("开始时间不能大于结束时间");
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
 
 
     function exportForm() {
@@ -644,9 +690,9 @@
             </div>
 
             <div class="form-group">
-                <label class="col-sm-3 control-label">课时数：</label>
+                <label class="col-sm-3 control-label">课时总数：</label>
                 <div class="col-sm-5">
-                    <input type="text" placeholder="请填写课时总数" class="form-control input-sm">
+          <input type="text" placeholder="请填写课时总数" class="form-control input-sm" id="TotalLesson_ClassList">
                 </div>
             </div>
 
@@ -656,20 +702,15 @@
                 <div class="col-sm-5">
               @Html.DropDownListFor(t => t.search.TimePeriod, Model.SourceIL4, new { @class = "form-control input-sm chosen-select",@style="width:100%;height:100%;", @tabindex="4",@id="TimePeriod"} )  
                  </div>
-             </div>
-
-
+                
                 <div class="col-sm-2">
                     <a href="javascript:addTime()" class="btn btn-primary btn-sm" type="button"><i class="fa fa-adjust"></i> 添加时段</a>
                 </div>
+             </div>
 
 
-                 <div class="form-group ">
-                <label class="col-sm-3 control-label">课时总数：</label>
-                <div class="col-sm-5">
-                    <input type="text" placeholder="请填写课时总数" class="form-control input-sm" id="TotalLessoned">
-                </div>
-            </div>
+
+ 
 
              </form>
             </div> 
@@ -683,7 +724,7 @@
                 <label class="col-sm-3 control-label">开始时间：</label>
                 <div class="col-sm-9">
                     <div class="input-group clockpicker" data-autoclose="true">
-                        <input type="text" class="form-control" value="09:30">
+                        <input type="text" class="form-control" id="addtime_start" >
                         <span class="input-group-addon">
                             <span class="fa fa-clock-o"></span>
                         </span>
@@ -694,7 +735,7 @@
                 <label class="col-sm-3 control-label">结束时间：</label>
                 <div class="col-sm-9">
                     <div class="input-group clockpicker" data-autoclose="true">
-                        <input type="text" class="form-control" value="11:30">
+                        <input type="text" class="form-control" id="addtime_End" >
                         <span class="input-group-addon">
                             <span class="fa fa-clock-o"></span>
                         </span>

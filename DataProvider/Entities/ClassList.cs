@@ -9,15 +9,13 @@
 
 namespace DataProvider
 {
+    using DapperExtensions.Mapper;
     using System;
     using System.Collections.Generic;
     
     public partial class ClassList
     {
-        /// <summary>
-        /// 
-        /// </summary>				
-        public string ID { get; set; }
+  
         /// <summary>
         ///班级号
         /// </summary>	
@@ -49,4 +47,24 @@ namespace DataProvider
         public System.DateTime CreateTIme { get; set; }
         public string CreatorId { get; set; }
     }
+
+
+    /// <summary>
+    /// Deploy：实体对象映射关系
+    /// </summary>
+    [Serializable]
+    public sealed class ClassListORMMapper : ClassMapper<ClassList>
+    {
+        public ClassListORMMapper()
+        {
+            base.Table("ClassList");
+
+            // Map(f => f.socketouts).Ignore();//设置忽略
+            Map(f => f.ClassID).Key(KeyType.Assigned);//设置主键  (如果主键名称不包含字母“ID”，请设置)   
+            Map(f => f.ClassIndex).Key(KeyType.Assigned);//设置主键  (如果主键名称不包含字母“ID”，请设置)   
+
+            AutoMap();
+        }
+    }
+
 }

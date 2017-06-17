@@ -150,7 +150,9 @@ namespace IOT1._0.Controllers.Teach
                 Clas.ID ="CL"+ year + "0001";
             }
 
- 
+
+            Clas.PresentEnroll = 0;//已报人数
+            Clas.PresentLesson = 0;//已上课时
             Clas.StateID = 1;  //状态
             Clas.CreateTime = DateTime.Now; //创建时间
             Clas.CreatorId = UserSession.userid; //创建人
@@ -164,8 +166,46 @@ namespace IOT1._0.Controllers.Teach
             return Json(ajax);
         }
 
+        
+
+             /// <summary>
+        /// 新增时钟（字典表）
+        /// </summary>
+        /// <returns></returns>
+        public JsonResult addTime_save()
+        {
+            AjaxStatusModel ajax = new AjaxStatusModel();//功能操作类的返回类型都是AjaxStatusModel，数据放到AjaxStatusModel.data中，前台获取json后加载
+            ajax.status = EnumAjaxStatus.Error;//默认失败
+            ajax.msg = "新增失败！";//前台获取，用于显示提示信息
+            var data = Request["data"];//获取前台传递的数据，主要序列化
+            if (string.IsNullOrEmpty(data))
+            {
+                return Json(ajax);
+            }
+            Date Date = (Date)(JsonConvert.DeserializeObject(data.ToString(), typeof(Date)));
+
+            DictionaryItem item = new DictionaryItem(); 
+             int  DicItemID= CommonData.Getnumber(8);//获取行号
+             
+            item.DicTypeID = 8;//时钟类别
+            item.DicItemID = DicItemID + 1;//行号
+            item.CreateTime = DateTime.Now;//创建时间
+            item.Sort = 0;//是否启用类别
+            item.recordState = 0;//状态
+            item.DicItemName = Date.addtime_start + "-" + Date.addtime_End;         //值
+           
+            if (ClassListData.AddDictionaryItemt(item))//注意时间类型，而且需要在前台把所有的值
+            {
+                ajax.msg = "新增成功！";
+                ajax.status = EnumAjaxStatus.Success;
+               
+            }
+          
+            return Json(ajax);
+        }
 
 
+        
 
 
         /// <summary>
@@ -177,19 +217,23 @@ namespace IOT1._0.Controllers.Teach
             AjaxStatusModel ajax = new AjaxStatusModel();//功能操作类的返回类型都是AjaxStatusModel，数据放到AjaxStatusModel.data中，前台获取json后加载
             ajax.status = EnumAjaxStatus.Error;//默认失败
             ajax.msg = "新增失败！";//前台获取，用于显示提示信息
+            //var TIme = Request["Date"];//获取前台传递的数据，主要序列化
             var data = Request["data"];//获取前台传递的数据，主要序列化
             if (string.IsNullOrEmpty(data))
             {
                 return Json(ajax);
             }
-            ClassList Clas = (ClassList)(JsonConvert.DeserializeObject(data.ToString(), typeof(ClassList)));
-          
 
-            Clas.StateID = 1;  //状态
+            Classes Classes = (Classes)(JsonConvert.DeserializeObject(data.ToString(), typeof(Classes)));
+            Date Date = (Date)(JsonConvert.DeserializeObject(data.ToString(), typeof(Date)));
+            ClassList Clas = (ClassList)(JsonConvert.DeserializeObject(data.ToString(), typeof(ClassList)));
+            var v= Date.Start_Date;
+
+            Clas.StateID = 2;  //状态
             Clas.CreateTIme = DateTime.Now; //创建时间
             Clas.CreatorId = UserSession.userid; //创建人 
 
-            if (ClassListData.AddClassList(Clas) != "")//注意时间类型，而且需要在前台把所有的值
+            if (ClassListData.AddClassList(Clas, Date,Classes))//注意时间类型，而且需要在前台把所有的值
             {
                 ajax.msg = "新增成功！";
                 ajax.status = EnumAjaxStatus.Success;

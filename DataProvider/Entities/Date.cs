@@ -12,13 +12,27 @@ namespace DataProvider.Entities
     public partial class Date
     {
         /// <summary>
-        /// ID
+        /// 开始时间
         /// </summary>			
-        public Nullable<System.DateTime> Start_Date { get; set; }
+        public System.DateTime Start_Date { get; set; }
         /// <summary>
-        /// 班级名称
+        /// 结束时间
         /// </summary>			
-        public Nullable<System.DateTime> End_Date { get; set; }
+        public System.DateTime End_Date { get; set; }
+
+
+         /// <summary>
+        /// 时钟开始时间
+        /// </summary>			
+        public string addtime_start { get; set; }
+
+
+         /// <summary>
+        /// 时钟结束时间
+        /// </summary>			
+        public string addtime_End { get; set; }
+
+         
          
     }
 }

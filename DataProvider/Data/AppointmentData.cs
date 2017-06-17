@@ -1,4 +1,5 @@
-﻿using DataProvider.Entities;
+﻿using Dapper;
+using DataProvider.Entities;
 using DataProvider.Models;
 using DataProvider.Paging;
 using DataProvider.SqlServer;
@@ -35,6 +36,59 @@ namespace DataProvider.Data
             out allcount, table, fields: fields, where: where.Trim(),
             orderby: orderby, pageindex: search.CurrentPage, pagesize: search.PageSize, connect: DBKeys.PRX);
             return new PagedList<Appointment>(list, search.CurrentPage, search.PageSize, allcount);
+        }
+        /// <summary>
+        /// 根据主键获取一条预约信息
+        /// </summary>
+        /// <param name="ID"></param>
+        /// <returns></returns>
+        public static Appointment GetOneByID(string ID)
+        {
+            return MsSqlMapperHepler.GetOne<Appointment>(ID, DBKeys.PRX);
+        }
+        /// <summary>
+        /// 新增预约记录
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public static bool Add(Appointment obj)
+        {
+            bool ret = false;
+            try
+            {
+               MsSqlMapperHepler.Insert<Appointment>(obj, DBKeys.PRX);
+               ret = true;
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return ret;
+        }
+        
+        /// <summary>
+        /// 修改预约记录
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public static bool Update(Appointment obj)
+        {
+            Appointment objTo = AppointmentData.GetOneByID(obj.ID);//获取对象
+            Cloner<Appointment, Appointment>.CopyTo(obj, objTo);//代码克隆，把前台或者的值也就是变更内容复制到目标对象，不做变更的数据不变
+            return MsSqlMapperHepler.Update(objTo, DBKeys.PRX);
+        }
+        /// <summary>
+        /// 根据预约ID获取更近记录
+        /// </summary>
+        /// <param name="apid"></param>
+        /// <returns></returns>
+        public static List<FollowRecord> GetFollowListByAPID(string apid)
+        {
+            string sql = @" select * from FollowRecord where APID = @APID";
+            var parameters = new DynamicParameters();
+            parameters.Add("@APID", apid);
+
+            return MsSqlMapperHepler.SqlWithParams<FollowRecord>(sql, parameters, DBKeys.PRX);
         }
     }
 }

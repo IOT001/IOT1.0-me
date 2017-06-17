@@ -91,15 +91,57 @@ namespace DataProvider.Data
         {
             StringBuilder sb = new StringBuilder();
             sb.Append(" select ID,CourseName name from Course");
-            sb.Append(" WHERE 1=@one");
+            sb.Append(" WHERE StateID <> @StateID");
             var parameters = new DynamicParameters();
-            var one = 1;
-            parameters.Add("@one", one);
+            var StateID = 2;
+            parameters.Add("@StateID", StateID);
             return MsSqlMapperHepler.SqlWithParams<CommonEntity>(sb.ToString(), parameters, DBKeys.PRX);
 
         }
         #endregion
-        
 
+
+
+
+
+        //<summary>
+        //获取dictionaryItem行数
+        //</summary>
+        //<param name="Stockid"></param>
+        //<returns></returns>
+
+
+        public static int Getnumber(int DicTypeID)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append("select count(DicTypeID) from dictionaryItem   ");
+            sb.Append(" where DicTypeID=@DicTypeID ");
+            var parameters = new DynamicParameters();
+            parameters.Add("@DicTypeID", DicTypeID);
+            return MsSqlMapperHepler.SqlWithParamsSingle<int>(sb.ToString(), parameters, DBKeys.PRX);
+        }
+
+
+        public static string DPGetTableMaxId(string prefix, string field, string tablename, int digit)
+        {
+            try
+            {
+
+                    string retstr;
+                    var parameters = new DynamicParameters();
+                    parameters.Add("@title", prefix);//开头字母，前缀字母
+                    parameters.Add("@pkName", field);//要插入的表字段
+                    parameters.Add("@tableName", tablename);//所在表
+                    parameters.Add("@bitCount", digit);//不包括前缀的位数
+                    retstr = MsSqlMapperHepler.StoredProcWithParamsSingle<string>("sp_createKey", parameters, DBKeys.PRX);
+                    return retstr;//返回值
+   
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message + "转换的过程中发生了错误!");
+            }
+
+        }
     }
 }
