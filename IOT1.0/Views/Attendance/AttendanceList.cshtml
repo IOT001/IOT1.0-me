@@ -1,9 +1,9 @@
 ﻿@using DataProvider.Models
 @using DataProvider.Paging
 @{
-    ViewBag.Title = "报名列表";
+    ViewBag.Title = "学员考勤";
 }
-@model ButtonListViewModel
+@model AttendanceListViewModel
 <style>
     .layui-layer-page .layui-layer-content {
         overflow:visible
@@ -22,20 +22,20 @@
                         
                         <div class="form-group">
                             <div class="col-sm-2">
-                                <label class="control-label">班级名称：</label>
+                                <label class="control-label">班级名称:</label>
                             </div>
 
                             <div class="col-sm-3">
-                                <input type="text" class="form-control input-sm">
+                                @Html.TextBoxFor(t => t.search.className, new { @class = "form-control input-sm", @type = "text", @placeholder = "班级名称" })
                             </div>
                             <div class="col-sm-2">
                                 <label class="control-label">上课时间:</label>
                             </div>
                             <div class="col-sm-3">
                                 <div class="input-daterange input-group" id="datepicker">
-                                    <input type="text" class="input-sm form-control" name="start" value="2014-11-11">
+                                    @Html.TextBoxFor(t => t.search.timeStart, new { @class = "form-control input-sm", @type = "text", @name = "start" })
                                     <span class="input-group-addon">到</span>
-                                    <input type="text" class="input-sm form-control" name="end" value="2014-11-17">
+                                    @Html.TextBoxFor(t => t.search.timeEnd, new { @class = "form-control input-sm", @type = "text", @name = "end" })
                                 </div>
 
                             </div> 
@@ -46,7 +46,7 @@
                                    
                         <div class="form-group">
                             <div class="col-sm-11 project-actions">
-                                <button type="button" class="btn btn-w-m btn-primary btn-sm">查&nbsp;&nbsp;&nbsp;&nbsp;询</button>
+                                <button type="button" class="btn btn-w-m btn-primary btn-sm" onclick="javascript:fresh();">查&nbsp;&nbsp;&nbsp;&nbsp;询</button>
                             </div>
                         </div>
                     }
@@ -72,77 +72,28 @@
                         </thead>
                         <!-- 循环数据 -->
                         <tbody>
-                            <!-- 测试数据 -->
-                            <tr>
-                                <td class="jz">绘画</td>
-                                <td>2017-05-19 </td>
-                                <td>星期五</td>
-                                <td>10:00-12:00</td>
-                                <td>教室201</td>
-                                <td>王老师</td>
-                                <td>10</td>
-                                <td>10</td>
-                                <td>0</td>
-                                <td>0</td>
-                                <td>
-                                    <a href="javascript:" class="btn btn-primary btn-xs" type="button" onclick="javascript:attendance();"><i class=" fa fa-edit"></i> 考勤</a>
-                                    <a href="javascript:" class="btn btn-primary btn-xs" type="button" onclick="javascript:appraise();"><i class="fa fa-edit"></i> 评价</a>
-                                    <a href="javascript:" class="btn btn-primary btn-xs" type="button" onclick="javascript:publishJob();"><i class="fa fa-edit"></i> 作业</a>
-                                    <a href="javascript:" class="btn btn-primary btn-xs" type="button" onclick="javascript:modify(1);"><i class="fa fa-edit"></i> 调课</a>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td class="jz">绘画</td>
-                                <td>2017-05-18 </td>
-                                <td>星期四</td>
-                                <td>10:00-12:00</td>
-                                <td>教室202</td>
-                                <td>王老师</td>
-                                <td>10</td>
-                                <td>10</td>
-                                <td>0</td>
-                                <td>0</td>
-                                <td>
-                                    <a href="javascript:" class="btn btn-primary btn-xs" type="button" onclick="javascript:attendance();"><i class=" fa fa-edit"></i> 考勤</a>
-                                    <a href="javascript:" class="btn btn-primary btn-xs" type="button" onclick="javascript:appraise();"><i class="fa fa-edit"></i> 评价</a>
-                                    <a href="javascript:" class="btn btn-primary btn-xs" type="button" onclick="javascript:publishJob();"><i class="fa fa-edit"></i> 作业</a>
-                                    <a href="javascript:" class="btn btn-primary btn-xs" type="button" onclick="javascript:modify();"><i class="fa fa-edit"></i> 调课</a>
-                                </td>
-                            </tr>
-
-
-                            <tr>
-                                <td class="jz">绘画</td>
-                                <td>2017-05-29 </td>
-                                <td>星期六</td>
-                                <td>10:00-12:00</td>
-                                <td>教室301</td>
-                                <td>王老师</td>
-                                <td>10</td>
-                                <td>10</td>
-                                <td>0</td>
-                                <td>0</td>
-                                <td>
-                                    <a href="javascript:" class="btn btn-primary btn-xs" type="button" onclick="javascript:attendance();"><i class="fa fa-edit"></i> 考勤</a>
-                                    <a href="javascript:" class="btn btn-primary btn-xs" type="button" onclick="javascript:appraise();"><i class="fa fa-edit"></i> 评价</a>
-                                    <a href="javascript:" class="btn btn-primary btn-xs" type="button" onclick="javascript:publishJob();"><i class="fa fa-edit"></i> 作业</a>
-                                    <a href="javascript:" class="btn btn-primary btn-xs" type="button" onclick="javascript:modify();"><i class="fa fa-edit"></i> 调课</a>
-                                </td>
-                            </tr>
-                           
+                  
                             <!-- 测试数据 -->
                             @if (Model != null && Model.buttonlist.Count() > 0)
                             {
                                 foreach (var m in Model.buttonlist)
                                 {
                                     <tr>
-                                        <td class="jz">@m.BTN_Id</td>
-                                        <td>@m.BTN_Name</td> @*按钮名称*@
-                                        <td>@m.BTN_OrderIndex</td>
-                                        <td>@m.BTN_Mark</td>
+                                        <td class="jz">@m.ClassName</td>
+                                        <td>@DateTime.Parse(m.ClassDate + "").ToString("yyyy-MM-dd")</td> @*按钮名称*@
+                                        <td>@System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.GetDayName(DateTime.Parse(m.ClassDate + "").DayOfWeek)</td>
+                                        <td>@m.TimePeriod</td>
+                                        <td>@m.RoomName</td>
+                                        <td>@m.TeacherName</td>
+                                        <td>@m.SumStudents</td>
+                                        <td>@m.CheckINStudents</td>
+                                        <td>@m.UnCheckStudents</td>
+                                        <td>@m.EvaluateStudents</td>
                                         <td>
-                                            <a href="javascript:;" class="btn btn-primary btn-xs" type="button"><i class="fa fa-edit"></i> 编辑</a>
+                                            <a href="javascript:" class="btn btn-primary btn-xs" type="button" onclick="javascript:attendance('@Newtonsoft.Json.JsonConvert.SerializeObject(m)');"><i class="fa fa-edit"></i> 考勤</a>
+                                            <a href="javascript:" class="btn btn-primary btn-xs" type="button" onclick="javascript: appraise('@Newtonsoft.Json.JsonConvert.SerializeObject(m)');"><i class="fa fa-edit"></i> 评价</a>
+                                            <a href="javascript:" class="btn btn-primary btn-xs" type="button" onclick="javascript: publishJob('@Newtonsoft.Json.JsonConvert.SerializeObject(m)');"><i class="fa fa-edit"></i> 作业</a>
+                                            <a href="javascript:" class="btn btn-primary btn-xs" type="button" onclick="javascript: modify('@Newtonsoft.Json.JsonConvert.SerializeObject(m)');"><i class="fa fa-edit"></i> 调课</a>
 
                                         </td>
                                     </tr>
@@ -192,6 +143,12 @@
             document.getElementById('frmQuery').submit();
         }
     }
+   
+    //执行查询 或者刷新
+    function fresh() {
+        document.getElementById('frmQuery').submit();
+    }
+
     //点击列表的调课,调课操作
     function modify(id) {
         cleanData("buttoninfo");
@@ -257,7 +214,8 @@
     }
 
     //评价
-    function appraise(id) {
+    function appraise(data) {
+        var obj = JSON.parse(data);
         cleanData("appraise");//清空数据
         layer.open({
             type: 1,
@@ -266,16 +224,78 @@
             content: $('#appraise'),
             btn: ['保存', '取消'],
             yes: function () {
-
+                var loadindex = layer.load();
+                saveStudentEvaluate(data, loadindex);
             },
             cancel: function (index) {
                 layer.close(index);
             }
         });
-
+        if (data) {
+            var loadindex = layer.load();
+            loadAttendancedetail(obj, loadindex)
+        }
     }
+    function saveStudentEvaluate(data, loadindex) {
+        var ids = $(".evalId");
+        var values = $(".evalValue");
+        var length = ids.length;
+        var json = '';
+        for(var i=0;i<length;i++){
+            json += "{ 'ID':" + ids[i].innerText + ",'Evaluate' :'" + values[i].value + "'}";
+            if (i < length - 1) {
+                json += ",";
+            }
+        }
+        json = "[" + json + "]";
+        var action='@Url.Action("saveStudentEvaluate", "Attendance")';
+        $.post(action, {
+            "data": json//序列化对象
+        }, function (json) {
+            layer.close(loadindex);
+            if (json.status = 200) {//成功
+
+                layer.msg(json.msg);//弹出服务器返回的消息
+                setTimeout(function () {//操作
+                    layer.closeAll();//关闭所有层
+                    window.location.reload(); //刷新
+                }, 3000);
+            }
+        }, 'json');
+      
+    }
+
+    function loadAttendancedetail(obj, loadindex) {
+        $.ajax({
+            url: '@Url.Action("StudentEvaluate", "Attendance")',
+            type: "post",
+            data: { obj: obj },
+            dataType: 'json',
+            success: function (json) {
+                if (json.status = 200) {//成功
+                    var row = "";
+                    $.each(json.data, function (index, value) {
+                        row += "<tr><td>" + value.Name + "</td><td hidden class='evalId'>" + value.ID + "</td><td>" + value.Phone + "</td><td> <input type='text' placeholder='学生评价' class='form-control input-sm evalValue' " +
+                            " value= '" + value.Evaluate
+                            + "'></td></tr>"
+
+                    })
+                    row = "<tbody>" + row + "</tbody>";
+                    $('#studentEvalute > tbody').remove()
+                    $('#studentEvalute').append(row);
+                }
+                layer.close(loadindex);//关闭加载层
+            },
+            error: function (xmLHttpRequest, textStatus, errorThrown) {
+                layer.close(loadindex);
+                layer.msg("系统异常，请重试<br/>错误信息：" + xmLHttpRequest.responseText);
+            }
+        });
+    }
+
     //考勤 appraise
-    function attendance(id) {
+    function attendance(data) {
+        var obj = JSON.parse(data);
         cleanData("follow");//清空数据
         layer.open({
             type: 1,
@@ -288,15 +308,20 @@
             },
             cancel: function (index) {
                 layer.close(index);
-            }
+            },
+            success: function (layero, index) {  
+                //传入参数，并赋值给iframe的元素 
+                var name="班级："+obj.ClassName+"，课时："+obj.TotalLesson;
+                $("#ClassName").text(name);
+            }  
         });
        
     }
+    
     //考勤点名-选择所有学生
     function checkAllStudent(id) {
         if ($("#btn_all_student").is(':checked'))
             $("[name = chkItem]:checkbox").each(function () {
-                
                 if ($(this).is(':checked') == false) {
                     $(this).prop("checked", true);
                 }
@@ -389,7 +414,7 @@
             <table class="table table-striped table-bordered">
               
                 <tbody>
-                    <tr><td>班级:绘画，课时:1.0</td></tr>
+                    <tr><td id="ClassName">班级:绘画，课时:1.0</td></tr>
                     <tr><td>上课时间:2017-05-18 10:00-11:00 应到:<font color="#000000">10</font>  已到:<font color="#0033CC	">0</font>  未到:<font color="#FF0000">0</font></td></tr>
                 </tbody>
                 </table>
@@ -408,7 +433,7 @@
                         <tr>
                             <td>王遗风</td>
                             <td>13812345678</td>
-                            <th>出勤 <input type="checkbox" class="checkbox i-checks" name="chkItem" value="" id="btn_all_student"></th>
+                            <th>出勤 <input type="checkbox" class="checkbox i-checks" name="chkItem" value="" ></th>
                             <td>剩余2 </td>
                             <td>
                                 <select class="selectpicker  form-control" id="class-time" data-live-search="true">
@@ -424,7 +449,7 @@
                             <tr>
                                 <td>王二小</td>
                                 <td>15812445678</td>
-                                <th>出勤 <input type="checkbox" class="checkbox i-checks" name="chkItem" value="" id="btn_all_student"></th>
+                                <th>出勤 <input type="checkbox" class="checkbox i-checks" name="chkItem" value="" ></th>
                                 <td>剩余20.0</td>
                                 <td>
                                     <select class="selectpicker  form-control" id="class-time" data-live-search="true">
@@ -440,7 +465,7 @@
                             <tr>
                                 <td>小二蛋</td>
                                 <td>15557445678</td>
-                                <th>出勤 <input type="checkbox" class="checkbox i-checks" name="chkItem" value="" id="btn_all_student"></th>
+                                <th>出勤 <input type="checkbox" class="checkbox i-checks" name="chkItem" value="" ></th>
                                 <td>剩余20</td>
                                 <td>
                                     <select class="selectpicker  form-control" id="class-time" data-live-search="true">
@@ -470,7 +495,7 @@
         <form class="form-horizontal">
 
             <div class="">
-                <table class="table table-striped table-bordered table-hover dataTables-example">
+                <table class="table table-striped table-bordered table-hover dataTables-example" id="studentEvalute">
                     <thead>
                         <tr>
                             <th>学员姓名</th>
@@ -478,7 +503,7 @@
                             <th>评价</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    @*<tbody>
                         <tr>
                             <td>王遗风</td>
                             <td>13812345678</td>
@@ -501,7 +526,7 @@
                                 <input type="text" placeholder="学生评价" class="form-control input-sm" id="BTN_Name_En">
                             </td>
                         </tr>
-                    </tbody>
+                    </tbody>*@
                 </table>
             </div>
 
