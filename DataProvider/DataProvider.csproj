@@ -108,6 +108,7 @@
     <Compile Include="Entities\SYSButton.cs" />
     <Compile Include="Entities\Teachers.cs" />
     <Compile Include="Entities\vw_Classes.cs" />
+    <Compile Include="Entities\vw_StudentEvaluate.cs" />
     <Compile Include="Entities\vw_Students.cs" />
     <Compile Include="Entities\Classes.cs" />
     <Compile Include="Entities\Date.cs" />

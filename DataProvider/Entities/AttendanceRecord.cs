@@ -9,6 +9,7 @@
 
 namespace DataProvider
 {
+    using DapperExtensions.Mapper;
     using System;
     using System.Collections.Generic;
     
@@ -53,5 +54,18 @@ namespace DataProvider
         public string Remark { get; set; }
         public System.DateTime CreateTime { get; set; }
         public string CreatorId { get; set; }
+    }
+    [Serializable]
+    public sealed class AttendanceRecordORMMapper : ClassMapper<AttendanceRecord>
+    {
+        public AttendanceRecordORMMapper()
+        {
+            base.Table("AttendanceRecord");
+
+            //Map(f => f.IsJoin).Ignore();//设置忽略
+            //Map(f => f.StateName).Ignore();//设置忽略
+            Map(f => f.ID).Key(KeyType.Identity);//设置主键  (如果主键名称不包含字母“ID”，请设置)      
+            AutoMap();
+        }
     }
 }

@@ -22,6 +22,7 @@ namespace DataProvider.Models
         /// 页面的列表数据
         /// </summary>
         public PagedList<vw_ClassAttendanceList> buttonlist { get; set; }
+
         
     }
     public class AttendanceSearchModel : CommonPageEntity
@@ -38,5 +39,13 @@ namespace DataProvider.Models
         /// 上课时间-结束时间
         /// </summary>
         public string timeEnd { set; get; }
+        /// <summary>
+        /// 课程IDW
+        /// </summary>
+        public string classId { set; get; }
+        /// <summary>
+        /// 课程索引
+        /// </summary>
+        public string classIndex { set; get; }
     }
 }

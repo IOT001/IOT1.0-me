@@ -91,9 +91,9 @@
                                         <td>@m.EvaluateStudents</td>
                                         <td>
                                             <a href="javascript:" class="btn btn-primary btn-xs" type="button" onclick="javascript:attendance('@Newtonsoft.Json.JsonConvert.SerializeObject(m)');"><i class="fa fa-edit"></i> 考勤</a>
-                                            <a href="javascript:" class="btn btn-primary btn-xs" type="button" onclick="javascript:appraise();"><i class="fa fa-edit"></i> 评价</a>
-                                            <a href="javascript:" class="btn btn-primary btn-xs" type="button" onclick="javascript:publishJob();"><i class="fa fa-edit"></i> 作业</a>
-                                            <a href="javascript:" class="btn btn-primary btn-xs" type="button" onclick="javascript:modify();"><i class="fa fa-edit"></i> 调课</a>
+                                            <a href="javascript:" class="btn btn-primary btn-xs" type="button" onclick="javascript: appraise('@Newtonsoft.Json.JsonConvert.SerializeObject(m)');"><i class="fa fa-edit"></i> 评价</a>
+                                            <a href="javascript:" class="btn btn-primary btn-xs" type="button" onclick="javascript: publishJob('@Newtonsoft.Json.JsonConvert.SerializeObject(m)');"><i class="fa fa-edit"></i> 作业</a>
+                                            <a href="javascript:" class="btn btn-primary btn-xs" type="button" onclick="javascript: modify('@Newtonsoft.Json.JsonConvert.SerializeObject(m)');"><i class="fa fa-edit"></i> 调课</a>
 
                                         </td>
                                     </tr>
@@ -214,7 +214,8 @@
     }
 
     //评价
-    function appraise(id) {
+    function appraise(data) {
+        var obj = JSON.parse(data);
         cleanData("appraise");//清空数据
         layer.open({
             type: 1,
@@ -223,14 +224,75 @@
             content: $('#appraise'),
             btn: ['保存', '取消'],
             yes: function () {
-
+                var loadindex = layer.load();
+                saveStudentEvaluate(data, loadindex);
             },
             cancel: function (index) {
                 layer.close(index);
             }
         });
-
+        if (data) {
+            var loadindex = layer.load();
+            loadAttendancedetail(obj, loadindex)
+        }
     }
+    function saveStudentEvaluate(data, loadindex) {
+        var ids = $(".evalId");
+        var values = $(".evalValue");
+        var length = ids.length;
+        var json = '';
+        for(var i=0;i<length;i++){
+            json += "{ 'ID':" + ids[i].innerText + ",'Evaluate' :'" + values[i].value + "'}";
+            if (i < length - 1) {
+                json += ",";
+            }
+        }
+        json = "[" + json + "]";
+        var action='@Url.Action("saveStudentEvaluate", "Attendance")';
+        $.post(action, {
+            "data": json//序列化对象
+        }, function (json) {
+            layer.close(loadindex);
+            if (json.status = 200) {//成功
+
+                layer.msg(json.msg);//弹出服务器返回的消息
+                setTimeout(function () {//操作
+                    layer.closeAll();//关闭所有层
+                    window.location.reload(); //刷新
+                }, 3000);
+            }
+        }, 'json');
+      
+    }
+
+    function loadAttendancedetail(obj, loadindex) {
+        $.ajax({
+            url: '@Url.Action("StudentEvaluate", "Attendance")',
+            type: "post",
+            data: { obj: obj },
+            dataType: 'json',
+            success: function (json) {
+                if (json.status = 200) {//成功
+                    var row = "";
+                    $.each(json.data, function (index, value) {
+                        row += "<tr><td>" + value.Name + "</td><td hidden class='evalId'>" + value.ID + "</td><td>" + value.Phone + "</td><td> <input type='text' placeholder='学生评价' class='form-control input-sm evalValue' " +
+                            " value= '" + value.Evaluate
+                            + "'></td></tr>"
+
+                    })
+                    row = "<tbody>" + row + "</tbody>";
+                    $('#studentEvalute > tbody').remove()
+                    $('#studentEvalute').append(row);
+                }
+                layer.close(loadindex);//关闭加载层
+            },
+            error: function (xmLHttpRequest, textStatus, errorThrown) {
+                layer.close(loadindex);
+                layer.msg("系统异常，请重试<br/>错误信息：" + xmLHttpRequest.responseText);
+            }
+        });
+    }
+
     //考勤 appraise
     function attendance(data) {
         var obj = JSON.parse(data);
@@ -253,14 +315,13 @@
                 $("#ClassName").text(name);
             }  
         });
-        
        
     }
+    
     //考勤点名-选择所有学生
     function checkAllStudent(id) {
         if ($("#btn_all_student").is(':checked'))
             $("[name = chkItem]:checkbox").each(function () {
-                
                 if ($(this).is(':checked') == false) {
                     $(this).prop("checked", true);
                 }
@@ -372,7 +433,7 @@
                         <tr>
                             <td>王遗风</td>
                             <td>13812345678</td>
-                            <th>出勤 <input type="checkbox" class="checkbox i-checks" name="chkItem" value="" id="btn_all_student"></th>
+                            <th>出勤 <input type="checkbox" class="checkbox i-checks" name="chkItem" value="" ></th>
                             <td>剩余2 </td>
                             <td>
                                 <select class="selectpicker  form-control" id="class-time" data-live-search="true">
@@ -388,7 +449,7 @@
                             <tr>
                                 <td>王二小</td>
                                 <td>15812445678</td>
-                                <th>出勤 <input type="checkbox" class="checkbox i-checks" name="chkItem" value="" id="btn_all_student"></th>
+                                <th>出勤 <input type="checkbox" class="checkbox i-checks" name="chkItem" value="" ></th>
                                 <td>剩余20.0</td>
                                 <td>
                                     <select class="selectpicker  form-control" id="class-time" data-live-search="true">
@@ -404,7 +465,7 @@
                             <tr>
                                 <td>小二蛋</td>
                                 <td>15557445678</td>
-                                <th>出勤 <input type="checkbox" class="checkbox i-checks" name="chkItem" value="" id="btn_all_student"></th>
+                                <th>出勤 <input type="checkbox" class="checkbox i-checks" name="chkItem" value="" ></th>
                                 <td>剩余20</td>
                                 <td>
                                     <select class="selectpicker  form-control" id="class-time" data-live-search="true">
@@ -434,7 +495,7 @@
         <form class="form-horizontal">
 
             <div class="">
-                <table class="table table-striped table-bordered table-hover dataTables-example">
+                <table class="table table-striped table-bordered table-hover dataTables-example" id="studentEvalute">
                     <thead>
                         <tr>
                             <th>学员姓名</th>
@@ -442,7 +503,7 @@
                             <th>评价</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    @*<tbody>
                         <tr>
                             <td>王遗风</td>
                             <td>13812345678</td>
@@ -465,7 +526,7 @@
                                 <input type="text" placeholder="学生评价" class="form-control input-sm" id="BTN_Name_En">
                             </td>
                         </tr>
-                    </tbody>
+                    </tbody>*@
                 </table>
             </div>
 
