@@ -15,7 +15,7 @@ namespace DataProvider.Entities
         /// <summary>
         /// ClassID
         /// </summary>
-        public   string ClassID
+        public string ClassID
         {
             get;
             set;
@@ -23,7 +23,7 @@ namespace DataProvider.Entities
         /// <summary>
         /// ClassIndex
         /// </summary>
-        public   int ClassIndex
+        public int ClassIndex
         {
             get;
             set;
@@ -31,7 +31,7 @@ namespace DataProvider.Entities
         /// <summary>
         /// ClassName
         /// </summary>
-        public   string ClassName
+        public string ClassName
         {
             get;
             set;
@@ -39,7 +39,7 @@ namespace DataProvider.Entities
         /// <summary>
         /// ClassDate
         /// </summary>
-        public   DateTime ClassDate
+        public DateTime ClassDate
         {
             get;
             set;
@@ -47,7 +47,12 @@ namespace DataProvider.Entities
         /// <summary>
         /// TimePeriod
         /// </summary>
-        public   string TimePeriod
+        public string TimePeriod
+        {
+            get;
+            set;
+        }
+        public string TimePeriodValue
         {
             get;
             set;
@@ -55,7 +60,7 @@ namespace DataProvider.Entities
         /// <summary>
         /// StateID
         /// </summary>
-        public   string StateID
+        public string StateID
         {
             get;
             set;
@@ -63,7 +68,7 @@ namespace DataProvider.Entities
         /// <summary>
         /// TeacherID
         /// </summary>
-        public   string TeacherID
+        public string TeacherID
         {
             get;
             set;
@@ -71,7 +76,7 @@ namespace DataProvider.Entities
         /// <summary>
         /// RoomID
         /// </summary>
-        public   int? RoomID
+        public int? RoomID
         {
             get;
             set;
@@ -79,7 +84,7 @@ namespace DataProvider.Entities
         /// <summary>
         /// TeacherName
         /// </summary>
-        public   string TeacherName
+        public string TeacherName
         {
             get;
             set;
@@ -87,7 +92,7 @@ namespace DataProvider.Entities
         /// <summary>
         /// RoomName
         /// </summary>
-        public   string RoomName
+        public string RoomName
         {
             get;
             set;
@@ -95,7 +100,7 @@ namespace DataProvider.Entities
         /// <summary>
         /// SumStudents
         /// </summary>
-        public   int? SumStudents
+        public int? SumStudents
         {
             get;
             set;
@@ -103,7 +108,7 @@ namespace DataProvider.Entities
         /// <summary>
         /// CheckINStudents
         /// </summary>
-        public   int? CheckINStudents
+        public int? CheckINStudents
         {
             get;
             set;
@@ -111,7 +116,7 @@ namespace DataProvider.Entities
         /// <summary>
         /// UnCheckStudents
         /// </summary>
-        public   int? UnCheckStudents
+        public int? UnCheckStudents
         {
             get;
             set;
@@ -119,11 +124,16 @@ namespace DataProvider.Entities
         /// <summary>
         /// EvaluateStudents
         /// </summary>
-        public   int? EvaluateStudents
+        public int? EvaluateStudents
         {
             get;
             set;
-        }        
+        }
+        public int? TotalLesson
+        {
+            get;
+            set;
+        }
     }
     /// <summary>
     /// 
