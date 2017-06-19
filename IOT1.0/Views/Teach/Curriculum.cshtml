@@ -3,7 +3,7 @@
 @{
     ViewBag.Title = "课程维护";
 }
-@model ButtonListViewModel
+@model CurriculumViewModel
 
     <div class="wrapper wrapper-content  animated fadeInRight">
         <div class="row">
@@ -21,7 +21,7 @@
                                     <label class="control-label">课程名称:</label>
                                 </div>
                                 <div class="col-sm-4" >
-                                   @Html.TextBoxFor(t => t.search.BTN_Name, new { @class = "form-control input-sm", @type = "text", @placeholder = "请输入课程名称" })
+                                   @Html.TextBoxFor(t => t.search.CourseName, new { @class = "form-control input-sm", @type = "text", @placeholder = "请输入课程名称" })
                                 </div>
 
                         </div>
@@ -33,14 +33,14 @@
                    <div class="form-group">
                         <div class="col-sm-4">
                             <div class="btn-group">
-                                <button type="button" class="btn btn-white btn-sm"><i class="fa fa-refresh"></i> 刷新</button>
+                                <button type="button" class="btn btn-white btn-sm" onclick="javascript:fresh();"><i class="fa fa-refresh"></i> 刷新</button>
 
                                 <button class="btn btn-primary btn-sm" type="button" onclick="javascript:modify();"><i class="fa fa-plus-square"></i> 新增</button>
 
                             </div>
                         </div>
                         <div class="col-sm-8 project-actions">
-                            <button type="button" class="btn btn-w-m btn-primary btn-sm">查&nbsp;&nbsp;&nbsp;&nbsp;询</button>
+                            <button type="button" class="btn btn-w-m btn-primary btn-sm" javascript:fresh();>查&nbsp;&nbsp;&nbsp;&nbsp;询</button>
                         </div>
                     </div>
                     
@@ -60,57 +60,17 @@
                             </thead>
                             <!-- 循环数据 -->
                             <tbody>
-                                <!-- 测试数据 -->
-                                       <tr>
-                                            <td class="jz">数学</td>
-                                        
-                                            <td>2000</td>
-                                            <td>启用</td> 
-                                             <td>2</td>
-                                            <td><a href="javascript:modify()" class="btn btn-primary btn-xs" type="button"><i class="fa fa-edit"></i> 编辑</a> 
-                                            </td>
-                                        </tr>
-
-                                           <tr>
-                                            <td class="jz">语文</td>
-                                           
-                                            <td>2000</td>
-                                            <td>启用</td> 
-                                             <td>2</td>
-                                            <td><a href="javascript:modify()" class="btn btn-primary btn-xs" type="button"><i class="fa fa-edit"></i> 编辑</a> 
-                                            </td>
-                                        </tr>
-                                           <tr>
-                                            <td class="jz">英语</td>
-                                       
-                                            <td>2000</td>
-                                            <td>启用</td> 
-                                                 <td>3</td>
-                                            <td><a href="javascript:modify()" class="btn btn-primary btn-xs" type="button"><i class="fa fa-edit"></i> 编辑</a> 
-                                            </td>
-                                        </tr>
-                                     <tr>
-                                            <td class="jz">物理</td>
-                                    
-                                            <td>2000</td>
-                                            <td>启用</td> 
-                                           <td>5</td>
-                                            <td><a href="javascript:modify()" class="btn btn-primary btn-xs" type="button"><i class="fa fa-edit"></i> 编辑</a> 
-                                            </td>
-                                        </tr>
-                                <!-- 测试数据 -->
+                                <!-- 数据 -->
                                 @if (Model != null && Model.buttonlist.Count() > 0)
                                 {
                                     foreach (var m in Model.buttonlist)
                                     {
                                         <tr>
-                                            <td class="jz">@m.BTN_Id</td>
-                                            <td>@m.BTN_Name</td> @*按钮名称*@
-                                            <td>@m.BTN_OrderIndex</td>
-                                            <td>@m.BTN_Mark</td>
-                                            <td><a href="javascript:modify(@m.BTN_Id);" class="btn btn-primary btn-sm" type="button"><i class="fa fa-edit"></i> 编辑</a>
-                 
-                                            </td>
+                                            <td class="jz">@m.CourseName</td>
+                                            <td>@m.CoursePrice</td>
+                                            <td>@m.StateName</td>
+                                            <td>@m.Hours</td>
+                                            <td><a href="javascript:modify(@m.ID)" class="btn btn-primary btn-xs" type="button"><i class="fa fa-edit"></i> 编辑</a>                                            </td>
                                         </tr>
                                     }
                                 }
@@ -158,6 +118,11 @@
             document.getElementById('frmQuery').submit();
         }
     }
+    //执行查询 或者刷新
+    function fresh() {
+        document.getElementById('frmQuery').submit();
+    }
+
     //点击列表的编辑按钮，编辑操作
     function modify(id) {
         cleanData("buttoninfo");
@@ -183,20 +148,28 @@
 
     function loaddetail(id, loadindex) {
         $.ajax({
-            url: '@Url.Action("GetButtonByID", "Admin")',
+            url: '@Url.Action("GetCourseByID", "Teach")',
             type: "post",
-            data: { id: id },
+            data: {id:id},
             success: function (json) {
                 if (json.status = 200) {//成功
-                    $("#BTN_Name").val(json.data.BTN_Name);
-                    $("#BTN_Name_En").val(json.data.BTN_Name_En);
-                    $("#BTN_Desc").val(json.data.BTN_Desc);
-                    $("#BTN_OrderIndex").val(json.data.BTN_OrderIndex);
-                    $("#BTN_Mark").val(json.data.BTN_Mark);
-
-                    if (json.data.BTN_IsSuspended)//如果停用true
+                    $("#BTN_Name").val(json.data[0].CourseName);
+                    $("#BTN_Price").val(json.data[0].CoursePrice);
+                    $("#BTN_Hour").val(json.data[0].Hours);
+                    //$("#BTN_OrderIndex").val(json.data.BTN_OrderIndex);
+                    //$("#BTN_Mark").val(json.data.BTN_Mark);
+                    $("#course_way").empty();
+                    var course_way = "<option value=''>请选择</option>";
+                    $.each(json.data[1], function (index, value) {
+                        course_way += "<option value='" + value.id + "'>" + value.name + "</option>";
+                    });
+                    $("#course_way").append(course_way);
+                    $("#course_way").val(json.data[0].TypeID);
+                    if (json.data[0].StateID == 2 )//如果停用true
                     {
                         $("#BTN_IsSuspended").iCheck('check');//设置选中，具体可以百度icheck插件
+                    } else {
+                        $("#BTN_IsSuspended").iCheck('uncheck');
                     }
 
                     layer.close(loadindex);//关闭加载层
@@ -212,26 +185,25 @@
     function save(id) {
         var obj = new Object;
         if (id) {//有ID就是修改模式，没有就是新增模式
-            obj.BTN_Id = id;
+            obj.ID = id;
         }
-        obj.BTN_Name = $("#BTN_Name").val().trim();
-        if (!obj.BTN_Name) {
-            layer.msg("请输入按钮名称！");
+        obj.CourseName = $("#BTN_Name").val().trim();
+        if (!obj.CourseName) {
+            layer.msg("请输入课程名称");
             return false;
         }
-        obj.BTN_Name_En = $("#BTN_Name_En").val().trim();//赋值必须和数据库字段对应
-        obj.BTN_Desc = $("#BTN_Desc").val().trim();
-        obj.BTN_OrderIndex = $("#BTN_OrderIndex").val().trim();
-        obj.BTN_Mark = $("#BTN_Mark").val().trim();
+        obj.CoursePrice = $("#BTN_Price").val().trim();//赋值必须和数据库字段对应
+        obj.Hours = $("#BTN_Hour").val().trim();
+        obj.TypeID = $("#course_way").val().trim();
         if ($("#BTN_IsSuspended").is(':checked')) {//判断停用按钮是否选中
-            obj.BTN_IsSuspended = true;
+            obj.StateID = 2;
         }
-        else { obj.BTN_IsSuspended = false; }
+        else { obj.StateID = 1; }
         var action = '';
         if (id) {//有ID就是修改模式，没有就是新增模式
-            action = '@Url.Action("SaveButton", "Admin")';
+            action = '@Url.Action("SaveCourse", "Teach")';
             }
-        else { action = '@Url.Action("AddButton", "Admin")' }
+        else { action = '@Url.Action("AddCourse", "Teach")' }
             $.post(action, {
                 "data": JSON.stringify(obj)//序列化对象
             }, function (json) {
@@ -273,7 +245,7 @@
                 <label class="col-sm-3 control-label">授课方式：</label>
                 <div class="col-sm-8">
                   
-                        <select data-placeholder="选择授课方式..." class=" form-control input-sm chosen-select" style="width:100%;height:100%;" tabindex="4">
+                        <select data-placeholder="选择授课方式..." class=" form-control input-sm chosen-select" id="course_way" style="width:100%;height:100%;" tabindex="4">
                                     <option value="">请选择授课方式</option>
                                     <option value="110000" >一对一</option> 
                                     <option value="370000" >一对多</option>   
@@ -284,13 +256,13 @@
             <div class="form-group ">
                 <label class="col-sm-3 control-label">费用：</label>
                 <div class="col-sm-8">
-                    <input type="number" placeholder="费用" class="form-control input-sm" id="BTN_Mark">
+                    <input type="number" placeholder="费用" class="form-control input-sm" id="BTN_Price">
                 </div>
             </div>
               <div class="form-group ">
                 <label class="col-sm-3 control-label">课时：</label>
                 <div class="col-sm-8">
-                    <input type="number" placeholder="课时" class="form-control input-sm" id="BTN_Mark">
+                    <input type="number" placeholder="课时" class="form-control input-sm" id="BTN_Hour">
                 </div>
             </div>
             
