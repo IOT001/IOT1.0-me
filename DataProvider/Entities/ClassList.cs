@@ -44,6 +44,12 @@ namespace DataProvider
         /// 教师ID，取字典表
         /// </summary>	
         public Nullable<int> RoomID { get; set; } 
+         /// <summary>
+        /// 星期几
+        /// </summary>	
+        public Nullable<int> weekday { get; set; } 
+        
+
         public System.DateTime CreateTIme { get; set; }
         public string CreatorId { get; set; }
     }

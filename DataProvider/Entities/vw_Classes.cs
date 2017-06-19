@@ -30,5 +30,8 @@ namespace DataProvider.Entities
         public Nullable<System.DateTime> UpdateTime { get; set; }
         public string DeletorId { get; set; }
         public Nullable<System.DateTime> DeleteTime { get; set; }
+        public int StateIDed { get; set; }
+
+
     }
 }
