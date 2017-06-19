@@ -159,6 +159,7 @@
     <Compile Include="Controllers\Enroll\WeixinController.cs" />
     <Compile Include="Controllers\Finance\FinanceController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\Office\OfficeController.cs" />
     <Compile Include="Controllers\Student\StudentController.cs" />
     <Compile Include="Controllers\Teach\ClassesController.cs" />
     <Compile Include="Controllers\Teach\TeachController.cs">
@@ -4645,6 +4646,7 @@
     <Content Include="Views\Weixin\PaymentList.cshtml" />
     <Content Include="Views\Teach\Classes.cshtml" />
     <Content Include="Views\Finance\DiscountList.cshtml" />
+    <Content Include="Views\Office\MessageList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -23,35 +23,14 @@
                                 <div class="col-sm-4" >
                                    @Html.TextBoxFor(t => t.search.BTN_Name, new { @class = "form-control input-sm", @type = "text", @placeholder = "请输入课程名称" })
                                 </div>
-                       @*       <div class="col-sm-2">
-                                    <label class="control-label">所属课程:</label>
-                                </div>
-                              <div class="col-sm-4" >
-                                   @Html.TextBoxFor(t => t.search.BTN_Name, new { @class = "form-control input-sm", @type = "text", @placeholder = "请输入所属课程" })
-                                </div>
-                           *@
-                        </div>@*
-                    
-                    <div class="form-group">
-                                <div class="col-sm-2">
-                                    <label class="control-label">当前讲师:</label>
-                                </div>
-                                <div class="col-sm-4" >
-                                   @Html.TextBoxFor(t => t.search.BTN_Name, new { @class = "form-control input-sm", @type = "text", @placeholder = "请输入当前讲师" })
-                                </div>
-                              <div class="col-sm-2">
-                                    <label class="control-label">所属课程:</label>
-                                </div>
-                              <div class="col-sm-4" >
-                                   @Html.TextBoxFor(t => t.search.BTN_Name, new { @class = "form-control input-sm", @type = "text", @placeholder = "请输入所属课程" })
-                                </div>
-                           
+
                         </div>
                     
+
              
                     
                     
-                   *@<div class="form-group">
+                   <div class="form-group">
                         <div class="col-sm-4">
                             <div class="btn-group">
                                 <button type="button" class="btn btn-white btn-sm"><i class="fa fa-refresh"></i> 刷新</button>
@@ -72,7 +51,7 @@
                             <thead>
                                 <tr>
                                     <th>课程名称</th>
-                                    <th>课程类别</th>
+                   
                                     <th>费用</th>
                                     <th>课程状态</th> 
                                     <th>课时</th>
@@ -84,7 +63,7 @@
                                 <!-- 测试数据 -->
                                        <tr>
                                             <td class="jz">数学</td>
-                                            <td>学科基础课</td> 
+                                        
                                             <td>2000</td>
                                             <td>启用</td> 
                                              <td>2</td>
@@ -94,7 +73,7 @@
 
                                            <tr>
                                             <td class="jz">语文</td>
-                                            <td>学科基础课</td> 
+                                           
                                             <td>2000</td>
                                             <td>启用</td> 
                                              <td>2</td>
@@ -103,7 +82,7 @@
                                         </tr>
                                            <tr>
                                             <td class="jz">英语</td>
-                                            <td>学科基础课</td> 
+                                       
                                             <td>2000</td>
                                             <td>启用</td> 
                                                  <td>3</td>
@@ -112,7 +91,7 @@
                                         </tr>
                                      <tr>
                                             <td class="jz">物理</td>
-                                            <td>学科基础课</td> 
+                                    
                                             <td>2000</td>
                                             <td>启用</td> 
                                            <td>5</td>
@@ -291,14 +270,14 @@
                 </div>
             </div>
             <div class="form-group ">
-                <label class="col-sm-3 control-label">课程类别：</label>
+                <label class="col-sm-3 control-label">授课方式：</label>
                 <div class="col-sm-8">
                   
                         <select data-placeholder="选择授课方式..." class=" form-control input-sm chosen-select" style="width:100%;height:100%;" tabindex="4">
                                     <option value="">请选择授课方式</option>
-                                    <option value="110000" hassubinfo="true">一对一</option> 
-                                    <option value="370000" hassubinfo="true">一对多</option>   
-                                    <option value="370000" hassubinfo="true">集体课</option>   
+                                    <option value="110000" >一对一</option> 
+                                    <option value="370000" >一对多</option>   
+                                    <option value="370000" >集体课</option>   
                                 </select> 
                 </div>
             </div>

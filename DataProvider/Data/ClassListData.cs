@@ -269,7 +269,27 @@ namespace DataProvider.Data
             return MsSqlMapperHepler.SqlWithParamsSingle<int>(sb.ToString(), parameters, DBKeys.PRX);
         }
 
+        public static int UpdateClassList(ClassList cls)
+        {
 
+            ///INSERT INTO [PRX].[dbo].[ClassList] ([ClassID], [ClassIndex], [ClassDate], [TimePeriod], [StateID], [TeacherID], [RoomID], [CreateTIme], [CreatorId])
+            ///VALUES (N'CL20170001', '1', '2017-06-15 23:24:28.000', N'2', '1', N'2AB45559B74BAA9962A189CD2D21F478', '1', '2017-06-15 23:25:42.000', N'1');
+            StringBuilder sb = new StringBuilder();
+            sb.Append(" update ClassList set ClassDate=@ClassDate  ");
+            sb.Append(" , TimePeriod=@TimePeriod  ");
+            sb.Append(" , TeacherID=@TeacherID  ");
+            sb.Append(" , RoomID=@RoomID  ");
+            sb.Append(" where ClassID=@ClassID ");
+            sb.Append(" AND ClassIndex=@ClassIndex ");
+            var parameters = new DynamicParameters();
+            parameters.Add("@ClassDate", cls.ClassDate);
+            parameters.Add("@ClassID", cls.ClassID);
+            parameters.Add("@TeacherID", cls.TeacherID);
+            parameters.Add("@RoomID", cls.RoomID);
+            parameters.Add("@ClassIndex", cls.ClassIndex);
+            parameters.Add("@TimePeriod", cls.TimePeriod);
+            return MsSqlMapperHepler.InsertUpdateOrDeleteSql(sb.ToString(), parameters, DBKeys.PRX);
+        }
          
 
     }
