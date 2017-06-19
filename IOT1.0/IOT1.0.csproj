@@ -162,6 +162,7 @@
     <Compile Include="Controllers\Office\OfficeController.cs" />
     <Compile Include="Controllers\Student\StudentController.cs" />
     <Compile Include="Controllers\Teach\ClassesController.cs" />
+    <Compile Include="Controllers\Teach\CurriculumController.cs" />
     <Compile Include="Controllers\Teach\TeachController.cs">
       <SubType>Code</SubType>
     </Compile>

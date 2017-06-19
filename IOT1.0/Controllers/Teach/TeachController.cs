@@ -22,13 +22,6 @@ namespace IOT1._0.Controllers.Teach
         }
 
 
-
-        public ActionResult Curriculum()
-        {
-            return View();
-        }
-
-
         /// <summary>
         /// 教师列表查询
         /// </summary>
@@ -117,7 +110,6 @@ namespace IOT1._0.Controllers.Teach
             return Json(ajax);
 
         }
-
     }
 }
 

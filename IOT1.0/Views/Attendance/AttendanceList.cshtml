@@ -401,21 +401,28 @@
                 //传入参数，并赋值给iframe的元素 
                 var name="班级："+obj.ClassName+"，课时："+obj.TotalLesson;
                 $("#ClassName").text(name);
+                //考勤点名-选择所有学生
+                $("#btn_all_student").on("ifChecked", function (event) {
+                    var check = $("#btn_all_student").is(":checked");
+                    if (check) {
+                        $("[name = chkItem]:checkbox").each(function () {
+                            var t1 = $(this).is(":checked");
+                            var t2 = $(this).parent().parent().parent();
+                            var t3 = t2.find("select");
+                            var v3 = t3.val();
+                            var notSelect = (v3 == null || v3 == "");
+                            if (!t1 & notSelect) {
+                                $(this).iCheck("check");
+                            }
+                        });
+                    }
+                });
             }  
         });
        
     }
     
-    //考勤点名-选择所有学生
-    function checkAllStudent(id) {
-        if ($("#btn_all_student").is(':checked'))
-            $("[name = chkItem]:checkbox").each(function () {
-                if ($(this).is(':checked') == false) {
-                    $(this).prop("checked", true);
-                }
-            });
-            
-    }
+ 
 
 
     //激活日期控件
