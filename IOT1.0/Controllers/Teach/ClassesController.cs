@@ -4,6 +4,7 @@ using DataProvider.Entities;
 using DataProvider.Models;
 using IOT1._0.Models;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -197,6 +198,16 @@ namespace IOT1._0.Controllers.Teach
             if (ClassListData.AddDictionaryItemt(item))//注意时间类型，而且需要在前台把所有的值
             {
                 ajax.msg = "新增成功！";
+
+          
+
+                JObject jsonObj = new JObject();
+                jsonObj.Add("DicItemID", item.DicItemID);
+                jsonObj.Add("DicItemName", item.DicItemName);
+
+                string aa = JsonConvert.SerializeObject(jsonObj);//序列化，不序列化前台获取不到值
+
+                ajax.data = aa; //返回新增加的时钟
                 ajax.status = EnumAjaxStatus.Success;
                
             }
@@ -224,16 +235,17 @@ namespace IOT1._0.Controllers.Teach
                 return Json(ajax);
             }
 
-            Classes Classes = (Classes)(JsonConvert.DeserializeObject(data.ToString(), typeof(Classes)));
-            Date Date = (Date)(JsonConvert.DeserializeObject(data.ToString(), typeof(Date)));
-            ClassList Clas = (ClassList)(JsonConvert.DeserializeObject(data.ToString(), typeof(ClassList)));
+            Weekday Weekday = (Weekday)(JsonConvert.DeserializeObject(data.ToString(), typeof(Weekday))); //星期
+            Classes Classes = (Classes)(JsonConvert.DeserializeObject(data.ToString(), typeof(Classes))); //班级
+            Date Date = (Date)(JsonConvert.DeserializeObject(data.ToString(), typeof(Date)));//时间
+            ClassList Clas = (ClassList)(JsonConvert.DeserializeObject(data.ToString(), typeof(ClassList)));//排课表
             var v= Date.Start_Date;
 
             Clas.StateID = 2;  //状态
             Clas.CreateTIme = DateTime.Now; //创建时间
             Clas.CreatorId = UserSession.userid; //创建人 
 
-            if (ClassListData.AddClassList(Clas, Date,Classes))//注意时间类型，而且需要在前台把所有的值
+            if (ClassListData.AddClassList(Clas, Date,Classes,Weekday))//注意时间类型，而且需要在前台把所有的值
             {
                 ajax.msg = "新增成功！";
                 ajax.status = EnumAjaxStatus.Success;
