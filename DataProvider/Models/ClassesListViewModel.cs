@@ -53,7 +53,7 @@ namespace DataProvider.Models
     }
 
     /// <summary>
-    /// 按钮查询模型对象
+    /// 班级查询模型对象
     /// </summary>
     public class ClassesListSearchModel : CommonPageEntity
     {
