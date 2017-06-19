@@ -644,6 +644,7 @@
         url: '',
         showColumns: false,
         pagination: false,
+        queryParams: queryParams,
         columns: [
         {
             field: 'ID',
@@ -679,6 +680,19 @@
             valign: 'middle'
         }]
     });
+    function queryParams(params) {
+
+        return {
+
+            pageSize: 1,
+
+            pageIndex: 1,
+
+            CourseName: $("#CourseName").val().trim()
+
+        };
+
+    }
 
     //保存或者新增预约
     function save(id) {
@@ -811,44 +825,17 @@
             }
         });
         //获取试听列表
-        function queryParams(params) {
-
-            return {
-
-                pageSize: 1,
-
-                pageIndex: 1,
-
-                CourseName: $("#CourseName").val().trim()
-
-            };
-
-        }
 
         var url = '@Url.Content("~/Enroll/STClassList")';
         //重新刷新
-        $('#followlist').bootstrapTable('refresh', { url: url, queryParams: queryParams });
+        $('#classes').bootstrapTable('refresh', { url: url });
     }
     function QueryClass()
     {
-        //获取试听列表
-        function queryParams(params) {
-
-            return {
-
-                pageSize: 1,
-
-                pageIndex: 1,
-
-                CourseName: $("#CourseName").val().trim()
-
-            };
-
-        }
 
         var url = '@Url.Content("~/Enroll/STClassList")';
         //重新刷新
-        $('#followlist').bootstrapTable('refresh', { url: url, queryParams: queryParams });
+        $('#classes').bootstrapTable('refresh', { url: url });
     }
     //报名
     function baoming(id) {
