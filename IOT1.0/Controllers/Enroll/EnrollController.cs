@@ -142,22 +142,23 @@ namespace IOT1._0.Controllers.Enroll
             return View();
         }
 
-        ///// <summary>
-        /////  按条件查询试听课
-        ///// </summary>
-        ///// <returns></returns>
-        //public ActionResult STClassList()
-        //{
-        //    AjaxStatusModel ajax = new AjaxStatusModel();
-        //    ajax.status = EnumAjaxStatus.Error;//默认失败
-        //    ajax.msg = "获取失败！";//前台获取，用于显示提示信息
-        //    var data = Request["data"];//获取前台传递的数据，主要序列化
-        //    STSearchModel search = (STSearchModel)(JsonConvert.DeserializeObject(data.ToString(), typeof(STSearchModel)));//序列化吃查询模型
-        //    search.CurrentPage = Convert.ToInt32(Request["pageindex"]) <= 0 ? 1 : Convert.ToInt32(Request["pageindex"]);//当前页
-        //    List<FollowRecord> FollowList = AppointmentData.GetFollowListByAPID();
-        //    ajax.data = FollowList;
-        //    return Json(new { total = 1, rows = FollowList, state = true, msg = "加载成功" }, JsonRequestBehavior.AllowGet);
-        //}
+        /// <summary>
+        ///  按条件查询试听课
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult STClassList()
+        {
+            AjaxStatusModel ajax = new AjaxStatusModel();
+            ajax.status = EnumAjaxStatus.Error;//默认失败
+            ajax.msg = "获取失败！";//前台获取，用于显示提示信息
+            var data = Request["data"];//获取前台传递的数据，主要序列化
+            ClassesListSearchModel search = (ClassesListSearchModel)(JsonConvert.DeserializeObject(data.ToString(), typeof(ClassesListSearchModel)));//序列化吃查询模型
+            search.CurrentPage = Convert.ToInt32(Request["pageindex"]) <= 0 ? 1 : Convert.ToInt32(Request["pageindex"]);//当前页
+            search.PageSize = 99999;//不想分页就设置成一个较大的值
+            List<vw_Classes> vw_Classes = ClassesData.GeClassesList(search);
+            ajax.data = vw_Classes;
+            return Json(new { total = 1, rows = vw_Classes, state = true, msg = "加载成功" }, JsonRequestBehavior.AllowGet);
+        }
 
     }
 }

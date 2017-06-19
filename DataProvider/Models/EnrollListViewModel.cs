@@ -36,7 +36,7 @@ namespace DataProvider.Models
        /// <summary>
        /// 试听查询模型
        /// </summary>
-       public STSearchModel STSearch { get; set; }
+       public ClassesListSearchModel STSearch { get; set; }
     }
 
    public class EnrollListSearchModel : CommonPageEntity
@@ -51,24 +51,5 @@ namespace DataProvider.Models
        public string ApTel { set; get; }
 
    }
-    /// <summary>
-    /// 用于试听的查询模型
-    /// </summary>
 
-   public class STSearchModel : CommonPageEntity
-   {
-       /// <summary>
-       /// 课程名称
-       /// </summary>
-       public string CourseName { set; get; }
-       /// <summary>
-       /// 开始时间
-       /// </summary>
-       public DateTime? StartTime { set; get; }
-       /// <summary>
-       /// 结束时间
-       /// </summary>
-
-       public DateTime? EndTime { set; get; }
-   }
 }
