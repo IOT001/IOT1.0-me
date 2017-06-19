@@ -254,7 +254,19 @@ namespace IOT1._0.Controllers.Teach
         }
 
 
-
+        /// <summary>
+        /// 分配按钮查询
+        /// </summary>
+        /// <param name="apid"></param>
+        /// <returns></returns>
+        public JsonResult GetClassesByClassID(string StudentID, string name)
+        {
+            AjaxStatusModel ajax = new AjaxStatusModel();//功能操作类的返回类型都是AjaxStatusModel，数据放到AjaxStatusModel.data中，前台获取json后加载
+            ajax.status = EnumAjaxStatus.Error;//默认失败
+            List<FollowRecord> FollowList = ClassesData.GetClassesByClassID(StudentID, name);
+            ajax.data = FollowList;
+            return Json(new { total = 1, rows = FollowList, state = true, msg = "加载成功" }, JsonRequestBehavior.AllowGet);
+        }
 
 
     }
