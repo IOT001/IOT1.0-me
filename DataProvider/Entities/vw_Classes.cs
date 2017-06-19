@@ -13,15 +13,18 @@ namespace DataProvider.Entities
     {
         public string ID { get; set; }
         public string ClassName { get; set; }
-        public string CourseID { get; set; }
+        public string CourseName { get; set; }
+        public int CourseID { get; set; }
         public string TeachTypeID { get; set; }
         public string Enroll { get; set; } 
         public string Lesson { get; set; } 
         public Nullable<System.DateTime> StartTime { get; set; }
         public Nullable<System.DateTime> EndTime { get; set; }
-        public string TimePeriod { get; set; }
-        public string StateID { get; set; }
-        public string RoomID { get; set; }
+        public string TimePeriod { get; set; } 
+        public string StateIDname { get; set; }
+        public int StateID { get; set; }
+        public int RoomID { get; set; } 
+        public string RoomIDname { get; set; }
         public string TeacherID { get; set; }
         public string name { get; set; } 
         public string CreatorId { get; set; }
