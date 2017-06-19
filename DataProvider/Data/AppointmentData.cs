@@ -90,5 +90,25 @@ namespace DataProvider.Data
 
             return MsSqlMapperHepler.SqlWithParams<FollowRecord>(sql, parameters, DBKeys.PRX);
         }
+
+        /// <summary>
+        /// 新增跟进记录
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public static bool AddFollow(FollowRecord obj)
+        {
+            bool ret = false;
+            try
+            {
+                MsSqlMapperHepler.Insert<FollowRecord>(obj, DBKeys.PRX);
+                ret = true;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return ret;
+        }
     }
 }

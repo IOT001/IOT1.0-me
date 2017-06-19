@@ -73,7 +73,7 @@
                                         <td>@m.IsJoin</td>
                                         <td>@m.APRemark</td>
                                         <td>
-                                            <a href="javascript:follow(1)" class="btn btn-primary btn-xs" type="button"><i class="fa fa-edit"></i> 跟进</a>
+                                            <a href="javascript:follow('@m.ID')" class="btn btn-primary btn-xs" type="button"><i class="fa fa-edit"></i> 跟进</a>
                                             <a href="javascript:shiting(1)" class="btn btn-primary btn-xs" type="button"><i class="fa fa-edit"></i> 试听</a>
                                             <a href="javascript:jiaru(1)" class="btn btn-primary btn-xs" type="button"><i class="fa fa-edit"></i> 加入</a>
                                             <a href="javascript:baoming(1)" class="btn btn-primary btn-xs" type="button"><i class="fa fa-edit"></i> 报名</a>
@@ -109,215 +109,7 @@
 
     </div>
 </div>
-<script src="~/Scripts/assets/js/plugins/bootstrap-table/bootstrap-table.min.js"></script>
-<script src="~/Scripts/assets/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
-<script type="text/javascript">
 
-    //判断页面是否有回车操作
-    window.document.onkeydown = function (e) {
-        e = e || window.event;
-        if (e.keyCode == 13 || e.keyCode == 108) {
-            document.getElementById('frmQuery').submit();
-        }
-    }
-    //保存或者新增预约
-    function save(id) {
-        var obj = new Object;
-        if (id) {//有ID就是修改模式，没有就是新增模式
-            obj.ID = id;
-        }
-        obj.ApName = $("#ApName").val().trim();
-        if (!obj.ApName) {
-            layer.msg("请输入姓名！");
-            return false;
-        }
-        obj.ApName = $("#ApName").val().trim();//赋值必须和数据库字段对应
-        obj.ApTel = $("#ApTel").val().trim();
-        obj.APLinkMan = $("#APLinkMan").val().trim();
-        obj.APGrade = $("#APGrade").val().trim();
-        obj.APRemark = $("#APRemark").val().trim();
-        var action = '';
-        if (id) {//有ID就是修改模式，没有就是新增模式
-            action = '@Url.Action("SaveAppointment", "Enroll")';
-        }
-        else { action = '@Url.Action("AddAppointment", "Enroll")' }
-        $.post(action, {
-            "data": JSON.stringify(obj)//序列化对象
-        }, function (json) {
-            if (json.status = 200) {//成功
-
-                layer.msg(json.msg);//弹出服务器返回的消息
-                setTimeout(function () {//操作
-                    layer.closeAll();//关闭所有层
-                    window.location.reload(); //刷新
-                }, 3000);
-            }
-        }, 'json');
-    }
-
-
-    //点击列表的编辑按钮，编辑操作
-    function modify(id) {
-        cleanData("buttoninfo");
-        layer.open({
-            type: 1,
-            title: "<h3 class='ibox-title'>编辑按钮</h3>",
-            area: ['680px', '400px'],
-            content: $('#buttoninfo'),
-            btn: ['保存', '取消'],
-            yes: function () {
-                save(id);
-            },
-            cancel: function (index) {
-                layer.close(index);
-            }
-        });
-
-        if (id) {//提供存着ID就是修改，则加载数据，不然打开空页面
-            var loadindex = layer.load();
-            loaddetail(id, loadindex)
-        }
-    }
-    //跟进
-    function follow(id) {
-        cleanData("follow");//清空数据
-        layer.open({
-            type: 1,
-            title: "<h3 class='ibox-title'>用户跟进</h3>",
-            area: ['680px', '400px'],
-            content: $('#follow'),
-            btn: ['保存', '取消'],
-            yes: function () {
-
-            },
-            cancel: function (index) {
-                layer.close(index);
-            }
-        });
-        //配置下拉控件chosen
-        $(".chosen-select").chosen({
-            no_results_text: "未找到此选项!",
-            search_contains: true,
-            width: '100%'
-        });
-        //获取跟进记录
-            //获取之前先清空数据
-
-        var url = '@Url.Content("~/Enroll/GetFollowListByAPID")' + '?apid=' + id;
-
-                $('#followlist').bootstrapTable({
-                    method: 'POST',
-                    dataType: 'json',
-                    contentType: "application/x-www-form-urlencoded",
-                    cache: false,
-                    striped: true,                              //是否显示行间隔色
-                    sidePagination: "server",           //分页方式：client客户端分页，server服务端分页（*）
-                    url: url,
-                    showColumns: false,
-                    pagination: true,
-                    uniqueId: "id",                     //每一行的唯一标识，一般为主键列
-                    columns: [
-                    {
-                        field: '',
-                        title: '序号',
-                        formatter: function (value, row, index) {
-                            return index + 1;
-                        }
-                    },
-                    {
-                        field: 'id',
-                        title: 'ID号',
-                        align: 'center',
-                        valign: 'middle',
-                        sortable: true
-                    }, {
-                        field: 'Remark',
-                        title: '备注',
-                        align: 'center',
-                        valign: 'middle',
-                        sortable: true
-                    }, {
-                        field: 'FollowTime',
-                        title: '跟进时间',
-                        align: 'center',
-                        valign: 'middle'
-                    }]
-                });
-
-    }
-    //试听
-    function shiting(id) {
-        cleanData("shiting");//清空数据
-        layer.open({
-            type: 1,
-            title: "<h3 class='ibox-title'>安排试听</h3>",
-            area: ['1000px', '600px'],
-            content: $('#shiting'),
-            btn: ['保存', '取消'],
-            yes: function () {
-
-            },
-            cancel: function (index) {
-                layer.close(index);
-            }
-        });
-
-    }
-    //报名
-    function baoming(id) {
-        // cleanData("baoming");//清空数据
-        layer.open({
-            type: 1,
-            title: "<h3 class='ibox-title'>报名</h3>",
-            area: ['1000px', '600px'],
-            content: $('#baoming'),
-            btn: ['结算', '取消'],
-            yes: function () {
-
-            },
-            cancel: function (index) {
-                layer.close(index);
-            }
-        });
-    }
-
-    //加入
-    function jiaru(id) {
-        // cleanData("baoming");//清空数据
-        layer.open({
-            type: 1,
-            title: "<h3 class='ibox-title'>成为正式学员</h3>",
-            area: ['800px', '600px'],
-            content: $('#jiaru'),
-            btn: ['成为正式学员', '取消'],
-            yes: function () {
-
-            },
-            cancel: function (index) {
-                layer.close(index);
-            }
-        });
-    }
-    //票据
-    function piaoju(id) {
-        //iframe窗
-        parent.layer.open({
-            type: 2,
-            title: "票据打印",
-            closeBtn: false,
-            shade: [0],
-            area: ['800px', '600px'],
-            //maxmin: true, //开启最大化最小化按钮
-            content: ['@Url.Action("InvoicePrint", "Enroll")'], //iframe的url，no代表不显示滚动条
-            cancel: function () {
-                layer.closeAll();
-            }
-        });
-
-
-    }
-
-</script>
 @*弹出层，新增报名*@
 <div class="ibox float-e-margins" id="buttoninfo" style="display:none">
     <div class="ibox-content">
@@ -374,7 +166,7 @@
             <div class="form-group">
                 <label class="col-sm-3 control-label">备注：</label>
                 <div class="col-sm-8">
-                    <textarea placeholder="备注" class="form-control" id="BTN_Desc"></textarea>
+                    <textarea placeholder="备注" class="form-control" id="FollowRecordForADD_Remark"></textarea>
                 </div>
             </div>
             <div class="form-group">
@@ -483,7 +275,7 @@
                                 <td>10/12</td>
                                 <td></td>
                                 <td>
-                                    <a href="javascript:follow(1)" class="btn btn-primary btn-xs" type="button"><i class="fa fa-edit"></i> 安排</a>
+                                    <a href="javascript:follow()" class="btn btn-primary btn-xs" type="button"><i class="fa fa-edit"></i> 安排</a>
                                 </td>
                             </tr>
                         </tbody>
@@ -785,3 +577,250 @@
         </form>
     </div>
 </div>
+
+@*用bootstrap-table需要引入*@
+<script src="~/Scripts/assets/js/plugins/bootstrap-table/bootstrap-table.min.js"></script>
+<script src="~/Scripts/assets/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+<script type="text/javascript">
+
+    //判断页面是否有回车操作
+    window.document.onkeydown = function (e) {
+        e = e || window.event;
+        if (e.keyCode == 13 || e.keyCode == 108) {
+            document.getElementById('frmQuery').submit();
+        }
+    }
+    //初始化bootstrapTable,不能放在follow方法内，不然非常消耗内存，而且会多次进入后台
+    $('#followlist').bootstrapTable({
+        method: 'POST',
+        dataType: 'json',
+        contentType: "application/x-www-form-urlencoded",
+        cache: false,
+        striped: true,                              //是否显示行间隔色
+        sidePagination: "server",           //分页方式：client客户端分页，server服务端分页（*）
+        url: '',
+        showColumns: false,
+        pagination: true,
+        uniqueId: "id",                     //每一行的唯一标识，一般为主键列
+        columns: [
+        {
+            field: '',
+            title: '序号',
+            formatter: function (value, row, index) {
+                return index + 1;
+            }
+        },
+        {
+            field: 'ID',
+            title: 'ID号',
+            align: 'center',
+            valign: 'middle',
+            sortable: true
+        }, {
+            field: 'Remark',
+            title: '备注',
+            align: 'center',
+            valign: 'middle',
+            sortable: true
+        }, {
+            field: 'FollowTime',
+            title: '跟进时间',
+            align: 'center',
+            valign: 'middle',
+            formatter: function (value, row, index) {//用于格式化数据
+                return ChangeDateFormat(value);//调用模板页的通用方法格式化时间
+            }
+        }]
+    });
+
+    //保存或者新增预约
+    function save(id) {
+        var obj = new Object;
+        if (id) {//有ID就是修改模式，没有就是新增模式
+            obj.ID = id;
+        }
+        obj.ApName = $("#ApName").val().trim();
+        if (!obj.ApName) {
+            layer.msg("请输入姓名！");
+            return false;
+        }
+        obj.ApName = $("#ApName").val().trim();//赋值必须和数据库字段对应
+        obj.ApTel = $("#ApTel").val().trim();
+        obj.APLinkMan = $("#APLinkMan").val().trim();
+        obj.APGrade = $("#APGrade").val().trim();
+        obj.APRemark = $("#APRemark").val().trim();
+        var action = '';
+        if (id) {//有ID就是修改模式，没有就是新增模式
+            action = '@Url.Action("SaveAppointment", "Enroll")';
+        }
+        else { action = '@Url.Action("AddAppointment", "Enroll")' }
+        $.post(action, {
+            "data": JSON.stringify(obj)//序列化对象
+        }, function (json) {
+            if (json.status = 200) {//成功
+
+                layer.msg(json.msg);//弹出服务器返回的消息
+                setTimeout(function () {//操作
+                    layer.closeAll();//关闭所有层
+                    window.location.reload(); //刷新
+                }, 3000);
+            }
+        }, 'json');
+    }
+
+
+    //点击列表的编辑按钮，编辑操作
+    function modify(id) {
+        cleanData("buttoninfo");
+        layer.open({
+            type: 1,
+            title: "<h3 class='ibox-title'>编辑按钮</h3>",
+            area: ['680px', '400px'],
+            content: $('#buttoninfo'),
+            btn: ['保存', '取消'],
+            yes: function () {
+                save(id);
+            },
+            cancel: function (index) {
+                layer.close(index);
+            }
+        });
+
+        if (id) {//提供存着ID就是修改，则加载数据，不然打开空页面
+            var loadindex = layer.load();
+            loaddetail(id, loadindex)
+        }
+    }
+    //跟进
+    function follow(apid) {
+        cleanData("follow");//清空数据
+        layer.open({
+            type: 1,
+            title: "<h3 class='ibox-title'>用户跟进</h3>",
+            area: ['680px', '400px'],
+            content: $('#follow'),
+            btn: ['保存', '取消'],
+            yes: function () {
+                addFollow(apid);//新增跟进记录
+            },
+            cancel: function (index) {
+                layer.close(index);
+            }
+        });
+        //配置下拉控件chosen
+        $(".chosen-select").chosen({
+            no_results_text: "未找到此选项!",
+            search_contains: true,
+            width: '100%'
+        });
+        //获取跟进记录
+        //获取之前先清空数据
+        //$('#followlist').bootstrapTable("removeAll");
+        var url = '@Url.Content("~/Enroll/GetFollowListByAPID")' + '?apid=' + apid;
+
+
+        //重新刷新
+        $('#followlist').bootstrapTable('refresh', { url: url });
+    }
+    //新增跟进记录
+    function addFollow(APID) {
+        var obj = new Object;
+
+        if (!APID) {
+            layer.msg("请选择预约单！");
+            return false;
+        }
+        obj.APID = APID;//预约单号
+        obj.FollowTypeID = $("#FollowRecordForADD_FollowTypeID").val().trim();//跟进方式,要找到jquery元素的ID，通过浏览器右键查看
+        obj.IntenID = $("#FollowRecordForADD_IntenID").val().trim();//意向
+        obj.Remark = $("#FollowRecordForADD_Remark").val().trim();//备注，这个没用mvc表达构建器，元素ID是自己写的
+        var action = '@Url.Action("AddFollow", "Enroll")';
+
+        $.post(action, {
+            "data": JSON.stringify(obj)//序列化对象
+        }, function (json) {
+            if (json.status = 200) {//成功
+
+                layer.msg(json.msg);//弹出服务器返回的消息
+                setTimeout(function () {//操作
+                    layer.closeAll();//关闭所有层
+                    window.location.reload(); //刷新
+                }, 3000);
+            }
+        }, 'json');
+    }
+
+
+    //试听
+    function shiting(id) {
+        cleanData("shiting");//清空数据
+        layer.open({
+            type: 1,
+            title: "<h3 class='ibox-title'>安排试听</h3>",
+            area: ['1000px', '600px'],
+            content: $('#shiting'),
+            btn: ['保存', '取消'],
+            yes: function () {
+
+            },
+            cancel: function (index) {
+                layer.close(index);
+            }
+        });
+
+    }
+    //报名
+    function baoming(id) {
+        // cleanData("baoming");//清空数据
+        layer.open({
+            type: 1,
+            title: "<h3 class='ibox-title'>报名</h3>",
+            area: ['1000px', '600px'],
+            content: $('#baoming'),
+            btn: ['结算', '取消'],
+            yes: function () {
+
+            },
+            cancel: function (index) {
+                layer.close(index);
+            }
+        });
+    }
+
+    //加入
+    function jiaru(id) {
+        // cleanData("baoming");//清空数据
+        layer.open({
+            type: 1,
+            title: "<h3 class='ibox-title'>成为正式学员</h3>",
+            area: ['800px', '600px'],
+            content: $('#jiaru'),
+            btn: ['成为正式学员', '取消'],
+            yes: function () {
+
+            },
+            cancel: function (index) {
+                layer.close(index);
+            }
+        });
+    }
+    //票据
+    function piaoju(id) {
+        //iframe窗
+        parent.layer.open({
+            type: 2,
+            title: "票据打印",
+            closeBtn: false,
+            shade: [0],
+            area: ['800px', '600px'],
+            //maxmin: true, //开启最大化最小化按钮
+            content: ['@Url.Action("InvoicePrint", "Enroll")'], //iframe的url，no代表不显示滚动条
+            cancel: function () {
+                layer.closeAll();
+            }
+        });
+
+
+    }
+
+</script>
