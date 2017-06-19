@@ -261,7 +261,7 @@ function cleanData(container) {
     $("div[type=ComboBox]").each(function () {//清除combobox控件
         this.clean();
     });
-    $("table[type=grid]").each(function () {//清除flexigrid控件
+    $("table").each(function () {//清除flexigrid控件
         $(this).removeData();
     });
 }

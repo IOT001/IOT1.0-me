@@ -14,7 +14,7 @@ namespace DataProvider.Entities
         /// <summary>
         /// 课程主键自增
         /// </summary>
-        public virtual int ID
+        public  int ID
         {
             get;
             set;
@@ -22,7 +22,7 @@ namespace DataProvider.Entities
         /// <summary>
         /// 课程名称
         /// </summary>
-        public virtual string CourseName
+        public  string CourseName
         {
             get;
             set;
@@ -30,7 +30,7 @@ namespace DataProvider.Entities
         /// <summary>
         /// 课程预计费用
         /// </summary>
-        public virtual decimal CoursePrice
+        public  decimal CoursePrice
         {
             get;
             set;
@@ -38,7 +38,7 @@ namespace DataProvider.Entities
         /// <summary>
         /// 课程状态，字典表
         /// </summary>
-        public virtual int StateID
+        public  int StateID
         {
             get;
             set;
@@ -46,20 +46,20 @@ namespace DataProvider.Entities
         /// <summary>
         /// 课程状态名称
         /// </summary>
-        public virtual string StateName { get; set; }
+        public  string StateName { get; set; }
         /// <summary>
         /// 授课方式
         /// </summary>
-        public virtual int TypeID { get; set; }
+        public  int TypeID { get; set; }
        /// <summary>
        /// 授课方式名称
        /// </summary>
-        public virtual string TypeName { get; set; }
+        public  string TypeName { get; set; }
 
         /// <summary>
         /// 课时数
         /// </summary>
-        public virtual int Hours
+        public  int Hours
         {
             get;
             set;
@@ -67,7 +67,7 @@ namespace DataProvider.Entities
         /// <summary>
         /// 课程介绍
         /// </summary>
-        public virtual string Introduce
+        public  string Introduce
         {
             get;
             set;

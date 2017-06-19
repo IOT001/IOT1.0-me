@@ -101,6 +101,31 @@ namespace IOT1._0.Controllers.Enroll
             return Json(new { total = 1, rows = FollowList, state = true, msg = "加载成功" }, JsonRequestBehavior.AllowGet);
         }
         /// <summary>
+        /// 新增跟进记录
+        /// </summary>
+        /// <returns></returns>
+        public JsonResult AddFollow()
+        {
+            AjaxStatusModel ajax = new AjaxStatusModel();//功能操作类的返回类型都是AjaxStatusModel，数据放到AjaxStatusModel.data中，前台获取json后加载
+            ajax.status = EnumAjaxStatus.Error;//默认失败
+            ajax.msg = "新增失败！";//前台获取，用于显示提示信息
+            var data = Request["data"];//获取前台传递的数据，主要序列化
+            if (string.IsNullOrEmpty(data))
+            {
+                return Json(ajax);
+            }
+            FollowRecord obj = (FollowRecord)(JsonConvert.DeserializeObject(data.ToString(), typeof(FollowRecord)));
+            obj.FollowTime = DateTime.Now;
+            obj.FollowPersonID = UserSession.userid;
+            if (AppointmentData.AddFollow(obj))//注意时间类型
+            {
+                ajax.msg = "新增成功！";
+                ajax.status = EnumAjaxStatus.Success;
+            }
+            return Json(ajax);
+        }
+
+        /// <summary>
         /// 回访记录
         /// </summary>
         /// <returns></returns>
@@ -116,5 +141,23 @@ namespace IOT1._0.Controllers.Enroll
         {
             return View();
         }
+
+        ///// <summary>
+        /////  按条件查询试听课
+        ///// </summary>
+        ///// <returns></returns>
+        //public ActionResult STClassList()
+        //{
+        //    AjaxStatusModel ajax = new AjaxStatusModel();
+        //    ajax.status = EnumAjaxStatus.Error;//默认失败
+        //    ajax.msg = "获取失败！";//前台获取，用于显示提示信息
+        //    var data = Request["data"];//获取前台传递的数据，主要序列化
+        //    STSearchModel search = (STSearchModel)(JsonConvert.DeserializeObject(data.ToString(), typeof(STSearchModel)));//序列化吃查询模型
+        //    search.CurrentPage = Convert.ToInt32(Request["pageindex"]) <= 0 ? 1 : Convert.ToInt32(Request["pageindex"]);//当前页
+        //    List<FollowRecord> FollowList = AppointmentData.GetFollowListByAPID();
+        //    ajax.data = FollowList;
+        //    return Json(new { total = 1, rows = FollowList, state = true, msg = "加载成功" }, JsonRequestBehavior.AllowGet);
+        //}
+
     }
 }
