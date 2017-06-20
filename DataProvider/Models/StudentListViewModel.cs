@@ -23,7 +23,7 @@ namespace DataProvider.Models
         public PagedList<vw_Students> Studentlist { get; set; }
 
         /// <summary>
-        /// 按钮下拉框，演示用
+        ///下拉框  
         /// </summary>
         public List<SelectListItem> SourceIL { get; set; } 
 

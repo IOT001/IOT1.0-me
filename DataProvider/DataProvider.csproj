@@ -94,22 +94,27 @@
     <Compile Include="Data\ButtonData.cs" />
     <Compile Include="Data\CommonData.cs" />
     <Compile Include="Data\CourseData.cs" />
+    <Compile Include="Data\DiscountData.cs" />
     <Compile Include="Data\StudentData.cs" />
     <Compile Include="Data\TeacherData.cs" />
     <Compile Include="Data\ClassesData.cs" />
     <Compile Include="Data\ClassListData.cs" />
+    <Compile Include="Data\MessageData.cs" />
     <Compile Include="DPBase.cs" />
     <Compile Include="Entities\Appointment.cs" />
     <Compile Include="Entities\AttendanceRecord.cs" />
     <Compile Include="Entities\ClassList.cs" />
     <Compile Include="Entities\Course.cs" />
     <Compile Include="Entities\DictionaryItem.cs" />
+    <Compile Include="Entities\Discount.cs" />
     <Compile Include="Entities\Enroll.cs" />
     <Compile Include="Entities\FollowRecord.cs" />
+    <Compile Include="Entities\Message.cs" />
     <Compile Include="Entities\Students.cs" />
     <Compile Include="Entities\SYSButton.cs" />
     <Compile Include="Entities\Teachers.cs" />
     <Compile Include="Entities\vw_Classes.cs" />
+    <Compile Include="Entities\vw_Discount.cs" />
     <Compile Include="Entities\vw_StudentEvaluate.cs" />
     <Compile Include="Entities\vw_Students.cs" />
     <Compile Include="Entities\Classes.cs" />
@@ -125,6 +130,8 @@
     <Compile Include="Models\TeacherViewModel.cs" />
     <Compile Include="Models\ClassesListViewModel.cs" />
     <Compile Include="Entities\vw_ClassAttendanceList.cs" />
+    <Compile Include="Models\DiscountListViewModel.cs" />
+    <Compile Include="Models\MessageListViewModel.cs" />
     <Compile Include="NERP.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

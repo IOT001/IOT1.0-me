@@ -3,7 +3,7 @@
 @{
     ViewBag.Title = "优惠管理";
 }
-@model ButtonListViewModel
+@model DiscountListViewModel
 @section styles{
     <style type="text/css">
     </style>
@@ -22,7 +22,7 @@
                                 <label class="control-label">优惠名称：</label>
                             </div>
                             <div class="col-sm-4">
-                                <input type="text" class="form-control input-sm">
+                                @Html.TextBoxFor(t => t.search.Name, new { @class = "form-control input-sm", @type = "text", @placeholder = "请输入优惠名称" })
                             </div>
                         </div>
                         <div class="form-group">
@@ -48,51 +48,79 @@
                                 <th>满足条件</th>
                                 <th>是否启用</th>
                                 <th>创建日期</th>
+                                <th>备注</th>
                                 <th>操作</th>
                             </tr>
                         </thead>
                         <!-- 循环数据 -->
-                        <tbody>
-                            <!-- 测试数据 -->
-                            <tr>
-                                <td>老学员优惠</td>
-                                <td>2017-01-03～2017-10-10</td>
-                                <td>减免</td>
-                                <td>-</td>
-                                <td>100</td>
-                                <td>老学员报名</td>
-                                <td>是</td>
-                                <td>2017-09-03</td>
-                                <td>
-                                    <a href="javascript:" class="btn btn-primary btn-xs" type="button"><i class="fa fa-edit"></i> 编辑</a>
-                                    <a href="javascript:" class="btn btn-primary btn-xs" type="button"><i class="fa fa-adjust"></i> 停用</a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>新春优惠</td>
-                                <td>2017-02-03～2017-10-10</td>
-                                <td>折扣</td>
-                                <td>9.0</td>
-                                <td>-</td>
-                                <td>新春内有效</td>
-                                <td>是</td>
-                                <td>2017-01-03</td>
-                                <td>
-                                    <a href="javascript:" class="btn btn-primary btn-xs" type="button"><i class="fa fa-edit"></i> 编辑</a>
-                                    <a href="javascript:" class="btn btn-primary btn-xs" type="button"><i class="fa fa-adjust"></i> 停用</a>
-                                </td>
-                            </tr>
-                            <!-- 测试数据 -->
+                     <tbody>
+
+                            @if (Model != null && Model.Discountlist.Count() > 0)
+                            {
+                                foreach (var m in Model.Discountlist)
+                                {
+                                    <tr>
+                                        <td class="jz">@m.DiscountName</td> 
+                                        <td>@m.BeginTime ～ @m.EndTime</td> 
+                                        <td>@m.DiscountTypeIDName</td>
+                                        @if (@m.DiscountTypeID == 1) 
+                                        {
+                                           <td> @m.DiscountRate</td>@*其中如果优惠方式是“减免”，则“折扣”字段显示‘-’，数据库存NULL，反之一样*@
+                                        }
+                                        else
+                                        {
+                                             <td>-</td>
+                                        } 
+                                        @if (@m.DiscountTypeID == 2)
+                                        {
+                                           <td>@m.ReduceAmount</td>@*其中如果优惠方式是“减免”，则“折扣”字段显示‘-’，数据库存NULL，反之一样*@
+                                        }
+                                        else
+                                        {
+                                             <td>-</td>
+                                        }
+                                        <td>@m.Condition</td>
+                                        @if (m.StateID == 1)
+                                        { 
+                                            <td>是</td>
+                                        }
+                                        else
+                                        {
+                                            <td>否</td> 
+                                        }
+                                        <td>@m.CreateTime</td>
+                                        <td>@m.Remarks</td>
+                                        <td>
+                                            <a href="javascript:modify('@m.ID');" class="btn btn-primary btn-xs" type="button"><i class="fa fa-edit"></i> 编辑</a>
+                                            @if (m.StateID == 2)
+                                            {
+                                                 <a href="javascript:Enable('@m.ID');" class="btn btn-primary btn-xs" type="button"><i class="fa fa-edit"></i> 启用</a>
+                                          
+                                            }
+                                            else 
+                                            {
+                                               <a href="javascript:Disable('@m.ID');" class="btn btn-primary btn-xs" type="button"><i class="fa fa-edit"></i> 停用</a>
+                                            }
+                                           
+
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr><td colspan="10" style="text-align:center; color:red;">未查询到数据,请更换查询条件试试!</td></tr>
+                            }
                         </tbody>
 
                     </table>
-                    @if (Model != null && Model.buttonlist.TotalPageCount > 0)
+                    @if (Model != null && Model.Discountlist.TotalPageCount > 0)
                     {
                         <div class="row">
-                            <div class="dataTables_info col-sm-6">每页显示 @Model.search.PageSize 条，共<span>@Model.buttonlist.TotalItemCount</span>条数据</div>
+                            <div class="dataTables_info col-sm-6">每页显示 @Model.search.PageSize 条，共<span>@Model.Discountlist.TotalItemCount</span>条数据</div>
                             <div class="col-sm-6">
 
-                                @Html.Pager(Model.buttonlist, new PagerOptions(), "", new RouteValueDictionary {
+                                @Html.Pager(Model.Discountlist, new PagerOptions(), "", new RouteValueDictionary {
                                    { "pageindex",  Model.search.CurrentPage },
                                    { "pagesize", ViewBag.PageSize }
                                }, null)
@@ -115,29 +143,31 @@
                 <div class="form-group">
                     <label class="col-sm-3 control-label">优惠名称：</label>
                     <div class="col-sm-8">
-                        <input type="text" placeholder="请输入优惠名称..." class="form-control" id="ApName">
+                        <input type="text" placeholder="请输入优惠名称..." class="form-control" id="DiscountName">
+                    </div>
+                </div>
+                           <div class="form-group">
+                    <label class="col-sm-3 control-label">优惠条件：</label>
+                    <div class="col-sm-8">
+                        <input type="text" placeholder="请输入优惠条件..." class="form-control" id="Condition">
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-3 control-label">优惠方式：</label>
                     <div class="col-sm-8">
-                        <select data-placeholder="请选择优惠方式..." class="form-control" style="width:100%" id="discounttype">
-                            <option value="">请选择...</option>
-                            <option value="1">已折扣方式</option>
-                            <option value="2">已减免金额方式</option>
-                        </select>
+                     @Html.DropDownListFor(t => t.search.DiscountTypeID, Model.SourceIL, new { @class = "form-control input-sm chosen-select", @style = "width:100%;height:100%;", @tabindex = "4",@id="DiscountTypeID"})
                     </div> 
                 </div>
                 <div class="form-group" id="zk">
                     <label class="col-sm-3 control-label">折扣率：</label>
                     <div class="col-sm-8">
-                        <input type="text" placeholder="请输入折扣率" class="form-control" id="APLinkMan">
+                        <input type="text" placeholder="请输入折扣率" class="form-control" id="DiscountRate">
                     </div>
                 </div>
                 <div class="form-group" id="jm">
                     <label class="col-sm-3 control-label">减免金额：</label>
                     <div class="col-sm-8">
-                        <input type="text" placeholder="请输入减免金额数" class="form-control" id="APGrade">
+                        <input type="text" placeholder="请输入减免金额数" class="form-control" id="ReduceAmount">
                     </div>
                 </div>
                 <div class="form-group">          
@@ -146,13 +176,13 @@
                         <div class="col-sm-4">
                             <div class="input-group date">
                                 <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                <input type="text" class="form-control input-sm" value="2014-11-11">
+                                <input type="text" class="form-control input-sm" id="BeginTime">
                             </div>
                         </div>
                         <div class="col-sm-4">
                             <div class="input-group date">
                                 <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                <input type="text" class="form-control input-sm" value="2014-11-11">
+                                <input type="text" class="form-control input-sm" id="EndTime">
                             </div>
 
                         </div>
@@ -162,7 +192,7 @@
                 <div class="form-group">
                     <label class="col-sm-3 control-label">备注：</label>
                     <div class="col-sm-8">
-                        <textarea placeholder="备注" class="form-control" id="APRemark"></textarea>
+                        <textarea placeholder="备注" class="form-control" id="Remarks"></textarea>
                     </div>
                 </div>
             </form>
@@ -175,7 +205,7 @@
         layer.open({
             type: 1,
             title: "<h3 class='ibox-title'>优惠</h3>",
-            area: ['680px', '400px'],
+            area: ['680px', '450px'],
             content: $('#discount'),
             btn: ['保存', '取消'],
             yes: function () {
@@ -191,13 +221,163 @@
             loaddetail(id, loadindex)
         }
     }
-    $("#discounttype").change(function () {
+    $("#DiscountTypeID").change(function () {
         changeDiscountType();
     });
 
 
+
+    //是否启用
+    function Enable(id) {
+        if (confirm("是否重新启用优惠？")) {
+            var obj = new Object;
+            obj.ID = id;
+            obj.StateID = 1;
+
+            action = '@Url.Action("SaveDiscount", "Finance")' 
+        $.post(action, {
+            "data": JSON.stringify(obj)//序列化对象
+        }, function (json) {
+            if (json.status = 200) {//成功
+
+                layer.msg(json.msg);//弹出服务器返回的消息
+                setTimeout(function () {//操作
+                    layer.closeAll();//关闭所有层
+                    window.location.reload(); //刷新
+                }, 3000);
+            }
+        }, 'json');
+        }
+    }
+
+    //是否启用
+    function Disable(id) {
+        if (confirm("是否要停用优惠政策？")) {
+            var obj = new Object;
+            obj.ID = id;
+            obj.StateID = 2;
+
+            action = '@Url.Action("SaveDiscount", "Finance")' 
+            $.post(action, {
+                "data": JSON.stringify(obj)//序列化对象
+            }, function (json) {
+                if (json.status = 200) {//成功
+
+                    layer.msg(json.msg);//弹出服务器返回的消息
+                    setTimeout(function () {//操作
+                        layer.closeAll();//关闭所有层
+                        window.location.reload(); //刷新
+                    }, 3000);
+                }
+            }, 'json');
+        }
+         
+    }
+    
+
+
+    function loaddetail(id, loadindex) {
+        $.ajax({
+            url: '@Url.Action("GetDiscountID", "Finance")',
+            type: "post",
+            data: { id: id },
+            success: function (json) {
+                if (json.status = 200) {//成功
+
+
+ 
+                    $("#DiscountName").val(json.data.DiscountName);
+                    $("#Condition").val(json.data.Condition);
+                    $("#DiscountTypeID").val(json.data.DiscountTypeID);
+                    $("#DiscountRate").val(json.data.DiscountRate);
+                    $("#ReduceAmount").val(json.data.ReduceAmount);
+                    $("#BeginTime").val(ChangeDateFormat(json.data.BeginTime));
+                    $("#EndTime").val(ChangeDateFormat(json.data.EndTime)); 
+                    $("#remark").val(json.data.Remark);
+                    changeDiscountType();
+  
+
+                    layer.close(loadindex);//关闭加载层
+                }
+            },
+            error: function (xmLHttpRequest, textStatus, errorThrown) {
+                layer.msg("系统异常，请重试<br/>错误信息：" + xmLHttpRequest.responseText);
+            }
+        });
+    }
+
+    //保存或者新增
+    function save(id) {
+        var obj = new Object;
+        if (id) {//有ID就是修改模式，没有就是新增模式
+            obj.ID = id;
+        }
+        obj.DiscountName = $("#DiscountName").val().trim();
+        if (!obj.DiscountName) {
+            layer.msg("请输入优惠名称！");
+            return false;
+        }
+      
+
+        obj.Condition = $("#Condition").val().trim();
+        obj.DiscountTypeID = $("#DiscountTypeID").val().trim();
+       
+        obj.ReduceAmount = $("#ReduceAmount").val().trim();
+        obj.BeginTime = $("#BeginTime").val().trim();
+        obj.EndTime = $("#EndTime").val().trim();
+       
+        if (obj.DiscountTypeID == 1) {//折扣
+            obj.ReduceAmount = null;//减免金额
+            obj.DiscountRate = $("#DiscountRate").val().trim();//折扣率，比如9.0 就是9折
+            if ( isNaN(obj.DiscountRate) || obj.DiscountRate < 1 || obj.DiscountRate > 10) {
+                layer.msg("折扣范围必须是1-10！");
+                return false;
+            }
+            
+            
+        }
+        if (obj.DiscountTypeID == 2) {//减免
+            obj.ReduceAmount = $("#ReduceAmount").val().trim();//减免金额
+            obj.DiscountRate =null;//折扣率，比如9.0 就是9折
+        }
+
+        var action = '';
+        if (id) {//有ID就是修改模式，没有就是新增模式
+            action = '@Url.Action("SaveDiscount", "Finance")';
+        }
+        else { action = '@Url.Action("AddDiscount", "Finance")' }
+        $.post(action, {
+            "data": JSON.stringify(obj)//序列化对象
+        }, function (json) {
+            if (json.status = 200) {//成功
+
+                layer.msg(json.msg);//弹出服务器返回的消息
+                setTimeout(function () {//操作
+                    layer.closeAll();//关闭所有层
+                    window.location.reload(); //刷新
+                }, 3000);
+            }
+        }, 'json');
+    }
+
+    function exportForm() {
+        var $frm = $('#exportform');
+        var array = $('#frmQuery').serializeArray();
+
+        for (i = 0, length = array.length; i < length; i++) {
+            key = array[i].name;
+            value = array[i].value;
+            $frm.append($('<input name = "' + key + '" value = "' + value + '"  style="display:none"/>'));
+        }
+
+        $frm.submit();
+    }
+
+
+
+
     function changeDiscountType() {
-        if ("1" == $("#discounttype").val()) {
+        if ($("#DiscountTypeID").val()== 1 ) {
             $("#zk").show();
             $("#jm").hide();
         }

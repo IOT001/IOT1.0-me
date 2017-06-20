@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace IOT1._0.Controllers.Finance
 {
-    public class FinanceController : Controller
+    public partial class FinanceController : Controller
     {
         //
         // GET: /Finance/
@@ -16,9 +16,6 @@ namespace IOT1._0.Controllers.Finance
             return View();
         }
 
-        public ActionResult DiscountList()
-        {
-            return View();
-        }
+      
     }
 }

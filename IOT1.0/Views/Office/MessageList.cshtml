@@ -3,7 +3,7 @@
 @{
     ViewBag.Title = "留言管理";
 }
-@model ButtonListViewModel
+@model MessageListViewModel
 
 <div class="wrapper wrapper-content  animated fadeInRight">
     <div class="row">
@@ -21,14 +21,11 @@
                                 <label class="control-label">标题名称:</label>
                             </div>
                             <div class="col-sm-4">
-                                @Html.TextBoxFor(t => t.search.BTN_Name, new { @class = "form-control input-sm", @type = "text", @placeholder = "请输入课程名称" })
+                                @Html.TextBoxFor(t => t.search.Title, new { @class = "form-control input-sm", @type = "text", @placeholder = "请输入标题名称" })
                             </div>
 
                         </div>
-
-
-
-
+                         
 
                         <div class="form-group">
                             <div class="col-sm-4">
@@ -57,33 +54,37 @@
                         </thead>
                         <!-- 循环数据 -->
                         <tbody>
-                            <!-- 测试数据 -->
-                            <tr>
-                                <td>过年放假通知</td>
-                                <td>2017-03-23</td>
-                                <td>过年放假通知过年放假通知过年放假通知过年放假通知</td>
-                                <td>人事,财务,市场</td>
-                                <td>
-                                    <a href="javascript:modify()" class="btn btn-primary btn-xs" type="button"><i class="fa fa-edit"></i> 编辑</a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>2017年招生计划</td>
-                                <td>2017-08-23</td>
-                                <td>过招生计划招生计划招生计划招生计划</td>
-                                <td>人事,财务,市场</td>
-                                <td>
-                                    <a href="javascript:modify()" class="btn btn-primary btn-xs" type="button"><i class="fa fa-edit"></i> 编辑</a>
-                                </td>
-                            </tr>
+                            
+                            @if (Model != null && Model.Messagelist.Count() > 0)
+                            {
+                                foreach (var m in Model.Messagelist)
+                                {
+                                    <tr>
+                                        <td class="jz">@m.Title</td>
+                                        <td>@m.CreateTime</td>  
+                                         <td>@m.Message</td>  
+                                        <td>@m.ToRolesName</td>
+                                         <td>@m.CreateTime</td> 
+                                        <td>
+                                            <a href="javascript:modify(@m.ID);" class="btn btn-primary btn-xs" type="button"><i class="fa fa-edit"></i> 编辑</a>
+
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr><td colspan="5" style="text-align:center; color:red;">未查询到数据,请更换查询条件试试!</td></tr>
+                            }
+                        </tbody>
                     </table>
-                    @if (Model != null && Model.buttonlist.TotalPageCount > 0)
+                    @if (Model != null && Model.Messagelist.TotalPageCount > 0)
                     {
                         <div class="row">
-                            <div class="dataTables_info col-sm-6">每页显示 @Model.search.PageSize 条，共<span>@Model.buttonlist.TotalItemCount</span>条数据</div>
+                            <div class="dataTables_info col-sm-6">每页显示 @Model.search.PageSize 条，共<span>@Model.Messagelist.TotalItemCount</span>条数据</div>
                             <div class="col-sm-6">
 
-                                @Html.Pager(Model.buttonlist, new PagerOptions(), "", new RouteValueDictionary {
+                                @Html.Pager(Model.Messagelist, new PagerOptions(), "", new RouteValueDictionary {
                                    { "pageindex",  Model.search.CurrentPage },
                                    { "pagesize", ViewBag.PageSize }
                                }, null)
@@ -131,22 +132,18 @@
 
     function loaddetail(id, loadindex) {
         $.ajax({
-            url: '@Url.Action("GetButtonByID", "Admin")',
+            url: '@Url.Action("GetMessageID", "Office")',
             type: "post",
             data: { id: id },
             success: function (json) {
                 if (json.status = 200) {//成功
-                    $("#BTN_Name").val(json.data.BTN_Name);
-                    $("#BTN_Name_En").val(json.data.BTN_Name_En);
-                    $("#BTN_Desc").val(json.data.BTN_Desc);
-                    $("#BTN_OrderIndex").val(json.data.BTN_OrderIndex);
-                    $("#BTN_Mark").val(json.data.BTN_Mark);
+                    $("#Title").val(json.data.Title);
+                    $("#Message").val(json.data.Message);
 
-                    if (json.data.BTN_IsSuspended)//如果停用true
-                    {
-                        $("#BTN_IsSuspended").iCheck('check');//设置选中，具体可以百度icheck插件
-                    }
 
+                    $("#ToRoles").val(json.data.ToRoles);
+                    $("#ToRolesName").val(json.data.ToRolesName); 
+ 
                     layer.close(loadindex);//关闭加载层
                 }
             },
@@ -160,26 +157,29 @@
     function save(id) {
         var obj = new Object;
         if (id) {//有ID就是修改模式，没有就是新增模式
-            obj.BTN_Id = id;
+            obj.ID = id;
         }
-        obj.BTN_Name = $("#BTN_Name").val().trim();
-        if (!obj.BTN_Name) {
-            layer.msg("请输入按钮名称！");
+        obj.Title = $("#Title").val().trim();
+        if (!obj.Title) {
+            layer.msg("请输入标题！");
             return false;
         }
-        obj.BTN_Name_En = $("#BTN_Name_En").val().trim();//赋值必须和数据库字段对应
-        obj.BTN_Desc = $("#BTN_Desc").val().trim();
-        obj.BTN_OrderIndex = $("#BTN_OrderIndex").val().trim();
-        obj.BTN_Mark = $("#BTN_Mark").val().trim();
-        if ($("#BTN_IsSuspended").is(':checked')) {//判断停用按钮是否选中
-            obj.BTN_IsSuspended = true;
+        obj.Message = $("#Message").val().trim();//赋值必须和数据库字段对应
+        if (!obj.Message) {
+            layer.msg("请输入内容！");
+            return false;
         }
-        else { obj.BTN_IsSuspended = false; }
+        
+
+        obj.ToRoles = $("#ToRoles").val().trim();
+        obj.ToRolesName = $("#ToRolesName").val().trim();
+       
+ 
         var action = '';
         if (id) {//有ID就是修改模式，没有就是新增模式
-            action = '@Url.Action("SaveButton", "Admin")';
+            action = '@Url.Action("SaveMessage", "Office")';
             }
-        else { action = '@Url.Action("AddButton", "Admin")' }
+        else { action = '@Url.Action("AddDiscount", "Office")' }
             $.post(action, {
                 "data": JSON.stringify(obj)//序列化对象
             }, function (json) {
@@ -214,14 +214,14 @@
             <div class="form-group ">
                 <label class="col-sm-3 control-label">标题：</label>
                 <div class="col-sm-8">
-                    <input type="text" placeholder="请输入留言标题" class="form-control input-sm" id="BTN_Name">
+                    <input type="text" placeholder="请输入留言标题" class="form-control input-sm" id="Title">
                 </div>
             </div>
 
             <div class="form-group ">
                 <label class="col-sm-3 control-label">内容：</label>
                 <div class="col-sm-8">
-                    <textarea  placeholder="内容" class="form-control input-sm" id="BTN_Mark"></textarea>
+                    <textarea  placeholder="内容" class="form-control input-sm" id="Message"></textarea>
                 </div>
             </div>
 
@@ -229,6 +229,7 @@
                 <label class="col-sm-3 control-label">发送部门：</label>
                 <div class="checkbox i-checks col-sm-8">
                     <label>
+                        
                         <input type="checkbox" value="" id="BTN_IsSuspended"> <i></i> 人事
                     </label>
                     <label>
