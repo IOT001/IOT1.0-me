@@ -24,7 +24,9 @@ namespace IOT1._0.Controllers.Office
             model.search.PageSize = 15;//每页显示
             model.search.CurrentPage = Convert.ToInt32(Request["pageindex"]) <= 0 ? 1 : Convert.ToInt32(Request["pageindex"]);//当前页 
 
- 
+            //多沟选框
+            List<DataProvider.Data.CommonData.SYS_Role> SourceIL = CommonData.GetSYS_SystemRoleList(3);//1是字典类型值,仅供测试参考 
+            ViewData["SYS_Role"] = SourceIL;
 
             model.Messagelist = MessageData.GetMessageList(search);//填充页面模型数据
             return View(model);//返回页面模型
@@ -78,8 +80,36 @@ namespace IOT1._0.Controllers.Office
         /// 新增
         /// </summary>
         /// <returns></returns>
-        public JsonResult AddDiscount()
+        public JsonResult AddDiscount(FormCollection form)
         {
+
+            var winnars = from x in form.AllKeys
+
+                        where form[x] != "false"
+
+                           select x;//找到你在视图中选定的要删除的数据
+
+               foreach (var id in winnars)
+
+             {
+
+                  if(id != "selectAll")
+
+                  {
+
+                       int number = int.Parse(id);
+
+                     // var deleteData =_db.tb_askForLeave.First(m => m.employeeNumber == number);//找到要删除的数据
+
+                      //_db.tb_askForLeave.DeleteObject(deleteData);
+
+                  }
+
+                 continue;
+
+             }
+
+
             AjaxStatusModel ajax = new AjaxStatusModel();//功能操作类的返回类型都是AjaxStatusModel，数据放到AjaxStatusModel.data中，前台获取json后加载
             ajax.status = EnumAjaxStatus.Error;//默认失败
             ajax.msg = "新增失败！";//前台获取，用于显示提示信息
@@ -100,12 +130,7 @@ namespace IOT1._0.Controllers.Office
             return Json(ajax);
         }
 
-        public IList<dynamic> GetEmployeeMasterByDepart(int depart)
-        {
-            DPEmployee dp = new DPEmployee();
-            return dp.DPGetEmployeeMasterByDepart(depart);
-        }
-
+        
 
  
 

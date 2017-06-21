@@ -13,6 +13,8 @@ namespace DataProvider.Models
     public class MessageListViewModel
     {
 
+
+        public long[] School { get; set; } //多选框
         /// <summary>
         /// 页面查询模型
         /// </summary>

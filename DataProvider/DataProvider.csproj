@@ -95,6 +95,7 @@
     <Compile Include="Data\CommonData.cs" />
     <Compile Include="Data\CourseData.cs" />
     <Compile Include="Data\DiscountData.cs" />
+    <Compile Include="Data\HtmlHelperCheckBoxListExtensions.cs" />
     <Compile Include="Data\StudentData.cs" />
     <Compile Include="Data\TeacherData.cs" />
     <Compile Include="Data\ClassesData.cs" />

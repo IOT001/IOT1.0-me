@@ -26,7 +26,7 @@ namespace DataProvider
         /// <summary>
         ///留言内容
         /// </summary>
-        public string Message { get; set; }
+        public string Messageing { get; set; }
         /// <summary>
         /// 主角色，表示那些角色有权限阅读，用分号分隔
         /// </summary>

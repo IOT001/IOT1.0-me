@@ -1,7 +1,9 @@
 ﻿@using DataProvider.Models
 @using DataProvider.Paging
+@using MvcCheckBoxList.Model 
 @{
     ViewBag.Title = "留言管理";
+    List<DataProvider.Data.CommonData.SYS_Role> SYS_Role = (List<DataProvider.Data.CommonData.SYS_Role>)ViewData["SYS_Role"]; 
 }
 @model MessageListViewModel
 
@@ -16,6 +18,7 @@
                     {
 
 
+                        
                         <div class="form-group">
                             <div class="col-sm-2">
                                 <label class="control-label">标题名称:</label>
@@ -35,7 +38,7 @@
                                 </div>
                             </div>
                             <div class="col-sm-8 project-actions">
-                                <button type="button" class="btn btn-w-m btn-primary btn-sm">查&nbsp;&nbsp;&nbsp;&nbsp;询</button>
+                                <button type="submit" class="btn btn-w-m btn-primary btn-sm">查&nbsp;&nbsp;&nbsp;&nbsp;询</button>
                             </div>
                         </div>
 
@@ -62,9 +65,8 @@
                                     <tr>
                                         <td class="jz">@m.Title</td>
                                         <td>@m.CreateTime</td>  
-                                         <td>@m.Message</td>  
-                                        <td>@m.ToRolesName</td>
-                                         <td>@m.CreateTime</td> 
+                                         <td>@m.Messageing</td>  
+                                        <td>@m.ToRolesName</td> 
                                         <td>
                                             <a href="javascript:modify(@m.ID);" class="btn btn-primary btn-xs" type="button"><i class="fa fa-edit"></i> 编辑</a>
 
@@ -169,10 +171,20 @@
             layer.msg("请输入内容！");
             return false;
         }
+        var v = $("input[name='School']").val()
         
+        
+        for (var i = 0; i < CheckBoxList1.Items.Count; i++)
+        {
+            if (CheckBoxList1.Items[i].Selected) {
+                Response.Write("第" + (i + 1) + "项被选中");
 
-        obj.ToRoles = $("#ToRoles").val().trim();
-        obj.ToRolesName = $("#ToRolesName").val().trim();
+            }
+        }
+
+
+        //obj.ToRoles = $("#ToRoles").val().trim();
+        //obj.ToRolesName = $("#ToRolesName").val().trim();
        
  
         var action = '';
@@ -193,7 +205,7 @@
                 }
             },'json');
         }
-
+     
         function exportForm() {
             var $frm = $('#exportform');
             var array = $('#frmQuery').serializeArray();
@@ -224,22 +236,20 @@
                     <textarea  placeholder="内容" class="form-control input-sm" id="Message"></textarea>
                 </div>
             </div>
+            @using (Html.BeginForm())
 
+{
             <div class="form-group ">
                 <label class="col-sm-3 control-label">发送部门：</label>
-                <div class="checkbox i-checks col-sm-8">
-                    <label>
-                        
-                        <input type="checkbox" value="" id="BTN_IsSuspended"> <i></i> 人事
-                    </label>
-                    <label>
-                        <input type="checkbox" value="" id="BTN_IsSuspended"> <i></i> 财务
-                    </label>
-                    <label>
-                        <input type="checkbox" value="" id="BTN_IsSuspended"> <i></i> 市场
-                    </label>
+                <div class="checkbox i-checks col-sm-8"> 
+    @Html.CheckBoxListFor(model => model.School, model => model.School, SYS_Role, f => f.id, f => f.name, false, new Dictionary<string, object> { {"class", "check-inline"} })   
                 </div>
             </div>
+                 
+}
+
+
+
         </form>
     </div>
 </div>
