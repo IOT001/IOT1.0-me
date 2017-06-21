@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using DataProvider.Entities;
 using DataProvider.SqlServer;
 using System;
 using System.Collections.Generic;
@@ -143,5 +144,76 @@ namespace DataProvider.Data
             }
 
         }
+
+
+
+
+
+        public static MvcHtmlString CheckBoxList(this HtmlHelper helper,
+     string name, IEnumerable<SelectListItem> items)
+        {
+            var str = new StringBuilder();
+            str.Append(@"<div class=""checkboxlist"">");
+
+            foreach (var item in items)
+            {
+                str.Append(@"<div class=""list""><input type=""checkbox"" name=""");
+                str.Append(name);
+                str.Append("\" value=\"");
+                str.Append(item.Value);
+                str.Append("\"");
+
+                if (item.Selected)
+                    str.Append(@" checked=""chekced""");
+
+                str.Append(" />");
+                str.Append(item.Text);
+                str.Append("</div>");
+            }
+
+            str.Append("</div>");
+
+            return MvcHtmlString.Create(str.ToString());
+        }
+
+
+        public static IEnumerable<SelectListItem> GetTags
+     (SYS_SystemRole SystemRole, List<SYS_SystemRole> ROLE_Id)
+        {
+            var result = new List<SelectListItem>();
+
+            foreach (var tag in ROLE_Id)
+            {
+                var item = new SelectListItem
+                {
+                    Text = tag.BTN_Name,
+                    Value = tag.BTN_Id.ToString(),
+                    Selected = SystemRole.ROLE_Name.Split(',').Contains(tag.BTN_Id.ToString())
+                };
+
+                result.Add(item);
+            }
+
+            return result;
+        }
+
+
+
+        /// <summary>
+        /// 获取字典列表
+        /// </summary>
+        /// <param name="dicTypeID"></param>
+        /// <returns>用于下拉的绑定项目</returns>
+        public static List<SYS_SystemRole> GetSYS_SystemRoleList(int ROLE_Id)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append(" select ROLE_Id,ROLE_Name from SYS_SystemRole"); 
+            sb.Append(" WHERE ROLE_Id <> @ROLE_Id "); 
+            var parameters = new DynamicParameters();
+            parameters.Add("@ROLE_Id", ROLE_Id);
+            return MsSqlMapperHepler.SqlWithParams<SYS_SystemRole>(sb.ToString(), parameters, DBKeys.PRX);
+        }
+ 
+
     }
 }

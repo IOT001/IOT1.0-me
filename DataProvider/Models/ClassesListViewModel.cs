@@ -23,17 +23,17 @@ namespace DataProvider.Models
         public PagedList<vw_Classes> Classeslist { get; set; }
 
         /// <summary>
-        /// 按钮下拉框，授课方式
+        /// 下拉框，授课方式
         /// </summary>
         public List<SelectListItem> SourceIL { get; set; }
 
         /// <summary>
-        /// 按钮下拉框，所属课程
+        /// 下拉框，所属课程
         /// </summary>
         public List<SelectListItem> SourceIL1 { get; set; }
 
         /// <summary>
-        /// 按钮下拉框，当前讲师
+        /// 下拉框，当前讲师
         /// </summary>
         public List<SelectListItem> SourceIL2 { get; set; }
 
