@@ -140,11 +140,30 @@
             success: function (json) {
                 if (json.status = 200) {//成功
                     $("#Title").val(json.data.Title);
-                    $("#Message").val(json.data.Message);
+                    $("#Messageing").val(json.data.Messageing);
+
+                    
+                    var ToRoles = json.data.ToRoles.split(','); 
+                    var School = document.getElementsByName('School');
+                    //alert(School[1].value);
+                    //alert(ToRoles[1]);
+                    for (var i = 0; i < School.length; i++) {
+                        for (var j = 0; j < ToRoles.length; j++) {
+                            if (School[i].value == ToRoles[j]) {
+                                
+                                $("[value$=" + School[i].value + "]").attr("checked", true);
+                               // [attribute$ = value]
+                                //School[i].iCheck('check'); //选中  .iCheck('check');
+                                //$("#checkbox").attr("checked", true);//设置为选中状态
+                            }
+
+                        }
+                       
+                    }
 
 
                     $("#ToRoles").val(json.data.ToRoles);
-                    $("#ToRolesName").val(json.data.ToRolesName); 
+                    
  
                     layer.close(loadindex);//关闭加载层
                 }
@@ -187,7 +206,7 @@
         if (id) {//有ID就是修改模式，没有就是新增模式
             action = '@Url.Action("SaveMessage", "Office")';
             }
-        else { action = '@Url.Action("AddDiscount", "Office")' }
+        else { action = '@Url.Action("AddMessage", "Office")' }
             $.post(action, {
                 "data": JSON.stringify(obj)//序列化对象
             }, function (json) {
@@ -235,9 +254,9 @@
  
             <div class="form-group ">
                 <label class="col-sm-3 control-label">发送部门：</label>
-                <div class="checkbox i-checks col-sm-8"> 
-    @Html.CheckBoxListFor(model => model.School, model => model.School, SYS_Role, f => f.id, f => f.name, false, new Dictionary<string, object> { {"class", "check-inline"} })   
-                </div>
+                @*<div class="checkbox i-checks col-sm-8"> *@
+    @Html.CheckBoxListFor(model => model.School, model => model.School, SYS_Role, f => f.id, f => f.name, false, new Dictionary<string, object> { {"class", "check-inline "} })   
+               @* </div>*@
             </div>
                  
  

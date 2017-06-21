@@ -42,7 +42,7 @@ namespace IOT1._0.Controllers.Office
             AjaxStatusModel ajax = new AjaxStatusModel();//功能操作类的返回类型都是AjaxStatusModel，数据放到AjaxStatusModel.data中，前台获取json后加载
             ajax.status = EnumAjaxStatus.Error;//默认失败
             ajax.msg = "获取失败！";//前台获取，用于显示提示信息
-            Discount dis = DiscountData.GetDiscountByID(id);//业务层获取底层方法，返回数据
+            Message dis = MessageData.GetMessageByID(id);//业务层获取底层方法，返回数据
             if (dis != null)
             {
                 ajax.data = dis;//放入数据
@@ -79,10 +79,10 @@ namespace IOT1._0.Controllers.Office
         }
 
         /// <summary>
-        /// 新增
+        /// 新增留言
         /// </summary>
         /// <returns></returns>
-        public JsonResult AddDiscount()
+        public JsonResult AddMessage()
         {
 
              
