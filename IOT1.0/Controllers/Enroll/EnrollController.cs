@@ -151,14 +151,50 @@ namespace IOT1._0.Controllers.Enroll
             AjaxStatusModel ajax = new AjaxStatusModel();
             ajax.status = EnumAjaxStatus.Error;//默认失败
             ajax.msg = "获取失败！";//前台获取，用于显示提示信息
-            string CourseName = Request["CourseName"];
             ClassesListSearchModel search = new ClassesListSearchModel();
-            search.CurrentPage = Convert.ToInt32(Request["pageindex"]) <= 0 ? 1 : Convert.ToInt32(Request["pageindex"]);//当前页
+            string CourseName = Request["CourseName"];
+            string StartTime_start = Request["StartTime_start"];
+            string StartTime_end = Request["StartTime_end"];
+            search.CourseID = CourseName;
+            if (!string.IsNullOrEmpty(StartTime_start))
+                search.StartTime_start = DateTime.Parse(StartTime_start);
+            if (!string.IsNullOrEmpty(StartTime_end))
+                search.StartTime_end = DateTime.Parse(StartTime_end);
+
+            search.CurrentPage = 1;//当前页
             search.PageSize = 99999;//不想分页就设置成一个较大的值
             List<vw_Classes> vw_Classes = ClassesData.GeClassesList(search);
             ajax.data = vw_Classes;
             return Json(new { total = 1, rows = vw_Classes, state = true, msg = "加载成功" }, JsonRequestBehavior.AllowGet);
         }
+        /// <summary>
+        /// 安排试听
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult AddST()
+        {
+            AjaxStatusModel ajax = new AjaxStatusModel();
+            ajax.status = EnumAjaxStatus.Error;//默认失败
+            ajax.msg = "获取失败！";//前台获取，用于显示提示信息
+            string apid = Request["apid"];//预约单
+            string classid = Request["classid"];//班级号
+            if (string.IsNullOrEmpty(apid))
+            {
+                return Json(ajax);
+            }
+            DataProvider.Entities.Enroll obj = new DataProvider.Entities.Enroll();
+            Appointment ap = AppointmentData.GetOneByID(apid);
 
+            obj.ID = CommonData.DPGetTableMaxId("EN", "ID", "Enroll", 8);
+            obj.APID = apid;
+            obj.StudentID = ap.ApStudentID;
+            obj.ClassID = classid;
+            if (EnrollData.Add(obj))//注意时间类型
+            {
+                ajax.msg = "新增成功！";
+                ajax.status = EnumAjaxStatus.Success;
+            }
+            return Json(ajax);
+        }
     }
 }
