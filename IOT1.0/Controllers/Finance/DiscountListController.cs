@@ -80,7 +80,7 @@ namespace IOT1._0.Controllers.Finance
         }
 
         /// <summary>
-        /// 新增教师
+        /// 新增优惠
         /// </summary>
         /// <returns></returns>
         public JsonResult AddDiscount()

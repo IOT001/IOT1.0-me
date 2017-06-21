@@ -166,23 +166,23 @@
             layer.msg("请输入标题！");
             return false;
         }
-        obj.Message = $("#Message").val().trim();//赋值必须和数据库字段对应
-        if (!obj.Message) {
+        obj.Messageing = $("#Messageing").val().trim();//赋值必须和数据库字段对应
+        if (!obj.Messageing) {
             layer.msg("请输入内容！");
             return false;
         }
-    
+     
 
         var ToRoles = '';
-        var obj = document.getElementsByName('School');
-        for (var i = 0; i < obj.length; i++) {
-            if (obj[i].checked) {
-                ToRoles += obj[i].value + ','; //如果选中，将value添加到变量s中 
+        var School = document.getElementsByName('School');
+        for (var i = 0; i < School.length; i++) {
+            if (School[i].checked) {
+                ToRoles += School[i].value + ','; //如果选中，将value添加到变量s中 
             }
         }
-  
+    
 
-        obj.ToRoles = ToRoles;  
+        obj.ToRoles = ToRoles; //角色ID
         var action = '';
         if (id) {//有ID就是修改模式，没有就是新增模式
             action = '@Url.Action("SaveMessage", "Office")';
@@ -229,12 +229,10 @@
             <div class="form-group ">
                 <label class="col-sm-3 control-label">内容：</label>
                 <div class="col-sm-8">
-                    <textarea  placeholder="内容" class="form-control input-sm" id="Message"></textarea>
+                    <textarea  placeholder="内容" class="form-control input-sm" id="Messageing"></textarea>
                 </div>
             </div>
-            @using (Html.BeginForm())
-
-{
+ 
             <div class="form-group ">
                 <label class="col-sm-3 control-label">发送部门：</label>
                 <div class="checkbox i-checks col-sm-8"> 
@@ -242,10 +240,8 @@
                 </div>
             </div>
                  
-}
-
-
-
+ 
+             
         </form>
     </div>
 </div>

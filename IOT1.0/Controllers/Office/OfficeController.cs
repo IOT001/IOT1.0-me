@@ -25,7 +25,7 @@ namespace IOT1._0.Controllers.Office
             model.search.CurrentPage = Convert.ToInt32(Request["pageindex"]) <= 0 ? 1 : Convert.ToInt32(Request["pageindex"]);//当前页 
 
             //多沟选框
-            List<DataProvider.Data.CommonData.SYS_Role> SourceIL = CommonData.GetSYS_SystemRoleList(3);//1是字典类型值,仅供测试参考 
+            List<DataProvider.Data.CommonData.SYS_Role> SourceIL = CommonData.GetSYS_SystemRoleList(3); 
             ViewData["SYS_Role"] = SourceIL;
 
             model.Messagelist = MessageData.GetMessageList(search);//填充页面模型数据
@@ -68,6 +68,8 @@ namespace IOT1._0.Controllers.Office
                 return Json(ajax);
             }
             Message mes = (Message)(JsonConvert.DeserializeObject(data.ToString(), typeof(Message)));
+            //多沟选框
+            //List<DataProvider.Data.CommonData.SYS_Role> SourceIL = CommonData.GetSYS_SystemRoleList_ROLE_Id(3); 
             if (MessageData.UpdateMessage(mes))//注意时间类型，而且需要在前台把所有的值
             {
                 ajax.msg = "保存成功！";
@@ -80,36 +82,10 @@ namespace IOT1._0.Controllers.Office
         /// 新增
         /// </summary>
         /// <returns></returns>
-        public JsonResult AddDiscount(FormCollection form)
+        public JsonResult AddDiscount()
         {
 
-            var winnars = from x in form.AllKeys
-
-                        where form[x] != "false"
-
-                           select x;//找到你在视图中选定的要删除的数据
-
-               foreach (var id in winnars)
-
-             {
-
-                  if(id != "selectAll")
-
-                  {
-
-                       int number = int.Parse(id);
-
-                     // var deleteData =_db.tb_askForLeave.First(m => m.employeeNumber == number);//找到要删除的数据
-
-                      //_db.tb_askForLeave.DeleteObject(deleteData);
-
-                  }
-
-                 continue;
-
-             }
-
-
+             
             AjaxStatusModel ajax = new AjaxStatusModel();//功能操作类的返回类型都是AjaxStatusModel，数据放到AjaxStatusModel.data中，前台获取json后加载
             ajax.status = EnumAjaxStatus.Error;//默认失败
             ajax.msg = "新增失败！";//前台获取，用于显示提示信息
@@ -119,6 +95,21 @@ namespace IOT1._0.Controllers.Office
                 return Json(ajax);
             }
             Message mes = (Message)(JsonConvert.DeserializeObject(data.ToString(), typeof(Message)));
+            if (!string.IsNullOrWhiteSpace(mes.ToRoles))
+            { 
+           
+            var ToRolese = mes.ToRoles.TrimEnd(',');
+            string[] ToRoles = ToRolese.Split(',');
+            string ROLE_Names="";
+            foreach (var item in ToRoles)
+            {
+                //多沟选框获取中文信息
+                var  SourceIL = CommonData.GetSYS_SystemRoleList_ROLE_Id(int.Parse(item));
+                ROLE_Names+= SourceIL[0]+",";
+            }
+            var ROLE_Name = ROLE_Names.TrimEnd(',');//去除最后的一个逗号
+            mes.ToRolesName = ROLE_Name;//赋值给名称（方便查询，存的中文，比如人事,财务，市场） 
+            }
 
             mes.CreateTime = DateTime.Now; //创建时间
             mes.CreatorId = UserSession.userid;//创建人

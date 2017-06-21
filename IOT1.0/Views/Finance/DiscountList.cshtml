@@ -293,7 +293,7 @@
                     $("#ReduceAmount").val(json.data.ReduceAmount);
                     $("#BeginTime").val(ChangeDateFormat(json.data.BeginTime));
                     $("#EndTime").val(ChangeDateFormat(json.data.EndTime)); 
-                    $("#remark").val(json.data.Remark);
+                    $("#Remarks").val(json.data.Remarks);
                     changeDiscountType();
   
 
@@ -325,6 +325,7 @@
         obj.ReduceAmount = $("#ReduceAmount").val().trim();
         obj.BeginTime = $("#BeginTime").val().trim();
         obj.EndTime = $("#EndTime").val().trim();
+        obj.Remarks = $("#Remarks").val().trim();
        
         if (obj.DiscountTypeID == 1) {//折扣
             obj.ReduceAmount = null;//减免金额

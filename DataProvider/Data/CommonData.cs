@@ -163,6 +163,21 @@ namespace DataProvider.Data
             return MsSqlMapperHepler.SqlWithParams<SYS_Role>(sb.ToString(), parameters, DBKeys.PRX);
         }
 
+        /// <summary>
+        /// 获取字典列表
+        /// </summary>
+        /// <param name="dicTypeID"></param>
+        /// <returns>用于下拉的绑定项目</returns>
+        public static List<string> GetSYS_SystemRoleList_ROLE_Id(int ROLE_Id)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append("SELECT ROLE_Name as name FROM SYS_SystemRole");
+            sb.Append(" WHERE ROLE_Id = @ROLE_Id");
+            var parameters = new DynamicParameters();
+            parameters.Add("@ROLE_Id", ROLE_Id);
+            return MsSqlMapperHepler.SqlWithParams<string>(sb.ToString(), parameters, DBKeys.PRX);
+        }
+
         public class SYS_Role
         {
             /// <summary>
