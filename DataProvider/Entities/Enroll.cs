@@ -81,7 +81,7 @@ namespace DataProvider.Entities
         /// <summary>
         /// UpdateTime
         /// </summary>				
-        public DateTime UpdateTime { get; set; }
+        public DateTime? UpdateTime { get; set; }
         /// <summary>
         /// DeletorId
         /// </summary>				
@@ -89,7 +89,7 @@ namespace DataProvider.Entities
         /// <summary>
         /// DeleteTime
         /// </summary>				
-        public DateTime DeleteTime { get; set; }
+        public DateTime? DeleteTime { get; set; }
         /// <summary>
         /// Remark
         /// </summary>				
@@ -105,7 +105,7 @@ namespace DataProvider.Entities
         /// <summary>
         /// ApprovedTime
         /// </summary>				
-        public DateTime ApprovedTime { get; set; }
+        public DateTime? ApprovedTime { get; set; }
         /// <summary>
         /// ApprovedRemark
         /// </summary>				

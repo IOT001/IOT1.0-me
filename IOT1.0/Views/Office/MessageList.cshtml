@@ -171,22 +171,18 @@
             layer.msg("请输入内容！");
             return false;
         }
-        var v = $("input[name='School']").val()
-        
-        
-        for (var i = 0; i < CheckBoxList1.Items.Count; i++)
-        {
-            if (CheckBoxList1.Items[i].Selected) {
-                Response.Write("第" + (i + 1) + "项被选中");
+    
 
+        var ToRoles = '';
+        var obj = document.getElementsByName('School');
+        for (var i = 0; i < obj.length; i++) {
+            if (obj[i].checked) {
+                ToRoles += obj[i].value + ','; //如果选中，将value添加到变量s中 
             }
         }
+  
 
-
-        //obj.ToRoles = $("#ToRoles").val().trim();
-        //obj.ToRolesName = $("#ToRolesName").val().trim();
-       
- 
+        obj.ToRoles = ToRoles;  
         var action = '';
         if (id) {//有ID就是修改模式，没有就是新增模式
             action = '@Url.Action("SaveMessage", "Office")';
