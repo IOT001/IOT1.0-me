@@ -98,15 +98,7 @@
     <Compile Include="Data\EnrollData.cs" />
 
     <Compile Include="Data\DiscountData.cs" />
-<<<<<<< HEAD
-<<<<<<< HEAD
     <Compile Include="Data\HtmlHelperCheckBoxListExtensions.cs" />
-=======
->>>>>>> ab4e9df1d08fd4d331e0c2234456a8e7c307c5f5
->>>>>>> c150127a298229ed682a71debf7794e763ebd4ee
-=======
-
->>>>>>> 433206db6c9eda3b397c3b8324004c807a550628
     <Compile Include="Data\StudentData.cs" />
     <Compile Include="Data\TeacherData.cs" />
     <Compile Include="Data\ClassesData.cs" />
