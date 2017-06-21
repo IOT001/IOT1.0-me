@@ -46,9 +46,9 @@ namespace DataProvider.Data
            
 
             if (!string.IsNullOrWhiteSpace(classId))//按钮中文名称
-                sb.AppendFormat(" and ClassID =' ", classId);
+                sb.AppendFormat(" and ClassID = '{0}'", classId);
             if (classIndex !=0)//按钮中文名称
-                sb.AppendFormat(" and ClassIndex =' ", classIndex);
+                sb.AppendFormat(" and ClassIndex = {0}  ", classIndex);
 
 
             //if (!string.IsNullOrWhiteSpace(search.BTN_Name_En))//城市
