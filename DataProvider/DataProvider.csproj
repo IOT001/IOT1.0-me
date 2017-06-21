@@ -94,11 +94,11 @@
     <Compile Include="Data\ButtonData.cs" />
     <Compile Include="Data\CommonData.cs" />
     <Compile Include="Data\CourseData.cs" />
-<<<<<<< HEAD
+
     <Compile Include="Data\EnrollData.cs" />
-=======
+
     <Compile Include="Data\DiscountData.cs" />
->>>>>>> ab4e9df1d08fd4d331e0c2234456a8e7c307c5f5
+
     <Compile Include="Data\StudentData.cs" />
     <Compile Include="Data\TeacherData.cs" />
     <Compile Include="Data\ClassesData.cs" />
