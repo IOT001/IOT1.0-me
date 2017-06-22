@@ -191,7 +191,7 @@ namespace IOT1._0.Controllers.Enroll
             obj.ClassID = classid;
             if (EnrollData.Add(obj))//注意时间类型
             {
-                ajax.msg = "新增成功！";
+                ajax.msg = "预约试听报名成功！";
                 ajax.status = EnumAjaxStatus.Success;
             }
             return Json(ajax);
