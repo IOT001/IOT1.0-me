@@ -395,7 +395,8 @@
             content: $('#follow'),
             btn: ['保存', '取消'],
             yes: function () {
-                
+                var loadindex = layer.load();
+                onSaveKaoqin(obj,loadindex)
             },
             cancel: function (index) {
                 layer.close(index);
@@ -403,7 +404,7 @@
             success: function (layero, index) {
                 $("#kaoqin_title > tbody").remove();
                
-                var tbody = '<tbody><tr><td >' + "班级：" + obj.ClassName + "，课时：" + obj.TotalLesson
+                var tbody = '<tbody><tr><td>' + "班级：" + obj.ClassName + "，课时：" + obj.TotalLesson
                     +'</td></tr><tr><td>'
                     +'上课时间:'+obj.ClassDate.substring(0, 10)+' '+obj.TimePeriodValue+' 应到:<font color="#000000">'+obj.SumStudents
                     +'</font>  已到:<font color="#0033CC	">'+obj.CheckINStudents+'</font>  未到:<font color="#FF0000">'+obj.UnCheckStudents
@@ -429,6 +430,26 @@
             var loadindex = layer.load();
             loadCheckData(obj, loadindex)
         }
+    }
+
+    function onSaveKaoqin(obj, loadIndex) {
+        var data = [];
+        var hidden = $("[name = hidden_ID]");
+        var checkIn = $("[name = chkItem]");
+        var checkOutOption = $("[name = class-time]");
+        hidden.each(function (index, value) {
+            var id = value.innerText;
+            var checked=$(checkIn[index]).is(":checked")
+            var options = $(checkOutOption[index]).val();
+            var tmp = new Object();
+            tmp.StudentID = id;
+            tmp.ClassID = obj.ClassID;
+            tmp.ClassIndex = obj.ClassIndex;
+            tmp.CreateTime = checked ? new Date().Format("yyyy-MM-dd HH:mm:ss") : "";
+            tmp.AttendanceTypeID = options;
+            data[index] = tmp;
+        });
+        alert(data.length);
     }
 
     //点击出勤checkbox
@@ -492,6 +513,7 @@
                         //checked="checked"
                     //var options = option.replace("value=''", '');
                     tbody += "<tr>"
+                        + '<td hidden name="hidden_ID">' + value.StudentID + '</td>'
                         + "<td>" + value.Name + "</td>"
                         + "<td>" + value.Phone + "</td>"
                         + '<th>出勤 <input type="checkbox" class="checkbox i-checks"  name="chkItem"' +
