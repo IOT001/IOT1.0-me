@@ -42,25 +42,23 @@ namespace DataProvider.Data
             table = @" vw_StudentEvaluate ";//表或者视图
             orderby = "StudentID";//排序信息
             StringBuilder sb = new StringBuilder();//构建where条件
+            sb.Append("select * from vw_StudentEvaluate where ");
             sb.Append(" 1=1 ");
            
 
             if (!string.IsNullOrWhiteSpace(classId))//按钮中文名称
-                sb.AppendFormat(" and ClassID =' ", classId);
+                sb.Append(" and ClassID = @ClassID");
             if (classIndex !=0)//按钮中文名称
-                sb.AppendFormat(" and ClassIndex =' ", classIndex);
-
+                sb.Append(" and ClassIndex = @ClassIndex  ");
+            sb.Append(" order by StudentID ");
 
             //if (!string.IsNullOrWhiteSpace(search.BTN_Name_En))//城市
             //    sb.AppendFormat(" and BTN_Name_En like '%{0}%' ", search.BTN_Name_En);
-            where = sb.ToString();
-            int allcount = 0;
+
             var parameters = new DynamicParameters();
-            parameters.Add("@Table", table);
-            parameters.Add("@Fields", fields);
-            parameters.Add("@Where", where);
-            parameters.Add("@OrderBy", orderby);
-            return MsSqlMapperHepler.StoredProcWithParams<vw_StudentEvaluate>("Proc_DataPagination", parameters, DBKeys.PRX);
+            parameters.Add("@ClassID", classId);
+            parameters.Add("@ClassIndex", classIndex);
+            return MsSqlMapperHepler.SqlWithParams<vw_StudentEvaluate>(sb.ToString(), parameters, DBKeys.PRX);
     //        var list = CommonPage<vw_StudentEvaluate>.GetPageList(
     //out allcount, table, fields: fields, where: where.Trim(),
     //orderby: orderby, pageindex: search.CurrentPage, pagesize: search.PageSize, connect: DBKeys.PRX);
@@ -88,6 +86,43 @@ namespace DataProvider.Data
         {
             return MsSqlMapperHepler.GetOne<AttendanceRecord>(ID, DBKeys.PRX);
         }
+
+
+        public static List<AttendanceRecord> getStudentCheck(String classId, int classIndex)
+        {
+
+            /**
+             *  string sql = @" select * from FollowRecord where APID = @APID";
+            var parameters = new DynamicParameters();
+            parameters.Add("@APID", apid);
+             * 
+             * */
+
+           
+           
+            StringBuilder sb = new StringBuilder();//构建where条件
+            sb.Append("select a.*,c.Name as Name,c.BindPhone as Phone ,");
+            sb.Append(" (b.ClassHour-b.UsedHour) as LeftHour from AttendanceRecord a, Enroll b, Students c ");
+            sb.Append(" where a.StudentID=b.StudentID and b.StudentID = c.ID ");
+
+            if (!string.IsNullOrWhiteSpace(classId))//按钮中文名称
+                sb.Append(" and a.ClassID = @ClassID ");
+            if (classIndex != 0)//按钮中文名称
+                sb.Append(" and a.ClassIndex = @ClassIndex ");
+
+
+            //if (!string.IsNullOrWhiteSpace(search.BTN_Name_En))//城市
+            //    sb.AppendFormat(" and BTN_Name_En like '%{0}%' ", search.BTN_Name_En);
+            var parameters = new DynamicParameters();
+            parameters.Add("@ClassID", classId);
+            parameters.Add("@ClassIndex", classIndex);
+            return MsSqlMapperHepler.SqlWithParams<AttendanceRecord>(sb.ToString(), parameters, DBKeys.PRX);
+            //        var list = CommonPage<vw_StudentEvaluate>.GetPageList(
+            //out allcount, table, fields: fields, where: where.Trim(),
+            //orderby: orderby, pageindex: search.CurrentPage, pagesize: search.PageSize, connect: DBKeys.PRX);
+            //        return new PagedList<vw_StudentEvaluate>(list, search.CurrentPage, search.PageSize, allcount);
+        }
+
     }
 
 }

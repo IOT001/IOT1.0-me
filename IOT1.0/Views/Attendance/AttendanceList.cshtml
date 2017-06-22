@@ -189,7 +189,7 @@
         });
     }
 
-   
+   //保存 编辑的班级信息 
     function saveModifyClassList(data, loadIndex) {
         var jsonModify = new Object();
         jsonModify.ClassID=data.ClassID;
@@ -234,6 +234,7 @@
         }, 'json');
 
     }
+    //加载编辑相关选项
     function loadModifyOptions(data, loadIndex) {
         $.ajax({
             url: '@Url.Action("getModifyClassOptions", "Attendance")',
@@ -304,6 +305,7 @@
     //评价
     function appraise(data) {
         var obj = JSON.parse(data);
+      
         cleanData("appraise");//清空数据
         layer.open({
             type: 1,
@@ -324,6 +326,7 @@
             loadAttendancedetail(obj, loadindex)
         }
     }
+    //保存评价数据
     function saveStudentEvaluate(data, loadindex) {
         var ids = $(".evalId");
         var values = $(".evalValue");
@@ -352,19 +355,21 @@
         }, 'json');
       
     }
-
+    //加载评价列表数据
     function loadAttendancedetail(obj, loadindex) {
-        $.ajax({
-            url: '@Url.Action("StudentEvaluate", "Attendance")',
-            type: "post",
-            data: { obj: obj },
-            dataType: 'json',
-            success: function (json) {
+        var _data = JSON.stringify(obj);
+        $.post('@Url.Action("StudentEvaluate", "Attendance")',{
+            "data": _data},//序列化对象
+            function (json) {
                 if (json.status = 200) {//成功
                     var row = "";
                     $.each(json.data, function (index, value) {
+                        var evalute = value.Evaluate;
+                        if (!evalute) {
+                            evalute = '';
+                        }
                         row += "<tr><td>" + value.Name + "</td><td hidden class='evalId'>" + value.ID + "</td><td>" + value.Phone + "</td><td> <input type='text' placeholder='学生评价' class='form-control input-sm evalValue' " +
-                            " value= '" + value.Evaluate
+                            " value= '" + evalute
                             + "'></td></tr>"
 
                     })
@@ -373,11 +378,9 @@
                     $('#studentEvalute').append(row);
                 }
                 layer.close(loadindex);//关闭加载层
-            },
-            error: function (xmLHttpRequest, textStatus, errorThrown) {
-                layer.close(loadindex);
-                layer.msg("系统异常，请重试<br/>错误信息：" + xmLHttpRequest.responseText);
             }
+        ).error(function () {
+            layer.close(loadindex);//关闭加载层
         });
     }
 
@@ -392,12 +395,21 @@
             content: $('#follow'),
             btn: ['保存', '取消'],
             yes: function () {
-                
+                var loadindex = layer.load();
+                onSaveKaoqin(obj,loadindex)
             },
             cancel: function (index) {
                 layer.close(index);
             },
-            success: function (layero, index) {  
+            success: function (layero, index) {
+                $("#kaoqin_title > tbody").remove();
+               
+                var tbody = '<tbody><tr><td>' + "班级：" + obj.ClassName + "，课时：" + obj.TotalLesson
+                    +'</td></tr><tr><td>'
+                    +'上课时间:'+obj.ClassDate.substring(0, 10)+' '+obj.TimePeriodValue+' 应到:<font color="#000000">'+obj.SumStudents
+                    +'</font>  已到:<font color="#0033CC	">'+obj.CheckINStudents+'</font>  未到:<font color="#FF0000">'+obj.UnCheckStudents
+                    + '</font></td></tr></tbody>';
+                $("#kaoqin_title").append(tbody);
                 //传入参数，并赋值给iframe的元素 
                 var name="班级："+obj.ClassName+"，课时："+obj.TotalLesson;
                 $("#ClassName").text(name);
@@ -406,21 +418,133 @@
                     var check = $("#btn_all_student").is(":checked");
                     if (check) {
                         $("[name = chkItem]:checkbox").each(function () {
-                            var t1 = $(this).is(":checked");
-                            var t2 = $(this).parent().parent().parent();
-                            var t3 = t2.find("select");
-                            var v3 = t3.val();
-                            var notSelect = (v3 == null || v3 == "");
-                            if (!t1 & notSelect) {
-                                $(this).iCheck("check");
-                            }
+                            $(this).iCheck("check");
+                            onKaoqinCheckBoxChange($(this));
                         });
                     }
                 });
+               
             }  
+        });
+        if (obj) {
+            var loadindex = layer.load();
+            loadCheckData(obj, loadindex)
+        }
+    }
+
+    function onSaveKaoqin(obj, loadIndex) {
+        var data = [];
+        var hidden = $("[name = hidden_ID]");
+        var checkIn = $("[name = chkItem]");
+        var checkOutOption = $("[name = class-time]");
+        hidden.each(function (index, value) {
+            var id = value.innerText;
+            var checked=$(checkIn[index]).is(":checked")
+            var options = $(checkOutOption[index]).val();
+            var tmp = new Object();
+            tmp.StudentID = id;
+            tmp.ClassID = obj.ClassID;
+            tmp.ClassIndex = obj.ClassIndex;
+            tmp.CreateTime = checked ? new Date().Format("yyyy-MM-dd HH:mm:ss") : "";
+            tmp.AttendanceTypeID = options;
+            data[index] = tmp;
+        });
+        alert(data.length);
+    }
+
+    //点击出勤checkbox
+    function onKaoqinCheckBoxChange(uiObject) {
+        var t1 = uiObject.is(":checked");
+        var t2 = uiObject.parent().parent();
+        var t3 = t2.find("select");
+        var v3 = t3.val();
+        var notSelect = (v3 == "");//1 :未考勤
+        if (t1 & notSelect) {
+            uiObject.iCheck("check");
+        } else {
+            uiObject.iCheck("uncheck");
+        }
+    }
+
+    //选择考勤原因触发事件
+    function onKaoqinOptionChange() {
+        $("[name = class-time]").each(function () {
+            var selectOption = $(this).val();
+            if (selectOption != "") {//1 :未考勤
+                var t2 = $(this).parent().parent();
+                var t3 = t2.find("input");
+                t3.iCheck("uncheck");
+            }
         });
        
     }
+
+    function ChangeDateFormat(jsondate) {
+        jsondate = jsondate.replace("/Date(", "").replace(")/", "");
+        if (jsondate.indexOf("+") > 0) {
+            jsondate = jsondate.substring(0, jsondate.indexOf("+"));
+        }
+        else if (jsondate.indexOf("-") > 0) {
+            jsondate = jsondate.substring(0, jsondate.indexOf("-"));
+        }
+
+        var date = new Date(parseInt(jsondate, 10));
+        var month = date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1;
+        var currentDate = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
+        return date.getFullYear() + "-" + month + "-" + currentDate;
+    }
+
+    function loadCheckData(obj, loadindex) {
+        $.post('@Url.Action("getCheckStudentData", "Attendance")', { "data": JSON.stringify(obj) }, function (json) {
+        
+            $("#kaoqin_student > tbody").empty();
+
+            if (json.status == 200) { // 成功
+
+                var option = '<option value="">请选择缺勤原因</option>';
+
+                $.each(json.data[1], function (index, value) {
+                    option += "<option value='" + value.id + "'>" + value.name + "</option>";
+                });
+
+                var tbody = "<tbody>";
+                $.each(json.data[0], function (index, value) {
+                    var ischeck = ChangeDateFormat(value.ClockTime).indexOf('1900') == 0;
+                        //checked="checked"
+                    //var options = option.replace("value=''", '');
+                    tbody += "<tr>"
+                        + '<td hidden name="hidden_ID">' + value.StudentID + '</td>'
+                        + "<td>" + value.Name + "</td>"
+                        + "<td>" + value.Phone + "</td>"
+                        + '<th>出勤 <input type="checkbox" class="checkbox i-checks"  name="chkItem"' +
+                            (ischeck ? 'checked="checked"' : '')
+                        +' ></th>'
+                        + '<td>剩余' + value.LeftHour + '</td>'
+                        + '<td><select class="selectpicker  form-control" name="class-time" data-live-search="true" onchange="javascript:onKaoqinOptionChange();">'
+                        + option
+                        + "</select></td>"
+                    + "</tr>";
+                });
+                tbody += "</tbody>";
+                $("#kaoqin_student").append(tbody);
+                
+                }
+            layer.close(loadindex);//关闭加载层
+
+        }).error(function () {
+            layer.close(loadindex);//关闭加载层
+        }).complete(function () {
+            $("[name = chkItem]:checkbox").each(function () {
+                $(this).change(function () {
+                    var check = $(this).is(":checked");
+                    if (check) {
+                        onKaoqinCheckBoxChange($(this));
+                    }
+                })
+            });
+        });
+    }
+
     
  
 
@@ -491,20 +615,17 @@
 <div class="ibox float-e-margins" id="follow" style="display:none">
     <div class="ibox-content">
         <form class="form-horizontal">
-            <table class="table table-striped table-bordered">
+            <table class="table table-striped table-bordered" id="kaoqin_title">
               
-                <tbody>
-                    <tr><td id="ClassName">班级:绘画，课时:1.0</td></tr>
-                    <tr><td>上课时间:2017-05-18 10:00-11:00 应到:<font color="#000000">10</font>  已到:<font color="#0033CC	">0</font>  未到:<font color="#FF0000">0</font></td></tr>
-                </tbody>
+                
                 </table>
                 <div class="">
-                    <table class="table table-striped table-bordered table-hover dataTables-example">
+                    <table class="table table-striped table-bordered table-hover dataTables-example" id="kaoqin_student">
                         <thead>
                          <tr>
                                 <th>学员姓名</th>
                                 <th>学员电话</th>
-                                <th>出勤 <input type="checkbox" class="checkbox i-checks" value="" id="btn_all_student" onclick="javascript:checkAllStudent();"></th>
+                                <th>出勤 <input type="checkbox" class="checkbox i-checks" value="" id="btn_all_student" ></th>
                                 <th>剩余课时</th>
                                 <th>缺勤原因</th>
                             </tr>

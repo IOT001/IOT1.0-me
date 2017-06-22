@@ -54,6 +54,13 @@ namespace DataProvider
         public string Remark { get; set; }
         public System.DateTime CreateTime { get; set; }
         public string CreatorId { get; set; }
+        /// <summary>
+        /// 剩余课时，联合查询enroll表中计算得到
+        /// </summary>
+        public int LeftHour { get; set; }
+        public string Name { get; set; }
+        public string Phone { get; set; }
+
     }
     [Serializable]
     public sealed class AttendanceRecordORMMapper : ClassMapper<AttendanceRecord>
@@ -62,7 +69,9 @@ namespace DataProvider
         {
             base.Table("AttendanceRecord");
 
-            //Map(f => f.IsJoin).Ignore();//设置忽略
+            Map(f => f.LeftHour).Ignore();//设置忽略
+            Map(f => f.Name).Ignore();//设置忽略
+            Map(f => f.Phone).Ignore();//设置忽略
             //Map(f => f.StateName).Ignore();//设置忽略
             Map(f => f.ID).Key(KeyType.Identity);//设置主键  (如果主键名称不包含字母“ID”，请设置)      
             AutoMap();

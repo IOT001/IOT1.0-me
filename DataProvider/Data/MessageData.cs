@@ -51,16 +51,7 @@ namespace DataProvider.Data
         {
             return MsSqlMapperHepler.Insert<Message>(Mes, DBKeys.PRX);
         }
-        /// <summary>
-        /// 新增,返回的是主键
-        /// </summary>
-        /// <param name="btn"></param>
-        /// <returns></returns>
-        public static int AddDiscount(Discount Dis)
-        {
-            return MsSqlMapperHepler.Insert<Discount>(Dis, DBKeys.PRX);
-        }
-
+   
         /// <summary>
         /// 保存
         /// </summary>

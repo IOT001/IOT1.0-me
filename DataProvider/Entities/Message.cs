@@ -46,8 +46,23 @@ namespace DataProvider
         public string CreatorId { get; set; }
     }
 
-   
- 
+
+    /// <summary>
+    /// Deploy：实体对象映射关系
+    /// </summary>
+    [Serializable]
+    public sealed class MessageORMMapper : ClassMapper<Message>
+    {
+        public MessageORMMapper()
+        {
+            base.Table("Message");
+
+            //Map(f => f.socketouts).Ignore();//设置忽略
+            Map(f => f.ID).Key(KeyType.Identity);//设置主键  (如果主键名称不包含字母“ID”，请设置)      
+            AutoMap();
+        }
+    }
+
 
 
 }

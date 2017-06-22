@@ -26,11 +26,17 @@ namespace IOT1._0.Controllers.Attendance
             return View(model);
         }
 
-        public JsonResult StudentEvaluate(vw_ClassAttendanceList cls)
+        public JsonResult StudentEvaluate()
         {
             AjaxStatusModel ajax = new AjaxStatusModel();//功能操作类的返回类型都是AjaxStatusModel，数据放到AjaxStatusModel.data中，前台获取json后加载
             ajax.status = EnumAjaxStatus.Error;//默认失败
             ajax.msg = "获取失败！";//前台获取，用于显示提示信息
+            var data = Request["data"];//获取前台传递的数据，主要序列化
+            if (string.IsNullOrEmpty(data))
+            {
+                return Json(ajax);
+            }
+            vw_ClassAttendanceList cls = (vw_ClassAttendanceList)(JsonConvert.DeserializeObject(data.ToString(), typeof(vw_ClassAttendanceList)));
              List<vw_StudentEvaluate> btn =AttendaceData.getStudentEvaluate(cls.ClassID, cls.ClassIndex);//业务层获取底层方法，返回数据
             if (btn != null)
             {
@@ -61,6 +67,10 @@ namespace IOT1._0.Controllers.Attendance
             return Json(ajax);
         }
 
+        /// <summary>
+        /// 获取调课的相关信息
+        /// </summary>
+        /// <returns></returns>
         public JsonResult getModifyClassOptions()
         {
             AjaxStatusModel ajax = new AjaxStatusModel();//功能操作类的返回类型都是AjaxStatusModel，数据放到AjaxStatusModel.data中，前台获取json后加载
@@ -84,6 +94,10 @@ namespace IOT1._0.Controllers.Attendance
 
             return Json(ajax);
         }
+        /// <summary>
+        /// 保存调课信息
+        /// </summary>
+        /// <returns></returns>
         public JsonResult saveModifyClass()
         {
             AjaxStatusModel ajax = new AjaxStatusModel();//功能操作类的返回类型都是AjaxStatusModel，数据放到AjaxStatusModel.data中，前台获取json后加载
@@ -105,5 +119,31 @@ namespace IOT1._0.Controllers.Attendance
 
             return Json(ajax);
         }
+        public JsonResult getCheckStudentData()
+        {
+            AjaxStatusModel ajax = new AjaxStatusModel();//功能操作类的返回类型都是AjaxStatusModel，数据放到AjaxStatusModel.data中，前台获取json后加载
+            ajax.status = EnumAjaxStatus.Error;//默认失败
+            ajax.msg = "获取信息失败！";//前台获取，用于显示提示信息
+            var data = Request["data"];//获取前台传递的数据，主要序列化
+            if (string.IsNullOrEmpty(data))
+            {
+                return Json(ajax);
+            }
+            vw_ClassAttendanceList cls = (vw_ClassAttendanceList)(JsonConvert.DeserializeObject(data.ToString(), typeof(vw_ClassAttendanceList)));
+
+            List<AttendanceRecord> btn = AttendaceData.getStudentCheck(cls.ClassID, cls.ClassIndex);//业务层获取底层方法，返回数据
+
+
+            if (btn !=null)
+            {
+                ajax.status = EnumAjaxStatus.Success;
+                ajax.msg = "获取信息成功";
+                ajax.data = new Object[]{btn,CommonData.GetDictionaryList(9)};
+            }
+
+            return Json(ajax);
+
+        }
     }
+
 }
