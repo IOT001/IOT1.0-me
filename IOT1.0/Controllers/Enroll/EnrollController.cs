@@ -196,5 +196,15 @@ namespace IOT1._0.Controllers.Enroll
             }
             return Json(ajax);
         }
+        /// <summary>
+        /// 获取可用的优惠下拉信息
+        /// </summary>
+        /// <returns></returns>
+        public JsonResult GetDiscountItems()
+        {
+            //根据方式拉项
+            List<CommonEntity> IntentTypeList = CommonData.GetDictionaryList(14);//13跟进方式
+            return Json(IntentTypeList);
+        }
     }
 }

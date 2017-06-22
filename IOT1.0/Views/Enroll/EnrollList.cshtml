@@ -76,7 +76,7 @@
                                             <a href="javascript:follow('@m.ID')" class="btn btn-primary btn-xs" type="button"><i class="fa fa-edit"></i> 跟进</a>
                                             <a href="javascript:shiting('@m.ID')" class="btn btn-primary btn-xs" type="button"><i class="fa fa-edit"></i> 试听</a>
                                             <a href="javascript:jiaru(1)" class="btn btn-primary btn-xs" type="button"><i class="fa fa-edit"></i> 加入</a>
-                                            <a href="javascript:baoming(1)" class="btn btn-primary btn-xs" type="button"><i class="fa fa-edit"></i> 报名</a>
+                                            <a href="javascript:baoming('@m.ID')" class="btn btn-primary btn-xs" type="button"><i class="fa fa-edit"></i> 报名</a>
                                             <a href="javascript:piaoju()" class="btn btn-primary btn-xs" type="button"><i class="fa fa-edit"></i> 票据</a>
                                         </td>
                                     </tr>
@@ -222,14 +222,14 @@
             <div class="form-group form-horizontal">
                 <label class="col-sm-3 control-label">开班时间:</label>
                 <div class="input-daterange input-group col-sm-9" id="datepicker">
-                    <input type="text" class="input-sm form-control" name="start" value="2014-11-11" id="StartTime_start2">
+                    <input type="text" class="input-sm form-control" name="start" value="" id="StartTime_start2">
                     <span class="input-group-addon">到</span>
-                    <input type="text" class="input-sm form-control" name="end" value="2014-11-17" id="StartTime_end2">
+                    <input type="text" class="input-sm form-control" name="end" value="" id="StartTime_end2">
                 </div>
             </div>
             <div class="form-group">
                 <div class="project-actions">
-                    <button type="button" class="btn btn-w-m btn-primary btn-sm">查&nbsp;&nbsp;&nbsp;&nbsp;询</button>
+                    <button type="button" class="btn btn-w-m btn-primary btn-sm" id="QueryClass2">查&nbsp;&nbsp;&nbsp;&nbsp;询</button>
                 </div>
             </div>
             <div class="m-t-md">
@@ -516,7 +516,7 @@
             '<button type="button" class="RoleOfA btn btn-default  btn-sm"">安排</button>'
         ].join('');
     }
-    //-------------试听----------------------------------------------------------
+    //-------------报名----------------------------------------------------------
     //报名列表
     $('#classes2').bootstrapTable({
         method: 'POST',
@@ -574,7 +574,8 @@
             field: 'Enroll',
             title: '报名课时',
             align: 'center',
-            valign: 'middle'
+            valign: 'middle',
+            formatter: editCol
         }, {
             field: 'Enroll',
             title: '选择优惠',
@@ -584,7 +585,8 @@
             field: '优惠金额',
             title: '报名课时',
             align: 'center',
-            valign: 'middle'
+            valign: 'middle',
+            formatter: dropdownCol
         }, {
             field: 'Enroll',
             title: '费用',
@@ -593,9 +595,7 @@
         }, {
             field: 'operate',
             title: '操作',
-            align: 'center',
-            events: operateEvents,
-            formatter: operateFormatter
+            align: 'center'
         }]
     });
     //查询参数
@@ -613,15 +613,31 @@
         };
 
     }
-    //按钮事件
-    function operateFormatter(value, row, index) {
-        return [
-            '<button type="button" class="RoleOfB btn btn-default  btn-sm"">安排</button>'
-        ].join('');
+
+    //加载优惠下拉框信息
+    function loadDiscountCom()
+    {
+        var dataHTML = '';
+        $.post('@Url.Action("GetDiscountItems", "Enroll")', { cityid: $("#cityid1").val() }, function (json) {
+            
+            for (var i = 0; i < json.length; i++) {
+                $("#discountSelect").append("<option value='" + json[i].id + "'>" + json[i].name + "</option>");
+            }
+        }, 'json').error(function () { alter("ERRPR!") });
     }
+    loadDiscountCom();
     //编辑项，填写报名课时
     function editCol(value, row, index, key) {
-        return "<div><input type=\"text\" value=\"" + value + "\"  " + JSON.stringify(row) + ", \"" + key + "\", " + index + ")' /></div>";
+        return [
+             '<input type="text" value="" class="input-sm form-control" style="width:50px">'
+        ].join('');
+        
+    }
+    //编辑项，下拉选择优惠
+    function dropdownCol(value, row, index, key) {
+        return [
+           '<select data-placeholder="选择优惠..." id = "discountSelect" class="form-control input-sm" style="width:100%;"><option value="">请选择</option></select>'
+        ].join('');
     }
     //结束报名-------------------------------------------------------------------------------------------------
     //保存或者新增预约
@@ -754,7 +770,7 @@
                 layer.close(index);
             }
         });
-        _apid = APID;
+        _apid = APID;//获取全局预约ID
         //重新刷新
         $('#classes').bootstrapTable('refresh');
     }
@@ -780,7 +796,11 @@
             }
         });
     }
-
+    //点击报名弹出窗口的查询按钮事件
+    $("#QueryClass2").click(function () {
+        //重新刷新
+        $('#classes2').bootstrapTable('refresh');
+    })
     //加入
     function jiaru(id) {
         // cleanData("baoming");//清空数据
