@@ -131,7 +131,7 @@ namespace IOT1._0.Controllers.Attendance
             }
             vw_ClassAttendanceList cls = (vw_ClassAttendanceList)(JsonConvert.DeserializeObject(data.ToString(), typeof(vw_ClassAttendanceList)));
 
-            List<vw_StudentEvaluate> btn = AttendaceData.getStudentEvaluate(cls.ClassID, cls.ClassIndex);//业务层获取底层方法，返回数据
+            List<AttendanceRecord> btn = AttendaceData.getStudentCheck(cls.ClassID, cls.ClassIndex);//业务层获取底层方法，返回数据
 
 
             if (btn !=null)
