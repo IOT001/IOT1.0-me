@@ -138,12 +138,35 @@ namespace IOT1._0.Controllers.Attendance
             {
                 ajax.status = EnumAjaxStatus.Success;
                 ajax.msg = "获取信息成功";
-                ajax.data = new Object[]{btn,CommonData.GetDictionaryList(9)};
+                ajax.data = new Object[]{btn,CommonData.GetDictionaryList(18)};
             }
 
             return Json(ajax);
 
         }
+
+
+        public JsonResult saveStudentAttendance()
+        {
+            AjaxStatusModel ajax = new AjaxStatusModel();//功能操作类的返回类型都是AjaxStatusModel，数据放到AjaxStatusModel.data中，前台获取json后加载
+            ajax.status = EnumAjaxStatus.Error;//默认失败
+            ajax.msg = "保存考勤失败！";//前台获取，用于显示提示信息
+            var data = Request["data"];//获取前台传递的数据，主要序列化
+            if (string.IsNullOrEmpty(data))
+            {
+                return Json(ajax);
+            }
+            List<AttendanceRecord> cls = (List<AttendanceRecord>)(JsonConvert.DeserializeObject(data.ToString(), typeof(List<AttendanceRecord>)));
+            if (AttendaceData.saveStudentAttendance(cls))
+            {
+                ajax.status = EnumAjaxStatus.Success;
+                ajax.msg = "保存考勤成功";
+
+            }
+
+            return Json(ajax);
+        }
     }
+
 
 }

@@ -13,6 +13,11 @@ namespace DataProvider.Data
 {
     public class AttendaceData
     {
+        /// <summary>
+        /// 学员考勤-列表查询
+        /// </summary>
+        /// <param name="search"></param>
+        /// <returns></returns>
         public static PagedList<vw_ClassAttendanceList> GetButtonList(AttendanceSearchModel search)
         {
             string table = string.Empty, fields = string.Empty, orderby = string.Empty, where = string.Empty;//定义结构
@@ -35,6 +40,12 @@ namespace DataProvider.Data
             return new PagedList<vw_ClassAttendanceList>(list, search.CurrentPage, search.PageSize, allcount);
         }
 
+        /// <summary>
+        /// 获取对学生评价
+        /// </summary>
+        /// <param name="classId"></param>
+        /// <param name="classIndex"></param>
+        /// <returns></returns>
         public static List<vw_StudentEvaluate> getStudentEvaluate(String classId, int classIndex)
         {
             string table = string.Empty, fields = string.Empty, orderby = string.Empty, where = string.Empty;//定义结构
@@ -64,8 +75,20 @@ namespace DataProvider.Data
     //orderby: orderby, pageindex: search.CurrentPage, pagesize: search.PageSize, connect: DBKeys.PRX);
     //        return new PagedList<vw_StudentEvaluate>(list, search.CurrentPage, search.PageSize, allcount);
         }
+        /// <summary>
+        /// 保存学生的考勤
+        /// </summary>
+        /// <param name="cls"></param>
+        /// <returns></returns>
         public static bool saveStudentEvalute(List<vw_StudentEvaluate> cls)
         {
+            bool ret = false;
+
+            try { 
+
+            DBRepository db = new DBRepository(DBKeys.PRX);
+            db.BeginTransaction();//事务开始
+
             foreach (vw_StudentEvaluate value in cls)
             {
                 if (string.IsNullOrWhiteSpace(value.Evaluate)) continue;
@@ -74,7 +97,18 @@ namespace DataProvider.Data
                 MsSqlMapperHepler.Update(btnto, DBKeys.PRX);
            }
 
-            return true;
+            db.Commit(); //事务提交
+            db.Dispose();  //资源释放
+            ret = true;//新增成功
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+
+            return ret;
         }
 
         /// <summary>
@@ -88,6 +122,12 @@ namespace DataProvider.Data
         }
 
 
+        /// <summary>
+        /// 获取学生的考勤情况
+        /// </summary>
+        /// <param name="classId"></param>
+        /// <param name="classIndex"></param>
+        /// <returns></returns>
         public static List<AttendanceRecord> getStudentCheck(String classId, int classIndex)
         {
 
@@ -123,6 +163,71 @@ namespace DataProvider.Data
             //        return new PagedList<vw_StudentEvaluate>(list, search.CurrentPage, search.PageSize, allcount);
         }
 
+        /// <summary>
+        /// 根据学生ID，classID,classIndex 获取学生单条考勤记录
+        /// </summary>
+        /// <param name="studentID"></param>
+        /// <param name="classId"></param>
+        /// <param name="classIndex"></param>
+        /// <returns></returns>
+        public static AttendanceRecord GetAttendanceRecordByStudentClass(string studentID, string classId, int classIndex)
+        {
+            String sql = "select * from AttendanceRecord where StudentID = @StudentID and ClassID = @ClassID and ClassIndex = @ClassIndex";
+            var dynamic = new DynamicParameters();
+            dynamic.Add("@StudentID", studentID);
+            dynamic.Add("@ClassID", classId);
+            dynamic.Add("@ClassIndex", classIndex);
+
+            return MsSqlMapperHepler.SqlWithParamsSingle<AttendanceRecord>(sql, dynamic, DBKeys.PRX);
+        }
+
+
+        public static bool saveStudentAttendance(List<AttendanceRecord> ar)
+        {
+            bool ret = false;
+
+            try{
+                DBRepository db = new DBRepository(DBKeys.PRX);
+                db.BeginTransaction();//事务开始
+
+                foreach (AttendanceRecord value in ar)
+                {
+                    if (value == null) continue;
+                    if (value.ClockTime == null && value.OutStatus < 1) continue;
+
+                    AttendanceRecord btnto = AttendaceData.GetAttendanceRecordByStudentClass( value.StudentID,value.ClassID, value.ClassIndex);//获取对象
+                    if (value.ClockTime != null)
+                    {
+                        btnto.ClockTime = value.ClockTime;
+                        btnto.AttendanceTypeID = 2;//考勤正常
+                       Enroll enroll= EnrollData.getEnrollByStudentClass(value.StudentID, value.ClassID);
+                       if (enroll != null)
+                       {
+                           enroll.UsedHour++;
+                           EnrollData.UpdateEnroll(enroll);
+                       }
+                    }
+                    if (value.OutStatus > 0)
+                    {
+                        btnto.AttendanceTypeID = 3;//缺勤
+                        btnto.OutStatus = value.OutStatus;
+                    }
+                    MsSqlMapperHepler.Update(btnto, DBKeys.PRX);
+               }
+
+                db.Commit(); //事务提交
+                db.Dispose();  //资源释放
+                ret = true;//新增成功
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+
+            return ret ;
+        }
     }
 
 }

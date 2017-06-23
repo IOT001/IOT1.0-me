@@ -49,6 +49,10 @@ namespace DataProvider
         /// </summary>
         public string Evaluate { get; set; }
         /// <summary>
+        /// 缺勤原因-字典表
+        /// </summary>
+        public int OutStatus { get; set; }
+        /// <summary>
         /// 备注
         /// </summary>
         public string Remark { get; set; }
