@@ -34,7 +34,9 @@ namespace DataProvider.Entities
         public string DeletorId { get; set; }
         public Nullable<System.DateTime> DeleteTime { get; set; }
         public int StateIDed { get; set; }
-
-
+        /// <summary>
+        /// 初始报名费用
+        /// </summary>
+        public decimal Expenses { get; set; }
     }
 }

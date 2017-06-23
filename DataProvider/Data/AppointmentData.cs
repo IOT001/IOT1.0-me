@@ -110,5 +110,18 @@ namespace DataProvider.Data
             }
             return ret;
         }
+        /// <summary>
+        /// 获取优惠下拉
+        /// </summary>
+        /// <returns></returns>
+        public static List<Discount> GetDiscountItems()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append("SELECT * ");
+            sb.Append(" FROM [Discount] a WITH(NOLOCK)");
+            sb.Append(" WHERE a.StateID <> 2");
+            sb.Append(" ORDER BY CreateTime desc");
+            return MsSqlMapperHepler.SqlWithParams<Discount>(sb.ToString(), null, DBKeys.PRX);
+        }
     }
 }

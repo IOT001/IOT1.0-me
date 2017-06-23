@@ -203,8 +203,9 @@ namespace IOT1._0.Controllers.Enroll
         public JsonResult GetDiscountItems()
         {
             //根据方式拉项
-            List<CommonEntity> IntentTypeList = CommonData.GetDictionaryList(14);//13跟进方式
-            return Json(IntentTypeList);
+            List<Discount> DisCountList = AppointmentData.GetDiscountItems();
+     
+            return Json(DisCountList);
         }
     }
 }
