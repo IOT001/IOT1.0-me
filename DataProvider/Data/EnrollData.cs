@@ -52,7 +52,10 @@ namespace DataProvider.Data
             if (!string.IsNullOrWhiteSpace(search.ApName))//姓名
                 sb.AppendFormat(" and name like '%{0}%' ", search.ApName);
             if (!string.IsNullOrWhiteSpace(search.Enroll_StudentID))//学号
+            {
                 sb.AppendFormat(" and studentid like '%{0}%' ", search.Enroll_StudentID);
+            }
+            sb.AppendFormat(" and ClassID = '{0}' ", search.ClassID);
             
             where = sb.ToString();
 

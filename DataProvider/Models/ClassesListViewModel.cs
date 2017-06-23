@@ -134,8 +134,9 @@ namespace DataProvider.Models
         /// </summary>
         public string TimePeriod
         { set; get; }
-        
-        
+
+
+ 
 
     }
 

@@ -37,5 +37,7 @@ namespace DataProvider
         public string ApprovedRemark { get; set; }
         public string Name { get; set; }
         public string BindPhone { get; set; }
+        public string ClassName { get; set; }
+        
     }
 }
