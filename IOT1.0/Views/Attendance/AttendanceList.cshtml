@@ -439,17 +439,31 @@
         var checkOutOption = $("[name = class-time]");
         hidden.each(function (index, value) {
             var id = value.innerText;
-            var checked=$(checkIn[index]).is(":checked")
-            var options = $(checkOutOption[index]).val();
-            var tmp = new Object();
-            tmp.StudentID = id;
-            tmp.ClassID = obj.ClassID;
-            tmp.ClassIndex = obj.ClassIndex;
-            tmp.CreateTime = checked ? new Date().Format("yyyy-MM-dd HH:mm:ss") : "";
-            tmp.AttendanceTypeID = options;
-            data[index] = tmp;
+            var checked = $(checkIn[index]).is(":checked")
+            var disabled=$(checkIn[index]).attr("disabled")
+            if (!disabled) {              
+                var options = $(checkOutOption[index]).val();
+                var tmp = new Object();
+                tmp.StudentID = id;
+                tmp.ClassID = obj.ClassID;
+                tmp.ClassIndex = obj.ClassIndex;
+                tmp.ClockTime = checked ? new Date().Format("yyyy-MM-dd HH:mm:ss") : "";
+                tmp.OutStatus = options ? options : '0';
+                data[index] = tmp;
+            }
         });
-        alert(data.length);
+        $.post('@Url.Action("saveStudentAttendance", "Attendance")', { "data":JSON.stringify(data)}, function (json) {
+            if (json.status = 200) {//成功
+                layer.msg(json.msg);//弹出服务器返回的消息
+                setTimeout(function () {//操作
+                    layer.closeAll();//关闭所有层
+                    window.location.reload(); //刷新
+                }, 3000);
+            }
+            layer.close(loadIndex);//关闭加载层
+        }).error(function () {
+            layer.close(loadIndex);//关闭加载层
+        });
     }
 
     //点击出勤checkbox
@@ -501,15 +515,23 @@
 
             if (json.status == 200) { // 成功
 
-                var option = '<option value="">请选择缺勤原因</option>';
-
-                $.each(json.data[1], function (index, value) {
-                    option += "<option value='" + value.id + "'>" + value.name + "</option>";
-                });
+               
 
                 var tbody = "<tbody>";
                 $.each(json.data[0], function (index, value) {
-                    var ischeck = ChangeDateFormat(value.ClockTime).indexOf('1900') == 0;
+                    
+                    var isCheckAttendance = value.AttendanceTypeID > 1;//判断当前状态是否已考勤
+                    var ischeck = value.AttendanceTypeID > 1 && value.OutStatus < 1;//考勤正常
+
+                    var option = '<option value="">请选择缺勤原因</option>';
+
+                    $.each(json.data[1], function (index, valueOption) {
+                        if (valueOption.id == value.OutStatus) {
+                            option += "<option value='" + valueOption.id + "' selected = 'selected'>" + valueOption.name + "</option>";
+                        }else
+                            option += "<option value='" + valueOption.id + "'>" + valueOption.name + "</option>";
+                    });
+
                         //checked="checked"
                     //var options = option.replace("value=''", '');
                     tbody += "<tr>"
@@ -518,9 +540,12 @@
                         + "<td>" + value.Phone + "</td>"
                         + '<th>出勤 <input type="checkbox" class="checkbox i-checks"  name="chkItem"' +
                             (ischeck ? 'checked="checked"' : '')
+                            + (isCheckAttendance ? 'disabled="true"' : '')
                         +' ></th>'
                         + '<td>剩余' + value.LeftHour + '</td>'
-                        + '<td><select class="selectpicker  form-control" name="class-time" data-live-search="true" onchange="javascript:onKaoqinOptionChange();">'
+                        + '<td><select class="selectpicker  form-control" name="class-time" data-live-search="true"' 
+                        +(isCheckAttendance ? 'disabled="true"' : '')
+                        +'onchange="javascript:onKaoqinOptionChange();">'
                         + option
                         + "</select></td>"
                     + "</tr>";

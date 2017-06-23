@@ -267,6 +267,8 @@ namespace IOT1._0.Controllers.Teach
             EnrollListSearchModel search = new EnrollListSearchModel();
             string Enroll_Name = Request["Enroll_Name"];
             string Enroll_StudentID = Request["Enroll_StudentID"];
+            string ClassID = Request["ClassID"];
+            search.ClassID = ClassID;
             if (!string.IsNullOrEmpty(Enroll_Name))
                 search.ApName = Enroll_Name;
             if (!string.IsNullOrEmpty(Enroll_StudentID))
@@ -279,7 +281,89 @@ namespace IOT1._0.Controllers.Teach
             return Json(new { total = 1, rows = vw_Enroll, state = true, msg = "加载成功" }, JsonRequestBehavior.AllowGet);
         }
 
-       
+
+
+
+
+        /// <summary>
+        ///  按条件查询试听课
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult GeClass_transfe_List()
+        {
+            AjaxStatusModel ajax = new AjaxStatusModel();
+            ajax.status = EnumAjaxStatus.Error;//默认失败
+            ajax.msg = "获取失败！";//前台获取，用于显示提示信息
+            ClassesListSearchModel search = new ClassesListSearchModel();//页面模型   
+            string ClassName = Request["ClassName"];
+            if (!string.IsNullOrEmpty(ClassName))
+                search.ClassName = ClassName;
+            search.CurrentPage = 1;//当前页
+            search.PageSize = 15;//不想分页就设置成一个较大的值,比如99999 
+            List<vw_Classes> vw_Enroll = ClassesData.GeClass_transfe_List(search);
+            ajax.data = vw_Enroll;
+            return Json(new { total = 1, rows = vw_Enroll, state = true, msg = "加载成功" }, JsonRequestBehavior.AllowGet);
+        }
+
+
+
+
+
+
+        /// <summary>
+        /// 保存编辑转班
+        /// </summary>
+        /// <param name="json"></param>
+        /// <returns></returns>
+        public JsonResult SaveClass_transfe()
+        {
+            AjaxStatusModel ajax = new AjaxStatusModel();//功能操作类的返回类型都是AjaxStatusModel，数据放到AjaxStatusModel.data中，前台获取json后加载
+            ajax.status = EnumAjaxStatus.Error;//默认失败
+            ajax.msg = "保存失败！";//前台获取，用于显示提示信息
+            string Classes_ID = Request["Classes_ID"];//班级ID，班级号
+            string Enroll_ID = Request["Enroll_ID"];//报名表主键
+            string Enroll_StudentID = Request["Enroll_StudentID"];//报名表学员号
+            string Enroll_ClassID = Request["Enroll_ClassID"];//报名表班级ID
+            if (string.IsNullOrEmpty(Classes_ID))
+            {
+                return Json(ajax);
+            }
+            if (string.IsNullOrEmpty(Enroll_ID))
+            {
+                return Json(ajax);
+            }
+            if (string.IsNullOrEmpty(Enroll_StudentID))
+            {
+                return Json(ajax);
+            }
+            if (string.IsNullOrEmpty(Enroll_ClassID))
+            {
+                return Json(ajax);
+            }
+           
+            DataProvider.Entities.Enroll en = new DataProvider.Entities.Enroll();
+            ClassesTrans ct = new ClassesTrans();
+
+            en.ClassID = Classes_ID;
+            en.ID = Enroll_ID;
+            en.UpdateTime = DateTime.Now;
+            en.UpdatorId = UserSession.userid;
+
+
+            ct.CreateTime = DateTime.Now;
+            ct.CreatorId = UserSession.userid;
+            ct.StudentID = Enroll_StudentID;
+            ct.ClassFrom = Enroll_ClassID;
+            ct.ClassTo = Classes_ID;
+            if (ClassesData.SaveClass_transfe(en,ct))//注意时间类型，而且需要在前台把所有的值
+            {
+                ajax.msg = "保存成功！";
+                ajax.status = EnumAjaxStatus.Success;
+            }
+            return Json(ajax);
+        }
+
+
 
 
     }

@@ -55,6 +55,12 @@ namespace DataProvider.Models
        /// </summary>
        public string Enroll_StudentID { set; get; }
 
+        /// <summary>
+       /// 班级ID
+       /// </summary>
+       public string ClassID { set; get; }
+
+
        
 
    }

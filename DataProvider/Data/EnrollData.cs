@@ -33,6 +33,34 @@ namespace DataProvider.Data
             return ret;
         }
 
+        public static Enroll getEnrollByStudentClass(string studentID, string classId)
+        {
+            String sql = "select * from Enroll where StudentID = @StudentID and ClassID = @ClassID ";
+            var dynamic = new DynamicParameters();
+            dynamic.Add("@StudentID", studentID);
+            dynamic.Add("@ClassID", classId);
+
+            return MsSqlMapperHepler.SqlWithParamsSingle<Enroll>(sql, dynamic, DBKeys.PRX);            
+        }
+
+        public static Enroll GetEnrollByID(String ID)
+        {
+            return MsSqlMapperHepler.GetOne<Enroll>(ID, DBKeys.PRX);
+        }
+
+        /// <summary>
+        /// 更新 教师信息
+        /// </summary>
+        /// <param name="btn"></param>
+        /// <returns></returns>
+        public static bool UpdateEnroll(Enroll btn)
+        {
+            Enroll btnto = EnrollData.GetEnrollByID(btn.ID);//获取对象
+            Cloner<Enroll, Enroll>.CopyTo(btn, btnto);
+            //Cloner<Teachers, Teachers>.CopyTo(btn, btnto);//代码克隆，把前台或者的值也就是变更内容复制到目标对象，不做变更的数据不变
+            return MsSqlMapperHepler.Update(btnto, DBKeys.PRX);
+        }
+
 
 
 
@@ -52,7 +80,10 @@ namespace DataProvider.Data
             if (!string.IsNullOrWhiteSpace(search.ApName))//姓名
                 sb.AppendFormat(" and name like '%{0}%' ", search.ApName);
             if (!string.IsNullOrWhiteSpace(search.Enroll_StudentID))//学号
+            {
                 sb.AppendFormat(" and studentid like '%{0}%' ", search.Enroll_StudentID);
+            }
+            sb.AppendFormat(" and ClassID = '{0}' ", search.ClassID);
             
             where = sb.ToString();
 

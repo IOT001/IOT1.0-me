@@ -105,6 +105,7 @@
     <Compile Include="DPBase.cs" />
     <Compile Include="Entities\Appointment.cs" />
     <Compile Include="Entities\AttendanceRecord.cs" />
+    <Compile Include="Entities\ClassesTrans.cs" />
     <Compile Include="Entities\ClassList.cs" />
     <Compile Include="Entities\Course.cs" />
     <Compile Include="Entities\DictionaryItem.cs" />
