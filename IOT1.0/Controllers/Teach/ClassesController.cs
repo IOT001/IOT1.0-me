@@ -254,19 +254,32 @@ namespace IOT1._0.Controllers.Teach
         }
 
 
+
         /// <summary>
-        /// 分配按钮查询
+        ///  按条件查询试听课
         /// </summary>
-        /// <param name="apid"></param>
         /// <returns></returns>
-        public JsonResult GetClassesByClassID(string StudentID, string name)
+        public ActionResult GetClassesByClassID()
         {
-            AjaxStatusModel ajax = new AjaxStatusModel();//功能操作类的返回类型都是AjaxStatusModel，数据放到AjaxStatusModel.data中，前台获取json后加载
+            AjaxStatusModel ajax = new AjaxStatusModel();
             ajax.status = EnumAjaxStatus.Error;//默认失败
-            List<FollowRecord> FollowList = ClassesData.GetClassesByClassID(StudentID, name);
-            ajax.data = FollowList;
-            return Json(new { total = 1, rows = FollowList, state = true, msg = "加载成功" }, JsonRequestBehavior.AllowGet);
+            ajax.msg = "获取失败！";//前台获取，用于显示提示信息
+            EnrollListSearchModel search = new EnrollListSearchModel();
+            string Enroll_Name = Request["Enroll_Name"];
+            string Enroll_StudentID = Request["Enroll_StudentID"];
+            if (!string.IsNullOrEmpty(Enroll_Name))
+                search.ApName = Enroll_Name;
+            if (!string.IsNullOrEmpty(Enroll_StudentID))
+                search.Enroll_StudentID = Enroll_StudentID;
+
+            search.CurrentPage = 1;//当前页
+            search.PageSize = 15;//不想分页就设置成一个较大的值,比如99999
+            List<vw_Enroll> vw_Enroll = EnrollData.GeEnrollList(search);
+            ajax.data = vw_Enroll;
+            return Json(new { total = 1, rows = vw_Enroll, state = true, msg = "加载成功" }, JsonRequestBehavior.AllowGet);
         }
+
+       
 
 
     }

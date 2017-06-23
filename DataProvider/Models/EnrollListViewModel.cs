@@ -50,6 +50,13 @@ namespace DataProvider.Models
        /// </summary>
        public string ApTel { set; get; }
 
+            /// <summary>
+       /// 学号
+       /// </summary>
+       public string Enroll_StudentID { set; get; }
+
+       
+
    }
 
 }

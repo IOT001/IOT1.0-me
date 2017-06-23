@@ -117,6 +117,7 @@
     <Compile Include="Entities\Teachers.cs" />
     <Compile Include="Entities\vw_Classes.cs" />
     <Compile Include="Entities\vw_Discount.cs" />
+    <Compile Include="Entities\vw_Enroll.cs" />
     <Compile Include="Entities\vw_StudentEvaluate.cs" />
     <Compile Include="Entities\vw_Students.cs" />
     <Compile Include="Entities\Classes.cs" />
