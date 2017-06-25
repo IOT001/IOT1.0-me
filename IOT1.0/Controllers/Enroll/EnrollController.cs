@@ -13,7 +13,7 @@ using System.Web.Mvc;
 
 namespace IOT1._0.Controllers.Enroll
 {
-    public class EnrollController : Controller
+    public partial class EnrollController : Controller
     {
         /// <summary>
         /// 报名记录

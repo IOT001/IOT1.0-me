@@ -110,6 +110,11 @@ namespace IOT1._0.Controllers.Teach
             return Json(ajax);
 
         }
+
+        public ActionResult StudentScheduleList()
+        {
+            return View();
+        }
     }
 }
 

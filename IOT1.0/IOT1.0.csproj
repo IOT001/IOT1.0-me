@@ -158,6 +158,7 @@
     <Compile Include="Controllers\Authority\RoleController.cs" />
     <Compile Include="Controllers\Authority\TestController.cs" />
     <Compile Include="Controllers\Authority\UpLoadController.cs" />
+    <Compile Include="Controllers\Enroll\EnrollAuditController.cs" />
     <Compile Include="Controllers\Enroll\EnrollController.cs" />
     <Compile Include="Controllers\Enroll\WeixinController.cs" />
     <Compile Include="Controllers\Finance\DiscountListController.cs" />
@@ -4652,6 +4653,8 @@
     <Content Include="Views\Teach\Classes.cshtml" />
     <Content Include="Views\Finance\DiscountList.cshtml" />
     <Content Include="Views\Office\MessageList.cshtml" />
+    <Content Include="Views\Enroll\EnrollAuditList.cshtml" />
+    <Content Include="Views\Teach\StudentScheduleList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
