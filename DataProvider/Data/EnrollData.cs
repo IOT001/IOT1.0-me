@@ -32,7 +32,34 @@ namespace DataProvider.Data
             }
             return ret;
         }
-
+       /// <summary>
+       /// 批量新增报名记录
+       /// </summary>
+       /// <param name="list"></param>
+       /// <returns></returns>
+        public static bool AddList(List<Enroll> list)
+        {
+            bool ret = false;
+            DBRepository db = new DBRepository(DBKeys.PRX);
+            db.BeginTransaction();
+            try
+            {
+                            
+                foreach (var obj in list)
+                {
+                    db.Insert<Enroll>(obj);
+                }
+                ret = true;
+                db.Commit();
+            }          
+            catch (Exception ex)
+            {
+                db.Rollback();
+                db.Dispose();
+                throw new Exception(ex.Message);
+            }
+            return ret;
+        }
         public static Enroll getEnrollByStudentClass(string studentID, string classId)
         {
             String sql = "select * from Enroll where StudentID = @StudentID and ClassID = @ClassID ";
