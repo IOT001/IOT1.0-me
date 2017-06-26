@@ -171,6 +171,7 @@
     <Compile Include="Controllers\Teach\TeachController.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Controllers\Teach\StudentScheduleListController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
