@@ -111,10 +111,7 @@ namespace IOT1._0.Controllers.Teach
 
         }
 
-        public ActionResult StudentScheduleList()
-        {
-            return View();
-        }
+        
     }
 }
 

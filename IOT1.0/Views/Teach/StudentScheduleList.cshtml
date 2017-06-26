@@ -3,7 +3,7 @@
 @{
     ViewBag.Title = "学员课程表";
 }
-@model ButtonListViewModel
+@model StudentScheduleListViewModel
 @section styles{
     <style type="text/css">
     </style>
@@ -23,14 +23,15 @@
                             </div>
 
                             <div class="col-sm-3">
-                                <input type="text" class="form-control input-sm">
+                                @Html.TextBoxFor(t => t.search.Name, new { @class = "form-control input-sm", @type = "text", @placeholder = "请输入学生姓名" })
+                              
                             </div>
-                            <div class="form-group form-horizontal">
+                            <div class="form-group form-horizontal"> 
                                 <label class="col-sm-2 control-label">上课日期:</label>
                                 <div class="input-daterange input-group col-sm-3" id="datepicker">
-                                    <input type="text" class="input-sm form-control" name="start" value="" id="StartTime_start2">
+                                   @Html.TextBoxFor(t => t.search.timeStart, new { @class = "input-sm form-control", @type = "text", @value = DateTime.Now })
                                     <span class="input-group-addon">到</span>
-                                    <input type="text" class="input-sm form-control" name="end" value="" id="StartTime_end2">
+                                   @Html.TextBoxFor(t => t.search.timeEnd, new { @class = "input-sm form-control", @type = "text", @value = DateTime.Now })
                                 </div>
                             </div>
                         </div>
@@ -43,7 +44,7 @@
                                 </div>
                             </div>
                             <div class="col-sm-8 project-actions">
-                                <button type="button" class="btn btn-w-m btn-primary btn-sm">查&nbsp;&nbsp;&nbsp;&nbsp;询</button>
+                                <button type="submit" class="btn btn-w-m btn-primary btn-sm">查&nbsp;&nbsp;&nbsp;&nbsp;询</button>
                             </div>
                         </div>
                     }
@@ -60,60 +61,46 @@
                                 <th>备注</th>
                                 <th>操作</th>
                             </tr>
-                        </thead>
-                        <!-- 循环数据 -->
-                        <tbody>
-                            <!-- 测试数据 -->
-                            <tr>
-                                <td>李文杰</td>
-                                <td>暑期一班</td>
-                                <td>2017-10-10</td>
-                                <td></td>
-                                <td>未出勤</td>
-                                <td></td>
-                                <td></td>
-                                <td><a href="javascript:tiaozheng('')" class="btn btn-primary btn-xs" type="button"><i class="fa fa-adjust"></i> 调整</a></td>
-                            </tr>
-                            <tr>
-                                <td>李文涛</td>
-                                <td>暑期一班</td>
-                                <td>2017-09-20</td>
-                                <td>09:00</td>
-                                <td>正常</td>
-                                <td>上课较认真</td>
-                                <td></td>
-                                <td><a href="javascript:tiaozheng('')" class="btn btn-primary btn-xs" type="button"><i class="fa fa-adjust"></i> 调整</a></td>
-                            </tr>
-                            <!-- 测试数据 -->
-                            @if (Model != null && Model.buttonlist.Count() > 0)
-                            {
-                                foreach (var m in Model.buttonlist)
-                                {
-                                    <tr>
-                                        <td class="jz">@m.BTN_Id</td>
-                                        <td>@m.BTN_Name</td> @*按钮名称*@
-                                        <td>@m.BTN_OrderIndex</td>
-                                        <td>@m.BTN_Mark</td>
-                                        <td>
-                                            <a href="javascript:modify(@m.BTN_Id);" class="btn btn-primary btn-xs" type="button"><i class="fa fa-edit"></i> 编辑</a>
+                         <!-- 循环数据 -->
+                            <tbody>
 
-                                        </td>
-                                    </tr>
+                            @if (Model != null && Model.AttendanceRecordlist.Count() > 0)
+                            {
+                                foreach (var m in Model.AttendanceRecordlist)
+                                {
+                                <tr>
+                                    <td class="jz">@m.Name</td>
+                                    <td>@m.ClassName</td>
+                                    <td>@m.ClassDate</td>
+                                    <td>@m.ClockTime</td>
+                                    <td>@m.AttendanceTypeIDName</td>
+                                    <td>@m.Evaluate</td>
+                                    <td>@m.Remark</td> 
+                                    <td>
+                                        <a href="javascript:tiaozheng('@m.ID');" class="btn btn-primary btn-xs" type="button"><i class="fa fa-edit"></i>调整</a>
+
+                                      
+                                    </td>
+
+
+                                </tr>
                                 }
                             }
                             else
                             {
-                                @*<tr><td colspan="7" style="text-align:center; color:red;">未查询到数据,请更换查询条件试试!</td></tr>*@
+                                <tr>
+                                    <td colspan="8" style="text-align: center; color: red;">未查询到数据,请更换查询条件试试!</td>
+                                </tr>
                             }
-                        </tbody>
+                        </tbody>  
                     </table>
-                    @if (Model != null && Model.buttonlist.TotalPageCount > 0)
+                    @if (Model != null && Model.AttendanceRecordlist.TotalPageCount > 0)
                     {
                         <div class="row">
-                            <div class="dataTables_info col-sm-6">每页显示 @Model.search.PageSize 条，共<span>@Model.buttonlist.TotalItemCount</span>条数据</div>
+                            <div class="dataTables_info col-sm-6">每页显示 @Model.search.PageSize 条，共<span>@Model.AttendanceRecordlist.TotalItemCount</span>条数据</div>
                             <div class="col-sm-6">
 
-                                @Html.Pager(Model.buttonlist, new PagerOptions(), "", new RouteValueDictionary {
+                                @Html.Pager(Model.AttendanceRecordlist, new PagerOptions(), "", new RouteValueDictionary {
                                    { "pageindex",  Model.search.CurrentPage },
                                    { "pagesize", ViewBag.PageSize }
                                }, null)
