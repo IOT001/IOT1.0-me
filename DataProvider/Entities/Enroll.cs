@@ -10,20 +10,7 @@ namespace DataProvider.Entities
     {
         public Enroll()
         {
-            ID = string.Empty;
-            APID = string.Empty;
-            StudentID = string.Empty;
-            ClassID = string.Empty;
-            ClassHour = 0.0M;
-            UsedHour = 0.0M;
-            Price = 0.0M;
-            Paid = 0.0M;
-            DiscountID = string.Empty;
-            DiscountPrice = 0.0M;
-            CreatorId = string.Empty;
-            CreateTime = DateTime.Now;
 
-            StateID = 0;
 
         }
         /// <summary>
