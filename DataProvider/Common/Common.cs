@@ -2,12 +2,58 @@
 using DataProvider.SqlServer;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 
 namespace DataProvider
 {
     public static class Common
-    {
+    {        
+        #region ReadConfig
+
+        /// <summary>
+        /// 读取配置文件 appSettings
+        /// </summary>
+        /// <typeparam name="T">类型</typeparam>
+        /// <param name="configKey">键</param>
+        /// <param name="defaultValue">默认值</param>
+        /// <returns></returns>
+        public static T GetAppConfig<T>(string configKey, T defaultValue)
+        {
+            T obj = default(T);
+            try
+            {
+                obj = (T)Convert.ChangeType(ConfigurationManager.AppSettings[configKey], typeof(T));
+            }
+            catch
+            {
+                obj = defaultValue;
+            }
+            return obj;
+        }
+
+        /// <summary>
+        /// 获取配置文件 connectionStrings
+        /// </summary>
+        /// <typeparam name="T">类型</typeparam>
+        /// <param name="connectKey">键</param>
+        /// <param name="defaultValue">默认值</param>
+        /// <returns></returns>
+        public static T GetConnectString<T>(string connectKey, T defaultValue)
+        {
+            T obj = default(T);
+            try
+            {
+                obj = (T)Convert.ChangeType(ConfigurationManager.ConnectionStrings[connectKey].ConnectionString, typeof(T));
+            }
+            catch
+            {
+                obj = defaultValue;
+            }
+            return obj;
+        }
+
+        #endregion ReadConfig
 
         //使用方法如下（针对ID，和Name进行Distinct）：
         //var query = people.DistinctBy(p => new { p.Id, p.Name });

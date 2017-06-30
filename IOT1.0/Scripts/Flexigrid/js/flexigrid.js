@@ -1021,9 +1021,9 @@
 
         //return selectedItem;
     };
-    $.fn.removeData = function () { // 更改了selectedItem的清除方式，by Choey Zhao 2014-04-28
+    $.fn.removeData = function () { // 更改了selectedItem的清除方式，by Choey Zhao 2014-04-28 ，zr 不会改就不要改，哎
         this.each(function () {
-            this.p.selectedItem = [];
+            //this.p.selectedItem = [];
         })
 
         return this.each(function () {

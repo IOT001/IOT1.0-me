@@ -124,9 +124,18 @@ namespace DataProvider.Data
 
         }
 
-
-
-       
+        /// <summary>
+        /// 根据绑定的账号获取一名学员信息
+        /// </summary>
+        /// <param name="AccountID"></param>
+        /// <returns></returns>
+        public static Students GetStudentByAccountID(string AccountID)
+        {
+            string strsql = "select TOP 1 * from Students where BindAccount = @AccountID ";
+            var parameters = new DynamicParameters();
+            parameters.Add("@AccountID", AccountID);
+            return MsSqlMapperHepler.SqlWithParamsSingle<Students>(strsql.ToString(), parameters, DBKeys.PRX);
+        }
 
     }
 }
