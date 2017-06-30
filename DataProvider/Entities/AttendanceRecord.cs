@@ -56,8 +56,16 @@ namespace DataProvider
         /// 备注
         /// </summary>
         public string Remark { get; set; }
-        public System.DateTime CreateTime { get; set; }
+        public Nullable<System.DateTime> CreateTime { get; set; }
         public string CreatorId { get; set; }
+        /// <summary>
+        /// UpdatorId
+        /// </summary>				
+        public string UpdatorId { get; set; }
+        /// <summary>
+        /// UpdateTime
+        /// </summary>				
+        public DateTime? UpdateTime { get; set; }
         /// <summary>
         /// 剩余课时，联合查询enroll表中计算得到
         /// </summary>
