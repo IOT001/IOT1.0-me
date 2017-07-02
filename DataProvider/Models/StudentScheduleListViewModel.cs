@@ -22,6 +22,10 @@ namespace DataProvider.Models
         /// 页面的列表数据
         /// </summary>
         public PagedList<vw_AttendanceRecord> AttendanceRecordlist { get; set; }
+        /// <summary>
+        ///下拉框  
+        /// </summary>
+        public List<SelectListItem> AttendanceRecordIL { get; set; } 
 
         
     }
@@ -41,7 +45,10 @@ namespace DataProvider.Models
         /// 学员姓名
         /// </summary>
         public string Name { set; get; }
-        
+        /// <summary>
+        /// 下拉框绑定班级ID
+        /// </summary>
+        public string ID { set; get; }
         
  
     }

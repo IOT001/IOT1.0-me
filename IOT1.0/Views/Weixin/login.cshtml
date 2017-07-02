@@ -1,0 +1,65 @@
+﻿@{
+    ViewBag.Title = "登录";
+    Layout = "~/Views/Shared/_Layoutwx.cshtml";//设置模板文件
+}
+
+@section style{
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Scripts/Mobile/content/css/login.css")" />
+}
+<section class="w640">
+    <div class="topimg">
+        <img src="@Url.Content("~/Scripts/Mobile/content/images/login/topimg.jpg")" alt="" />
+    </div>
+    <div class="loginCon">
+        <div class="line">
+            <input class="name" type="text" name="username" id="username" placeholder="请输入用户名或手机" />
+        </div>
+        <div class="line">
+            <input class="password" type="password" name="password" id="password" placeholder="请输入密码" />
+        </div>
+        <p><span><img src="@Url.Content("~/Scripts/Mobile/content/images/login/icon03.png")" alt="" /></span>使用前请向启联客服索要账号密码</p>
+        <a href="javascript:doLogin()" class="loginBtn">登录</a>
+    </div>
+    <div class="loading">
+        <div class="loadCon"></div>
+    </div>
+    <div class="shadow">&nbsp;</div>
+    <div class="alert">
+        <p>&nbsp;</p>
+        <div class="alertBtn">
+            <a href="javascript:;" class="cancel">取消</a>
+            <a href="javascript:;" class="confirm">确定</a>
+        </div>
+    </div>
+</section>
+@section script {
+    <script type="text/javascript" src="@Url.Content("~/Scripts/Mobile/content/js/login.js")"></script>
+    <script type="text/javascript">
+
+        function doLogin() {
+            var url = "@Url.Action("login", "Weixin")";
+            var param = {};
+            param.username = $("#username").val();
+            param.password = $("#password").val();
+            $.ajax({
+                url: url, data: param, type: "POST",
+                success: function (data) {
+                    if (data.status != 200) {
+                        $(".loading").hide();
+                        $(".alert").find("p").html(data.msg);
+                        $(".alert").show();
+                        $(".shadow").show();
+                    } else {
+                        window.location.href = data.data;
+                    }
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    $(".loading").hide();
+                    $(".alert").find("p").html("提交失败,请检查网络");
+                    $(".alert").show();
+                    $(".shadow").show();
+                }
+            });
+        }
+    </script>
+}

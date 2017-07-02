@@ -1,41 +1,57 @@
-﻿@{
-    ViewBag.Title = "PaymentList";
-}
+﻿@using DataProvider.Models
+@using DataProvider.Paging
+@{
+    ViewBag.Title = "交易中心";
 
-<div class="ibox float-e-margins">
-    <div class="ibox-title">
-        <h5>我的缴费记录</h5>
+}
+@model WX_PaymentListModel
+<section class="w640">
+    <div class="ibox float-e-margins">
+        <div class="ibox-title">
+            <h2>我的缴费记录</h2>
+        </div>
+        <div class="ibox-content">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>日期</th>
+                        <th>姓名</th>
+                        <th>班级</th>
+                        <th>费用</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null && Model.StudentEnrollList.Count() > 0)
+                    {
+                        foreach (var m in Model.StudentEnrollList)
+                        {
+                            <tr>
+                                <td>@m.CreateTime</td>
+                                <td>@m.Name</td>
+                                <td>@m.ClassName</td>
+                                <td>@m.Paid</td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="4" style="text-align:center; color:red;">未查询到数据,请更换查询条件试试!</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            @if (Model !=null && Model.StudentEnrollList !=null && Model.StudentEnrollList.TotalPageCount > 0)
+            {
+                @*<div class="loadmore">
+                    下拉加载更多
+                    <span><img src="@Url.Content("~/areas/customize/content/images/comimg/loadmore.png")" alt=""></span>
+                </div>*@
+            }
+            else
+            {
+                @*<div class="loadmore">已全部加载完毕</div>*@
+            }
+        </div>
     </div>
-    <div class="ibox-content">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>日期</th>
-                    <th>姓名</th>
-                    <th>课程</th>
-                    <th>费用</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>2017-10-13</td>
-                    <td>张三</td>
-                    <td>数学数据05</td>
-                    <td>1200</td>
-                </tr>
-                <tr>
-                    <td>2017-10-13</td>
-                    <td>张三</td>
-                    <td>数学数据05</td>
-                    <td>1200</td>
-                </tr>
-                <tr>
-                    <td>2017-10-13</td>
-                    <td>张三</td>
-                    <td>数学数据05</td>
-                    <td>1200</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-</div>
+</section>

@@ -1,0 +1,13 @@
+body{ background: #f6f6f6; }
+.loginCon{ width: 14.0625rem;margin: 1.75rem auto 0; }
+.loginCon .line{ border-bottom: 1px solid #e62f17;padding: 0.375rem 0 0.375rem 1.875rem;margin-bottom: 0.5rem; }
+.loginCon .line input{ width: 12rem;font-size: 0.8125rem;color: #999;border: none;background: transparent; }
+.loginCon .line:nth-child(1){ background: url(../images/login/icon01.png) left center no-repeat;background-size: 1.3125rem 1.375rem; }
+.loginCon .line:nth-child(2){ background: url(../images/login/icon02.png) left center no-repeat;background-size: 1.3125rem 1.375rem; }
+.loginCon input::-webkit-input-placeholder { color: #999; } 
+.loginCon input::-moz-input-placeholder { color: #999; } 
+.loginCon input::-ms-input-placeholder { color: #999; }
+.loginCon input::input-placeholder { color: #999; } 
+.loginCon p{ font-size: 0.75rem;color: #c1c1c1;text-align: center; }
+.loginCon p span{ display: inline-block;width: 0.75rem;vertical-align: middle;margin-bottom: 0.1rem;margin-right: 0.3125rem; }
+.loginCon .loginBtn{ display: block;width: 100%;height: 2.75rem;line-height: 2.75rem;color: #fff;font-size: 1.125rem;text-align: center;background: #62b240;margin-top: 1.5625rem;border-radius: 1.375rem;letter-spacing: 0.25rem; }

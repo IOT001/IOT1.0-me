@@ -110,7 +110,10 @@ namespace DataProvider.Data
             {
                 sb.AppendFormat(" and studentid like '%{0}%' ", search.Enroll_StudentID);
             }
-            sb.AppendFormat(" and ClassID = '{0}' ", search.ClassID);
+            if (!string.IsNullOrWhiteSpace(search.ClassID))//班级号
+            {
+                sb.AppendFormat(" and ClassID = '{0}' ", search.ClassID);
+            }
             
             where = sb.ToString();
 

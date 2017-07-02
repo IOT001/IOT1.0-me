@@ -1,0 +1,11 @@
+body{ display: block;background: #f0eff4; }
+section{ max-width: 640px;min-width: 320px;width: 100%;margin: 0 auto;overflow-x: hidden;padding-bottom: 4rem; }
+.topimg{position:relative;width:100%;}
+.topimg p{height:6.625rem;line-height: 6.625rem;position: absolute;top: 0; left:0;width:100%;font-size: 1.125rem;color:#fff;text-align: center;}
+.myBox{margin-top: 0.625rem;border-top:1px solid #e2e5e9;background: #fff;}
+.myBox li{border-bottom:1px solid #e2e5e9;height:2.8125rem;line-height: 2.8125rem;background: }
+.myBox li .fl{font-size: 0.875rem;color:#383838;}
+.myBox li .fl i{display: block;float:left;height:100%;width:1.5625rem;background: url(../images/perCenter/tip01.png) no-repeat center left;background-size: 0.84375rem 1rem;}
+.myBox li .fr{color:#7a8086; font-size: 0.875rem;}
+
+.signOut{display: block;margin: 0.625rem auto;width: 18.75rem;height:2.5rem;line-height: 2.5rem;text-align: center;background: #c64833;font-size: 0.875rem;color:#fff;border-radius: 0.15625rem;}

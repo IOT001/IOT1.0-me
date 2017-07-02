@@ -60,64 +60,28 @@ namespace DataProvider.Data
 
        }
 
- 
 
 
-
-           /// <summary>
-        /// 修改判断手机号是唯一
+        #region 获取字典列表
+        /// <summary>
+        /// 获取班级下拉
         /// </summary>
-        /// <param name="Stockid"></param>
-        /// <returns></returns>
-        public static int BindPhone_update(string id, string BindPhone)
+        /// <param name="dicTypeID"></param>
+        /// <returns>班级用于下拉的绑定项目</returns>
+        public static List<CommonEntity> GetClassesList(int CourseID)
         {
-
-            string strsql = "select id from Students where id <> @id and BindPhone = @BindPhone";
+            StringBuilder sb = new StringBuilder();
+            sb.Append("select distinct cl.id+','+CAST(cll.ClassIndex as nvarchar(10)) as id,cl.ClassName+'('+convert(varchar(100), cll.ClassDate ,23)+')' as Name");
+            sb.Append(" from Classes cl left join ClassList cll");
+            sb.Append(" on	cl.ID=cll.ClassID ");
+            sb.Append(" where  cl.StateID <> 4 and 	cl.CourseID = @CourseID");
             var parameters = new DynamicParameters();
-            parameters.Add("@id", id);
-            parameters.Add("@BindPhone", BindPhone);
-            return MsSqlMapperHepler.SqlWithParamsSingle<int>(strsql.ToString(), parameters, DBKeys.PRX);
-
-
-
+            parameters.Add("@CourseID", CourseID);
+            return MsSqlMapperHepler.SqlWithParams<CommonEntity>(sb.ToString(), parameters, DBKeys.PRX);
         }
+        #endregion
 
-        /// <summary>
-        /// 新增判断手机号是唯一
-        /// </summary>
-        /// <param name="Stockid"></param>
-        /// <returns></returns>
-        public static int BindPhone_insert(string BindPhone)
-        {
-
-            string strsql = "select id from Students where  BindPhone=@BindPhone";
-            var parameters = new DynamicParameters(); 
-            parameters.Add("@BindPhone", BindPhone);
-            return MsSqlMapperHepler.SqlWithParamsSingle<int>(strsql.ToString(), parameters, DBKeys.PRX);
-
-
-
-        }
-
-
-
-        /// <summary>
-        /// 获取列表
-        /// </summary>
-        /// <param name="Stockid"></param>
-        /// <returns></returns>
-        public static Students GetStudentsList()
-        {
-
-            string strsql = "select *from Students  order by CreateTime desc     ";
-            var parameters = new DynamicParameters(); 
-            return MsSqlMapperHepler.SqlWithParamsSingle<Students>(strsql.ToString(), parameters, DBKeys.PRX);
-             
-
-        }
-
-
-
+ 
        
 
     }
