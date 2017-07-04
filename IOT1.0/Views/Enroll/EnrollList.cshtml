@@ -666,7 +666,7 @@
                         $(this).parent().parent().parent().find("td").eq(8).children('input').val(yhje);//赋值优惠金额
                         $(this).parent().parent().parent().find("td").eq(10).val(bcff);//赋值报名费用
                         $(this).parent().parent().parent().find("td").eq(10).text(bcff);//赋值报名费用
-                        $(this).parent().parent().parent().find("td").eq(6).children('input').attr("disabled", "true");
+                        //$(this).parent().parent().parent().find("td").eq(6).children('input').attr("disabled", "true");
                     }
                     else
                     {
@@ -677,18 +677,20 @@
                         $(this).parent().parent().parent().find("td").eq(8).children('input').val(0);//赋值优惠金额
                         $(this).parent().parent().parent().find("td").eq(10).val(bcff);//赋值报名费用
                         $(this).parent().parent().parent().find("td").eq(10).text(bcff);//赋值报名费用
-                        $(this).parent().parent().parent().find("td").eq(6).children('input').removeAttr("disabled");
+                        //$(this).parent().parent().parent().find("td").eq(6).children('input').removeAttr("disabled");
+                    }
+                    var _DiscountID = $(this).val()//获取选中优惠的id
+                    if (_DiscountID == -1) {//如果选择的是自定义优惠
+                        $(this).parent().parent().parent().find("td").eq(8).children('input').removeAttr("disabled");//设置优惠金额可以用
+
+                    }
+                    else {
+
+                        $(this).parent().parent().parent().find("td").eq(8).children('input').attr("disabled", "true");//设置优惠金额不可用
                     }
                 });
                
-                if ($(".discountSelect",this).val() == -1) {//如果选择的是自定义优惠
-                    $(".discountText").removeAttr("disabled");
-                    
-                }
-                else {
-                    
-                    $(".discountText").attr("disabled", "false");
-                }
+
             });
             for (var i = 0; i < json.length; i++) {
                 $(".discountSelect").append("<option data-reduceamount = '" + json[i].ReduceAmount + "' data-discountrate = '" + json[i].DiscountRate + "' data-discounttypeid = '" + json[i].DiscountTypeID + "' value='" + json[i].ID + "'>" + json[i].DiscountName + "</option>");
