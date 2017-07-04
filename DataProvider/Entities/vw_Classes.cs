@@ -38,5 +38,9 @@ namespace DataProvider.Entities
         /// 初始报名费用
         /// </summary>
         public decimal Expenses { get; set; }
+        /// <summary>
+        /// 总课时
+        /// </summary>
+        public int TotalLesson { get; set; }
     }
 }
