@@ -630,10 +630,16 @@
         });
         //改版课时的时候触发，重新计算应付金额
         $("#txtks").change(function () {
-            var ks = $(this).val()//填写的课时
             var och = $(this).parent().parent().find("td").eq(9).text()//原来的费用
             var oks = $(this).parent().parent().find("td").eq(5).text()//总课时数
-            alert($(this).parent().find("td").eq(10).text());
+            var realbm = $(this).val();//实际报名课时，取input填写值
+        
+            var yhje = $(this).parent().parent().find("td").eq(8).children('input').val//取出优惠金额
+            var bcff = (realbm / oks) * och - yhje;//算本次最终报名费用
+       
+   
+            $(this).parent().parent().parent().find("td").eq(10).text(bcff);//赋值报名费用
+
         })
         var dataHTML = '';
         $.post('@Url.Action("GetDiscountItems", "Enroll")', { }, function (json) {
@@ -719,7 +725,7 @@
     //编辑项，当自定义优惠时允许修改优惠金额
     function editDiscount(value, row, index, key) {
         return [
-             '<input id="discountText" type="text" value="" class="input-sm form-control" style="width:50px" disabled="disabled">'
+             '<input id="discountText" type="text" value="0" class="input-sm form-control" style="width:50px" disabled="disabled">'
         ].join('');
 
     } editDiscount
