@@ -47,5 +47,7 @@ namespace DataProvider.Models
         /// 课程索引
         /// </summary>
         public string classIndex { set; get; }
+      
+ 
     }
 }

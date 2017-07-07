@@ -30,6 +30,9 @@ namespace DataProvider.Data
                sb.AppendFormat(" and Name like '%{0}%' ", search.Name);
            if (search.timeStart != null && search.timeEnd != null)//时间
                sb.AppendFormat(" and ClassDate between '{0}'  and  '{1}'", search.timeStart, search.timeEnd);
+
+           if (!string.IsNullOrWhiteSpace(search.AttendanceRecord_StudentID))//学号
+               sb.AppendFormat(" and  StudentID ='{0}' ", search.AttendanceRecord_StudentID);
            where = sb.ToString();
            int allcount = 0;
            var list = CommonPage<vw_AttendanceRecord>.GetPageList(

@@ -26,11 +26,7 @@ namespace IOT1._0.Controllers.WeiXin
             return View();
         }
 
-        public ActionResult FSConnectionlist()
-        {
-            return View();
-        }
-
+        
         public ActionResult FSConnectionInfo()
         {
             return View();
