@@ -49,10 +49,19 @@ namespace DataProvider.Models
         /// 下拉框绑定班级ID
         /// </summary>
         public string ID { set; get; }
+
+
+        //以下为微信 
         /// <summary>
         /// 学员ID
         /// </summary>
         public string AttendanceRecord_StudentID { set; get; }
+
+        /// <summary>
+        /// ID
+        /// </summary>
+        public string AttendanceRecord_ID { set; get; }
  
+
     }
 }

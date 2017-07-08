@@ -176,6 +176,7 @@
     <Compile Include="Controllers\Teach\StudentScheduleListController.cs" />
     <Compile Include="Controllers\WeiXin\LoginController.cs" />
     <Compile Include="Controllers\WeiXin\FSConnectionlistController.cs" />
+    <Compile Include="Controllers\WeiXin\FSConnectionInfoController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

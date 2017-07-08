@@ -1,33 +1,43 @@
-﻿@{
+﻿@using DataProvider.Models
+@using DataProvider.Paging
+@{
     ViewBag.Title = "上课详细信息";
-}
+} 
+@model WX_FSConnectionlistModel
+
 <div class="ibox float-e-margins w640">
+    @if (Model != null )
+    {
     <div class="ibox-title">
-        <h5>拼音  学员：周子杰</h5>
+        <h5>@Model.FSConnectionInfo.ClassName  学员：@Model.FSConnectionInfo.Name</h5>
     </div>
     <div class="ibox-content">
         <form class="form-horizontal">
             <div class="form-group ">
                 <label class="col-xs-4 control-label">班级：</label>
-                <label class="col-xs-8 form-control-static">年后周日拼音01班</label>
+                <label class="col-xs-8 form-control-static">@Model.FSConnectionInfo.ClassName</label>
             </div>
             <div class="form-group ">
                 <label class="col-xs-4 control-label">教师：</label>
-                <label class="col-xs-8 form-control-static">李老师</label>
+                <label class="col-xs-8 form-control-static">@Model.FSConnectionInfo.TeachersName</label>
             </div>
             <div class="form-group ">
                 <label class="col-xs-4 control-label">表现：</label>
                 <label class="col-xs-8 form-control-static">表现优秀</label>
             </div>
-            <div class="form-group ">
-                <label class="col-xs-4 control-label">课后作业：</label>
-                <label class="col-xs-8 form-control-static">复习第一至3章，完成1-2题</label>
-            </div>
+           
             <div class="form-group ">
                 <label class="col-xs-4 control-label">老师评语：</label>
-                <label class="col-xs-8 form-control-static">上课不够专心，表现一般</label>
+                <label class="col-xs-8 form-control-static">@Model.FSConnectionInfo.Evaluate</label>
+            </div>
+             <div class="form-group ">
+                <label class="col-xs-4 control-label">备注：</label>
+                <label class="col-xs-8 form-control-static">@Model.FSConnectionInfo.Remark</label>
             </div>
         </form>
     </div>
+        
+    }
+
 </div>
 

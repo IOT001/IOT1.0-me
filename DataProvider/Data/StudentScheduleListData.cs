@@ -33,6 +33,9 @@ namespace DataProvider.Data
 
            if (!string.IsNullOrWhiteSpace(search.AttendanceRecord_StudentID))//学号
                sb.AppendFormat(" and  StudentID ='{0}' ", search.AttendanceRecord_StudentID);
+
+           if (!string.IsNullOrWhiteSpace(search.AttendanceRecord_ID))//vw_AttendanceRecord ID
+               sb.AppendFormat(" and  ID ='{0}' ", search.AttendanceRecord_ID);
            where = sb.ToString();
            int allcount = 0;
            var list = CommonPage<vw_AttendanceRecord>.GetPageList(
@@ -40,6 +43,22 @@ namespace DataProvider.Data
    orderby: orderby, pageindex: search.CurrentPage, pagesize: search.PageSize, connect: DBKeys.PRX);
            return new PagedList<vw_AttendanceRecord>(list, search.CurrentPage, search.PageSize, allcount);
        }
+
+
+
+
+        /// <summary>
+        /// 获取FSConnectionInfo页面单条数据
+        /// </summary>
+        /// <param name="ID"></param>
+        /// <returns></returns>
+        public static vw_AttendanceRecord Getvw_AttendanceRecordByID(int ID)
+        {
+            return MsSqlMapperHepler.GetOne<vw_AttendanceRecord>(ID, DBKeys.PRX);
+        }
+      
+
+
        /// <summary>
        /// 获取单条数据
        /// </summary>

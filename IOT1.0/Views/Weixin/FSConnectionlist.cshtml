@@ -1,7 +1,6 @@
 ﻿@using DataProvider.Models
 @using DataProvider.Paging
 @{
-@{
     ViewBag.Title = "我的课程表";
 
 }
@@ -10,8 +9,10 @@
 <div class="ibox float-e-margins w640" >
     <div class="ibox-title">
         
-
+        @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "frmQuery", @class = "form-horizontal" }))
+                   {
          <div class="form-group">
+                 
                             <div class="col-sm-2">
                                 <label class="control-label">开始时间:</label>
                             </div>
@@ -25,7 +26,7 @@
 
 
                             <div class="col-sm-2">
-                                <label class="control-label">结速时间:</label>
+                                <label class="control-label">结束时间:</label>
                             </div>
 
 
@@ -36,9 +37,10 @@
 
                                 </div>
                             </div>
-
+             <button type="submit" class="btn btn-w-m btn-primary btn-sm">查&nbsp;&nbsp;&nbsp;&nbsp;询</button>
+              
                         </div>
-
+         }
 
 
     </div>
@@ -64,9 +66,9 @@
                                 <td>@m.ClassDate</td>
                                 <td>@m.weekday</td>
                                 <td>@m.Name</td>
-                                <td>@m.Name</td>
+                                <td>@m.CourseName</td>
                                        
-          <td><a href="@Url.Action("FSConnectionInfo", "Weixin")" class=" btn-block"><i class="fa fa-arrow-circle-right fa-2x"></i></a></td>
+          <td><a href="@Url.Action("FSConnectionInfo", "Weixin", new { id = @m.ID })" class=" btn-block"><i class="fa fa-arrow-circle-right fa-2x"></i></a></td>
                             </tr>
                         }
                     }

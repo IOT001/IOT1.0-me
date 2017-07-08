@@ -10,9 +10,16 @@ namespace DataProvider.Models
     public class WX_FSConnectionlistModel 
     {
        /// <summary>
-       /// 学员报名记录
+       /// 学员上课记录
        /// </summary>
        public PagedList<vw_AttendanceRecord> FSConnectionlist { get; set; }
+
+
+       /// <summary>
+       /// 学员上课记录详细信息
+       /// </summary>
+       public vw_AttendanceRecord FSConnectionInfo { get; set; }
+
        /// <summary>
        /// 页面的搜索条件
        /// </summary>
