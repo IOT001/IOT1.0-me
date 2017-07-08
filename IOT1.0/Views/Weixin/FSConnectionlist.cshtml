@@ -1,16 +1,48 @@
-﻿@{
+﻿@using DataProvider.Models
+@using DataProvider.Paging
+@{
+@{
     ViewBag.Title = "我的课程表";
-}
 
-<div class="ibox float-e-margins w640">
+}
+ @model WX_FSConnectionlistModel
+ 
+<div class="ibox float-e-margins w640" >
     <div class="ibox-title">
-        <div class="btn-group">
-            <button class="btn btn-primary" type="button">上一周</button>
-            <button class="btn btn-primary" type="button">下一周</button>
-            
-        </div>
-        <label class="control-label">本周：2017-08-01~2017-08-07</label>
+        
+
+         <div class="form-group">
+                            <div class="col-sm-2">
+                                <label class="control-label">开始时间:</label>
+                            </div>
+
+
+                            <div class="col-sm-3">
+                                <div class="input-daterange input-group" id="datepicker">
+                                    @Html.TextBoxFor(t => t.search.timeStart, new { @class = "input-sm form-control", @type = "text", @value = DateTime.Now }) 
+                                </div>
+                            </div>
+
+
+                            <div class="col-sm-2">
+                                <label class="control-label">结速时间:</label>
+                            </div>
+
+
+                            <div class="col-sm-3">
+                                <div class="input-daterange input-group" id="datepicker1">
+                                    @Html.TextBoxFor(t => t.search.timeEnd, new { @class = "input-sm form-control", @type = "text", @value = DateTime.Now })
+                                
+
+                                </div>
+                            </div>
+
+                        </div>
+
+
+
     </div>
+    <div id="mydiv"></div>
     <div class="ibox-content">
         <table class="table">
             <thead>
@@ -22,29 +54,55 @@
                     <th>操作</th>
                 </tr>
             </thead>
-            <tbody>
-                <tr>
-                    <td>07-01</td>
-                    <td>周二</td>
-                    <td>张三</td>
-                    <td>数学数据05</td>
-                    <td><a href="@Url.Action("FSConnectionInfo", "Weixin")" class=" btn-block"><i class="fa fa-arrow-circle-right fa-2x"></i></a></td>
-                </tr>
-                <tr>
-                    <td>07-03</td>
-                    <td>周三</td>
-                    <td>张三</td>
-                    <td>英语05</td>
-                    <td><a href="@Url.Action("FSConnectionInfo", "Weixin")" class=" btn-block"><i class="fa fa-arrow-circle-right fa-2x"></i></a></td>
-                </tr>
-                <tr>
-                    <td>07-08</td>
-                    <td>周六</td>
-                    <td>张三</td>
-                    <td>舞蹈</td>
-                    <td><a href="@Url.Action("FSConnectionInfo", "Weixin")" class=" btn-block"><i class="fa fa-arrow-circle-right fa-2x"></i></a></td>
-                </tr>
-            </tbody>
+           
+                     <tbody>
+                    @if (Model != null && Model.FSConnectionlist.Count() > 0)
+                    {
+                        foreach (var m in Model.FSConnectionlist)
+                        {
+                            <tr>
+                                <td>@m.ClassDate</td>
+                                <td>@m.weekday</td>
+                                <td>@m.Name</td>
+                                <td>@m.Name</td>
+                                       
+          <td><a href="@Url.Action("FSConnectionInfo", "Weixin")" class=" btn-block"><i class="fa fa-arrow-circle-right fa-2x"></i></a></td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="4" style="text-align:center; color:red;">未查询到数据,请更换查询条件试试!</td>
+                        </tr>
+                    }
+                </tbody>
         </table>
-    </div>
+    </div> 
 </div>
+
+
+<script type="text/javascript" >
+    $(function () {
+
+        var now = new Date();
+        var nowTime = now.getTime();
+        var day = now.getDay();
+        var oneDayLong = 24 * 60 * 60 * 1000;
+
+
+        var MondayTime = new Date(nowTime - (day - 1) * oneDayLong).Format("yyyy-MM-dd");
+        var SundayTime = new Date(nowTime + (7 - day) * oneDayLong).Format("yyyy-MM-dd");
+
+        var MondayTimeText = document.getElementById('MondayTime_Text');
+        MondayTimeText.innerText ="本周："+ MondayTime +"~";
+        var SundayTimeText = document.getElementById('SundayTime_Text');
+        SundayTimeText.innerText = SundayTime;
+    })
+
+
+     
+
+ 
+
+</script>

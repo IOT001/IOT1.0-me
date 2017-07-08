@@ -29,7 +29,8 @@ namespace DataProvider
         public string Name { get; set; }
         public string ClassName { get; set; } 
         public Nullable<System.DateTime> ClassDate { get; set; }
-        public int CourseID { get; set; } 
+        public int CourseID { get; set; }
+        public string weekday { get; set; } 
         
     }
 }

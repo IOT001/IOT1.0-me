@@ -49,7 +49,10 @@ namespace DataProvider.Models
         /// 下拉框绑定班级ID
         /// </summary>
         public string ID { set; get; }
-        
+        /// <summary>
+        /// 学员ID
+        /// </summary>
+        public string AttendanceRecord_StudentID { set; get; }
  
     }
 }

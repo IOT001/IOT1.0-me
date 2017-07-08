@@ -143,6 +143,7 @@
     <Compile Include="Models\StudentScheduleListViewModel.cs" />
     <Compile Include="Models\WXIndexViewModel.cs" />
     <Compile Include="Models\WX_PaymentListModel.cs" />
+    <Compile Include="Models\WX_FSConnectionlistModel.cs" />
     <Compile Include="NERP.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

@@ -175,6 +175,7 @@
     </Compile>
     <Compile Include="Controllers\Teach\StudentScheduleListController.cs" />
     <Compile Include="Controllers\WeiXin\LoginController.cs" />
+    <Compile Include="Controllers\WeiXin\FSConnectionlistController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -4697,15 +4698,6 @@
     <Content Include="CSS\IChecked\square\yellow.css" />
     <Content Include="CSS\IChecked\square\yellow.png" />
     <Content Include="CSS\IChecked\square\_all.css" />
-    <Content Include="Web.config">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="Web.Debug.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </Content>
-    <Content Include="Web.Release.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </Content>
     <Content Include="Images\accent.png" />
     <Content Include="Images\bullet.png" />
     <Content Include="Images\heroAccent.png" />
@@ -4752,6 +4744,13 @@
     <Content Include="Views\Weixin\login.cshtml" />
     <Content Include="Views\Shared\_Layoutwx.cshtml" />
     <Content Include="Views\Weixin\Index.cshtml" />
+    <Content Include="Web.config" />
+    <None Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
