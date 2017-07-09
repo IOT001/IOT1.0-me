@@ -124,6 +124,27 @@ namespace DataProvider.Data
             return new PagedList<vw_Enroll>(list, search.CurrentPage, search.PageSize, allcount);
 
         }
+       /// <summary>
+       /// 跟进预约单获取报名记录，用于打印票据
+       /// </summary>
+       /// <param name="apid"></param>
+       /// <returns></returns>
+        public static List<vw_Enroll> GetEnrollPrintByApid(string apid)
+        {
+            String sql = "select * from vw_Enroll where APID = @APID  ";
+            var dynamic = new DynamicParameters();
+            dynamic.Add("@APID", apid);
 
+
+            return MsSqlMapperHepler.SqlWithParams<vw_Enroll>(sql, dynamic, DBKeys.PRX);  
+        }
+       /// <summary>
+       /// 获取单据配置信息
+       /// </summary>
+       /// <returns></returns>
+        public static BillConfig GetOneBillConfig()
+        {
+            return MsSqlMapperHepler.GetOne<BillConfig>(1, DBKeys.PRX);
+        }
     }
 }

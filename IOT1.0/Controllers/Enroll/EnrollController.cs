@@ -33,6 +33,8 @@ namespace IOT1._0.Controllers.Enroll
             List<CommonEntity> IntentTypeList = CommonData.GetDictionaryList(14);//13跟进方式
             model.IntentTypeIL = CommonData.Instance.GetBropDownListData(IntentTypeList);
 
+            List<CommonEntity> SourceIL = CommonData.GetDictionaryList(2);//1是字典类型值,仅供测试参考
+            model.SourceIL = CommonData.Instance.GetBropDownListData(SourceIL);
             model.AppointmentList = AppointmentData.GetAPList(search); //填充页面模型数据
             return View(model);//返回页面模型
         }
@@ -139,7 +141,11 @@ namespace IOT1._0.Controllers.Enroll
         /// <returns></returns>
         public ActionResult InvoicePrint()
         {
-            return View();
+            AppointmentPrintModel m = new AppointmentPrintModel();
+            string apid = Request["apid"].ToString();
+            m.EnrollList = EnrollData.GetEnrollPrintByApid(apid);
+            m.bill = EnrollData.GetOneBillConfig();
+            return View(m);
         }
 
         /// <summary>

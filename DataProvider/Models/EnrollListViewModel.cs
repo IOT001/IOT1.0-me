@@ -37,6 +37,10 @@ namespace DataProvider.Models
        /// 试听查询模型
        /// </summary>
        public ClassesListSearchModel STSearch { get; set; }
+       /// <summary>
+       /// 授课方式
+       /// </summary>
+       public List<SelectListItem> SourceIL { get; set; }
     }
 
    public class EnrollListSearchModel : CommonPageEntity
@@ -61,7 +65,12 @@ namespace DataProvider.Models
        public string ClassID { set; get; }
 
 
-       
+
+
+       /// <summary>
+       /// 下拉框按钮的选中值
+       /// </summary>
+       public int DicItemID { set; get; }
 
    }
 

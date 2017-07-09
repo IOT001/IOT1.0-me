@@ -84,6 +84,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\AjaxStatusModel.cs" />
+    <Compile Include="Common\MoneyConvertChinese.cs" />
     <Compile Include="Common\Cloner.cs" />
     <Compile Include="Common\Common.cs" />
     <Compile Include="Common\Picture.cs" />
@@ -107,6 +108,7 @@
     <Compile Include="DPBase.cs" />
     <Compile Include="Entities\Appointment.cs" />
     <Compile Include="Entities\AttendanceRecord.cs" />
+    <Compile Include="Entities\BillConfig.cs" />
     <Compile Include="Entities\ClassesTrans.cs" />
     <Compile Include="Entities\ClassList.cs" />
     <Compile Include="Entities\Course.cs" />
@@ -130,6 +132,7 @@
     <Compile Include="Entities\Weekday.cs" />
     <Compile Include="Implement\ExcuteModelImplement.cs" />
     <Compile Include="Interface\IExcuteModal.cs" />
+    <Compile Include="Models\AppointmentPrintModel.cs" />
     <Compile Include="Models\AttendanceListViewModel.cs" />
     <Compile Include="Models\ButtonListViewModel.cs" />
     <Compile Include="Models\EnrollListViewModel.cs" />

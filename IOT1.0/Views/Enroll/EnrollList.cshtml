@@ -75,9 +75,9 @@
                                         <td>
                                             <a href="javascript:follow('@m.ID')" class="btn btn-primary btn-xs" type="button"><i class="fa fa-edit"></i> 跟进</a>
                                             <a href="javascript:shiting('@m.ID')" class="btn btn-primary btn-xs" type="button"><i class="fa fa-edit"></i> 试听</a>
-                                            <a href="javascript:jiaru(1)" class="btn btn-primary btn-xs" type="button"><i class="fa fa-edit"></i> 加入</a>
+                                            <a href="javascript:jiaru('@m.ApName','@m.ApTel')" class="btn btn-primary btn-xs" type="button"><i class="fa fa-edit"></i> 加入</a>
                                             <a href="javascript:baoming('@m.ID','@m.ApStudentID')" class="btn btn-primary btn-xs" type="button"><i class="fa fa-edit"></i> 报名</a>
-                                            <a href="javascript:piaoju()" class="btn btn-primary btn-xs" type="button"><i class="fa fa-edit"></i> 票据</a>
+                                            <a href="javascript:piaoju('@m.ID')" class="btn btn-primary btn-xs" type="button"><i class="fa fa-edit"></i> 票据</a>
                                         </td>
                                     </tr>
                                 }
@@ -249,10 +249,39 @@
             <div class="form-group ">
                 <label class="col-xs-3 control-label">姓名：</label>
                 <div class="col-xs-8">
-                    <input type="text" placeholder="姓名" class="form-control input-sm" id="BTN_Name">
+                    <input type="text" placeholder="姓名" class="form-control input-sm" id="Name">
+
+                    @*<img src="~/Images/pic/Student/Thumbnail_Image/201706121559407322.jpg" />*@
+                    <img id="img" style="height: 180px;" />
+                    @*style="display:none"*@
+                    <input class="form-control" type="text" id="Picurl" />
+                    <input type="file" id="uploadFile" />
+                    <button type="button" class=" btn btn-primary" onclick="UploadPic()">&nbsp&nbsp上&nbsp&nbsp传&nbsp&nbsp</button>
+
+
                 </div>
+
+                @*            <label class="col-xs-2 control-label">照片：</label>
+                    <div class="col-xs-4">
+
+                           <img class="img-preview img-preview-xs"></img>
+
+
+                    <label title="上传图片" for="inputImage" class="btn btn-primary">
+                                            <input type="file" accept="image/*" name="file" id="inputImage" class="hide"> 上传新图片
+                                        </label>
+
+                    </div>*@
             </div>
 
+
+
+            <div class="form-group ">
+                <label class="col-xs-3 control-label">绑定手机：</label>
+                <div class="col-xs-8">
+                    <input type="text" placeholder="重要！请填写能联系到学员的手机，比如父母手机号！" class="form-control input-sm" id="BindPhone">
+                </div>
+            </div>
 
             <div class="form-group  ">
                 <label class="col-xs-3 control-label">性别：</label>
@@ -260,10 +289,7 @@
                 <div class="col-xs-4">
                     <div class="radio i-checks">
                         <label class="">
-                            <div class="iradio_square-green" style="position: relative;">
-                                <input type="radio" value="option1" name="a" style="position: absolute; opacity: 0;">
-                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; border: 0px; opacity: 0; background: rgb(255, 255, 255);"></ins>
-                            </div> <i></i> 男
+                            <input type="radio" id="Sex" checked="checked" value="1" name="a" style="position: absolute; opacity: 0;"> 男
                         </label>
                     </div>
                 </div>
@@ -272,10 +298,7 @@
                 <div class="col-xs-4">
                     <div class="radio i-checks">
                         <label class="">
-                            <div class="iradio_square-green" style="position: relative;">
-                                <input type="radio" checked="" value="option2" name="a" style="position: absolute; opacity: 0;">
-                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; border: 0px; opacity: 0; background: rgb(255, 255, 255);"></ins>
-                            </div> <i></i> 女
+                            <input type="radio" id="Sex1" name="a" value="2" style="position: absolute; opacity: 0;"> 女
                         </label>
                     </div>
                 </div>
@@ -286,9 +309,10 @@
             <div class="form-group  ">
                 <label class="col-xs-3 control-label">出生年月日：</label>
                 <div class="col-xs-8">
+
                     <div class="DateS input-group date">
                         <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                        <input type="text" class="form-control input-sm" value="2014-11-11">
+                        <input type="text" class="form-control input-sm" id="Birthday">
                     </div>
 
                 </div>
@@ -297,53 +321,53 @@
             <div class="form-group ">
                 <label class="col-xs-3 control-label">父亲姓名：</label>
                 <div class="col-xs-8">
-                    <input type="text" placeholder="父亲姓名" class="form-control input-sm" id="BTN_OrderIndex">
+                    <input type="text" placeholder="父亲姓名" class="form-control input-sm" id="FatherName">
                 </div>
             </div>
             <div class="form-group ">
                 <label class="col-xs-3 control-label">父亲联系方式：</label>
                 <div class="col-xs-8">
-                    <input type="text" placeholder="父亲联系方式" class="form-control input-sm" id="BTN_OrderIndex">
+                    <input type="text" placeholder="父亲联系方式" class="form-control input-sm" id="FatherContract">
                 </div>
             </div>
             <div class="form-group ">
                 <label class="col-xs-3 control-label">母亲姓名：</label>
                 <div class="col-xs-8">
-                    <input type="text" placeholder="母亲姓名" class="form-control input-sm" id="BTN_OrderIndex">
+                    <input type="text" placeholder="母亲姓名" class="form-control input-sm" id="MotherName">
                 </div>
             </div>
 
             <div class="form-group ">
                 <label class="col-xs-3 control-label">母亲联系方式：</label>
                 <div class="col-xs-8">
-                    <input type="text" placeholder="母亲联系方式" class="form-control input-sm" id="BTN_OrderIndex">
+                    <input type="text" placeholder="母亲联系方式" class="form-control input-sm" id="MotherContract">
                 </div>
             </div>
             <div class="form-group ">
                 <label class="col-xs-3 control-label">家庭地址：</label>
                 <div class="col-xs-8">
-                    <input type="number" placeholder="家庭地址" class="form-control input-sm" id="BTN_OrderIndex">
+                    <input type="text" placeholder="家庭地址" class="form-control input-sm" id="Address">
                 </div>
             </div>
             <div class="form-group ">
                 <label class="col-xs-3 control-label">E-mail/QQ/微信：</label>
                 <div class="col-xs-8">
-                    <input type="text" placeholder="E-mail/QQ/微信" class="form-control input-sm" id="BTN_OrderIndex">
+                    <input type="text" placeholder="E-mail/QQ/微信" class="form-control input-sm" id="Wechart">
                 </div>
             </div>
 
             <div class="form-group ">
-                <label class="col-sm-3 control-label">状态：</label>
-                <div class="checkbox i-checks col-sm-8">
-                    <label>
-                        <input type="checkbox" value="" id="BTN_IsSuspended"> <i></i> 广告
-                        <input type="checkbox" value="" id="BTN_IsSuspended"> <i></i> 宣传单页
-                        <input type="checkbox" value="" id="BTN_IsSuspended"> <i></i> 网络
-                        <input type="checkbox" value="" id="BTN_IsSuspended"> <i></i> 试听
-                        <input type="checkbox" value="" id="BTN_IsSuspended"> <i></i> 他人介绍
-                        <input type="checkbox" value="" id="BTN_IsSuspended"> <i></i> 其它
-                    </label>
+                <label class="col-sm-3 control-label">来源渠道：</label>
+
+                <div class="col-sm-8">
+
+                    @Html.DropDownListFor(t => t.search.DicItemID, Model.SourceIL, new { @class = "form-control input-sm chosen-select", @style = "width:100%;height:100%;", @tabindex = "4", @id = "SourceID" })
+
+
                 </div>
+
+
+
             </div>
 
 
@@ -352,7 +376,7 @@
                 <div class="col-xs-8">
 
 
-                    <textarea class="form-control input-sm" placeholder="备注"> </textarea>
+                    <textarea class="form-control input-sm" placeholder="备注" id="Remark"> </textarea>
                 </div>
             </div>
 
@@ -634,7 +658,7 @@
             var oks = $(this).parent().parent().find("td").eq(5).text()//总课时数
             var realbm = $(this).val();//实际报名课时，取input填写值
         
-            var yhje = $(this).parent().parent().find("td").eq(8).children('input').val//取出优惠金额
+            var yhje = $(this).parent().parent().find("td").eq(8).children('input').val()//取出优惠金额
             var bcff = (realbm / oks) * och - yhje;//算本次最终报名费用
        
    
@@ -940,8 +964,10 @@
         $('#classes2').bootstrapTable('refresh');
     })
     //加入
-    function jiaru(id) {
+    function jiaru(name,tel) {
         // cleanData("baoming");//清空数据
+        $("#Name").val(name);
+        $("#BindPhone").val(tel)
         layer.open({
             type: 1,
             title: "<h3 class='ibox-title'>成为正式学员</h3>",
@@ -949,12 +975,80 @@
             content: $('#jiaru'),
             btn: ['成为正式学员', '取消'],
             yes: function () {
-
+                save(name, tel);
             },
             cancel: function (index) {
                 layer.close(index);
             }
         });
+    }
+    //加入会员
+    function save() {
+        var obj = new Object;
+
+        obj.Name = $("#Name").val().trim();;
+        if (!obj.Name) {
+            layer.msg("请输入姓名！");
+            return false;
+        }
+        obj.BindPhone = $("#BindPhone").val().trim();//赋值必须和数据库字段对应
+        if (!obj.BindPhone) {
+            layer.msg("请输入手机号码！");
+            return false;
+        }
+
+        var pattern = /^1[34578]\d{9}$/;
+        if (!pattern.test(obj.BindPhone)) {
+            layer.msg("您输入的手机号码不正确");
+            return false;
+        }
+
+
+        if ($("#Sex").is(':checked')) {//判断停用按钮是否选中 
+            obj.Sex = $("#Sex").val().trim();
+        }
+        else {
+            obj.Sex = $("#Sex1").val().trim();
+
+        }
+
+
+
+        obj.Birthday = $("#Birthday").val().trim();
+        if (!obj.Birthday) {
+            layer.msg("请选择出生年月日！");
+            return false;
+        }
+        obj.Picurl = $("#Picurl").val().trim();
+        obj.FatherName = $("#FatherName").val().trim();
+        obj.FatherContract = $("#FatherContract").val().trim();
+        obj.MotherName = $("#MotherName").val().trim();
+        obj.MotherContract = $("#MotherContract").val().trim();
+        obj.Address = $("#Address").val().trim();
+        obj.Wechart = $("#Wechart").val().trim();
+        obj.SourceID = $("#SourceID").val().trim();
+        if (!obj.SourceID) {
+            layer.msg("请选择来源渠道！");
+            return false;
+        }
+        obj.Remark = $("#Remark").val().trim();
+
+
+        var action = '';
+
+        action = '@Url.Action("AddStudent", "Student")' 
+        $.post(action, {
+            "data": JSON.stringify(obj)//序列化对象
+        }, function (json) {
+            if (json.status = 200) {//成功
+
+                layer.msg(json.msg);//弹出服务器返回的消息
+                setTimeout(function () {//操作
+                    layer.closeAll();//关闭所有层
+                    window.location.reload(); //刷新
+                }, 3000);
+            }
+        }, 'json');
     }
     //票据
     function piaoju(id) {
@@ -966,7 +1060,7 @@
             shade: [0],
             area: ['800px', '600px'],
             //maxmin: true, //开启最大化最小化按钮
-            content: ['@Url.Action("InvoicePrint", "Enroll")'], //iframe的url，no代表不显示滚动条
+            content: ['@Url.Action("InvoicePrint", "Enroll")'+ "?apid="+id ], //iframe的url，no代表不显示滚动条
             cancel: function () {
                 layer.closeAll();
             }
@@ -974,5 +1068,84 @@
 
 
     }
+    //上传文件
+    function UploadPic() {
+        var extensionName = /.JPG|.JPEG|.jpg|.png|.gif|.jpeg/;
+        var file = $("#uploadFile")[0].files[0];
 
+        if (!file) {
+            layer.msg("未找到相关文件！");
+            return false;
+        }
+
+        //如果文件大于5M
+        if (file.size > 1048576 * 5) {
+            layer.msg("您上传的文件太大了，最多允许5MB，请重新选择文件！");
+            return false;
+        }
+
+        if (extensionName.test(file.name)) {
+            if (window.FileReader) {
+                var reader = new FileReader();
+                reader.onload = function (evt) {
+                    if (evt.target.readyState === FileReader.DONE) {
+                        var offset = evt.target.result.indexOf(";base64,");
+                        var fileTemp = null;
+                        if (offset > 0) {
+                            //前八个字节是数据流的头所以要去除。
+                            fileTemp = evt.target.result.substr(offset + 8);
+                        }
+                        //取得文件的扩展名
+                        var fileExt = file.name.replace(/.+\./, "");
+                        //将分离出来的二进制文件流放到参数里
+
+
+
+                        var obj = new Object;
+                        obj.fileTemp = fileTemp;
+                        obj.fileExt = fileExt;
+
+                        var action = '@Url.Action("Upload", "Student")'
+                        $.post(action, {
+                            "data": JSON.stringify(obj)//序列化对象
+                        }, function (json) {
+                            if (json.status = 200) {//成功
+
+
+                                $("#img").attr("src", json.data.thumbnailImage);
+                                $("#Picurl").val(json.data.thumbnailImage);//弹出服务器返回的消息
+                                layer.msg(json.msg);//弹出服务器返回的消息 
+                            }
+                        }, 'json');
+
+
+
+                    }
+                }
+                //reader.onprogress = function (e, file) {
+                //    //console.info(e);
+                //    if (e.lengthComputable) {
+                //        var loaded = (e.loaded / e.total);
+                //        if (loaded <= 1) {
+                //            self.UploadStat('正在上传，请稍候……');
+                //            self.UploadPrecent(loaded);
+                //        }
+                //    }
+
+                //}
+                reader.onerror = function () {
+                    layer.msg("文件读取时发生错误！");
+                    return false;
+                }
+                reader.readAsDataURL(file);    // 将文件读取成一段以 data:开头的字符串
+            }
+        }
+        else {
+            layer.msg("只支持jpg,png,gif,jpeg类型的文件上传，请重新选择文件！");
+            return false;
+        }
+
+
+
+    }
 </script>
