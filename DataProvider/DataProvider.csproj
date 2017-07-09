@@ -104,6 +104,7 @@
     <Compile Include="Data\ClassListData.cs" />
     <Compile Include="Data\MessageData.cs" />
     <Compile Include="Data\StudentScheduleListData.cs" />
+    <Compile Include="Data\UserProgressListData.cs" />
     <Compile Include="DPBase.cs" />
     <Compile Include="Entities\Appointment.cs" />
     <Compile Include="Entities\AttendanceRecord.cs" />
@@ -128,6 +129,7 @@
     <Compile Include="Entities\Classes.cs" />
     <Compile Include="Entities\Date.cs" />
     <Compile Include="Entities\Weekday.cs" />
+    <Compile Include="Entities\vw_UserProgress.cs" />
     <Compile Include="Implement\ExcuteModelImplement.cs" />
     <Compile Include="Interface\IExcuteModal.cs" />
     <Compile Include="Models\AttendanceListViewModel.cs" />
@@ -144,6 +146,7 @@
     <Compile Include="Models\WXIndexViewModel.cs" />
     <Compile Include="Models\WX_PaymentListModel.cs" />
     <Compile Include="Models\WX_FSConnectionlistModel.cs" />
+    <Compile Include="Models\WX_UserProgressListModel.cs" />
     <Compile Include="NERP.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

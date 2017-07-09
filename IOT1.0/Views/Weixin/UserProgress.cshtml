@@ -1,12 +1,34 @@
-﻿@{
+﻿@using DataProvider.Models
+@using DataProvider.Paging
+@{
     ViewBag.Title = "用户进度";
 }
+@model WX_UserProgressListModel
+
+
+
+
 <div class="wrapper wrapper-content animated fadeInRight w640">
+    @if (Model != null && Model.UserProgressList.Count() > 0)
+                    {
+                        foreach (var m in Model.UserProgressList)
+                        {
     <div class="row">
             <div class="ibox">
+
+                 
                 <div class="ibox-title">
-                    <span class="label label-primary pull-right">进行中</span>
-                    <h3>初一化学</h3>
+                   
+                        @if (@m.Progress_Bar>=100)
+                        {
+                         <span class="label label-default pull-right">已结束</span>
+                        }
+                        else
+                        {
+                          <span class="label label-primary pull-right">进行中</span>
+                        }
+           
+                    <h3>@m.CourseName</h3>
                 </div>
                 <div class="ibox-content">
                     <div class="team-members">
@@ -14,67 +36,34 @@
                     </div>
                     <h4>课程简介</h4>
                     <p>
-                        初一化学，也称为视觉传达设计，是以“视觉”作为沟通和表现的方式，透过多种方式来创造和结合符号、图片和文字，借此作出用来传达想法或讯息的视觉表现。
+                        @m.Introduce
                     </p>
                     <div>
                         <span>当前课程进度：</span>
-                        <div class="stat-percent">48%</div>
+                        <div class="stat-percent">@m.Progress_Bar%</div>
                         <div class="progress progress-mini">
-                            <div style="width: 48%;" class="progress-bar"></div>
+                            <div style="width: @m.Progress_Bar%;" class="progress-bar"></div>
                         </div>
                     </div>
                     <div class="row  m-t-sm">
                         <div class="col-sm-12">
                             <span class="font-bold ">班级：</span>
-                            2017暑期班03
+                            @m.ClassName
                         </div>
                         <div class="col-sm-12">
                             <span class="font-bold ">总课时：</span>
-                            44
+                            @m.ClassHour
                         </div>
                         <div class="col-sm-12">
                             <span class="font-bold ">已用课时：</span>
-                            23
+                            @m.UsedHour
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="ibox">
-                <div class="ibox-title">
-                    <span class="label label-default pull-right">已结束</span>
-                    <h3>学前拼音</h3>
-                </div>
-                <div class="ibox-content">
-                    <div class="team-members">
-
-                    </div>
-                    <h4>课程简介</h4>
-                    <p>
-                        学前拼音（graphic design），也称为视觉传达设计，是以“视觉”作为沟通和表现的方式，透过多种方式来创造和结合符号、图片和文字，借此作出用来传达想法或讯息的视觉表现。
-                    </p>
-                    <div>
-                        <span>当前课程进度：</span>
-                        <div class="stat-percent">100%</div>
-                        <div class="progress progress-mini">
-                            <div style="width: 100%;" class="progress-bar"></div>
-                        </div>
-                    </div>
-                    <div class="row  m-t-sm">
-                        <div class="col-sm-12">
-                            <span class="font-bold">班级:</span>
-                            2017春拼音03
-                        </div>
-                        <div class="col-sm-12">
-                            <span class="font-bold">总课时:</span>
-                            45
-                        </div>
-                        <div class="col-sm-12">
-                            <span class="font-bold">已用课时:</span>
-                            45
-                        </div>
-                    </div>
-                </div>
-            </div>
+           
     </div>
 
+                         }
+                     }
 </div>
