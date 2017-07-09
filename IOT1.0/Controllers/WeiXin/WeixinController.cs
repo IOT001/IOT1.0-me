@@ -15,12 +15,7 @@ namespace IOT1._0.Controllers.WeiXin
         {
             return View();
         }
-
-        public ActionResult UserProgress()
-        {
-            return View();
-        }
-
+ 
         public ActionResult Main()
         {
             return View();
