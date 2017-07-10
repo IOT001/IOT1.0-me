@@ -161,6 +161,7 @@
     <Compile Include="Controllers\Enroll\EnrollAuditController.cs" />
     <Compile Include="Controllers\Enroll\EnrollController.cs" />
     <Compile Include="Controllers\WeiXin\IndexController.cs" />
+    <Compile Include="Controllers\WeiXin\MessageListController.cs" />
     <Compile Include="Controllers\WeiXin\PaymentListController.cs" />
     <Compile Include="Controllers\WeiXin\WeixinController.cs" />
     <Compile Include="Controllers\Finance\DiscountListController.cs" />
@@ -4747,6 +4748,7 @@
     <Content Include="Views\Shared\_Layoutwx.cshtml" />
     <Content Include="Views\Weixin\Index.cshtml" />
     <Content Include="Web.config" />
+    <Content Include="Views\Weixin\MessageBrowse.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
