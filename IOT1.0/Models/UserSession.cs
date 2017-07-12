@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DataProvider.SqlServer;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -81,7 +82,15 @@ namespace IOT1._0.Models
                 return HttpContext.Current.Session["ValidateCode"].ToString();
             }
         }
-
+  
+        public  static List<string> roles
+        {
+            get
+            {
+                List<string> aa = MsSqlMapperHepler.SqlWithParams<string>("select AR_SystemRoleId from vw_AccountRole where staffid ='" + userid + "'", null, DBKeys.PRX);
+                return aa;
+            }
+        }
         ////模拟错误
         //public static string _userid
         //{

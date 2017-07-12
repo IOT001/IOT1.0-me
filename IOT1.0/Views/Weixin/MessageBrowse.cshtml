@@ -1,8 +1,10 @@
-﻿@{
+﻿@using DataProvider.Models
+@using DataProvider.Paging
+@{
     ViewBag.Title = "MessageList";
     Layout = "~/Views/Shared/_Layoutwx.cshtml";//设置模板文件
 }
-
+@model WX_MessageBrowseModel
 
 <div class="wrapper wrapper-content  animated fadeInRight">
     <div class="row">
@@ -12,25 +14,7 @@
                     <h3 class="m-b-xxs">社交示例 01</h3>
                 </div>
             </div>
-            <div class="social-feed-box">
-                <div class="social-avatar">
-                    <a href="" class="pull-left">
-                        <img alt="image" src="~/Scripts/assets/img/a1.jpg">
-                    </a>
-                    <div class="media-body">
-                        <a href="#">
-                            尤小右
-                        </a>
-                        <small class="text-muted">8月18日 16:05 来自 微博 weibo.com</small>
-                    </div>
-                </div>
-                <div class="social-body">
-                    <p>
-                        看到说是 React 的也是醉了，他说的是 falcor... Khan Academy 是最早在生产环境里使用 React 的公司之一
-                    </p>
-                </div>
-     
-            </div>
+
             <div class="social-feed-box">
                 <div class="social-avatar">
                     <a href="" class="pull-left">
@@ -53,25 +37,7 @@
                     <img src="~/Scripts/assets/img/p1.jpg" class="img-responsive">
                 </div>
             </div>
-            <div class="social-feed-box">
 
-                <div class="social-avatar">
-                    <a href="" class="pull-left">
-                        <img alt="image" src="~/Scripts/assets/img/a4.jpg">
-                    </a>
-                    <div class="media-body">
-                        <a href="#">
-                            尤小右
-                        </a>
-                        <small class="text-muted">8月18日</small>
-                    </div>
-                </div>
-                <div class="social-body">
-                    <p>
-                        5本《Node与Express开发》免费抽】本书涵盖Express 4.0，系统讲解利用Express开发Web应用的流程和步骤。通过实例讲授了开发网站和REST API的基础知识。还有设计与实现Web架构的最佳实践，帮你用Express构建单页、多页以及混合Web应用。
-                    </p>
-                </div>
-            </div>
         </div>
     </div>
 </div>

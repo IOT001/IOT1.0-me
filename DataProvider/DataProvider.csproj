@@ -99,6 +99,7 @@
     <Compile Include="Data\DiscountData.cs" />
     <Compile Include="Data\HtmlHelperCheckBoxListExtensions.cs" />
     <Compile Include="Data\MenuData.cs" />
+    <Compile Include="Data\MessageBrowseData.cs" />
     <Compile Include="Data\StudentData.cs" />
     <Compile Include="Data\TeacherData.cs" />
     <Compile Include="Data\ClassesData.cs" />
@@ -126,6 +127,7 @@
     <Compile Include="Entities\vw_Discount.cs" />
     <Compile Include="Entities\vw_Enroll.cs" />
     <Compile Include="Entities\vw_menu.cs" />
+    <Compile Include="Entities\vw_Message.cs" />
     <Compile Include="Entities\vw_StudentEvaluate.cs" />
     <Compile Include="Entities\vw_Students.cs" />
     <Compile Include="Entities\Classes.cs" />
@@ -138,6 +140,7 @@
     <Compile Include="Models\AttendanceListViewModel.cs" />
     <Compile Include="Models\ButtonListViewModel.cs" />
     <Compile Include="Models\EnrollListViewModel.cs" />
+    <Compile Include="Models\WX_MessageBrowseModel.cs" />
     <Compile Include="Models\StudentListViewModel.cs" />
     <Compile Include="Models\CurriculumViewModel.cs" />
     <Compile Include="Models\TeacherViewModel.cs" />
