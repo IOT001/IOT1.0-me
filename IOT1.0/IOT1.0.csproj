@@ -4759,6 +4759,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Scripts\jQgrid\" />
+    <Folder Include="Upload\img\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

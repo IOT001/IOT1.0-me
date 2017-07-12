@@ -16,7 +16,19 @@
     <script type="text/javascript" src="@Url.Content("~/Scripts/assets/js/jquery.min.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Scripts/Mobile/content/js/layer/layer.mobile.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Scripts/Mobile/content/js/resize.js")"></script>
+    <style>
+        .w640 {
+            position: relative;
+            max-width: 640px;
+            min-width: 320px;
+            margin: 0 auto;
+            overflow: hidden;
+            overflow-x: hidden;
+            overflow-x: hidden !important;
+        }
 
+
+    </style>
     @RenderSection("style", false)
     <script type="text/javascript">
         var sharedata = { title: "", desc: "", link: "", imgUrl: "" };

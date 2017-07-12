@@ -6,38 +6,39 @@
 }
 @model WX_MessageBrowseModel
 
-<div class="wrapper wrapper-content  animated fadeInRight">
+<div class="wrapper wrapper-content  animated fadeInRight w640">
     <div class="row">
-        <div class="col-sm-6">
+        <div class="col-sm-12">
             <div class="ibox">
                 <div class="ibox-content text-center">
-                    <h3 class="m-b-xxs">社交示例 01</h3>
+                    <h3 class="m-b-xxs">留言板</h3>
                 </div>
             </div>
-
-            <div class="social-feed-box">
-                <div class="social-avatar">
-                    <a href="" class="pull-left">
-                        <img alt="image" src="~/Scripts/assets/img/a6.jpg">
-                    </a>
-                    <div class="media-body">
-                        <a href="#">
-                            尤小右
-                        </a>
-                        <small class="text-muted">8月18日</small>
+            @if (Model != null && Model.MessageList.Count() > 0)
+            {
+                foreach (var m in Model.MessageList)
+                {
+                    <div class="social-feed-box">
+                        <div class="social-avatar">
+                            <a href="" class="pull-left">
+                                <img alt="image" src="~/Scripts/assets/img/a6.jpg">
+                            </a>
+                            <div class="media-body">
+                                <a href="#">
+                                    @m.CreateMan
+                                </a>
+                                <small class="text-muted">@m.CreateTime</small>
+                            </div>
+                        </div>
+                        <div class="social-body">
+                            <p>
+                                @m.Messageing
+                            </p>
+                            @*<img src="~/Scripts/assets/img/p1.jpg" class="img-responsive">*@
+                        </div>
                     </div>
-                </div>
-                <div class="social-body">
-                    <p>
-                        【最高富帅、最受欢迎的技术——Bootsrap】众所周知，Bootstrap 是最受欢迎的 HTML、CSS 和 JS 框架，用处非常之广泛，在开发响应式布局、移动设备优先的 WEB 项目中都极其重要，极客学院的相关课程已经更新完毕，简直分分钟变身IT大师==>开始学习
-                    </p>
-                    <p>
-                        介绍25个用来做新手引导的jQuery插件：
-                    </p>
-                    <img src="~/Scripts/assets/img/p1.jpg" class="img-responsive">
-                </div>
-            </div>
-
+                }
+            }
         </div>
     </div>
 </div>

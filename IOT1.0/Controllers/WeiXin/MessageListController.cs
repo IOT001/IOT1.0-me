@@ -23,7 +23,7 @@ namespace IOT1._0.Controllers.WeiXin
             List<string> roles = UserSession.roles;
             model.MessageList = MessageBrowseData.GetMessageList(roles);
 
-            return View();
+            return View(model);
         }
 
     }

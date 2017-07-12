@@ -87,7 +87,7 @@ namespace IOT1._0.Models
         {
             get
             {
-                List<string> aa = MsSqlMapperHepler.SqlWithParams<string>("select AR_SystemRoleId from vw_AccountRole where staffid ='" + userid + "'", null, DBKeys.PRX);
+                List<string> aa = MsSqlMapperHepler.SqlWithParams<string>("select ROLE_Id from vw_AccountRole where staffid ='" + userid + "'", null, DBKeys.PRX);
                 return aa;
             }
         }

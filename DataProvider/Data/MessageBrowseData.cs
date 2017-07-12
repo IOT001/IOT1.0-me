@@ -20,7 +20,7 @@ namespace DataProvider.Data
             StringBuilder where = new StringBuilder();
             foreach (string rid in roleids)
             {
-                where.AppendFormat("or ToRoles like {0}", rid);
+                where.AppendFormat("or ToRoles like '%{0}%'", rid);
             }
             StringBuilder sql = new StringBuilder();
             sql.AppendFormat(@"select top 100 * from vw_Message where 1=1 {0} {1}", where.ToString(), "order by CreateTime desc");
