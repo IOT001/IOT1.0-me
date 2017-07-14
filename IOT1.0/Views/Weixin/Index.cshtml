@@ -15,17 +15,7 @@
 }
 <section class="w640">
     <div class="main_box">
-        <div class="search">
-            <div class="w620 clearfloat">
 
-                <div class="search_input" style="float:left;">
-                    <a href="javascript:;">
-                        <input type="text" placeholder="学员姓名/手机号" readonly="readonly" />
-                        <i>&nbsp;</i>
-                    </a>
-                </div>
-            </div>
-        </div>
         <div class="wrapper wrapper-content animated fadeInRight">
             <div class="row">
 @if (Model != null && Model.MenuList.Count > 0)
@@ -45,72 +35,11 @@
         </div>
     }
 }
-                @*<div class="col-sm-6">
-                    <div class="widget navy-bg p-lg text-center">
-                        <a href="@Url.Action("PaymentList", "Weixin")">
-                            <div class="m-b-md">
-                                <i class="fa fa-shield fa-4x"></i>
-                                <h1 class="font-bold">交易中心</h1>
-                                <small>查看你的交易记录</small>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="widget red-bg p-lg text-center">
-                        <a href="@Url.Action("Reservation", "Weixin")">
-                            <div class="m-b-md">
-                                <i class="fa fa-bell fa-4x"></i>
-                                <h1 class="font-bold">在线报名</h1>
-                                <small>了解课程，网上报名</small>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-                <div class="col-sm-6">
-                    <div class="widget yellow-bg p-lg text-center">
-                        <a href="@Url.Action("UserProgress", "Weixin")">
-                            <div class="m-b-md">
-                                <i class="fa fa-thumbs-up fa-4x"></i>
-                                <h1 class="font-bold">课程中心</h1>
-                                <small>查看剩余课时</small>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="widget lazur-bg p-lg text-center">
-                        <a href="@Url.Action("FSConnectionlist", "Weixin")">
-                            <div class="m-b-md">
-                                <i class="fa fa-warning fa-4x"></i>
-                                <h1 class="font-bold">
-                                    家校联系
-                                </h1>
-                                <small>查看课后作业和老师评语</small>
-                            </div>
-                        </a>
-                    </div>
-                </div>*@
+
 
             </div>
         </div>
     </div>
-
-    <div class="searchBox">
-        <div class="u_search">
-            <div class="w600 clearfloat">
-                <a href="javascript:;" class="cancle">&nbsp;</a>
-                <input type="text" placeholder="安装单号/手机号/姓名" />
-                <span class="search_btn">&nbsp;</span>
-            </div>
-        </div>
-    </div>
-
-    <div class="alert">
-        <p>&nbsp;</p>
-        <div class="alertBtn">
-            <a href="javascript:;" class="cancel">取消</a>
-            <a href="javascript:;" class="confirm">确定</a>
-        </div>
-    </div>
-    <div class="shadow">&nbsp;</div>
-
 </section>
 
 @section script {
