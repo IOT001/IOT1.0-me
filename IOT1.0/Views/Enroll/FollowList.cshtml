@@ -3,7 +3,7 @@
 @{
     ViewBag.Title = "回访记录";
 }
-@model ButtonListViewModel
+@model FollowListListViewModel
 @section styles{
     <style type="text/css">
 
@@ -24,11 +24,11 @@
                             </div>
 
                             <div class="col-sm-3">
-                                <input type="text" class="form-control input-sm">
+                                  @Html.TextBoxFor(t => t.search.Name, new { @class = "form-control input-sm", @type = "text", @placeholder = "请输入学生姓名" })
                             </div>
                             <label class="col-sm-2 control-label">联系电话：</label>
                             <div class="col-sm-3">
-                                <input type="text" class="form-control input-sm">
+                                   @Html.TextBoxFor(t => t.search.BindPhone, new { @class = "form-control input-sm", @type = "text", @placeholder = "请输入联系电话" })
                             </div>
                         </div>
                         <div class="form-group">
@@ -36,24 +36,18 @@
                                 <label class="control-label">回访日期:</label>
                             </div>
 
-                            <div class="input-daterange">
-                                <div class="col-xs-2">
-                                    <div class="input-group date">
-                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                        <input type="text" class="form-control input-sm" value="2014-11-11">
-                                    </div>
-                                </div>
+                                       <div class="col-sm-3">
+                                <div class="input-daterange input-group" id="datepicker">
+                                    @Html.TextBoxFor(t => t.search.timeStart, new { @class = "input-sm form-control", @type = "text", @value = DateTime.Now })
 
-
-                                <div class="col-xs-2">
-                                    <div class="input-group date">
-                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                        <input type="text" class="form-control input-sm" value="2014-11-11">
-                                    </div>
+                                    <span class="input-group-addon">到</span>
+                                    @*<input type="text" class="input-sm form-control" name="end" value="2014-11-17">*@
+                                    @Html.TextBoxFor(t => t.search.timeEnd, new { @class = "input-sm form-control", @type = "text", @value = DateTime.Now })
 
                                 </div>
+                            </div>
 
-                           </div>
+
                         </div>
                         <div class="form-group">
                             <div class="col-sm-4">
@@ -63,7 +57,7 @@
                                 </div>
                             </div>
                             <div class="col-sm-8 project-actions">
-                                <button type="button" class="btn btn-w-m btn-primary btn-sm">查&nbsp;&nbsp;&nbsp;&nbsp;询</button>
+                                <button type="submit" class="btn btn-w-m btn-primary btn-sm">查&nbsp;&nbsp;&nbsp;&nbsp;询</button>
                             </div>
                         </div>
                     }
@@ -81,47 +75,38 @@
                             </tr>
                         </thead>
                         <!-- 循环数据 -->
-                        <tbody>
-                            <!-- 测试数据 -->
-                            <tr>
-                                <td class="jz">李文杰</td>
-                                <td>1381234567</td>
-                                <td>AP000012</td>
-                                <td>电话跟进</td>
-                                <td>2017-10-10</td>
-                                <td>用户态度观望</td>
-                                <td></td>
-                            </tr>
-                            <!-- 测试数据 -->
-                            @if (Model != null && Model.buttonlist.Count() > 0)
-                            {
-                                foreach (var m in Model.buttonlist)
-                                {
-                                    <tr>
-                                        <td class="jz">@m.BTN_Id</td>
-                                        <td>@m.BTN_Name</td> @*按钮名称*@
-                                        <td>@m.BTN_OrderIndex</td>
-                                        <td>@m.BTN_Mark</td>
-                                        <td>
-                                            <a href="javascript:modify(@m.BTN_Id);" class="btn btn-primary btn-xs" type="button"><i class="fa fa-edit"></i> 编辑</a>
+                                     <tbody>
 
-                                        </td>
-                                    </tr>
+                            @if (Model != null && Model.FollowList.Count() > 0)
+                            {
+                                foreach (var m in Model.FollowList)
+                                {
+                                <tr>
+                                    <td class="jz">@m.ApName</td>
+                                    <td>@m.ApTel</td>
+                                    <td>@m.APID</td>
+                                    <td>@m.DicItemName</td>
+                                    <td>@m.CreateTime</td>
+                                    <td>@m.DicItemName1</td>
+                                    <td>@m.Remark</td> 
+                                </tr>
                                 }
                             }
                             else
                             {
-                                @*<tr><td colspan="7" style="text-align:center; color:red;">未查询到数据,请更换查询条件试试!</td></tr>*@
+                                <tr>
+                                    <td colspan="7" style="text-align: center; color: red;">未查询到数据,请更换查询条件试试!</td>
+                                </tr>
                             }
                         </tbody>
                     </table>
-                    @if (Model != null && Model.buttonlist.TotalPageCount > 0)
+                    @if (Model != null && Model.FollowList.TotalPageCount > 0)
                     {
                         <div class="row">
-                            <div class="dataTables_info col-sm-6">每页显示 @Model.search.PageSize 条，共<span>@Model.buttonlist.TotalItemCount</span>条数据</div>
+                            <div class="dataTables_info col-sm-6">每页显示 @Model.search.PageSize 条，共<span>@Model.FollowList.TotalItemCount</span>条数据</div>
                             <div class="col-sm-6">
 
-                                @Html.Pager(Model.buttonlist, new PagerOptions(), "", new RouteValueDictionary {
+                                @Html.Pager(Model.FollowList, new PagerOptions(), "", new RouteValueDictionary {
                                    { "pageindex",  Model.search.CurrentPage },
                                    { "pagesize", ViewBag.PageSize }
                                }, null)
