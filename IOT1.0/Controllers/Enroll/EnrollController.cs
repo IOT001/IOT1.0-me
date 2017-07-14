@@ -127,14 +127,7 @@ namespace IOT1._0.Controllers.Enroll
             return Json(ajax);
         }
 
-        /// <summary>
-        /// 回访记录
-        /// </summary>
-        /// <returns></returns>
-        public ActionResult FollowList()
-        {
-            return View();
-        }
+   
         /// <summary>
         /// 票据打印
         /// </summary>

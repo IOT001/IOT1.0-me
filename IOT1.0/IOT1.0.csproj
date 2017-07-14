@@ -158,8 +158,10 @@
     <Compile Include="Controllers\Authority\RoleController.cs" />
     <Compile Include="Controllers\Authority\TestController.cs" />
     <Compile Include="Controllers\Authority\UpLoadController.cs" />
+    <Compile Include="Controllers\Enroll\FollowListController.cs" />
     <Compile Include="Controllers\Enroll\EnrollAuditController.cs" />
     <Compile Include="Controllers\Enroll\EnrollController.cs" />
+    <Compile Include="Controllers\Finance\DailyReportController.cs" />
     <Compile Include="Controllers\WeiXin\IndexController.cs" />
     <Compile Include="Controllers\WeiXin\MessageListController.cs" />
     <Compile Include="Controllers\WeiXin\PaymentListController.cs" />
@@ -4747,7 +4749,9 @@
     <Content Include="Views\Weixin\login.cshtml" />
     <Content Include="Views\Shared\_Layoutwx.cshtml" />
     <Content Include="Views\Weixin\Index.cshtml" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Views\Weixin\MessageBrowse.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

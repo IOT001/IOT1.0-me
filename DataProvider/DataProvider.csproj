@@ -107,6 +107,8 @@
     <Compile Include="Data\MessageData.cs" />
     <Compile Include="Data\StudentScheduleListData.cs" />
     <Compile Include="Data\UserProgressListData.cs" />
+    <Compile Include="Data\DailyReportData.cs" />
+    <Compile Include="Data\FollowListData.cs" />
     <Compile Include="DPBase.cs" />
     <Compile Include="Entities\Appointment.cs" />
     <Compile Include="Entities\AttendanceRecord.cs" />
@@ -124,8 +126,10 @@
     <Compile Include="Entities\Teachers.cs" />
     <Compile Include="Entities\vw_AttendanceRecord.cs" />
     <Compile Include="Entities\vw_Classes.cs" />
+    <Compile Include="Entities\vw_DailyReport.cs" />
     <Compile Include="Entities\vw_Discount.cs" />
     <Compile Include="Entities\vw_Enroll.cs" />
+    <Compile Include="Entities\vw_FollowList.cs" />
     <Compile Include="Entities\vw_menu.cs" />
     <Compile Include="Entities\vw_Message.cs" />
     <Compile Include="Entities\vw_StudentEvaluate.cs" />
@@ -153,6 +157,8 @@
     <Compile Include="Models\WX_PaymentListModel.cs" />
     <Compile Include="Models\WX_FSConnectionlistModel.cs" />
     <Compile Include="Models\WX_UserProgressListModel.cs" />
+    <Compile Include="Models\DailyReportListViewModel.cs" />
+    <Compile Include="Models\FollowListListViewModel.cs" />
     <Compile Include="NERP.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
