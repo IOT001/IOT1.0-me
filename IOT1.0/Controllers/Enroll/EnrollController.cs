@@ -127,14 +127,7 @@ namespace IOT1._0.Controllers.Enroll
             return Json(ajax);
         }
 
-        /// <summary>
-        /// 回访记录
-        /// </summary>
-        /// <returns></returns>
-        public ActionResult FollowList()
-        {
-            return View();
-        }
+   
         /// <summary>
         /// 票据打印
         /// </summary>
@@ -235,7 +228,7 @@ namespace IOT1._0.Controllers.Enroll
                 string apid = ((JObject)item)["apid"].ToString();//预约号
                 string studentid = ((JObject)item)["studentid"].ToString();//学员号
                 int classhour =  int.Parse(((JObject)item)["classhour"].ToString());//报名课时
-                string discountid = ((JObject)item)["discountid"].ToString();//选择的优惠ID
+                int discountid = int.Parse(((JObject)item)["discountid"].ToString());//选择的优惠ID
                 decimal discountprice = decimal.Parse(((JObject)item)["discountprice"].ToString());//本次优惠的金额
                 if (string.IsNullOrEmpty(studentid))
                 {

@@ -10,12 +10,7 @@ namespace IOT1._0.Controllers.Finance
     {
         //
         // GET: /Finance/
-
-        public ActionResult DailyReport()
-        {
-            return View();
-        }
-
+ 
       
     }
 }

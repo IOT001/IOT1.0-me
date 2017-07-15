@@ -48,7 +48,7 @@ namespace DataProvider.Entities
         /// <summary>
         /// DiscountID
         /// </summary>				
-        public string DiscountID { get; set; }
+        public int DiscountID { get; set; }
         /// <summary>
         /// DiscountPrice
         /// </summary>				
