@@ -19,7 +19,7 @@ namespace DataProvider.Models
        /// <summary>
        /// 页面的列表数据
        /// </summary>
-       public PagedList<Appointment> AppointmentList { get; set; }
+       public PagedList<vw_Appointment> AppointmentList { get; set; }
        /// <summary>
        /// 跟进方式下拉框
        /// </summary>
