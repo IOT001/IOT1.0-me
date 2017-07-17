@@ -57,12 +57,32 @@ namespace IOT1._0.Controllers.Enroll
             Appointment obj = (Appointment)(JsonConvert.DeserializeObject(data.ToString(), typeof(Appointment)));//序列化成对象
             obj.UpdateTime = DateTime.Now;
             obj.UpdatorId = UserSession.userid;
+
             if (AppointmentData.Update(obj))//注意时间类型，而且需要在前台把所有的值，也能在后台复制
             {
                 ajax.msg = "保存成功！";//前台会安装这个信息弹出信息
                 ajax.status = EnumAjaxStatus.Success;
             }
             return Json(ajax);
+        }
+        /// <summary>
+        /// 根据ID获取资源单信息
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public JsonResult GetAppointmentByID(string id)
+        {
+            AjaxStatusModel ajax = new AjaxStatusModel();//功能操作类的返回类型都是AjaxStatusModel，数据放到AjaxStatusModel.data中，前台获取json后加载
+            ajax.status = EnumAjaxStatus.Error;//默认失败
+            ajax.msg = "获取失败！";//前台获取，用于显示提示信息
+            Appointment ap = AppointmentData.GetOneByID(id);//业务层获取底层方法，返回数据
+            if (ap != null)
+            {
+                ajax.data = ap;//放入数据
+                ajax.msg = "获取成功！";
+            }
+            return Json(ajax);
+
         }
         /// <summary>
         /// 新增预约单
@@ -82,6 +102,7 @@ namespace IOT1._0.Controllers.Enroll
             obj.ID = CommonData.DPGetTableMaxId("AP", "ID", "Appointment", 8);
             obj.CreateTime = DateTime.Now;
             obj.CreatorId = UserSession.userid;
+            obj.ApStateID = 1;//默认未跟进
             if (AppointmentData.Add(obj))//注意时间类型
             {
                 ajax.msg = "新增成功！";

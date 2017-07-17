@@ -18,7 +18,7 @@ namespace DataProvider.Data
         /// </summary>
         /// <param name="search"></param>
         /// <returns></returns>
-        public static PagedList<Appointment> GetAPList(EnrollListSearchModel search)
+        public static PagedList<vw_Appointment> GetAPList(EnrollListSearchModel search)
         {
             string table = string.Empty, fields = string.Empty, orderby = string.Empty, where = string.Empty;//定义结构
             fields = @"  * ";//输出字段
@@ -32,10 +32,10 @@ namespace DataProvider.Data
                 sb.AppendFormat(" and [ApTel] like '%{0}%' ", search.ApTel);
             where = sb.ToString();
             int allcount = 0;
-            var list = CommonPage<Appointment>.GetPageList(
+            var list = CommonPage<vw_Appointment>.GetPageList(
             out allcount, table, fields: fields, where: where.Trim(),
             orderby: orderby, pageindex: search.CurrentPage, pagesize: search.PageSize, connect: DBKeys.PRX);
-            return new PagedList<Appointment>(list, search.CurrentPage, search.PageSize, allcount);
+            return new PagedList<vw_Appointment>(list, search.CurrentPage, search.PageSize, allcount);
         }
         /// <summary>
         /// 根据主键获取一条预约信息
@@ -74,6 +74,8 @@ namespace DataProvider.Data
         public static bool Update(Appointment obj)
         {
             Appointment objTo = AppointmentData.GetOneByID(obj.ID);//获取对象
+            obj.CreateTime = objTo.CreateTime;
+            obj.ApStateID = objTo.ApStateID;
             Cloner<Appointment, Appointment>.CopyTo(obj, objTo);//代码克隆，把前台或者的值也就是变更内容复制到目标对象，不做变更的数据不变
             return MsSqlMapperHepler.Update(objTo, DBKeys.PRX);
         }

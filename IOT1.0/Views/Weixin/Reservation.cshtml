@@ -1,6 +1,6 @@
 ﻿@using DataProvider.Models
 @using DataProvider.Paging
-
+@model ReservationModel
 
 <link href="~/CSS/common.css" rel="stylesheet" />
 <link href="http://m.525j.com.cn/css/wxshare.css" rel="stylesheet" type="text/css" />
@@ -99,7 +99,14 @@
                     <div class="l_box clearfloat">
                         <label>参与课程</label>
                         <div class="selectBox select_type" style="">
-                            <select></select>
+                            <select>
+                                @foreach (var m in Model.coureselist)
+                                {
+
+                                  <option value="@m.id">@m.name</option>
+                                }
+
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -330,28 +337,7 @@
 <script type="text/javascript">
 
 
-    function fillPrice() {
-        var type = ["2017暑期化学培训班", "2017暑期英语一对一外教"];
-        var price = {
-            "2017暑期化学培训班": ["1388", "1888", "2388"],
-            "2017暑期英语一对一外教": ["699", "899", "1299", "1699"]
-        };
-        var selType = $(".level .select_type select"),
-            selPrice = $(".level .select_price select");
-        for (type in price) {
-            selType.append("<option value='" + type + "'>" + type + "</option>");
-        }
-        selType.on("change", function () {
-            var $this = $(this);
-            var text = $this.val();
-            $this.siblings("label").text(text);
-            var arr = price[text];
-            selPrice.html("");
-            $(arr).each(function (i, dom) {
-                selPrice.append("<option value='" + dom + "'>" + dom + "元/㎡</option>");
-            });
-        });
-    }
+
     $("#submit").click(function () {
         save();
     })
@@ -384,7 +370,7 @@
     }
 
     $(document).ready(function () {
-        fillPrice();
+ 
     });
 
 </script>

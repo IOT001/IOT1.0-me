@@ -11,10 +11,7 @@ namespace IOT1._0.Controllers.WeiXin
         //
         // GET: /Weixin/
 
-        public ActionResult Reservation()
-        {
-            return View();
-        }
+
  
         public ActionResult Main()
         {

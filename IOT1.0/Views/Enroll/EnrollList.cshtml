@@ -73,6 +73,7 @@
                                         <td>@m.IsJoin</td>
                                         <td>@m.APRemark</td>
                                         <td>
+                                            <a href="javascript:modify('@m.ID')" class="btn btn-primary btn-xs" type="button"><i class="fa fa-edit"></i> 修改</a>
                                             <a href="javascript:follow('@m.ID')" class="btn btn-primary btn-xs" type="button"><i class="fa fa-edit"></i> 跟进</a>
                                             <a href="javascript:shiting('@m.ID')" class="btn btn-primary btn-xs" type="button"><i class="fa fa-edit"></i> 试听</a>
                                             <a href="javascript:jiaru('@m.ApName','@m.ApTel')" class="btn btn-primary btn-xs" type="button"><i class="fa fa-edit"></i> 加入</a>
@@ -824,6 +825,29 @@
             loaddetail(id, loadindex)
         }
     }
+    //加载预约数据
+    function loaddetail(id, loadindex) {
+        $.ajax({
+            url: '@Url.Action("GetAppointmentByID", "Enroll")',
+            type: "post",
+            data: { id: id },
+            success: function (json) {
+                if (json.status = 200) {//成功
+                    $("#ApName").val(json.data.ApName);
+                    $("#ApTel").val(json.data.ApTel);
+                    $("#APLinkMan").val(json.data.APLinkMan);
+                    $("#APGrade").val(json.data.APGrade);
+                    $("#APRemark").val(json.data.APRemark);
+
+                    layer.close(loadindex);//关闭加载层
+                }
+            },
+            error: function (xmLHttpRequest, textStatus, errorThrown) {
+                layer.msg("系统异常，请重试<br/>错误信息：" + xmLHttpRequest.responseText);
+            }
+        });
+    }
+
     //跟进
     function follow(apid) {
         cleanData("follow");//清空数据
@@ -975,7 +999,7 @@
             content: $('#jiaru'),
             btn: ['成为正式学员', '取消'],
             yes: function () {
-                save(name, tel);
+                join();
             },
             cancel: function (index) {
                 layer.close(index);
@@ -983,7 +1007,7 @@
         });
     }
     //加入会员
-    function save() {
+    function join() {
         var obj = new Object;
 
         obj.Name = $("#Name").val().trim();;

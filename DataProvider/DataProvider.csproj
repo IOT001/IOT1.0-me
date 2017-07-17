@@ -124,6 +124,7 @@
     <Compile Include="Entities\Students.cs" />
     <Compile Include="Entities\SYSButton.cs" />
     <Compile Include="Entities\Teachers.cs" />
+    <Compile Include="Entities\vw_Appointment.cs" />
     <Compile Include="Entities\vw_AttendanceRecord.cs" />
     <Compile Include="Entities\vw_Classes.cs" />
     <Compile Include="Entities\vw_DailyReport.cs" />
@@ -144,6 +145,7 @@
     <Compile Include="Models\AttendanceListViewModel.cs" />
     <Compile Include="Models\ButtonListViewModel.cs" />
     <Compile Include="Models\EnrollListViewModel.cs" />
+    <Compile Include="Models\ReservationModel.cs" />
     <Compile Include="Models\WX_MessageBrowseModel.cs" />
     <Compile Include="Models\StudentListViewModel.cs" />
     <Compile Include="Models\CurriculumViewModel.cs" />

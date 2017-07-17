@@ -165,6 +165,7 @@
     <Compile Include="Controllers\WeiXin\IndexController.cs" />
     <Compile Include="Controllers\WeiXin\MessageListController.cs" />
     <Compile Include="Controllers\WeiXin\PaymentListController.cs" />
+    <Compile Include="Controllers\WeiXin\ReservationController.cs" />
     <Compile Include="Controllers\WeiXin\WeixinController.cs" />
     <Compile Include="Controllers\Finance\DiscountListController.cs" />
     <Compile Include="Controllers\Finance\FinanceController.cs" />

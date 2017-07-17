@@ -57,5 +57,16 @@ namespace DataProvider.Data
            Cloner<Course, Course>.CopyTo(course, to);
            return MsSqlMapperHepler.Update(to, DBKeys.PRX);
        }
+       /// <summary>
+       /// 获取启用课程下拉
+       /// </summary>
+       /// <returns></returns>
+       public static List<CommonEntity> GetCourseIL()
+       {
+           List<CommonEntity> ret;
+           string sql = "select id,CourseName as name from Course";
+           ret = MsSqlMapperHepler.SqlWithParams<CommonEntity>(sql.ToString(), null, DBKeys.PRX);
+           return ret;
+       }
     }
 }
