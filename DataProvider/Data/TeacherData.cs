@@ -27,7 +27,7 @@ namespace DataProvider.Data
             orderby = "CreateTime";//排序信息
             StringBuilder sb = new StringBuilder();//构建where条件
             sb.Append(" 1=1 ");
-            switch (search.DicItemID)
+            switch (search.LeaveDate)
             {
                 case 1:
                     sb.Append(" and LeaveDate is null ");
@@ -120,5 +120,124 @@ namespace DataProvider.Data
         {
             return MsSqlMapperHepler.GetOne<Teachers>(ID, DBKeys.PRX);
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+        /// <summary>
+        /// 分页获取教师列表
+        /// </summary>
+        /// <param name="search"></param>
+        /// <returns></returns>
+        public static PagedList<vw_Teachers> GetTeachersList(TeacherSearchModel search)
+        {
+            string table = string.Empty, fields = string.Empty, orderby = string.Empty, where = string.Empty;//定义结构
+            fields = @"  * ";//输出字段
+            table = @" vw_Teachers ";//表或者视图
+            orderby = "CreateTime";//排序信息
+            StringBuilder sb = new StringBuilder();//构建where条件
+            sb.Append(" 1=1 ");
+
+            if (search.LeaveDate == 1)//离职
+            {
+                sb.AppendFormat(" and LeaveDate is null ", search.LeaveDate);
+            }
+            else if (search.LeaveDate == 2)
+            {
+                sb.AppendFormat(" and LeaveDate is not null ", search.LeaveDate);
+            }
+
+            if (!string.IsNullOrWhiteSpace(search.TeacherName))//是否在职
+                sb.AppendFormat(" and name like '%{0}%' ", search.TeacherName);
+
+            if (!string.IsNullOrWhiteSpace(search.MobilePhone))//手机号码
+                sb.AppendFormat(" and MobilePhone like '%{0}%' ", search.MobilePhone);
+
+
+            where = sb.ToString();
+            int allcount = 0;
+            var list = CommonPage<vw_Teachers>.GetPageList(
+    out allcount, table, fields: fields, where: where.Trim(),
+    orderby: orderby, pageindex: search.CurrentPage, pagesize: search.PageSize, connect: DBKeys.PRX);
+            return new PagedList<vw_Teachers>(list, search.CurrentPage, search.PageSize, allcount);
+        }
+
+
+
+        /// <summary>
+        /// 添加新的教师
+        /// </summary>
+        /// <returns></returns>
+        public static string AddTeachers(Teachers teacher, SYSAccount sys)
+        { 
+            DBRepository db = new DBRepository(DBKeys.PRX);
+            db.BeginTransaction();//事务开始 
+            db.Insert<Teachers>(teacher);
+           // MsSqlMapperHepler.Insert<Teachers>(teacher, DBKeys.PRX);
+            db.Insert<SYSAccount>(sys);  
+            db.Commit(); //事务提交 
+            string ret = "1";//新增成功 
+            db.Dispose();  //资源释放
+
+            return ret;
+        }
+
+
+        /// <summary>
+        /// 添加新的教师
+        /// </summary>
+        /// <returns></returns>
+        public static string AddSYS_SystemRole(SYSAccountRole sys)
+        {
+            DBRepository db = new DBRepository(DBKeys.PRX);
+            db.BeginTransaction();//事务开始 
+
+           var  number = Getnumber(sys.AR_AccountId);//判断是否存在
+           if (number > 0)
+            {
+                db.Delete<SYSAccountRole>(sys.AR_AccountId);
+            }
+           
+
+            for (int i = 0; i < sys.AR_SystemRoleIdS.Length; i++)
+            {
+                sys.AR_SystemRoleId =int.Parse(sys.AR_SystemRoleIdS[i]);
+                db.Insert<SYSAccountRole>(sys);
+            }
+             
+            db.Commit(); //事务提交 
+            string ret = "1";//新增成功 
+            db.Dispose();  //资源释放
+
+            return ret;
+        }
+
+
+        //<summary>
+        //获取ClassList行数
+        //</summary>
+        //<param name="Stockid"></param>
+        //<returns></returns> 
+        public static int Getnumber(int AR_AccountId)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append("select count(AR_ID) from SYS_AccountRole   ");
+            sb.Append(" where AR_AccountId=@AR_AccountId ");
+            var parameters = new DynamicParameters();
+            parameters.Add("@AR_AccountId", AR_AccountId);
+            return MsSqlMapperHepler.SqlWithParamsSingle<int>(sb.ToString(), parameters, DBKeys.PRX);
+        }
+
+
+
     }
 }

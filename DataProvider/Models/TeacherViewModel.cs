@@ -11,6 +11,9 @@ namespace DataProvider.Models
 {
     public class TeacherViewModel
     {
+
+        public long[] School { get; set; } //多选框
+
         /// <summary>
         /// 页面查询模型
         /// </summary>
@@ -18,7 +21,7 @@ namespace DataProvider.Models
         /// <summary>
         /// 页面的列表数据
         /// </summary>
-        public PagedList<Teachers> buttonlist { get; set; }
+        public PagedList<vw_Teachers> Teacherslist { get; set; }
         /// <summary>
         /// 按钮下拉框，演示用
         /// </summary>
@@ -33,6 +36,13 @@ namespace DataProvider.Models
         /// <summary>
         /// 下拉框按钮的选中值
         /// </summary>
-        public int DicItemID { set; get; }
+        public int LeaveDate { set; get; }
+         /// <summary>
+        /// 手机号码
+        /// </summary>
+        public string MobilePhone { set; get; }
+
+
+        
     }
 }

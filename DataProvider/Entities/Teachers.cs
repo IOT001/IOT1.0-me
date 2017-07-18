@@ -119,7 +119,7 @@ namespace DataProvider.Entities
 		/// <summary>
 		/// 绑定的账号，对应SYS_Account
         /// </summary>
-        public   int? BindAccountID
+        public string BindAccountID
         {
             get; 
             set; 

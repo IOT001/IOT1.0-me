@@ -172,8 +172,8 @@ namespace DataProvider.Data
                 DBRepository db = new DBRepository(DBKeys.PRX);
                 db.BeginTransaction();//事务开始
 
-                UpdateEnroll(en);
-                if (AddClassesTrans(ct)>0)
+                UpdateEnroll(en, db);
+                if (AddClassesTrans(ct,db)>0)
                 {
                     db.Commit(); //事务提交
                     db.Dispose();  //资源释放
@@ -200,20 +200,20 @@ namespace DataProvider.Data
         /// </summary>
         /// <param name="btn"></param>
         /// <returns></returns>
-        public static int AddClassesTrans(ClassesTrans ct)
+        public static int AddClassesTrans(ClassesTrans ct, DBRepository db)
         {
-            return MsSqlMapperHepler.Insert<ClassesTrans>(ct, DBKeys.PRX);
+            return db.Insert<ClassesTrans>(ct);
         }
         /// <summary>
         /// 保存
         /// </summary>
         /// <param name="btn"></param>
         /// <returns></returns>
-        public static bool UpdateEnroll(Enroll en)
+        public static bool UpdateEnroll(Enroll en, DBRepository db)
         {
             Enroll Stuto = ClassesData.GetEnrollByID(en.ID);//获取对象
             Cloner<Enroll, Enroll>.CopyTo(en, Stuto);//代码克隆，把前台或者的值也就是变更内容复制到目标对象，不做变更的数据不变
-            return MsSqlMapperHepler.Update(Stuto, DBKeys.PRX);
+            return db.Update(Stuto);
 
         }
 

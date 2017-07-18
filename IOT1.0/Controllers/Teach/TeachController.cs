@@ -35,7 +35,12 @@ namespace IOT1._0.Controllers.Teach
             List<CommonEntity> ButtonIL = CommonData.GetDictionaryList(4);//1是字典类型值,仅供测试参考
             model.buttonIL = CommonData.Instance.GetBropDownListData(ButtonIL);
 
-            model.buttonlist = TeacherData.GetButtonList(search);//填充页面模型数据
+
+            //多沟选框
+            List<DataProvider.Data.CommonData.SYS_Role> SourceIL = CommonData.GetSYS_SystemRoleList(3);
+            ViewData["SYS_Role"] = SourceIL;
+
+            model.Teacherslist = TeacherData.GetTeachersList(search);//填充页面模型数据
             return View(model);//返回页面模型
         }
 
@@ -78,11 +83,22 @@ namespace IOT1._0.Controllers.Teach
             {
                 return Json(ajax);
             }
-            Teachers btn = (Teachers)(JsonConvert.DeserializeObject(data.ToString(), typeof(Teachers)));
+            Teachers teacher = (Teachers)(JsonConvert.DeserializeObject(data.ToString(), typeof(Teachers)));
+            SYSAccount sys = (SYSAccount)(JsonConvert.DeserializeObject(data.ToString(), typeof(SYSAccount)));
+            RandomOperate operate = new RandomOperate();
 
-            btn.CreateTime = DateTime.Now;
-            btn.CreatorId = UserSession.userid;
-            if (!string.IsNullOrEmpty(TeacherData.AddTeach(btn)))//注意时间类型，而且需要在前台把所有的值
+            teacher.CreateTime = DateTime.Now;
+            teacher.CreatorId = UserSession.userid;
+            teacher.ID = operate.GenerateCheckCode(36);
+
+            
+            teacher.BindAccountID = operate.GenerateCheckCode(30);
+            sys.ACC_Account = teacher.BindAccountID;
+            sys.ACC_CreatedBy = UserSession.userid;
+            sys.ACC_CreatedOn = DateTime.Now;
+            sys.ACC_Password = operate.CreateMD5Hash("123");
+
+            if (!string.IsNullOrEmpty(TeacherData.AddTeachers(teacher, sys)))//注意时间类型，而且需要在前台把所有的值
             {
                 ajax.msg = "新增成功！";
                 ajax.status = EnumAjaxStatus.Success;
@@ -110,6 +126,45 @@ namespace IOT1._0.Controllers.Teach
             return Json(ajax);
 
         }
+
+
+
+
+
+
+        /// <summary>
+        ///设置权限
+        /// </summary>
+        /// <returns></returns>
+        public JsonResult AddSYS_SystemRole()
+        {
+
+
+            AjaxStatusModel ajax = new AjaxStatusModel();//功能操作类的返回类型都是AjaxStatusModel，数据放到AjaxStatusModel.data中，前台获取json后加载
+            ajax.status = EnumAjaxStatus.Error;//默认失败
+            ajax.msg = "新增失败！";//前台获取，用于显示提示信息
+            var data = Request["data"];//获取前台传递的数据，主要序列化
+            if (string.IsNullOrEmpty(data))
+            {
+                return Json(ajax);
+            }
+            SYSAccountRole sys = (SYSAccountRole)(JsonConvert.DeserializeObject(data.ToString(), typeof(SYSAccountRole)));
+            if (sys.AR_SystemRoleIdS != null)
+            {
+                if (!string.IsNullOrEmpty(TeacherData.AddSYS_SystemRole(sys)))//注意时间类型，而且需要在前台把所有的值
+            {
+                ajax.msg = "新增成功！";
+                ajax.status = EnumAjaxStatus.Success;
+            } 
+            } 
+            return Json(ajax);
+        }
+
+
+
+
+
+
 
         
     }

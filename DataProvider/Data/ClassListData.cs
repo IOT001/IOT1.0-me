@@ -24,7 +24,7 @@ namespace DataProvider.Data
        /// <returns></returns>
         public static bool AddClassList(ClassList Clas,Date date,Classes Clss,Weekday weekday)
        {
-
+           var number = 0;//因为事务查询数据库会直接卡死
            bool ret = false;
            try
            {
@@ -76,18 +76,23 @@ namespace DataProvider.Data
                 
                if (Monday > -1 || Tuesday > -1 || Wednesday > -1 || Thursday > -1 || Friday > -1 || Saturday > -1 || Sunday > -1)
                {
-
+                  
                    //因为一条数据只能排课一次，所以这个判断就没有必要了
                    //if (GetClassList_num(Clas.ClassID, Clas.TimePeriod,Date) > 0)//判断出是否有存在这天这个班这个时刻的数据
                    //{
 
                    //    return ret;
                    //}
-                   var number = Getnumber(Clas.ClassID);//取行号
+                   if (number==0)
+                   {
+                       number = Getnumber(Clas.ClassID);//取行号
+                   }
+                   number = number + 1;
                    Clas.weekday = week;//星期几
                    Clas.ClassDate = Date;//上课日期
-                   Clas.ClassIndex = number + 1;  //班次序号，也就是班级生成的集体上课记录 
-                   MsSqlMapperHepler.Insert<ClassList>(Clas, DBKeys.PRX);  //增加排课表数据 
+                   Clas.ClassIndex = number;  //班次序号，也就是班级生成的集体上课记录 
+                   db.Insert<ClassList>(Clas); //增加排课表数据 
+                  // MsSqlMapperHepler.Insert<ClassList>(Clas, DBKeys.PRX);  //增加排课表数据 
 
 
                    List<Enroll> Enroll = GetEnrollByID(Clas.ClassID);//获取Enroll报名表的数据
@@ -95,24 +100,26 @@ namespace DataProvider.Data
                    attend.CreateTime = DateTime.Now;  //创建时间
                    attend.CreatorId = Clas.CreatorId; //创建人
                    attend.ClassID = Clas.ClassID;//班级编号
-                   attend.ClassIndex = number + 1;//班次序号，也就是班级生成的集体上课记录 
+                   attend.ClassIndex = number;//班次序号，也就是班级生成的集体上课记录 
                    attend.AttendanceTypeID = 1;//上课状态,默认为1，未考勤
                    attend.AttendanceWayID = 3;//AttendanceWayID默认3，教师操作的考勤。
                    for (int j = 0; j < Enroll.Count(); j++)
                    { 
                        attend.StudentID = Enroll[j].StudentID;
-                       MsSqlMapperHepler.Insert<AttendanceRecord>(attend, DBKeys.PRX); //增加上课记录表数据
+                       db.Insert<AttendanceRecord>(attend);//增加上课记录表数据
+                       //MsSqlMapperHepler.Insert<AttendanceRecord>(attend, DBKeys.PRX); //增加上课记录表数据
                    }
                     
                }
            }
-           if (UpdateClasses(Clas.ClassID, Clss.TotalLesson)>0)//反写回Classes班级维护表的总课时字段
+           if (UpdateClasses(Clas.ClassID, Clss.TotalLesson,db) > 0)//反写回Classes班级维护表的总课时字段
            {
                db.Commit(); //事务提交
-               db.Dispose();  //资源释放
+               
                ret = true;//新增成功
-           }  
-          
+           }
+
+           db.Dispose();  //资源释放
            }
            catch (Exception)
            {
@@ -166,7 +173,7 @@ namespace DataProvider.Data
            //    db.Dispose();
 
            //}
-
+          
            return ret;
 
   
@@ -196,7 +203,7 @@ namespace DataProvider.Data
         /// </summary>
         /// <param name="btn"></param>
         /// <returns></returns>
-        public static int UpdateClasses(string ID, int TotalLesson)
+        public static int UpdateClasses(string ID, int TotalLesson, DBRepository db)
         {
             StringBuilder sb = new StringBuilder();
             sb.Append(" update Classes set TotalLesson=@TotalLesson,StateID=2  ");
@@ -204,7 +211,8 @@ namespace DataProvider.Data
             var parameters = new DynamicParameters();
             parameters.Add("@ID", ID);
             parameters.Add("@TotalLesson", TotalLesson);
-            return MsSqlMapperHepler.InsertUpdateOrDeleteSql(sb.ToString(), parameters, DBKeys.PRX);
+            return db.Execute(sb.ToString(), parameters);
+           
         }
 
 

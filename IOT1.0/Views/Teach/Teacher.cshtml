@@ -2,6 +2,8 @@
 @using DataProvider.Paging
 @{
     ViewBag.Title = "教师管理";
+    List<DataProvider.Data.CommonData.SYS_Role> SYS_Role = (List<DataProvider.Data.CommonData.SYS_Role>)ViewData["SYS_Role"]; 
+
 }
 @model TeacherViewModel
 
@@ -33,12 +35,21 @@
                                         <option value="110000" hassubinfo="true">是</option>
                                         <option value="370000" hassubinfo="true">否</option>
                                     </select>*@
-                                @Html.DropDownListFor(t => t.search.DicItemID, Model.buttonIL, new { @class = "form-control input-sm chosen-select", @style = "width:100%;height:100%;", @tabindex = "4" })
+                                @Html.DropDownListFor(t => t.search.LeaveDate, Model.buttonIL, new { @class = "form-control input-sm chosen-select", @style = "width:100%;height:100%;", @tabindex = "4" })
 
                             </div>
 
                         </div>
+                               <div class="form-group">
+                            <div class="col-sm-2">
+                                <label class="control-label">手机号码:</label>
+                            </div>
+                            <div class="col-sm-3">
+                                @Html.TextBoxFor(t => t.search.MobilePhone, new { @class = "form-control input-sm", @type = "text", @placeholder = "手机号码" })
+                            </div>
+               
 
+                        </div>
 
 
                         <div class="form-group">
@@ -75,41 +86,24 @@
                         <!-- 循环数据 -->
                         <tbody>
 
-                            @if (Model != null && Model.buttonlist.Count() > 0)
+                            @if (Model != null && Model.Teacherslist.Count() > 0)
                             {
-                                foreach (var m in Model.buttonlist)
+                                foreach (var m in Model.Teacherslist)
                                 {
                                     <tr>
-                                        <td class="jz">@m.name</td>
-                                        @if (@m.sex == 1)
-                                        {
-                                            <td>男</td>
-                                        }
-                                        else
-                                        {
-                                            <td>女</td>
-                                        }
-                                        <td>@m.MobilePhone</td>
-                                        @if (m.LeaveDate == null)
-                                        {
-                                            <td>是</td>
-                                        }
-                                        else
-                                        {
-                                            <td>否</td>
-                                        }
-
-                                        @*javascript:convertTime(@m.EntryDate)*@
+                                        <td class="jz">@m.name</td> 
+                                        <td>@m.sexName</td> 
+                                        <td>@m.MobilePhone</td> 
+                                        <td>@m.LeaveDateName</td>  
                                         <td>
-                                            @DateTime.Parse(m.EntryDate + "").ToString("yyyy-MM-dd")
-
-                                        </td>
-                                        @*权限组 - 暂时省略*@
-                                        <td></td>
+                                            @m.EntryDate
+                                            @*@DateTime.Parse(m.EntryDate + "").ToString("yyyy-MM-dd")*@ 
+                                        </td> 
+                                        <td>@m.ROLE_Name</td>
                                         <td>@m.Remark</td>
                                         <td>
                                             <a href="javascript:modify('@m.ID');" class="btn btn-primary btn-xs" type="button"><i class="fa fa-edit"></i> 编辑</a>
-                                            <a href="javascript:generate('@m.ID');" class="btn btn-primary btn-xs" type="button"><i class="fa fa-edit"></i> 设置权限</a>
+                                            <a href="javascript:generate(@m.ACC_Id);" class="btn btn-primary btn-xs" type="button"><i class="fa fa-edit"></i> 设置权限</a>
 
                                         </td>
                                     </tr>
@@ -130,13 +124,13 @@
                                 </tr>
                             </tfoot>*@
                     </table>
-                    @if (Model != null && Model.buttonlist.TotalPageCount > 0)
+                    @if (Model != null && Model.Teacherslist.TotalPageCount > 0)
                     {
                         <div class="row">
-                            <div class="dataTables_info col-sm-6">每页显示 @Model.search.PageSize 条，共<span>@Model.buttonlist.TotalItemCount</span>条数据</div>
+                            <div class="dataTables_info col-sm-6">每页显示 @Model.search.PageSize 条，共<span>@Model.Teacherslist.TotalItemCount</span>条数据</div>
                             <div class="col-sm-6">
 
-                                @Html.Pager(Model.buttonlist, new PagerOptions(), "", new RouteValueDictionary {
+                                @Html.Pager(Model.Teacherslist, new PagerOptions(), "", new RouteValueDictionary {
                                    { "pageindex",  Model.search.CurrentPage },
                                    { "pagesize", ViewBag.PageSize }
                                }, null)
@@ -208,24 +202,63 @@
         layer.open({
             type: 1,
             title: "<h5 class='ibox-title'>编辑</h3>",
-            area: ['300px', '430px'],
+            area: ['400px', '230px'],
             content: $('#generate'),
             btn: ['保存', '取消'],
             yes: function () {
-                save(id);
+                generatesave(id);
             },
             cancel: function (index) {
                 layer.close(index);
             }
         });
 
-        if (id) {//提供存着ID就是修改，则加载数据，不然打开空页面
-            var loadindex = layer.load();
-            loaddetail(id, loadindex)
-        }
+        //if (id) {//提供存着ID就是修改，则加载数据，不然打开空页面
+        //    var loadindex = layer.load();
+        //    loaddetail(id, loadindex)
+        //}
 
 
     }
+
+
+    //保存或者新增
+    function generatesave(id) {
+        var obj = new Object; 
+        obj.AR_AccountId = id;
+        
+
+        var numArr = []; // 定义一个空数组 
+
+
+        //var ToRoles = '';
+        var School = document.getElementsByName('School');
+        for (var i = 0; i < School.length; i++) {
+            if (School[i].checked) {
+                // ToRoles += School[i].value + ','; //如果选中，将value添加到变量s中 
+                numArr.push(School[i].value);
+            }
+        }
+
+
+        obj.AR_SystemRoleIdS = numArr; //角色ID
+        var action = ''; 
+        action = '@Url.Action("AddSYS_SystemRole", "Teach")';
+        
+        $.post(action, {
+            "data": JSON.stringify(obj)//序列化对象
+        }, function (json) {
+            if (json.status = 200) {//成功
+
+                layer.msg(json.msg);//弹出服务器返回的消息
+                setTimeout(function () {//操作
+                    layer.closeAll();//关闭所有层
+                    window.location.reload(); //刷新
+                }, 3000);
+            }
+        }, 'json');
+    }
+
 
 
     function ChangeDateFormat(jsondate) {
@@ -276,13 +309,20 @@
                     }
                     $("#remark").val(json.data.Remark);
 
-                    if (1 == json.data.sex) {//如果停用true
-                        $("input#sex_boy").iCheck('check')
+                    //if (1 == json.data.sex) {//如果停用true
+                    //    $("input#sex_boy").iCheck('check')
 
-                    } else {
-                        $("input#sex_girl").iCheck('check');
+                    //} else {
+                    //    $("input#sex_girl").iCheck('check');
+                    //}
+
+                    if (json.data.Sex == 1) {
+                        $("#Sex").iCheck('check');
                     }
+                    else {
+                        $("#Sex1").iCheck('check');
 
+                    }
 
 
 
@@ -303,11 +343,20 @@
         }
         obj.name = $("#BTN_Name").val().trim();
         if (!obj.name) {
-            layer.msg("请输入按钮名称！");
+            layer.msg("请输入教师姓名！");
             return false;
         }
-        var val = $('input:radio[name="a"]:checked').val();
-        obj.sex = val
+        //var val = $('input:radio[name="a"]:checked').val();
+        //obj.sex = val
+
+
+        if ($("#Sex").is(':checked')) {//判断停用按钮是否选中 
+            obj.Sex = $("#Sex").val().trim();
+        }
+        else {
+            obj.Sex = $("#Sex1").val().trim();
+
+        }
 
         obj.MobilePhone = $("#mobilephone").val().trim();
         obj.EntryDate = $("#inDate").val().trim();
@@ -355,7 +404,7 @@
     <div class="ibox-content">
         <form class="form-horizontal">
             <div class="form-group ">
-                <label class="col-sm-3 control-label">姓名：</label>
+                <label class="col-sm-3 control-label">教师姓名：</label>
                 <div class="col-sm-8">
                     <input type="text" placeholder="教师姓名" class="form-control input-sm" id="BTN_Name">
                 </div>
@@ -363,7 +412,7 @@
 
 
 
-            <div class="form-group  ">
+       @*     <div class="form-group  ">
                 <label class="col-xs-3 control-label">性别：</label>
 
                 <div class="col-xs-4">
@@ -389,6 +438,27 @@
                                 </ins>
                             </div> <i></i>
                             女
+                        </label>
+                    </div>
+                </div>
+            </div>*@
+
+                   <div class="form-group  ">
+                <label class="col-xs-3 control-label">性别：</label>
+
+                <div class="col-xs-4">
+                    <div class="radio i-checks">
+                        <label class="">
+                        <input type="radio" id="Sex" checked="checked"  value="1"  name="a" style="position: absolute; opacity: 0;"> 男
+                        </label>
+                    </div>
+                </div>
+
+
+                <div class="col-xs-4">
+                    <div class="radio i-checks">
+                        <label class="">
+                 <input type="radio"  id="Sex1"  name="a" value="2" style="position: absolute; opacity: 0;"> 女
                         </label>
                     </div>
                 </div>
@@ -493,41 +563,11 @@
 
             </div>
 
-
-            <div class="form-group ">
-                <label class="col-sm-3 control-label"> </label>
-                <div class="checkbox i-checks col-sm-8">
-                    <label>
-                        <input type="checkbox" value="" id="BTN_IsSuspended"> <i></i>  教务
-                    </label>
-                </div>
-            </div>
-
-            <div class="form-group ">
-                <label class="col-sm-3 control-label"> </label>
-                <div class="checkbox i-checks col-sm-8">
-                    <label>
-                        <input type="checkbox" value="" id="BTN_IsSuspended"> <i></i>  财务
-                    </label>
-                </div>
-            </div>
-
-            <div class="form-group ">
-                <label class="col-sm-3 control-label"> </label>
-                <div class="checkbox i-checks col-sm-8">
-                    <label>
-                        <input type="checkbox" value="" id="BTN_IsSuspended"> <i></i>  校长
-                    </label>
-                </div>
-            </div>
-
-            <div class="form-group ">
-                <label class="col-sm-3 control-label"> </label>
-                <div class="checkbox i-checks col-sm-8">
-                    <label>
-                        <input type="checkbox" value="" id="BTN_IsSuspended"> <i></i>  管理员
-                    </label>
-                </div>
+        <div class="form-group ">
+                <label class="col-sm-3 control-label">发送部门：</label>
+                @*<div class="checkbox i-checks col-sm-8"> *@
+    @Html.CheckBoxListFor(model => model.School, model => model.School, SYS_Role, f => f.id, f => f.name, false, new Dictionary<string, object> { {"class", "check-inline "} })   
+               @* </div>*@
             </div>
 
 
