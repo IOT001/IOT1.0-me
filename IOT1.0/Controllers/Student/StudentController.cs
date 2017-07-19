@@ -151,9 +151,25 @@ namespace IOT1._0.Controllers.Teach
             {
                 Stu.ID = year + "0001";
             }
+            SYSAccount sys = new SYSAccount();//用户信息
+            SYSAccountRole sysR = new SYSAccountRole();//用户角色
+            RandomOperate operate = new RandomOperate();
+            //添加默认权限
+            Stu.BindAccount = operate.GenerateCheckCode(30);
+            sys.ACC_Account = Stu.BindAccount;
+            sys.ACC_CreatedBy = UserSession.userid;
+            sys.ACC_CreatedOn = DateTime.Now;
+            sys.ACC_Password = operate.CreateMD5Hash("123");
 
 
-            if (StudentData.AddStudent(Stu) != "")//注意时间类型，而且需要在前台把所有的值
+            //添加SYS_AccountRole表数据
+             
+           // sysR.AR_AccountId = StudentData.Max_ACC_Id();
+            sysR.AR_SystemRoleId = 9;
+
+
+
+            if (StudentData.AddStudent(Stu, sys, sysR) != "")//注意时间类型，而且需要在前台把所有的值
             {
                 ajax.msg = "新增成功！";
                 ajax.status = EnumAjaxStatus.Success;

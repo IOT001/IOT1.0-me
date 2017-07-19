@@ -51,10 +51,43 @@ namespace DataProvider.Data
        /// </summary>
        /// <param name="btn"></param>
        /// <returns></returns>
-        public static string AddStudent(Students Stu)
+        public static string AddStudent(Students Stu, SYSAccount sys, SYSAccountRole sysR)
        {
-           return MsSqlMapperHepler.Insert<Students>(Stu, DBKeys.PRX);
+
+           DBRepository db = new DBRepository(DBKeys.PRX);
+           db.BeginTransaction();//事务开始  
+           db.Insert<Students>(Stu);  //添加学生表
+          var  max =  db.Insert<SYSAccount>(sys);  //添加用户表
+
+          //sysR.AR_AccountId = max[0];
+          //sysR.AR_AccountId = max.ContainsValue(0);
+           db.Insert<SYSAccountRole>(sysR);  //添加权限表
+           db.Commit(); //事务提交  
+           db.Dispose();  //资源释放
+           string ret = "1";//新增成功 
+           return ret; 
        }
+
+
+        /// <summary>
+        /// 获取SYS_Account表最大的主键
+        /// </summary>
+        /// <param name="Stockid"></param>
+        /// <returns></returns>
+        public static int Max_ACC_Id()
+        {
+
+            string strsql = " select isnull(max(ACC_Id),1)as  ID from  SYS_Account";
+            var parameters = new DynamicParameters();
+            parameters.Add("@id"); 
+            return MsSqlMapperHepler.SqlWithParamsSingle<int>(strsql.ToString(), parameters, DBKeys.PRX);
+
+
+
+        }
+
+
+
        /// <summary>
        /// 保存
        /// </summary>
