@@ -178,16 +178,30 @@ namespace DataProvider.Data
         /// </summary>
         /// <returns></returns>
         public static string AddTeachers(Teachers teacher, SYSAccount sys)
-        { 
+        {
             DBRepository db = new DBRepository(DBKeys.PRX);
-            db.BeginTransaction();//事务开始 
-            db.Insert<Teachers>(teacher);
-           // MsSqlMapperHepler.Insert<Teachers>(teacher, DBKeys.PRX);
-            db.Insert<SYSAccount>(sys);  
-            db.Commit(); //事务提交 
-            string ret = "1";//新增成功 
-            db.Dispose();  //资源释放
-
+            string ret = "0";
+            try
+            {
+                
+                db.BeginTransaction();//事务开始 
+                db.Insert<Teachers>(teacher);
+                // MsSqlMapperHepler.Insert<Teachers>(teacher, DBKeys.PRX);
+                db.Insert<SYSAccount>(sys);
+                db.Commit(); //事务提交 
+                
+                db.Dispose();  //资源释放
+                ret = "1";//新增成功 
+            }
+            catch (Exception ex)
+            {
+                db.Rollback();
+                db.Dispose();//资源释放
+                throw new Exception(ex.Message + "。" + ex.InnerException.Message);
+                 
+            }
+           
+           
             return ret;
         }
 

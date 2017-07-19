@@ -169,9 +169,10 @@ namespace DataProvider.Data
         {
 
             bool ret = false;
+            DBRepository db = new DBRepository(DBKeys.PRX);
             try
             {
-                DBRepository db = new DBRepository(DBKeys.PRX);
+                
                 db.BeginTransaction();//事务开始
 
                 UpdateEnroll(en, db);
@@ -185,10 +186,11 @@ namespace DataProvider.Data
                  
             }
 
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
+                db.Rollback();
+                db.Dispose();//资源释放
+                throw new Exception(ex.Message + "。" + ex.InnerException.Message);
             }
 
             return ret;

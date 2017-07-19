@@ -26,9 +26,10 @@ namespace DataProvider.Data
        {
            var number = 0;//因为事务查询数据库会直接卡死
            bool ret = false;
+           DBRepository db = new DBRepository(DBKeys.PRX);
            try
            {
-               DBRepository db = new DBRepository(DBKeys.PRX);
+            
                db.BeginTransaction();//事务开始
 
              
@@ -121,10 +122,12 @@ namespace DataProvider.Data
 
            db.Dispose();  //资源释放
            }
-           catch (Exception)
+           catch (Exception ex)
            {
 
-               throw;
+               db.Rollback();
+               db.Dispose();//资源释放
+               throw new Exception(ex.Message + "。" + ex.InnerException.Message);
            }
 
            //判断ClassList表是否已经存在相对应的数据，有就不能再新增了
