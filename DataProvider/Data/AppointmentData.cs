@@ -104,6 +104,12 @@ namespace DataProvider.Data
             try
             {
                 MsSqlMapperHepler.Insert<FollowRecord>(obj, DBKeys.PRX);
+                Appointment ap = GetOneByID(obj.APID);
+                if (ap.ApStateID == 1)//如果之前是未跟进则改成已跟进
+                {
+                    ap.ApStateID = 2;
+                }
+                MsSqlMapperHepler.Update<Appointment>(ap,DBKeys.PRX);
                 ret = true;
             }
             catch (Exception ex)

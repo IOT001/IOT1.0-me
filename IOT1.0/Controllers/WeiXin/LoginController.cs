@@ -21,7 +21,7 @@ namespace IOT1._0.Controllers.WeiXin
         /// 登录
         /// </summary>
         /// <returns></returns>
-        public JsonResult login()
+        public JsonResult login1()
         {
             AjaxStatusModel ajax = new AjaxStatusModel();
             ajax.msg = "操作失败，请稍后尝试！";
@@ -41,6 +41,7 @@ namespace IOT1._0.Controllers.WeiXin
                 if (dt.Count == 0)//用户或者密码不正确
                 {
                     ajax.msg = "用户名或密码错误！";
+                    return Json(ajax);
                 }
 
                 foreach (var d in dt)//设置session
@@ -51,7 +52,7 @@ namespace IOT1._0.Controllers.WeiXin
                 }
                 ajax.msg = "登录成功！";
                 ajax.status = EnumAjaxStatus.Success;
-                ajax.data = Url.Action("index", "install");
+                ajax.data = Url.Action("Index", "Weixin");
                 return Json(ajax);
             }
             catch (Exception ex)

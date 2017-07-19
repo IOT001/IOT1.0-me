@@ -13,16 +13,46 @@ namespace DataProvider
     using System.Collections.Generic;
     
     public partial class vw_Enroll
-    {
+    {   
+        /// <summary>
+        /// 报名单号
+        /// </summary>
         public string ID { get; set; }
+        /// <summary>
+        /// 预约号，资源号
+        /// </summary>
         public string APID { get; set; }
+        /// <summary>
+        /// 学员ID
+        /// </summary>
         public string StudentID { get; set; }
+        /// <summary>
+        ///  班级ID
+        /// </summary>
         public string ClassID { get; set; }
+        /// <summary>
+        /// 学员报名课时
+        /// </summary>
         public decimal ClassHour { get; set; }
+        /// <summary>
+        /// 已消耗课时
+        /// </summary>
         public decimal UsedHour { get; set; }
+        /// <summary>
+        /// 应缴费用
+        /// </summary>
         public Nullable<decimal> Price { get; set; }
+        /// <summary>
+        /// 已付费用
+        /// </summary>
         public Nullable<decimal> Paid { get; set; }
+        /// <summary>
+        /// 优惠ID
+        /// </summary>
         public string DiscountID { get; set; }
+        /// <summary>
+        /// 优惠金额
+        /// </summary>
         public Nullable<decimal> DiscountPrice { get; set; }
         public string CreatorId { get; set; }
         public System.DateTime CreateTime { get; set; }
@@ -35,9 +65,26 @@ namespace DataProvider
         public string ApprovedBy { get; set; }
         public Nullable<System.DateTime> ApprovedTime { get; set; }
         public string ApprovedRemark { get; set; }
+        /// <summary>
+        /// 学员姓名
+        /// </summary>
         public string Name { get; set; }
+        /// <summary>
+        /// 学员绑定手机号
+        /// </summary>
         public string BindPhone { get; set; }
+        /// <summary>
+        /// 班级名称
+        /// </summary>
         public string ClassName { get; set; }
+        /// <summary>
+        /// 开课时间，试听课上课时间
+        /// </summary>
+        public DateTime? ClassStartTime { get; set; }
+        /// <summary>
+        /// 授课方式，字典表类型5，1是试听，2集体，3一对一
+        /// </summary>
+        public int TeachTypeID { get; set; }
         
     }
 }

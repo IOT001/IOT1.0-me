@@ -34,6 +34,82 @@
                     background-color: #3366FF;
                     color: #ffffff;
          }
+            .shadow {
+        display: none;
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.5);
+        z-index: 110;
+    }
+
+    .loading {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 50;
+        display: none;
+    }
+
+        .loading .loadCon {
+            position: absolute;
+            width: 3.125rem;
+            height: 3.125rem;
+            background: rgba(0,0,0,0.9) url(../../Images/loading.gif) center center no-repeat;
+            background-size: 1.125rem 1.125rem;
+            top: 50%;
+            left: 50%;
+            margin-top: -1.5625rem;
+            margin-left: -1.5625rem;
+            border-radius: 0.5rem;
+        }
+
+    .alert {  display: none;   position: fixed;   width: 16.875rem;   max-width: 580px;   min-width: 290px;   left: 0; 
+        right: 0;
+        margin: 0 auto;
+        top: 50%;
+        -webkit-transform: translateY(-50%);
+        transform: translateY(-50%);
+        margin: 0 auto;
+        background: #fff;
+        border-radius: 0.5rem;
+        z-index: 120;
+    }
+
+        .alert p {
+            width: 12.875rem;
+            margin: 0 auto;
+            color: #222222;
+            text-align: center;
+            padding: 1.25rem 0;
+            font-size: 0.8125rem;
+        }
+
+        .alert .alertBtn {
+            border-top: 1px solid #ededed;
+            display: flex;
+            display: box;
+            display: -webkit-box;
+        }
+
+            .alert .alertBtn a {
+                display: block;
+                -webkit-box-flex: 1;
+                box-flex: 1;
+                text-align: center;
+                color: #288efd;
+                font-size: 1.125rem;
+                height: 2.75rem;
+                line-height: 2.75rem;
+            }
+
+                .alert .alertBtn a.cancel {
+                    border-right: 1px solid #ededed;
+                }
     </style>
     @RenderSection("style", false)
     <script type="text/javascript">

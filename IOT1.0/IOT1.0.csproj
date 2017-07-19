@@ -206,6 +206,7 @@
     <Content Include="Images\expand.png" />
     <Content Include="Images\file.png" />
     <Content Include="Images\folder.png" />
+    <Content Include="Images\loading.gif" />
     <Content Include="Images\uploadify-cancel.png" />
     <Content Include="Login - 复制.html" />
     <Content Include="Pages\Admin\Account.html" />
@@ -4754,6 +4755,7 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Views\Weixin\MessageBrowse.cshtml" />
+    <Content Include="Views\Enroll\ListenList.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

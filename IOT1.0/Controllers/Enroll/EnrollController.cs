@@ -131,7 +131,7 @@ namespace IOT1._0.Controllers.Enroll
         {
             AjaxStatusModel ajax = new AjaxStatusModel();//功能操作类的返回类型都是AjaxStatusModel，数据放到AjaxStatusModel.data中，前台获取json后加载
             ajax.status = EnumAjaxStatus.Error;//默认失败
-            ajax.msg = "新增失败！";//前台获取，用于显示提示信息
+            ajax.msg = "跟进失败！";//前台获取，用于显示提示信息
             var data = Request["data"];//获取前台传递的数据，主要序列化
             if (string.IsNullOrEmpty(data))
             {
@@ -142,7 +142,7 @@ namespace IOT1._0.Controllers.Enroll
             obj.FollowPersonID = UserSession.userid;
             if (AppointmentData.AddFollow(obj))//注意时间类型
             {
-                ajax.msg = "新增成功！";
+                ajax.msg = "跟进成功！";
                 ajax.status = EnumAjaxStatus.Success;
             }
             return Json(ajax);
@@ -183,6 +183,7 @@ namespace IOT1._0.Controllers.Enroll
 
             search.CurrentPage = 1;//当前页
             search.PageSize = 99999;//不想分页就设置成一个较大的值
+            search.TeachTypeID = 1;//找类型为试听的班级
             List<vw_Classes> vw_Classes = ClassesData.GeClassesList(search);
             ajax.data = vw_Classes;
             return Json(new { total = 1, rows = vw_Classes, state = true, msg = "加载成功" }, JsonRequestBehavior.AllowGet);
@@ -209,6 +210,8 @@ namespace IOT1._0.Controllers.Enroll
             obj.APID = apid;
             obj.StudentID = ap.ApStudentID;
             obj.ClassID = classid;
+            obj.CreatorId = UserSession.userid;
+            obj.CreateTime = DateTime.Now;
             if (EnrollData.Add(obj))//注意时间类型
             {
                 ajax.msg = "预约试听报名成功！";
@@ -278,6 +281,21 @@ namespace IOT1._0.Controllers.Enroll
             }
             ajax.msg = "结算成功，完成报名！";
             return Json(ajax);
+        }
+        /// <summary>
+        /// 查询试听记录
+        /// </summary>
+        /// <param name="search"></param>
+        /// <returns></returns>
+        public ActionResult ListenList(EnrollListSearchModel search)
+        {
+            ListenListViewModel model = new ListenListViewModel();//页面模型
+            model.search = search;//页面的搜索模型
+            model.search.PageSize = 15;//每页显示
+            model.search.CurrentPage = Convert.ToInt32(Request["pageindex"]) <= 0 ? 1 : Convert.ToInt32(Request["pageindex"]);//当前页
+            search.TeachTypeID = 1;//授课方式是试听的
+            model.ListenList = EnrollData.GeEnrollList(search); //填充页面模型数据
+            return View(model);//返回页面模型
         }
     }
 }

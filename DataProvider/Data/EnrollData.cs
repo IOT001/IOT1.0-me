@@ -114,7 +114,10 @@ namespace DataProvider.Data
             {
                 sb.AppendFormat(" and ClassID = '{0}' ", search.ClassID);
             }
-            
+            if (!string.IsNullOrWhiteSpace(search.TeachTypeID.ToString()))//授课方式
+            {
+                sb.AppendFormat(" and TeachTypeID = '{0}' ", search.TeachTypeID);
+            }
             where = sb.ToString();
 
             int allcount = 0;

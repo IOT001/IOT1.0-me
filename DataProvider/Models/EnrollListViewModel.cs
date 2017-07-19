@@ -71,7 +71,18 @@ namespace DataProvider.Models
        /// 下拉框按钮的选中值
        /// </summary>
        public int DicItemID { set; get; }
-
+       /// <summary>
+       /// 报名日期-开始时间
+       /// </summary>
+       public string timeStart { set; get; }
+       /// <summary>
+       /// 报名日期-结束时间
+       /// </summary>
+       public string timeEnd { set; get; }
+       /// <summary>
+       /// 授课方式，字典表类型5，1是试听，2集体，3一对一
+       /// </summary>
+       public int TeachTypeID { set; get; }
    }
 
 }
