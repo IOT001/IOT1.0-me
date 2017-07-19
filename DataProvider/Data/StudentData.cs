@@ -53,18 +53,27 @@ namespace DataProvider.Data
        /// <returns></returns>
         public static string AddStudent(Students Stu, SYSAccount sys, SYSAccountRole sysR)
        {
-
+           string ret = "0";
            DBRepository db = new DBRepository(DBKeys.PRX);
            db.BeginTransaction();//事务开始  
-           db.Insert<Students>(Stu);  //添加学生表
-          var  max =  db.Insert<SYSAccount>(sys);  //添加用户表
+           try
+           {
+               db.Insert<Students>(Stu);  //添加学生表
+               int max = db.Insert<SYSAccount>(sys);  //添加用户表
 
-          //sysR.AR_AccountId = max[0];
-          //sysR.AR_AccountId = max.ContainsValue(0);
-           db.Insert<SYSAccountRole>(sysR);  //添加权限表
-           db.Commit(); //事务提交  
-           db.Dispose();  //资源释放
-           string ret = "1";//新增成功 
+               sysR.AR_AccountId =max;
+               //sysR.AR_AccountId = max.ContainsValue(0);
+               db.Insert<SYSAccountRole>(sysR);  //添加权限表
+               db.Commit(); //事务提交  
+               db.Dispose();  //资源释放
+               ret = "1";//新增成功 
+           }
+           catch (Exception ex)
+           {
+               db.Rollback();
+               db.Dispose();
+               throw new Exception(ex.Message + "。" + ex.InnerException.Message);
+           }
            return ret; 
        }
 
@@ -131,7 +140,7 @@ namespace DataProvider.Data
         public static int BindPhone_insert(string BindPhone)
         {
 
-            string strsql = "select id from Students where  BindPhone=@BindPhone";
+            string strsql = "select id from Students WITH(NOLOCK) where  BindPhone=@BindPhone";
             var parameters = new DynamicParameters(); 
             parameters.Add("@BindPhone", BindPhone);
             return MsSqlMapperHepler.SqlWithParamsSingle<int>(strsql.ToString(), parameters, DBKeys.PRX);

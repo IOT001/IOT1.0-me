@@ -47,7 +47,7 @@ namespace DataProvider
             base.Table("SYS_Account");
             Map(f => f.ACC_Id).Key(KeyType.Identity);//设置 
             Map(f => f.ACC_BinaryPassword).Ignore();//设置忽略
-            Map(f => f.ACC_Account).Key(KeyType.Assigned);//设置主键  (如果主键名称不包含字母“ID”，请设置)      
+            //Map(f => f.ACC_Account).Key(KeyType.Assigned);//设置主键  (如果主键名称不包含字母“ID”，请设置)      
             AutoMap();
         }
     }

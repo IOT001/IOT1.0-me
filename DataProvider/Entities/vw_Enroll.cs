@@ -85,6 +85,14 @@ namespace DataProvider
         /// 授课方式，字典表类型5，1是试听，2集体，3一对一
         /// </summary>
         public int TeachTypeID { get; set; }
+        /// <summary>
+        /// 预约人姓名
+        /// </summary>
+        public string ApName { get; set; }
+        /// <summary>
+        /// 预约人姓名
+        /// </summary>
+        public string ApTel { get; set; }
         
     }
 }
