@@ -36,8 +36,8 @@ namespace DataProvider.Data
                 sb.AppendFormat(" and EndTime between '{0}'  and  '{1}'", search.EndTime_start, search.EndTime_end);
             if (!string.IsNullOrWhiteSpace(search.TeacherID))//当前讲师
                 sb.AppendFormat(" and TeacherID = '{0}' ", search.TeacherID);
-            if (!string.IsNullOrWhiteSpace(search.TeachTypeID.ToString()))//授课方式TeachTypeID
-                sb.AppendFormat(" and TeachTypeID = '{0}' ", search.TeachTypeID);
+            if (search.TeachTypeID!=0)//授课方式TeachTypeID
+                sb.AppendFormat(" and TeachTypeID = {0} ", search.TeachTypeID);
             where = sb.ToString();
 
             int allcount = 0;

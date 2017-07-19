@@ -30,8 +30,8 @@ namespace DataProvider.Data
 
             if (!string.IsNullOrWhiteSpace(search.className))//按钮中文名称
                 sb.AppendFormat(" and ClassName like '%{0}%' ", search.className);
-            //if (!string.IsNullOrWhiteSpace(search.BTN_Name_En))//城市
-            //    sb.AppendFormat(" and BTN_Name_En like '%{0}%' ", search.BTN_Name_En);
+            if (search.timeStart != null && search.timeEnd != null)//时间
+                sb.AppendFormat(" and ClassDate between '{0}'  and  '{1}'", search.timeStart, search.timeEnd);
             where = sb.ToString();
             int allcount = 0;
             var list = CommonPage<vw_ClassAttendanceList>.GetPageList(
@@ -141,9 +141,14 @@ namespace DataProvider.Data
            
            
             StringBuilder sb = new StringBuilder();//构建where条件
-            sb.Append("select a.*,c.Name as Name,c.BindPhone as Phone ,");
-            sb.Append(" (b.ClassHour-b.UsedHour) as LeftHour from AttendanceRecord a, Enroll b, Students c ");
-            sb.Append(" where a.StudentID=b.StudentID and b.StudentID = c.ID ");
+
+            //   
+            //sb.Append("select a.*,c.Name as Name,c.BindPhone as Phone ,");
+            //sb.Append(" (b.ClassHour-b.UsedHour) as LeftHour from AttendanceRecord a, Enroll b, Students c ");
+            //sb.Append(" where a.StudentID=b.StudentID and b.StudentID = c.ID ");
+            //
+
+            sb.Append(" select distinct a.*,c.Name as Name,c.BindPhone as Phone , (b.ClassHour-b.UsedHour) as LeftHour from AttendanceRecord a left join  Enroll b  on a.StudentID=b.StudentID  left join  Students c   on  a.StudentID = c.ID where 1=1");
 
             if (!string.IsNullOrWhiteSpace(classId))//按钮中文名称
                 sb.Append(" and a.ClassID = @ClassID ");
