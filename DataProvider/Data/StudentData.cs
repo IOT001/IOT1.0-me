@@ -53,12 +53,12 @@ namespace DataProvider.Data
        /// <returns></returns>
         public static string AddStudent(Students Stu, SYSAccount sys, SYSAccountRole sysR)
        {
-           string ret = "0";
+           string ret;
            DBRepository db = new DBRepository(DBKeys.PRX);
            db.BeginTransaction();//事务开始  
            try
            {
-               db.Insert<Students>(Stu);  //添加学生表
+               ret = db.Insert<Students>(Stu);  //添加学生表
                int max = db.Insert<SYSAccount>(sys);  //添加用户表
 
                sysR.AR_AccountId =max;
@@ -66,7 +66,7 @@ namespace DataProvider.Data
                db.Insert<SYSAccountRole>(sysR);  //添加权限表
                db.Commit(); //事务提交  
                db.Dispose();  //资源释放
-               ret = "1";//新增成功 
+
            }
            catch (Exception ex)
            {

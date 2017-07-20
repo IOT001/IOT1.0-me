@@ -152,7 +152,7 @@ namespace IOT1._0.Controllers.Teach
                 MAX_ID = null;
             }
 
-            var year = Stu.Birthday.ToString().Substring(2, 2);
+            var year = DateTime.Now.ToString().Substring(2, 2);
 
             if (!string.IsNullOrEmpty(MAX_ID))
             {
@@ -179,9 +179,13 @@ namespace IOT1._0.Controllers.Teach
             sysR.AR_SystemRoleId = 9;
 
 
-
-            if (StudentData.AddStudent(Stu, sys, sysR) != "")//注意时间类型，而且需要在前台把所有的值
+            string stuid = StudentData.AddStudent(Stu, sys, sysR);
+            if (stuid != "")//注意时间类型，而且需要在前台把所有的值
             {
+                if (!string.IsNullOrEmpty(apid))//如果是预约单过来的，重新绑定一下
+                {
+                    StudentData.BindStudentforAP(stuid, apid);
+                }
                 ajax.msg = "新增成功！";
                 ajax.status = EnumAjaxStatus.Success;
             }
