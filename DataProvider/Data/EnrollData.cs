@@ -24,6 +24,9 @@ namespace DataProvider.Data
             try
             {
                 MsSqlMapperHepler.Insert<Enroll>(obj, DBKeys.PRX);
+                Classes ca = ClassesData.GetClassesByID(obj.ClassID);
+                ca.PresentEnroll = ca.PresentEnroll + 1;
+                MsSqlMapperHepler.Update<Classes>(ca,DBKeys.PRX);//报名数加1
                 ret = true;
             }
             catch (Exception ex)
@@ -48,6 +51,9 @@ namespace DataProvider.Data
                 foreach (var obj in list)
                 {
                     db.Insert<Enroll>(obj);
+                    Appointment ap = AppointmentData.GetOneByID(obj.APID);
+                    ap.ApStateID = 3;//已报名
+                    db.Update<Appointment>(ap);
                 }
                 ret = true;
                 db.Commit();

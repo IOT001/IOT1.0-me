@@ -76,7 +76,7 @@
                                             <a href="javascript:modify('@m.ID')" class="btn btn-primary btn-xs" type="button"><i class="fa fa-edit"></i> 修改</a>
                                             <a href="javascript:follow('@m.ID')" class="btn btn-primary btn-xs" type="button"><i class="fa fa-edit"></i> 跟进</a>
                                             <a href="javascript:shiting('@m.ID')" class="btn btn-primary btn-xs" type="button"><i class="fa fa-edit"></i> 试听</a>
-                                            <a href="javascript:jiaru('@m.ApName','@m.ApTel')" class="btn btn-primary btn-xs" type="button"><i class="fa fa-edit"></i> 加入</a>
+                                            <a href="javascript:jiaru('@m.ApName','@m.ApTel','@m.ID')" class="btn btn-primary btn-xs" type="button"><i class="fa fa-edit"></i> 加入</a>
                                             <a href="javascript:baoming('@m.ID','@m.ApStudentID')" class="btn btn-primary btn-xs" type="button"><i class="fa fa-edit"></i> 报名</a>
                                             <a href="javascript:piaoju('@m.ID')" class="btn btn-primary btn-xs" type="button"><i class="fa fa-edit"></i> 票据</a>
                                         </td>
@@ -475,7 +475,7 @@
         url: '@Url.Content("~/Enroll/STClassList")',
         showColumns: false,
         pagination: false,
-        queryParams: queryParams,
+        queryParams: queryParams_st,
         columns: [
         {
             field: 'ID',
@@ -522,7 +522,7 @@
     });
     //#endregion
     //查询参数
-    function queryParams(params) {
+    function queryParams_st(params) {
 
         return {
 
@@ -533,7 +533,8 @@
             CourseName: $("#CourseName").val().trim(),
             StartTime_start: $("#StartTime_start").val().trim(),
             StartTime_end: $("#StartTime_end").val().trim(),
-            ClassType: _classtype
+            ClassType: _classtype,
+            islisten: "1"
         };
 
     }
@@ -555,7 +556,7 @@
         url: '@Url.Content("~/Enroll/STClassList")',
         showColumns: false,
         pagination: false,
-        queryParams: queryParams,
+        queryParams: queryParams_bm,
         onLoadSuccess: function (data) {
             loadDiscountCom();//执行完查询列表后再执行加载下拉框，不然又时候取不到优惠，因为异步
         },
@@ -630,7 +631,7 @@
         }]
     });
     //查询参数
-    function queryParams(params) {
+    function queryParams_bm(params) {
 
         return {
 
@@ -640,7 +641,8 @@
 
             CourseName: $("#CourseName2").val().trim(),
             StartTime_start: $("#StartTime_start2").val().trim(),
-            StartTime_end: $("#StartTime_end2").val().trim()
+            StartTime_end: $("#StartTime_end2").val().trim(),
+            islisten: "0"
         };
 
     }
@@ -934,7 +936,11 @@
         // cleanData("baoming");//清空数据
         _apid = apid;//存全局，爬丢失
         _studentid = studentid;
-
+        if (!studentid)
+        {
+            layer.msg("非正式学员不允许直接报名，请先加入学员！")
+            return;
+        }
         layer.open({
             type: 1,
             title: "<h3 class='ibox-title'>报名</h3>",
@@ -988,8 +994,9 @@
         $('#classes2').bootstrapTable('refresh');
     })
     //加入
-    function jiaru(name,tel) {
+    function jiaru(name,tel,apid) {
         // cleanData("baoming");//清空数据
+        _apid = apid;
         $("#Name").val(name);
         $("#BindPhone").val(tel)
         layer.open({
@@ -1036,13 +1043,6 @@
 
         }
 
-
-
-        obj.Birthday = $("#Birthday").val().trim();
-        if (!obj.Birthday) {
-            layer.msg("请选择出生年月日！");
-            return false;
-        }
         obj.Picurl = $("#Picurl").val().trim();
         obj.FatherName = $("#FatherName").val().trim();
         obj.FatherContract = $("#FatherContract").val().trim();
@@ -1062,7 +1062,8 @@
 
         action = '@Url.Action("AddStudent", "Student")' 
         $.post(action, {
-            "data": JSON.stringify(obj)//序列化对象
+            "data": JSON.stringify(obj),//序列化对象
+            "apid": _apid
         }, function (json) {
             if (json.status = 200) {//成功
 
