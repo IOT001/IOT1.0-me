@@ -36,7 +36,7 @@ namespace DataProvider.Data
                 sb.AppendFormat(" and EndTime between '{0}'  and  '{1}'", search.EndTime_start, search.EndTime_end);
             if (!string.IsNullOrWhiteSpace(search.TeacherID))//当前讲师
                 sb.AppendFormat(" and TeacherID = '{0}' ", search.TeacherID);
-<<<<<<< HEAD
+
             if (!string.IsNullOrWhiteSpace(search.islisten))//如果不是试听班
             {
                 sb.AppendFormat(" and TeachTypeID in (2,3) ");
@@ -45,10 +45,10 @@ namespace DataProvider.Data
             {
                 sb.AppendFormat(" and TeachTypeID in (1) ");
             }
-=======
+
             if (search.TeachTypeID!=0)//授课方式TeachTypeID
                 sb.AppendFormat(" and TeachTypeID = {0} ", search.TeachTypeID);
->>>>>>> 7d5942c9cdb76758e56a8af38b9ff72f27cb6136
+
             where = sb.ToString();
 
             int allcount = 0;
