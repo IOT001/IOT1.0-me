@@ -46,7 +46,7 @@ namespace DataProvider.Data
                 sb.AppendFormat(" and TeachTypeID in (1) ");
             }
 
-            if (search.TeachTypeID!=0)//授课方式TeachTypeID
+            if (search.TeachTypeID != 0 && search.TeachTypeID != null)//授课方式TeachTypeID
                 sb.AppendFormat(" and TeachTypeID = {0} ", search.TeachTypeID);
 
             where = sb.ToString();
