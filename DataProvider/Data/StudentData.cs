@@ -133,17 +133,18 @@ namespace DataProvider.Data
         }
 
         /// <summary>
-        /// 新增判断手机号是唯一
+        /// 新增判断手机号+姓名是唯一
         /// </summary>
         /// <param name="Stockid"></param>
         /// <returns></returns>
-        public static int BindPhone_insert(string BindPhone)
+        public static string BindPhone_insert(string BindPhone,string name)
         {
 
-            string strsql = "select id from Students WITH(NOLOCK) where  BindPhone=@BindPhone";
+            string strsql = "select id from Students WITH(NOLOCK) where  BindPhone=@BindPhone and Name = @Name";
             var parameters = new DynamicParameters(); 
             parameters.Add("@BindPhone", BindPhone);
-            return MsSqlMapperHepler.SqlWithParamsSingle<int>(strsql.ToString(), parameters, DBKeys.PRX);
+            parameters.Add("@Name", name);
+            return MsSqlMapperHepler.SqlWithParamsSingle<string>(strsql.ToString(), parameters, DBKeys.PRX);
 
 
 
@@ -179,5 +180,16 @@ namespace DataProvider.Data
             return MsSqlMapperHepler.SqlWithParamsSingle<Students>(strsql.ToString(), parameters, DBKeys.PRX);
         }
 
+        /// <summary>
+        /// 学员信息和预约单绑定
+        /// </summary>
+        /// <param name="studi"></param>
+        /// <param name="apid"></param>
+        public static void BindStudentforAP(string studi, string apid)
+        {
+            Appointment ap = AppointmentData.GetOneByID(apid);
+            ap.ApStudentID = studi;
+            MsSqlMapperHepler.Update<Appointment>(ap, DBKeys.PRX);
+        }
     }
 }

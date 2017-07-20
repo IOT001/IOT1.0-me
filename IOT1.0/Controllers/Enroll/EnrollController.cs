@@ -175,6 +175,7 @@ namespace IOT1._0.Controllers.Enroll
             string CourseName = Request["CourseName"];
             string StartTime_start = Request["StartTime_start"];
             string StartTime_end = Request["StartTime_end"];
+            string islisten = Request["islisten"];//是否查询试听列表
             search.CourseID = CourseName;
             if (!string.IsNullOrEmpty(StartTime_start))
                 search.StartTime_start = DateTime.Parse(StartTime_start);
@@ -183,7 +184,7 @@ namespace IOT1._0.Controllers.Enroll
 
             search.CurrentPage = 1;//当前页
             search.PageSize = 99999;//不想分页就设置成一个较大的值
-            search.TeachTypeID = 1;//找类型为试听的班级
+            search.islisten = islisten;
             List<vw_Classes> vw_Classes = ClassesData.GeClassesList(search);
             ajax.data = vw_Classes;
             return Json(new { total = 1, rows = vw_Classes, state = true, msg = "加载成功" }, JsonRequestBehavior.AllowGet);
@@ -252,7 +253,7 @@ namespace IOT1._0.Controllers.Enroll
                 string apid = ((JObject)item)["apid"].ToString();//预约号
                 string studentid = ((JObject)item)["studentid"].ToString();//学员号
                 int classhour =  int.Parse(((JObject)item)["classhour"].ToString());//报名课时
-                int discountid = int.Parse(((JObject)item)["discountid"].ToString());//选择的优惠ID
+                int discountid = int.Parse(((JObject)item)["discountid"].ToString() == "" ? "0" : ((JObject)item)["discountid"].ToString());//选择的优惠ID
                 decimal discountprice = decimal.Parse(((JObject)item)["discountprice"].ToString());//本次优惠的金额
                 if (string.IsNullOrEmpty(studentid))
                 {

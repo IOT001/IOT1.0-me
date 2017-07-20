@@ -115,13 +115,24 @@ namespace IOT1._0.Controllers.Teach
             {
                 return Json(ajax);
             }
+
             Students Stu = (Students)(JsonConvert.DeserializeObject(data.ToString(), typeof(Students)));
 
-            //判断手机号码是否唯一
+            //判断手机号码+学员号是否唯一
 
 
-            int BindPhone_count = StudentData.BindPhone_insert(Stu.BindPhone);
-            if (BindPhone_count > 0)
+            string studid = StudentData.BindPhone_insert(Stu.BindPhone,Stu.Name);
+            string apid = Request["apid"];//预约号
+            if (!string.IsNullOrEmpty(apid))//如果是从预约/市场资源模块进来的，先判断是否存在学员，如果存在就绑定，如果不存在就新增记录    
+            {
+                if (!string.IsNullOrEmpty(studid))//之前已经存在学员，则做绑定操作
+                {
+                    StudentData.BindStudentforAP(studid, apid);
+                    ajax.msg = "已成功绑定到学员！";
+                    return Json(ajax);
+                }
+            }
+            if (!string.IsNullOrEmpty(studid))
             {
                 ajax.msg = "手机号码已存在，不能重复使用！";
                 return Json(ajax);

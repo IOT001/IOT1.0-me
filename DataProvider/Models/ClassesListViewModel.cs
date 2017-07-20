@@ -112,7 +112,7 @@ namespace DataProvider.Models
          /// <summary>
         /// 授课方式，字典表类型5，1是试听，2集体，3一对一
         /// </summary>
-        public int TeachTypeID
+        public int? TeachTypeID
         { set; get; }
         
 
@@ -135,8 +135,10 @@ namespace DataProvider.Models
         public string TimePeriod
         { set; get; }
 
-
- 
+        /// <summary>
+        /// 是否查询试听
+        /// </summary>
+        public string islisten { set; get; }
 
     }
 
