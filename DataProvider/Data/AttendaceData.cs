@@ -83,10 +83,10 @@ namespace DataProvider.Data
         public static bool saveStudentEvalute(List<vw_StudentEvaluate> cls)
         {
             bool ret = false;
-
+            DBRepository db = new DBRepository(DBKeys.PRX);
             try { 
 
-            DBRepository db = new DBRepository(DBKeys.PRX);
+          
             db.BeginTransaction();//事务开始
 
             foreach (vw_StudentEvaluate value in cls)
@@ -94,17 +94,20 @@ namespace DataProvider.Data
                 if (string.IsNullOrWhiteSpace(value.Evaluate)) continue;
                 AttendanceRecord btnto = GetAttendanceRecordByID(value.ID);//获取对象
                 btnto.Evaluate = value.Evaluate;
-                MsSqlMapperHepler.Update(btnto, DBKeys.PRX);
+                //MsSqlMapperHepler.Update(btnto, DBKeys.PRX);
+                db.Update(btnto);
            }
 
             db.Commit(); //事务提交
             db.Dispose();  //资源释放
             ret = true;//新增成功
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
-                throw;
+                db.Rollback();
+                db.Dispose();
+                throw new Exception(ex.Message + "。" + ex.InnerException.Message);
             }
 
 
@@ -233,6 +236,63 @@ namespace DataProvider.Data
 
             return ret ;
         }
+
+
+
+
+
+
+        ///文件上传
+
+        /// <summary>
+        /// 新增,返回的是主键
+        /// </summary>
+        /// <param name="btn"></param>
+        /// <returns></returns>
+        public static int AddClassListJob(ClassListJob Clas)
+        {
+            return MsSqlMapperHepler.Insert<ClassListJob>(Clas, DBKeys.PRX);
+        }
+
+
+
+
+        /// <summary>
+        /// 获取文件路径
+        /// </summary>
+        /// <param name="classId"></param>
+        /// <param name="classIndex"></param>
+        /// <returns></returns>
+        public static List<ClassListJob> ClassListJob(string classid, int classindex)
+        {
+            string table = string.Empty, fields = string.Empty, orderby = string.Empty, where = string.Empty;//定义结构
+            fields = @"  * ";//输出字段
+            table = @" ClassListJob ";//表或者视图
+            orderby = "id";//排序信息
+            StringBuilder sb = new StringBuilder();//构建where条件
+            sb.Append("select * from ClassListJob where ");
+            sb.Append(" 1=1 ");
+
+
+            if (!string.IsNullOrWhiteSpace(classid))//班级ID
+                sb.Append(" and classid = @ClassID");
+            if (classindex != 0)//班级行号
+                sb.Append(" and classindex = @ClassIndex  ");
+            sb.Append(" order by id ");
+
+      
+            var parameters = new DynamicParameters();
+            parameters.Add("@classid", classid);
+            parameters.Add("@classindex", classindex);
+            return MsSqlMapperHepler.SqlWithParams<ClassListJob>(sb.ToString(), parameters, DBKeys.PRX);
+    
+        }
+
+
+
+
+
+
     }
 
 }

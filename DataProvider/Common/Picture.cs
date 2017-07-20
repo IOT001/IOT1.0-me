@@ -48,6 +48,88 @@ namespace DataProvider.Data
 
 
 
+
+
+        public string FolderBase_Attendanc = "\\Upload\\"; //照片基路径
+        public string Category_Attendance = "AttendanceList";//照片分类 
+
+        public Dictionary<string, string> DPUpLoadFile(JObject json,JObject json_job)
+        {
+            var fileTemp = json["fileTemp"].ToString();
+            var fileExt = json["fileExt"].ToString();
+            var fileName = json_job["FileName"].ToString();
+            //var offset = filetemp.IndexOf(";base64,") + 8;
+            var offset = 0;
+            var result = this.SaveImgFile_Attendanc(fileName, fileExt, Category_Attendance, fileTemp.Substring(offset));
+
+            Dictionary<string, string> d = new Dictionary<string, string>();
+            if (!string.IsNullOrEmpty(result))
+            {
+                var filename = this.FolderBase_Attendanc + Category_Attendance + "\\" + Path.GetFileName(result);
+              //  var thumbnailImage = this.FolderBase_Attendanc + Category_Attendance + ThumbnailImagePath + Path.GetFileName(result);//缩略图
+                d.Add("result", "上传成功");
+                d.Add("filename", filename);
+                //d.Add("thumbnailImage", thumbnailImage);
+
+            }
+            else
+            {
+                d.Add("result", "上传失败");
+                d.Add("filename", "");
+            }
+            return d;
+        }
+
+        /// <summary>
+        /// 保存图片到本地
+        /// </summary>
+        /// <param name="file"></param>
+        /// <returns></returns>
+        private string SaveImgFile_Attendanc(string fileName, string fileExt, string category, string fileContent)
+        {
+            string path = string.Empty;
+            try
+            {
+                string strDomainAppPath = HttpRuntime.AppDomainAppPath;
+                var subpath = strDomainAppPath.Substring(0, strDomainAppPath.LastIndexOf("\\")) + FolderBase_Attendanc + category + "\\";
+                if (!Directory.Exists(subpath))//如果子目录不存在，则创建。
+                {
+                    Directory.CreateDirectory(subpath);
+                }
+                //path = strDomainAppPath.Substring(0, strDomainAppPath.LastIndexOf("\\")) + "\\Images\\pic\\" + category + "\\" + fileName;
+                path = strDomainAppPath.Substring(0, strDomainAppPath.LastIndexOf("\\")) + FolderBase_Attendanc + category + "\\";
+                path += fileName + "." + fileExt;
+
+                if (File.Exists(path))//文件重名的处理
+                {
+                    string dictName = Path.GetDirectoryName(path);
+                    string pureName = Path.GetFileNameWithoutExtension(path);
+                    string extName = Path.GetExtension(path);
+                    File.Move(path, dictName + "\\" + fileName + "0" + extName);
+                }
+
+                using (FileStream fs = new FileStream(path, FileMode.CreateNew))
+                {
+                    Byte[] bData = Convert.FromBase64String(fileContent);
+                    BinaryWriter bw = new BinaryWriter(fs);
+                    bw.Write(bData);
+                    bw.Flush();
+                    bw.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw (new Exception(path));
+                //ErrorMessage.ErrorMess(ex.Message);
+            }
+          
+            return path;
+        }
+
+
+
+
+
         /// <summary>
         /// 保存图片到本地
         /// </summary>

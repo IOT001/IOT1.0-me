@@ -92,7 +92,7 @@
                                         <td>
                                             <a href="javascript:" class="btn btn-primary btn-xs" type="button" onclick="javascript:attendance('@Newtonsoft.Json.JsonConvert.SerializeObject(m)');"><i class="fa fa-edit"></i> 考勤</a>
                                             <a href="javascript:" class="btn btn-primary btn-xs" type="button" onclick="javascript: appraise('@Newtonsoft.Json.JsonConvert.SerializeObject(m)');"><i class="fa fa-edit"></i> 评价</a>
-                                            <a href="javascript:" class="btn btn-primary btn-xs" type="button" onclick="javascript: publishJob('@Newtonsoft.Json.JsonConvert.SerializeObject(m)');"><i class="fa fa-edit"></i> 作业</a>
+                                            <a href="javascript:" class="btn btn-primary btn-xs" type="button" onclick="javascript: publishJob('@Newtonsoft.Json.JsonConvert.SerializeObject(m)','@m.ClassID','@m.ClassIndex');"><i class="fa fa-edit"></i> 作业</a>
                                             <a href="javascript:" class="btn btn-primary btn-xs" type="button" onclick="javascript: modify('@Newtonsoft.Json.JsonConvert.SerializeObject(m)');"><i class="fa fa-edit"></i> 调课</a>
 
                                         </td>
@@ -198,26 +198,28 @@
         jsonModify.TeacherID = $("#modify_teachers").val();
         jsonModify.TimePeriod = $("#modify_period").val();
         jsonModify.RoomID = $("#modify_room").val();
-        if (jsonModify.TimePeriod == null) {
-            layer.msg("请选择上课时段")
-            layer.close(loadIndex);//关闭加载层
-            return;
-        }
-        if (jsonModify.RoomID == null) {
+        if (!jsonModify.RoomID) {
             layer.msg("请选择教室")
             layer.close(loadIndex);//关闭加载层
             return;
         }
-        if (jsonModify.TeacherID == null) {
-            layer.msg("请选择老师")
-            layer.close(loadIndex);//关闭加载层
-            return;
-        }
-        if (jsonModify.ClassDate == null) {
+        if (!jsonModify.ClassDate) {
             layer.msg("请选择上课日期")
             layer.close(loadIndex);//关闭加载层
             return;
         }
+        if (!jsonModify.TimePeriod) {
+            layer.msg("请选择上课时段")
+            layer.close(loadIndex);//关闭加载层
+            return;
+        }
+       
+        if (!jsonModify.TeacherID) {
+            layer.msg("请选择老师")
+            layer.close(loadIndex);//关闭加载层
+            return;
+        }
+      
         var action = '@Url.Action("saveModifyClass", "Attendance")';
         $.post(action, {
             "data": JSON.stringify(jsonModify)//序列化对象
@@ -273,8 +275,10 @@
         });
     }
     // 发布作业
-    function publishJob(id) {
+    function publishJob(id, Classid, Classindex) { 
         cleanData("job");//清空数据
+        $("#Classid").val(Classid) 
+        $("#Classindex").val(Classindex)
         layer.open({
             type: 1,
             title: "<h5 class='ibox-title'>发布作业</h3>",
@@ -288,6 +292,7 @@
                 layer.close(index);
             }
         });
+        ClassListJob();
         $("#file-1").fileinput({
             uploadUrl: '#', // you must set a valid URL here else you will get an error
             allowedFileExtensions: ['jpg', 'png', 'gif'],//接收的文件后缀
@@ -583,6 +588,130 @@
         autoclose: true
     });
 
+
+
+
+
+
+
+    //上传文件
+    function UploadPic() {
+        //var extensionName = /.JPG|.JPEG|.jpg|.png|.gif|.jpeg/;
+        var file = $("#uploadFile")[0].files[0];
+
+        if (!file) {
+            layer.msg("未找到相关文件！");
+            return false;
+        }
+
+        //如果文件大于5M
+        if (file.size > 1048576 * 5) {
+            layer.msg("您上传的文件太大了，最多允许5MB，请重新选择文件！");
+            return false;
+        }
+
+        //if (extensionName.test(file.name)) {
+            if (window.FileReader) {
+                var reader = new FileReader();
+                reader.onload = function (evt) {
+                    if (evt.target.readyState === FileReader.DONE) {
+                        var offset = evt.target.result.indexOf(";base64,");
+                        var fileTemp = null;
+                        if (offset > 0) {
+                            //前八个字节是数据流的头所以要去除。
+                            fileTemp = evt.target.result.substr(offset + 8);
+                        }
+                        //取得文件的扩展名
+                        var fileExt = file.name.replace(/.+\./, "");
+                        //将分离出来的二进制文件流放到参数里
+
+
+
+                        var obj = new Object;
+                        obj.fileTemp = fileTemp;
+                        obj.fileExt = fileExt;
+
+                        var cls = new Object;
+                        cls.FileName = $("#FileName").val();
+                        cls.JobContent = $("#JobContent").val();
+
+                        if (!cls.FileName) {
+                            layer.msg("作业名称不能为空！");
+                            return false;
+                        }
+                        if (!cls.JobContent) {
+                            layer.msg("作业内容不能为空！");
+                            return false;
+                        }
+
+                        cls.Classid = $("#Classid").val();
+                        cls.Classindex = $("#Classindex").val();
+                        var action = '@Url.Action("Upload", "Attendance")'
+                        $.post(action, {
+                            "data": JSON.stringify(obj), "ClassListJob": JSON.stringify(cls)//序列化对象
+                        }, function (json) {
+                            if (json.status = 200) {//成功
+
+                                ClassListJob();
+                               // $("#img").attr("src", json.data.thumbnailImage);
+                                $("#Picurl").val(json.data.filename);//弹出服务器返回的消息
+                                layer.msg(json.msg);//弹出服务器返回的消息 
+                            }
+                        }, 'json');
+
+
+
+                    }
+                }
+        
+                reader.onerror = function () {
+                    layer.msg("文件读取时发生错误！");
+                    return false;
+                }
+                reader.readAsDataURL(file);    // 将文件读取成一段以 data:开头的字符串
+            }
+        //}
+        //else {
+        //    layer.msg("只支持jpg,png,gif,jpeg类型的文件上传，请重新选择文件！");
+        //    return false;
+        //}
+
+
+
+    }
+    //加载下载路径
+    function ClassListJob() {
+        var loadindex = layer.load();
+        var cls = new Object;
+        cls.Classid = $("#Classid").val();
+        cls.Classindex = $("#Classindex").val();
+        var _data = JSON.stringify(cls);
+        $.post('@Url.Action("ClassListJob", "Attendance")', {
+            "data": _data
+        },//序列化对象
+            function (json) {
+                if (json.status = 200) {//成功
+                    var row = "";
+                    $.each(json.data, function (index, value) {
+                        var evalute = value.Evaluate;
+                        if (!evalute) {
+                            evalute = '';
+                        }
+                        row += "<tr><td>" + ChangeDateFormat(value.CreateTime) + "</td><td  >" + value.JobName + "</td><td>" + value.JobContent + "</td>  <td> <a  target='blank' href='" + value.FileRoute + "'><i class='fa fa-edit'></i> 下载</a></td>  </tr>"
+                        //<a  target="_blank" href="/Upload/AttendanceList/201707201530541035.doc"><i class="fa fa-edit"></i> 下载</a>
+                    })
+                    row = "<tbody>" + row + "</tbody>";
+                    $('#ClassListJob > tbody').remove()
+                    $('#ClassListJob').append(row);
+                }
+                layer.close(loadindex);//关闭加载层
+            }
+        ).error(function () {
+            layer.close(loadindex);//关闭加载层
+        });
+    }
+     
+
 </script>
 @*弹出层，调课*@
 <div class="ibox float-e-margins" id="buttoninfo" style="display:none">
@@ -656,7 +785,7 @@
                                 <th>缺勤原因</th>
                             </tr>
                         </thead>
-                        <tbody>
+                     @*   <tbody>
                         <tr>
                             <td>王遗风</td>
                             <td>13812345678</td>
@@ -705,7 +834,7 @@
                                     </select>
                                 </td>
                             </tr>   
-                        </tbody>
+                        </tbody>*@
                     </table>
                 </div>
 
@@ -730,30 +859,7 @@
                             <th>评价</th>
                         </tr>
                     </thead>
-                    @*<tbody>
-                        <tr>
-                            <td>王遗风</td>
-                            <td>13812345678</td>
-
-                            <td>
-                                <input type="text" placeholder="学生评价" class="form-control input-sm" id="BTN_Name_En">
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>王二小</td>
-                            <td>15812445678</td>
-                            <td>
-                                <input type="text" placeholder="学生评价" class="form-control  input-sm" id="BTN_Name_En">
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>小二蛋</td>
-                            <td>15557445678</td>
-                            <td>
-                                <input type="text" placeholder="学生评价" class="form-control input-sm" id="BTN_Name_En">
-                            </td>
-                        </tr>
-                    </tbody>*@
+                  
                 </table>
             </div>
 
@@ -769,9 +875,11 @@
         <form class="form-horizontal">
          
             <div class="form-group">
-                <label class="col-sm-3 control-label">作业标题：</label>
+                <label class="col-sm-3 control-label">作业名称：</label>
                 <div class="col-sm-8">
-                    <input type="text" placeholder="作业标题" class="form-control" id="BTN_Name_En">
+                    <input type="text" placeholder="作业标题" class="form-control" id="FileName">
+                  <input type="text" placeholder="班级ID" style="display:none" id="Classid">
+                 <input type="text" placeholder="行号" style="display:none" id="Classindex">  
                 </div>
             </div>
            
@@ -779,32 +887,37 @@
             
             <div class="form-group">
                 <label class="col-sm-3 control-label">文件上传：</label>
-                <div class="col-sm-8">
-                   
-                    <input id="file-1" type="file" multiple class="file" accept="image/jpg,image/png,image/gif" data-overwrite-initial="false" data-min-file-count="2">
+                <div class="col-sm-8">  
+              <input class="form-control" type="text" id="Picurl"   />
+             <input type="file"     id="uploadFile" />
+             
+            
                 </div>
             </div>
-
+            
             <div class="form-group">
                 <label class="col-sm-3 control-label">作业内容：</label>
                 <div class="col-sm-8">
-                    <textarea placeholder="作业内容" class="form-control" rows="3" ></textarea>
+                    <textarea placeholder="作业内容" class="form-control" rows="3"  id="JobContent"></textarea>
+                   <button type="button"  class=" btn btn-primary" onclick="UploadPic()">&nbsp&nbsp上&nbsp&nbsp传&nbsp&nbsp</button>
+                
+
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-12">上传记录：</label>
                 <div class="col-sm-12">
-                    <table class="table table-striped table-bordered dataTables-example">
+                    <table class="table table-striped table-bordered dataTables-example" id="ClassListJob">
                         <thead>
                             <tr>
                                 <th>上传日期</th>
-                                <th>文件名</th>
+                                <th>作业名称</th>
                                 <th>文件后缀</th>
                                 <th>操作</th>
                             </tr>
                         </thead>
                         <!-- 循环数据 -->
-                        <tbody>
+  @*                      <tbody>
                             <!-- 测试数据 -->
                             <tr>
                                 <td>2017-06-23</td>
@@ -817,8 +930,9 @@
                                 <td>123.jpg</td>
                                 <td>jpg</td>
                                 <td><a href="javascript:" class="btn btn-primary btn-xs" type="button" onclick=""><i class="fa fa-edit"></i> 下载</a></td>
+                                <td><a  target="_blank" href="/Upload/AttendanceList/201707201530541035.doc"><i class="fa fa-edit"></i> 下载</a></td>
                             </tr>
-                        </tbody>
+                        </tbody>*@
                     </table>
                 </div>
             </div>

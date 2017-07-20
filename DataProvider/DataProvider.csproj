@@ -142,6 +142,7 @@
     <Compile Include="Entities\Weekday.cs" />
     <Compile Include="Entities\vw_UserProgress.cs" />
     <Compile Include="Entities\vw_Teachers.cs" />
+    <Compile Include="Entities\ClassListJob.cs" />
     <Compile Include="Implement\ExcuteModelImplement.cs" />
     <Compile Include="Interface\IExcuteModal.cs" />
     <Compile Include="Models\AppointmentPrintModel.cs" />
