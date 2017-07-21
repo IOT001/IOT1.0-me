@@ -591,7 +591,41 @@
 
 
 
+    function SAVA() {
 
+        var cls = new Object;
+        cls.JobTitle = $("#JobTitle").val();
+        cls.JobContent = $("#JobContent").val();
+
+        if (!cls.JobTitle) {
+            layer.msg("作业标题不能为空！");
+            return false;
+        }
+        if (!cls.JobContent) {
+            layer.msg("作业内容不能为空！");
+            return false;
+        }
+ 
+        cls.Classid = $("#Classid").val();
+        cls.Classindex = $("#Classindex").val();
+
+
+        var action = '@Url.Action("savClassList", "Attendance")'
+        $.post(action, {
+            "data": JSON.stringify(obj)//序列化对象
+        }, function (json) {
+            if (json.status = 200) {//成功
+
+                ClassListJob();
+                // $("#img").attr("src", json.data.thumbnailImage);
+                $("#Picurl").val(json.data.filename);//弹出服务器返回的消息
+                layer.msg(json.msg);//弹出服务器返回的消息 
+            }
+        }, 'json');
+
+
+
+    }
 
 
     //上传文件
@@ -630,25 +664,12 @@
                         var obj = new Object;
                         obj.fileTemp = fileTemp;
                         obj.fileExt = fileExt;
-
-                        var cls = new Object;
-                        cls.FileName = $("#FileName").val();
-                        cls.JobContent = $("#JobContent").val();
-
-                        if (!cls.FileName) {
-                            layer.msg("作业名称不能为空！");
-                            return false;
-                        }
-                        if (!cls.JobContent) {
-                            layer.msg("作业内容不能为空！");
-                            return false;
-                        }
-
-                        cls.Classid = $("#Classid").val();
-                        cls.Classindex = $("#Classindex").val();
+                         
+                        obj.Classid = $("#Classid").val();
+                        obj.Classindex = $("#Classindex").val();
                         var action = '@Url.Action("Upload", "Attendance")'
                         $.post(action, {
-                            "data": JSON.stringify(obj), "ClassListJob": JSON.stringify(cls)//序列化对象
+                            "data": JSON.stringify(obj) //序列化对象
                         }, function (json) {
                             if (json.status = 200) {//成功
 
@@ -877,7 +898,7 @@
             <div class="form-group">
                 <label class="col-sm-3 control-label">作业名称：</label>
                 <div class="col-sm-8">
-                    <input type="text" placeholder="作业标题" class="form-control" id="FileName">
+                    <input type="text" placeholder="作业标题" class="form-control" id="JobTitle">
                   <input type="text" placeholder="班级ID" style="display:none" id="Classid">
                  <input type="text" placeholder="行号" style="display:none" id="Classindex">  
                 </div>
@@ -890,7 +911,7 @@
                 <div class="col-sm-8">  
               <input class="form-control" type="text" id="Picurl"   />
              <input type="file"     id="uploadFile" />
-             
+                <button type="button"  class=" btn btn-primary" onclick="UploadPic()">&nbsp&nbsp上&nbsp&nbsp传&nbsp&nbsp</button>
             
                 </div>
             </div>
@@ -899,8 +920,8 @@
                 <label class="col-sm-3 control-label">作业内容：</label>
                 <div class="col-sm-8">
                     <textarea placeholder="作业内容" class="form-control" rows="3"  id="JobContent"></textarea>
-                   <button type="button"  class=" btn btn-primary" onclick="UploadPic()">&nbsp&nbsp上&nbsp&nbsp传&nbsp&nbsp</button>
                 
+                 <button type="button"  class=" btn btn-primary" onclick="SAVA()">&nbsp&nbsp保&nbsp&nbsp存&nbsp&nbsp</button>
 
                 </div>
             </div>

@@ -185,25 +185,21 @@ namespace IOT1._0.Controllers.Attendance
             AjaxStatusModel ajax = new AjaxStatusModel();//功能操作类的返回类型都是AjaxStatusModel，数据放到AjaxStatusModel.data中，前台获取json后加载
             ajax.status = EnumAjaxStatus.Error;//默认失败
             ajax.msg = "新增失败！";//前台获取，用于显示提示信息
-            var data = Request["data"];//获取前台传递的数据，主要序列化
-            var ClassListJob = Request["ClassListJob"];//获取前台传递的数据，主要序列化
+            var data = Request["data"];//获取前台传递的数据，主要序列化 
             if (string.IsNullOrEmpty(data))
             {
                 return Json(ajax);
             }
-            JObject jsonObj = JObject.Parse(data);
-            JObject jsonObj_job = JObject.Parse(ClassListJob);
+            JObject jsonObj = JObject.Parse(data); 
             Picture Picture = new Picture();
-            var ret = Picture.DPUpLoadFile(jsonObj, jsonObj_job);
+            var ret = Picture.DPUpLoadFile(jsonObj);
 
             ClassListJob cla = new ClassListJob();
-            cla.Classid = jsonObj_job["Classid"].ToString();
-            cla.Classindex = int.Parse(jsonObj_job["Classindex"].ToString());
+            cla.Classid = jsonObj["Classid"].ToString();
+            cla.Classindex = int.Parse(jsonObj["Classindex"].ToString());
+            cla.CreatorId = UserSession.userid;
             cla.CreateTime = DateTime.Now;
-            cla.CreatorId = UserSession.userid; ;
-            cla.JobName = jsonObj_job["FileName"].ToString();
-            cla.FileRoute = ret["filename"];//文件路径
-            cla.JobContent = jsonObj_job["JobContent"].ToString();
+            cla.FileName = ret["filename"];//文件路径 
             if (AttendaceData.AddClassListJob(cla) > 0)
             {
                 ajax.msg = "上传成功！";
@@ -245,7 +241,31 @@ namespace IOT1._0.Controllers.Attendance
 
 
 
+        /// <summary>
+        /// 保存作业内容
+        /// </summary>
+        /// <returns></returns>
+        public JsonResult savClassList()
+        {
+            AjaxStatusModel ajax = new AjaxStatusModel();//功能操作类的返回类型都是AjaxStatusModel，数据放到AjaxStatusModel.data中，前台获取json后加载
+            ajax.status = EnumAjaxStatus.Error;//默认失败
+            ajax.msg = "保存失败！";//前台获取，用于显示提示信息
+            var data = Request["classlist"];//获取前台传递的数据，主要序列化
+            if (string.IsNullOrEmpty(data))
+            {
+                return Json(ajax);
+            }
+            ClassList cla = (ClassList)(JsonConvert.DeserializeObject(data.ToString(), typeof(ClassList))); 
+            int obj = AttendaceData.UpdateClassList(cla);
+            if (obj > 0)
+            {
+                ajax.status = EnumAjaxStatus.Success;
+                ajax.msg = "保存成功";
+                ajax.data = ajax.msg;
+            }
 
+            return Json(ajax);
+        }
 
 
 

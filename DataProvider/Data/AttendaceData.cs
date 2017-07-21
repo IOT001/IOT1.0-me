@@ -289,7 +289,22 @@ namespace DataProvider.Data
         }
 
 
-
+        public static int UpdateClassList(ClassList cls)
+        {
+ 
+            StringBuilder sb = new StringBuilder();
+            sb.Append(" update ClassList set JobTitle=@JobTitle  ");
+            sb.Append(" , JobContent=@JobContent  "); 
+            sb.Append(" where ClassID=@ClassID ");
+            sb.Append(" AND ClassIndex=@ClassIndex ");
+            var parameters = new DynamicParameters();
+            parameters.Add("@JobTitle", cls.JobTitle);
+            parameters.Add("@JobContent", cls.JobContent);
+            parameters.Add("@ClassID", cls.ClassID);
+            parameters.Add("@ClassIndex", cls.ClassIndex); 
+            return MsSqlMapperHepler.InsertUpdateOrDeleteSql(sb.ToString(), parameters, DBKeys.PRX);
+        }
+         
 
 
 

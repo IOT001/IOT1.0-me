@@ -32,22 +32,22 @@ namespace DataProvider.Entities
         /// </summary>	
         public string CreatorId { get; set; }
         /// <summary>
-        /// 目前已招收学员
+        /// 创建时间
         /// </summary>	
         public Nullable<DateTime> CreateTime { get; set; }
         /// <summary>
-        /// 文件路径
+        /// 文件大小
         /// </summary>	
-        public string FileRoute { get; set; }
+        public string Size { get; set; }
  
        /// <summary>
-        /// 作业名称
+        /// 文件名称
         /// </summary>	
-        public string JobName { get; set; }
+        public string FileName { get; set; }
         /// <summary>
-        /// 作业内容
+        ///文件
         /// </summary>	
-        public string JobContent { get; set; }
+        public string FileTitle { get; set; }
 
 
         

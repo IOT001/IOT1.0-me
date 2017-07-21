@@ -137,12 +137,12 @@
     <Compile Include="Entities\vw_Message.cs" />
     <Compile Include="Entities\vw_StudentEvaluate.cs" />
     <Compile Include="Entities\vw_Students.cs" />
-    <Compile Include="Entities\Classes.cs" />
+    <Compile Include="Entities\ClassListJob.cs" />
     <Compile Include="Entities\Date.cs" />
     <Compile Include="Entities\Weekday.cs" />
     <Compile Include="Entities\vw_UserProgress.cs" />
     <Compile Include="Entities\vw_Teachers.cs" />
-    <Compile Include="Entities\ClassListJob.cs" />
+    <Compile Include="Entities\Classes.cs" />
     <Compile Include="Implement\ExcuteModelImplement.cs" />
     <Compile Include="Interface\IExcuteModal.cs" />
     <Compile Include="Models\AppointmentPrintModel.cs" />

@@ -52,6 +52,16 @@ namespace DataProvider
 
         public System.DateTime CreateTIme { get; set; }
         public string CreatorId { get; set; }
+        /// <summary>
+        /// 作业头
+        /// </summary>
+         public string JobTitle { get; set; }
+        /// <summary>
+        /// 作业内容
+        /// </summary>
+         public string JobContent { get; set; }
+        
+            
     }
 
 
