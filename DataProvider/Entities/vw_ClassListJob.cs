@@ -10,7 +10,7 @@ namespace DataProvider.Entities
 {
 
 
-    public partial class ClassListJob
+    public partial class vw_ClassListJob
     {
         /// <summary>
         /// ID
@@ -51,6 +51,15 @@ namespace DataProvider.Entities
         /// </summary>	
         public string FileTitle { get; set; }
 
+         /// <summary>
+        ///作业标题
+        /// </summary>	
+        public string JobTitle { get; set; }
+        /// <summary>
+        ///作业内容
+        /// </summary>	
+        public string JobContent { get; set; }
+      
 
         public string FileRoute
         {
@@ -66,21 +75,5 @@ namespace DataProvider.Entities
 
     }
 
-
-
-    /// <summary>
-    /// Deploy：实体对象映射关系
-    /// </summary>
-    [Serializable]
-    public sealed class ClassListJobORMMapper : ClassMapper<ClassListJob>
-    {
-        public ClassListJobORMMapper()
-        {
-            base.Table("ClassListJob");
-
-            Map(f => f.FileRoute).Ignore();//设置忽略 
-            Map(f => f.ID).Key(KeyType.Identity);//设置主键  (如果主键名称不包含字母“ID”，请设置)      
-            AutoMap();
-        }
-    }
+ 
 }

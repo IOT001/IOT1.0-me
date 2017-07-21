@@ -67,8 +67,11 @@ namespace DataProvider.Data
                // var filename = this.FolderBase_Attendanc + Category_Attendance + "\\" + Path.GetFileName(result);
               //  var thumbnailImage = this.FolderBase_Attendanc + Category_Attendance + ThumbnailImagePath + Path.GetFileName(result);//缩略图
                 var filename =Path.GetFileName(result);
+                var ContentType = Path.GetExtension(result);
+                
                 d.Add("result", "上传成功");
                 d.Add("filename", filename);
+                d.Add("ContentType", ContentType);
                 //d.Add("thumbnailImage", thumbnailImage);
 
             }

@@ -143,6 +143,7 @@
     <Compile Include="Entities\vw_UserProgress.cs" />
     <Compile Include="Entities\vw_Teachers.cs" />
     <Compile Include="Entities\Classes.cs" />
+    <Compile Include="Entities\vw_ClassListJob.cs" />
     <Compile Include="Implement\ExcuteModelImplement.cs" />
     <Compile Include="Interface\IExcuteModal.cs" />
     <Compile Include="Models\AppointmentPrintModel.cs" />
@@ -257,7 +258,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.Config" />
+    <None Include="App.Config">
+      <SubType>Designer</SubType>
+    </None>
     <EntityDeploy Include="NERP.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>NERP.Designer.cs</LastGenOutput>

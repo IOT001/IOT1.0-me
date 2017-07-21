@@ -263,14 +263,14 @@ namespace DataProvider.Data
         /// <param name="classId"></param>
         /// <param name="classIndex"></param>
         /// <returns></returns>
-        public static List<ClassListJob> ClassListJob(string classid, int classindex)
+        public static List<vw_ClassListJob> ClassListJob(string classid, int classindex)
         {
             string table = string.Empty, fields = string.Empty, orderby = string.Empty, where = string.Empty;//定义结构
             fields = @"  * ";//输出字段
-            table = @" ClassListJob ";//表或者视图
+            table = @" vw_ClassListJob ";//表或者视图
             orderby = "id";//排序信息
             StringBuilder sb = new StringBuilder();//构建where条件
-            sb.Append("select * from ClassListJob where ");
+            sb.Append("select * from vw_ClassListJob where ");
             sb.Append(" 1=1 ");
 
 
@@ -284,7 +284,7 @@ namespace DataProvider.Data
             var parameters = new DynamicParameters();
             parameters.Add("@classid", classid);
             parameters.Add("@classindex", classindex);
-            return MsSqlMapperHepler.SqlWithParams<ClassListJob>(sb.ToString(), parameters, DBKeys.PRX);
+            return MsSqlMapperHepler.SqlWithParams<vw_ClassListJob>(sb.ToString(), parameters, DBKeys.PRX);
     
         }
 

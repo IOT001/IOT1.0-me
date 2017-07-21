@@ -199,7 +199,8 @@ namespace IOT1._0.Controllers.Attendance
             cla.Classindex = int.Parse(jsonObj["Classindex"].ToString());
             cla.CreatorId = UserSession.userid;
             cla.CreateTime = DateTime.Now;
-            cla.FileName = ret["filename"];//文件路径 
+            cla.FileName = ret["filename"];//文件名称
+            cla.ContentType = ret["ContentType"];
             if (AttendaceData.AddClassListJob(cla) > 0)
             {
                 ajax.msg = "上传成功！";
@@ -229,7 +230,7 @@ namespace IOT1._0.Controllers.Attendance
                 return Json(ajax);
             }
             ClassListJob cls = (ClassListJob)(JsonConvert.DeserializeObject(data.ToString(), typeof(ClassListJob)));
-            List<ClassListJob> btn = AttendaceData.ClassListJob(cls.Classid,cls.Classindex);//业务层获取底层方法，返回数据
+            List<vw_ClassListJob> btn = AttendaceData.ClassListJob(cls.Classid, cls.Classindex);//业务层获取底层方法，返回数据
             if (btn != null)
             {
                 ajax.data = btn;//放入数据
@@ -250,7 +251,7 @@ namespace IOT1._0.Controllers.Attendance
             AjaxStatusModel ajax = new AjaxStatusModel();//功能操作类的返回类型都是AjaxStatusModel，数据放到AjaxStatusModel.data中，前台获取json后加载
             ajax.status = EnumAjaxStatus.Error;//默认失败
             ajax.msg = "保存失败！";//前台获取，用于显示提示信息
-            var data = Request["classlist"];//获取前台传递的数据，主要序列化
+            var data = Request["data"];//获取前台传递的数据，主要序列化
             if (string.IsNullOrEmpty(data))
             {
                 return Json(ajax);

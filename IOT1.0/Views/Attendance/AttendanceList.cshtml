@@ -612,7 +612,7 @@
 
         var action = '@Url.Action("savClassList", "Attendance")'
         $.post(action, {
-            "data": JSON.stringify(obj)//序列化对象
+            "data": JSON.stringify(cls)//序列化对象
         }, function (json) {
             if (json.status = 200) {//成功
 
@@ -718,13 +718,15 @@
                         if (!evalute) {
                             evalute = '';
                         }
-                        row += "<tr><td>" + ChangeDateFormat(value.CreateTime) + "</td><td  >" + value.JobName + "</td><td>" + value.JobContent + "</td>  <td> <a  target='blank' href='" + value.FileRoute + "'><i class='fa fa-edit'></i> 下载</a></td>  </tr>"
+                        row += "<tr><td>" + ChangeDateFormat(value.CreateTime) + "</td><td  >" + value.JobTitle + "</td><td>" + value.JobContent + "</td>  <td> <a  target='blank' href='" + value.FileRoute + "'><i class='fa fa-edit'></i> 下载</a></td>  </tr>"
                         //<a  target="_blank" href="/Upload/AttendanceList/201707201530541035.doc"><i class="fa fa-edit"></i> 下载</a>
                     })
                     row = "<tbody>" + row + "</tbody>";
                     $('#ClassListJob > tbody').remove()
                     $('#ClassListJob').append(row);
                 }
+                $("#JobTitle").val(json.data[0].JobTitle);
+                $("#JobContent").val(json.data[0].JobContent);
                 layer.close(loadindex);//关闭加载层
             }
         ).error(function () {
@@ -933,7 +935,7 @@
                             <tr>
                                 <th>上传日期</th>
                                 <th>作业名称</th>
-                                <th>文件后缀</th>
+                                <th>作业内容</th>
                                 <th>操作</th>
                             </tr>
                         </thead>
