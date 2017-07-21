@@ -1,6 +1,7 @@
 using DapperExtensions.Mapper;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -38,7 +39,11 @@ namespace DataProvider.Entities
         /// <summary>
         /// 文件大小
         /// </summary>	
+<<<<<<< HEAD
         public string Size { get; set; }
+=======
+        public int Size { get; set; }
+>>>>>>> 29b8f778205d047c73f822a825197896aac55be6
  
        /// <summary>
         /// 文件名称
@@ -50,7 +55,15 @@ namespace DataProvider.Entities
         public string FileTitle { get; set; }
 
 
-        
+        public string FileRoute
+        {
+            get
+            {
+                string route = ConfigurationManager.AppSettings["ClassJobPath"].ToString() + FileName;
+                return route;
+            }
+            set;
+        }
 
     }
 
