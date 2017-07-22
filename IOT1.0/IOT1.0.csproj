@@ -4719,8 +4719,6 @@
     <Content Include="Images\orderedList8.png" />
     <Content Include="Images\orderedList9.png" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="Upload\AttendanceList\201707201412590867.png" />
-    <Content Include="Upload\AttendanceList\201707201423114007.png" />
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
@@ -4758,7 +4756,6 @@
     </Content>
     <Content Include="Views\Weixin\MessageBrowse.cshtml" />
     <Content Include="Views\Enroll\ListenList.cshtml" />
-    <Content Include="Upload\AttendanceList\201707201530541035.doc" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -4769,7 +4766,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Scripts\jQgrid\" />
-    <Folder Include="Upload\img\" />
+    <Folder Include="Upload\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
