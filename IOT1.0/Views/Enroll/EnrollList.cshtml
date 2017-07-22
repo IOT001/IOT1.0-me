@@ -450,7 +450,7 @@
                 "apid": _apid,//序列化对象
                 "classid": row.ID
             }, function (json) {
-                if (json.status = 200) {//成功
+                if (json.status == 200) {//成功
 
                     layer.msg(json.msg);//弹出服务器返回的消息
                     setTimeout(function () {//操作
@@ -793,7 +793,7 @@
         $.post(action, {
             "data": JSON.stringify(obj)//序列化对象
         }, function (json) {
-            if (json.status = 200) {//成功
+            if (json.status == 200) {//成功
 
                 layer.msg(json.msg);//弹出服务器返回的消息
                 setTimeout(function () {//操作
@@ -834,7 +834,7 @@
             type: "post",
             data: { id: id },
             success: function (json) {
-                if (json.status = 200) {//成功
+                if (json.status == 200) {//成功
                     $("#ApName").val(json.data.ApName);
                     $("#ApTel").val(json.data.ApTel);
                     $("#APLinkMan").val(json.data.APLinkMan);
@@ -894,7 +894,7 @@
         $.post(action, {
             "data": JSON.stringify(obj)//序列化对象
         }, function (json) {
-            if (json.status = 200) {//成功
+            if (json.status == 200) {//成功
 
                 layer.msg(json.msg);//弹出服务器返回的消息
                 setTimeout(function () {//操作
@@ -1080,7 +1080,7 @@
             "data": JSON.stringify(obj),//序列化对象
             "apid": _apid
         }, function (json) {
-            if (json.status = 200) {//成功
+            if (json.status == 200) {//成功
 
                 layer.msg(json.msg);//弹出服务器返回的消息
                 setTimeout(function () {//操作
@@ -1154,7 +1154,7 @@
                         $.post(action, {
                             "data": JSON.stringify(obj)//序列化对象
                         }, function (json) {
-                            if (json.status = 200) {//成功
+                            if (json.status == 200) {//成功
 
 
                                 $("#img").attr("src", json.data.thumbnailImage);

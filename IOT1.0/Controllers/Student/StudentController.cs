@@ -69,7 +69,9 @@ namespace IOT1._0.Controllers.Teach
         {
             AjaxStatusModel ajax = new AjaxStatusModel();//功能操作类的返回类型都是AjaxStatusModel，数据放到AjaxStatusModel.data中，前台获取json后加载
             ajax.status = EnumAjaxStatus.Error;//默认失败
+
             ajax.msg = "保存失败！";//前台获取，用于显示提示信息
+            return Json(ajax);
             var data = Request["data"];//获取前台传递的数据，主要序列化
             if (string.IsNullOrEmpty(data))
             {
@@ -79,12 +81,12 @@ namespace IOT1._0.Controllers.Teach
 
             //判断手机号码是否唯一
 
-            int BindPhone_count = StudentData.BindPhone_update(Stu.ID, Stu.BindPhone);
-            if (BindPhone_count > 0)
-            {
-                ajax.msg = "手机号码已存在，不能重复使用！";
-                return Json(ajax);
-            }
+            //int BindPhone_count = StudentData.BindPhone_update(Stu.ID, Stu.BindPhone);
+            //if (BindPhone_count > 0)
+            //{
+            //    ajax.msg = "手机号码已存在，不能重复使用！";
+            //    return Json(ajax);
+            //}
 
 
             Stu.UpdateTime = DateTime.Now;
@@ -137,7 +139,7 @@ namespace IOT1._0.Controllers.Teach
                 ajax.msg = "手机号码已存在，不能重复使用！";
                 return Json(ajax);
             }
-
+            Stu.StateID = 1;//新增学员状态默认是未读。
             Stu.CreateTime = DateTime.Now;
             Stu.CreatorId = UserSession.userid;
 

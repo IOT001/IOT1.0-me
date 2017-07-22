@@ -225,7 +225,7 @@
             "data": JSON.stringify(jsonModify)//序列化对象
         }, function (json) {
             layer.close(loadIndex);
-            if (json.status = 200) {//成功
+            if (json.status == 200) {//成功
 
                 layer.msg(json.msg);//弹出服务器返回的消息
                 setTimeout(function () {//操作
@@ -242,7 +242,7 @@
             url: '@Url.Action("getModifyClassOptions", "Attendance")',
             type: "post",
             success: function (json) {
-                if (json.status = 200) {//成功
+                if (json.status == 200) {//成功
                     $("#modify_room").empty();
                     $("#modify_period").empty();
                     $("#modify_teachers").empty();
@@ -349,7 +349,7 @@
             "data": json//序列化对象
         }, function (json) {
             layer.close(loadindex);
-            if (json.status = 200) {//成功
+            if (json.status == 200) {//成功
 
                 layer.msg(json.msg);//弹出服务器返回的消息
                 setTimeout(function () {//操作
@@ -366,7 +366,7 @@
         $.post('@Url.Action("StudentEvaluate", "Attendance")',{
             "data": _data},//序列化对象
             function (json) {
-                if (json.status = 200) {//成功
+                if (json.status == 200) {//成功
                     var row = "";
                     $.each(json.data, function (index, value) {
                         var evalute = value.Evaluate;
@@ -458,7 +458,7 @@
             }
         });
         $.post('@Url.Action("saveStudentAttendance", "Attendance")', { "data":JSON.stringify(data)}, function (json) {
-            if (json.status = 200) {//成功
+            if (json.status == 200) {//成功
                 layer.msg(json.msg);//弹出服务器返回的消息
                 setTimeout(function () {//操作
                     layer.closeAll();//关闭所有层
@@ -614,7 +614,7 @@
         $.post(action, {
             "data": JSON.stringify(cls)//序列化对象
         }, function (json) {
-            if (json.status = 200) {//成功
+            if (json.status == 200) {//成功
 
                 ClassListJob();
                 // $("#img").attr("src", json.data.thumbnailImage);
@@ -671,7 +671,7 @@
                         $.post(action, {
                             "data": JSON.stringify(obj) //序列化对象
                         }, function (json) {
-                            if (json.status = 200) {//成功
+                            if (json.status == 200) {//成功
 
                                 ClassListJob();
                                // $("#img").attr("src", json.data.thumbnailImage);
@@ -711,7 +711,7 @@
             "data": _data
         },//序列化对象
             function (json) {
-                if (json.status = 200) {//成功
+                if (json.status == 200) {//成功
                     var row = "";
                     $.each(json.data, function (index, value) {
                         var evalute = value.Evaluate;

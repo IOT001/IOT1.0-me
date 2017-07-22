@@ -762,7 +762,7 @@
             type: "post",
             data: { id: id },
             success: function (json) {
-                if (json.status = 200) {//成功
+                if (json.status == 200) {//成功
 
 
                     $("#ClassName").val(json.data.ClassName);
@@ -852,7 +852,7 @@
         $.post(action, {
             "data": JSON.stringify(obj)//序列化对象
         }, function (json) {
-            if (json.status = 200) {//成功
+            if (json.status == 200) {//成功
 
                 layer.msg(json.msg);//弹出服务器返回的消息
                 setTimeout(function () {//操作
@@ -946,7 +946,7 @@
         $.post(action, {
             "data": JSON.stringify(obj)//序列化对象
         }, function (json) {
-            if (json.status = 200) {//成功
+            if (json.status == 200) {//成功
 
                 layer.msg(json.msg);//弹出服务器返回的消息
                 setTimeout(function () {//操作
@@ -988,7 +988,7 @@
         $.post(action, {
             "data": JSON.stringify(obj)//序列化对象
         }, function (json) {
-            if (json.status = 200) {//成功
+            if (json.status == 200) {//成功
 
                 layer.msg(json.msg);//弹出服务器返回的消息
                 json = JSON.parse(json.data); //必须要把前台的值序列化，不然获取不到。
@@ -1044,7 +1044,7 @@
                 "Enroll_ClassID": $('#Enroll_ClassID').val().trim(),
 
             }, function (json) {
-                if (json.status = 200) {//成功
+                if (json.status == 200) {//成功
 
                     layer.msg(json.msg);//弹出服务器返回的消息
                     //重新刷新
