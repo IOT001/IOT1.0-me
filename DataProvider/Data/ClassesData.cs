@@ -37,13 +37,14 @@ namespace DataProvider.Data
             if (!string.IsNullOrWhiteSpace(search.TeacherID))//当前讲师
                 sb.AppendFormat(" and TeacherID = '{0}' ", search.TeacherID);
 
-            if (!string.IsNullOrWhiteSpace(search.islisten))//如果不是试听班
+            if (search.islisten == "1")//如果是试听班
             {
-                sb.AppendFormat(" and TeachTypeID in (2,3) ");
+                sb.AppendFormat(" and TeachTypeID in (1) ");
+                
             }
             else
             {
-                sb.AppendFormat(" and TeachTypeID in (1) ");
+                sb.AppendFormat(" and TeachTypeID in (2,3) ");
             }
 
             if (search.TeachTypeID != 0 && search.TeachTypeID != null)//授课方式TeachTypeID

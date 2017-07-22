@@ -50,6 +50,11 @@ namespace DataProvider.Data
                             
                 foreach (var obj in list)
                 {
+                    int haveenroll = EnrollData.getEnrollByStuidCalssid(obj.StudentID, obj.ClassID);
+                    if (haveenroll > 0)
+                    {
+                        throw new Exception("该学员已报名，不允许重复报名！");
+                    }
                     db.Insert<Enroll>(obj);
                     Appointment ap = AppointmentData.GetOneByID(obj.APID);
                     ap.ApStateID = 3;//已报名
@@ -75,7 +80,21 @@ namespace DataProvider.Data
 
             return MsSqlMapperHepler.SqlWithParamsSingle<Enroll>(sql, dynamic, DBKeys.PRX);            
         }
+       /// <summary>
+       /// 跟进学员ID和班级ID查看报名，防止重复报名
+       /// </summary>
+       /// <param name="studentID"></param>
+       /// <param name="classId"></param>
+       /// <returns></returns>
+        public static int getEnrollByStuidCalssid(string studentID, string classId)
+        {
+            String sql = "select count(*) from Enroll where StudentID = @StudentID and ClassID = @ClassID ";
+            var dynamic = new DynamicParameters();
+            dynamic.Add("@StudentID", studentID);
+            dynamic.Add("@ClassID", classId);
 
+            return MsSqlMapperHepler.SqlWithParamsSingle<int>(sql, dynamic, DBKeys.PRX);
+        }
         public static Enroll GetEnrollByID(String ID)
         {
             return MsSqlMapperHepler.GetOne<Enroll>(ID, DBKeys.PRX);
@@ -107,7 +126,7 @@ namespace DataProvider.Data
             string table = string.Empty, fields = string.Empty, orderby = string.Empty, where = string.Empty;//定义结构
             fields = @"  * ";//输出字段
             table = @" vw_Enroll ";//表或者视图
-            orderby = "ID";//排序信息
+            orderby = "ID desc";//排序信息
             StringBuilder sb = new StringBuilder();//构建where条件
             sb.Append(" 1=1 ");
             if (!string.IsNullOrWhiteSpace(search.ApName))//姓名
@@ -140,7 +159,7 @@ namespace DataProvider.Data
        /// <returns></returns>
         public static List<vw_Enroll> GetEnrollPrintByApid(string apid)
         {
-            String sql = "select * from vw_Enroll where APID = @APID  ";
+            String sql = "select * from vw_Enroll where APID = @APID  and TeachTypeID > 1";
             var dynamic = new DynamicParameters();
             dynamic.Add("@APID", apid);
 

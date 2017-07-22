@@ -27,7 +27,7 @@ namespace DataProvider.SqlServer
                 var newPassWord = StringHelper.CreateMD5(password);//md5加密
                 using (NERPEntities context = new NERPEntities())
                 {
-                    var result = context.SYS_Account.Where(c => c.ACC_Account == userName).ToList();
+                    var result = context.SYS_Account.Where(c => c.ACC_Account == userName && c.ACC_Password == newPassWord).ToList();
                     return result;
                 }
             }
