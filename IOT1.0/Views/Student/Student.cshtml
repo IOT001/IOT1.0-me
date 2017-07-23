@@ -220,6 +220,10 @@
 
                     layer.close(loadindex);//关闭加载层
                 }
+                else {
+                    layer.close(loadindex);//关闭加载层
+                    layer.msg(json.msg);
+                }
             },
             error: function (xmLHttpRequest, textStatus, errorThrown) {
                 layer.msg("系统异常，请重试<br/>错误信息：" + xmLHttpRequest.responseText);

@@ -42,5 +42,9 @@ namespace DataProvider.Entities
         /// 总课时
         /// </summary>
         public int TotalLesson { get; set; }
+        /// <summary>
+        /// 授课方式中文
+        /// </summary>
+        public string TeachTypeIDname { get; set; }
     }
 }

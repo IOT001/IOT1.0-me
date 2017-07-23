@@ -53,6 +53,7 @@ namespace IOT1._0.Controllers.Teach
             if (btn != null)
             {
                 ajax.data = btn;//放入数据
+                ajax.status = EnumAjaxStatus.Success;
                 ajax.msg = "获取成功！";
             }
             return Json(ajax);
@@ -71,7 +72,6 @@ namespace IOT1._0.Controllers.Teach
             ajax.status = EnumAjaxStatus.Error;//默认失败
 
             ajax.msg = "保存失败！";//前台获取，用于显示提示信息
-            return Json(ajax);
             var data = Request["data"];//获取前台传递的数据，主要序列化
             if (string.IsNullOrEmpty(data))
             {

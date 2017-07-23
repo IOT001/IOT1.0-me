@@ -21,8 +21,6 @@ namespace DataProvider
         /// </summary>
         public string msg { get; set; }
 
-        public EnumAjaxStatus StatusCode { get; set; }
-
         public AjaxStatusModel()
         {
             this.status = EnumAjaxStatus.Error;
@@ -89,7 +87,7 @@ namespace DataProvider
         /// <summary>
         /// 成功
         /// </summary>
-        Success = 100,
+        Success = 200,
         /// <summary>
         /// 失败
         /// </summary>

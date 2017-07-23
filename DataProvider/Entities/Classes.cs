@@ -80,5 +80,10 @@ namespace DataProvider.Entities
         public Nullable<System.DateTime> UpdateTime { get; set; }
         public string DeletorId { get; set; }
         public Nullable<System.DateTime> DeleteTime { get; set; }
+        /// <summary>
+        /// 报名费用
+        /// </summary>
+        public decimal Expenses { get; set; }
+
     }
 }
