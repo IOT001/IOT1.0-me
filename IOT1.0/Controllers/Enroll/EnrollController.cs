@@ -79,6 +79,7 @@ namespace IOT1._0.Controllers.Enroll
             if (ap != null)
             {
                 ajax.data = ap;//放入数据
+                ajax.status = EnumAjaxStatus.Success;
                 ajax.msg = "获取成功！";
             }
             return Json(ajax);
@@ -178,9 +179,9 @@ namespace IOT1._0.Controllers.Enroll
             string islisten = Request["islisten"];//是否查询试听列表
             search.CourseID = CourseName;
             if (!string.IsNullOrEmpty(StartTime_start))
-                search.StartTime_start = DateTime.Parse(StartTime_start);
+                search.StartTime_start = StartTime_start;
             if (!string.IsNullOrEmpty(StartTime_end))
-                search.StartTime_end = DateTime.Parse(StartTime_end);
+                search.StartTime_end = StartTime_end;
 
             search.CurrentPage = 1;//当前页
             search.PageSize = 99999;//不想分页就设置成一个较大的值

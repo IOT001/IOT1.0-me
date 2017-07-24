@@ -46,6 +46,7 @@ namespace IOT1._0.Controllers.Finance
             if (btn != null)
             {
                 ajax.data = btn;//放入数据
+                ajax.status = EnumAjaxStatus.Success;
                 ajax.msg = "获取成功！";
             }
             return Json(ajax);

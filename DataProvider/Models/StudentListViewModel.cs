@@ -43,7 +43,7 @@ namespace DataProvider.Models
         /// <summary>
         /// 创建时间开始
         /// </summary>
-        public DateTime? CreateTime_start
+        public string CreateTime_start
         { set; get; }
          
 
@@ -51,7 +51,7 @@ namespace DataProvider.Models
         /// <summary>
         /// 创建时间结束
         /// </summary>
-        public DateTime? CreateTime_end
+        public string CreateTime_end
         { set; get; }
 
 

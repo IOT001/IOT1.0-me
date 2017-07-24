@@ -24,11 +24,11 @@
                             </div>
 
                             <div class="col-sm-4">
-                                 @Html.TextBoxFor(t => t.search.Name, new { @class = "form-control input-sm", @type = "text", @placeholder = "请输入学生姓名" })
+                                 @Html.TextBoxFor(t => t.search.Name, new { @class = "form-control input-sm", @type = "text", @placeholder = "请输入学生姓名",@id="Name" })
                             </div>
                             <label class="col-sm-2 control-label">联系电话：</label>
                             <div class="col-sm-4">
-                               @Html.TextBoxFor(t => t.search.BindPhone, new { @class = "form-control input-sm", @type = "text", @placeholder = "请输入联系电话" })
+                               @Html.TextBoxFor(t => t.search.BindPhone, new { @class = "form-control input-sm", @type = "text", @placeholder = "请输入联系电话",@id="BindPhone" })
                             </div>
                         </div>
                         <div class="form-group">
@@ -38,11 +38,11 @@
 
                   <div class="col-sm-4">
                                 <div class="input-daterange input-group" id="datepicker">
-                                    @Html.TextBoxFor(t => t.search.timeStart, new { @class = "input-sm form-control", @type = "text", @value = DateTime.Now })
+                                    @Html.TextBoxFor(t => t.search.timeStart, new { @class = "input-sm form-control", @type = "text",@id="timeStart", @value = DateTime.Now })
 
                                     <span class="input-group-addon">到</span>
                                     @*<input type="text" class="input-sm form-control" name="end" value="2014-11-17">*@
-                                    @Html.TextBoxFor(t => t.search.timeEnd, new { @class = "input-sm form-control", @type = "text", @value = DateTime.Now })
+                                    @Html.TextBoxFor(t => t.search.timeEnd, new { @class = "input-sm form-control", @type = "text",@id="timeEnd", @value = DateTime.Now })
 
                                 </div>
                             </div>
@@ -55,7 +55,7 @@
 
                             <div class="col-sm-12 project-actions">
                                 <button type="submit" class="btn btn-w-m btn-primary btn-sm">查&nbsp;&nbsp;&nbsp;&nbsp;询</button>
-                                <button type="button" class="btn btn-w-m btn-primary btn-sm">导&nbsp;&nbsp;&nbsp;&nbsp;出</button>
+                                <button type="button" id="Export" onclick="ExportToExcel()" class="btn btn-w-m btn-primary btn-sm">导&nbsp;&nbsp;&nbsp;&nbsp;出</button>
                             </div>
                         </div>
                     }
@@ -127,3 +127,22 @@
 
     </div>
 </div>
+
+
+<script src="~/Scripts/base.js"></script>
+<script type="text/javascript">
+    function ExportToExcel() {
+
+        var btn = $("#Export");//找按钮
+        btn.button("loading");// 替换成loading
+        var Name = $("#Name").val();
+        var BindPhone = $("#BindPhone").val();
+        var timeStart = $("#timeStart").val();
+        var timeEnd = $("#timeEnd").val();
+
+        window.location = SiteRoot + "Finance/ExportToExcel?Name=" + Name + "&BindPhone=" + BindPhone + "&timeStart=" + timeStart + "&timeEnd=" + timeEnd;
+        alert("正在导出，请耐心等待一段时间，请点击确定继续......")
+        btn.button("reset");//重置初始状态
+    }
+
+</script>

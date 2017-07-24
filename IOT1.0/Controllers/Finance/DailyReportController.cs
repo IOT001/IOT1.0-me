@@ -5,6 +5,7 @@ using IOT1._0.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -29,7 +30,21 @@ namespace IOT1._0.Controllers.Finance
             return View(model);//返回页面模型
         }
 
-     
+
+
+        /// <summary>
+        /// 导出到Excel的操作
+        /// </summary>
+        /// <param name="json"></param>
+ 
+        public void ExportToExcel(string Name, string BindPhone, string timeStart, string timeEnd)
+        {
+
+            DataTable datasource = DailyReportData.DPExportToExcel(Name, BindPhone, timeStart, timeEnd);
+            ERP.Models.MyNPOIModel.ExportByWeb(datasource, "每日结账单", "每日结账单" + ".xls");
+         
+        }
+
 
 
     }

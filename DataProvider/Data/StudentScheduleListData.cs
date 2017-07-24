@@ -28,8 +28,13 @@ namespace DataProvider.Data
            sb.Append(" 1=1 ");
            if (!string.IsNullOrWhiteSpace(search.Name)) //学员姓名
                sb.AppendFormat(" and Name like '%{0}%' ", search.Name);
-           if (search.timeStart != null && search.timeEnd != null)//时间
-               sb.AppendFormat(" and ClassDate between '{0}'  and  '{1}'", search.timeStart, search.timeEnd);
+           //if (search.timeStart != null && search.timeEnd != null)//时间
+           //    sb.AppendFormat(" and ClassDate between '{0}'  and  '{1}'", search.timeStart, search.timeEnd);
+
+           if (!string.IsNullOrWhiteSpace(search.timeStart))//开班时间
+               sb.AppendFormat(" and ClassDate > = '{0}' ", search.timeStart);
+           if (!string.IsNullOrWhiteSpace(search.timeEnd))//结束时间
+               sb.AppendFormat(" and ClassDate <= '{0}' ", search.timeEnd);
 
            if (!string.IsNullOrWhiteSpace(search.AttendanceRecord_StudentID))//学号
                sb.AppendFormat(" and  StudentID ='{0}' ", search.AttendanceRecord_StudentID);

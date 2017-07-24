@@ -30,10 +30,23 @@ namespace DataProvider.Data
                 sb.AppendFormat(" and ClassName like '%{0}%' ", search.ClassName);
             if (!string.IsNullOrWhiteSpace(search.CourseID))//课程名称
                 sb.AppendFormat(" and CourseID like '%{0}%' ", search.CourseID);
-            if (search.StartTime_start != null && search.StartTime_end != null)//开班时间
-                sb.AppendFormat(" and StartTime between '{0}'  and  '{1}'", search.StartTime_start, search.StartTime_end);
-            if (search.EndTime_start != null && search.EndTime_end != null)//结班时间
-                sb.AppendFormat(" and EndTime between '{0}'  and  '{1}'", search.EndTime_start, search.EndTime_end);
+            //if (search.StartTime_start != null && search.StartTime_end != null)//开班时间
+            //    sb.AppendFormat(" and StartTime between '{0}'  and  '{1}'", search.StartTime_start, search.StartTime_end);
+            //if (search.EndTime_start != null && search.EndTime_end != null)//结班时间
+            //    sb.AppendFormat(" and EndTime between '{0}'  and  '{1}'", search.EndTime_start, search.EndTime_end);
+
+            if (!string.IsNullOrWhiteSpace(search.StartTime_start))//开班时间
+                sb.AppendFormat(" and StartTime > = '{0}' ", search.StartTime_start);
+            if (!string.IsNullOrWhiteSpace(search.StartTime_end))//开班时间
+                sb.AppendFormat(" and StartTime <= '{0}' ", search.StartTime_end);
+
+            if (!string.IsNullOrWhiteSpace(search.EndTime_start))//结班时间
+                sb.AppendFormat(" and EndTime > = '{0}' ", search.EndTime_start);
+            if (!string.IsNullOrWhiteSpace(search.EndTime_end))//结班时间
+                sb.AppendFormat(" and EndTime <= '{0}' ", search.EndTime_end);
+
+
+
             if (!string.IsNullOrWhiteSpace(search.TeacherID))//当前讲师
                 sb.AppendFormat(" and TeacherID = '{0}' ", search.TeacherID);
 

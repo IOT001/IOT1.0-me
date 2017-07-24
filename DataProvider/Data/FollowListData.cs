@@ -28,8 +28,14 @@ namespace DataProvider.Data
                 sb.AppendFormat(" and ApName like '%{0}%' ", search.Name);
             if (!string.IsNullOrWhiteSpace(search.Name))//联系电话
                 sb.AppendFormat(" and ApTel like '%{0}%' ", search.Name);
-            if (search.timeStart != null && search.timeEnd != null)//开班时间
-                sb.AppendFormat(" and CreateTime between '{0}'  and  '{1}'", search.timeStart, search.timeEnd);
+            //if (search.timeStart != null && search.timeEnd != null)//开班时间
+            //    sb.AppendFormat(" and CreateTime between '{0}'  and  '{1}'", search.timeStart, search.timeEnd);
+
+            if (!string.IsNullOrWhiteSpace(search.timeStart))//开班时间
+                sb.AppendFormat(" and CreateTime > = '{0}' ", search.timeStart);
+            if (!string.IsNullOrWhiteSpace(search.timeEnd))//结束时间
+                sb.AppendFormat(" and CreateTime <= '{0}' ", search.timeEnd);
+
             where = sb.ToString();
             int allcount = 0;
             var list = CommonPage<vw_FollowList>.GetPageList(

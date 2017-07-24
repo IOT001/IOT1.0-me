@@ -3,6 +3,9 @@ using DataProvider.Paging;
 using DataProvider.SqlServer;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -26,10 +29,12 @@ namespace DataProvider.Data
             sb.Append(" 1=1 ");
             if (!string.IsNullOrWhiteSpace(search.Name))//学生姓名
                 sb.AppendFormat(" and Name like '%{0}%' ", search.Name);
-            if (!string.IsNullOrWhiteSpace(search.Name))//联系电话
-                sb.AppendFormat(" and BindPhone like '%{0}%' ", search.Name);
-            if (search.timeStart != null && search.timeEnd != null)//开班时间
-                sb.AppendFormat(" and CreateTime between '{0}'  and  '{1}'", search.timeStart, search.timeEnd);
+            if (!string.IsNullOrWhiteSpace(search.BindPhone))//联系电话
+                sb.AppendFormat(" and BindPhone like '%{0}%' ", search.BindPhone);
+            if (!string.IsNullOrWhiteSpace(search.timeStart))//开班时间
+                sb.AppendFormat(" and CreateTime > = '{0}' ", search.timeStart);
+            if (!string.IsNullOrWhiteSpace(search.timeEnd))//结束时间
+                sb.AppendFormat(" and CreateTime <= '{0}' ", search.timeEnd);
             where = sb.ToString();
             int allcount = 0;
             var list = CommonPage<vw_DailyReport>.GetPageList(
@@ -37,7 +42,69 @@ namespace DataProvider.Data
     orderby: orderby, pageindex: search.CurrentPage, pagesize: search.PageSize, connect: DBKeys.PRX);
             return new PagedList<vw_DailyReport>(list, search.CurrentPage, search.PageSize, allcount);
         }
-       
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        /// <summary>
+        /// 导出到Excel表格
+        /// </summary>
+        /// <returns></returns>
+        public static DataTable DPExportToExcel(string Name, string BindPhone, string timeStart, string timeEnd)
+        {
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["PrxConnectionString"].ToString()))//创建连接字符串，因为连接的库不同
+                {
+                    string sql = "";
+                    sql = " SELECT CreateTime as '报名日期',Name as '学员姓名',BindPhone as '学员电话',ClassName as '报名班级',ClassID as '班级编号',TotalLesson as '班级课时',ClassHour as '报名课时',Expenses as '班级费用',Paid as '报名费用',ReduceAmount as '优惠费用' FROM [vw_DailyReport] where 1=1";
+
+                    if (!string.IsNullOrWhiteSpace(Name))//学生姓名
+                        sql += " and Name like '" + Name + "'";
+
+                    if (!string.IsNullOrWhiteSpace(BindPhone))//联系电话
+                        sql += " and BindPhone like  '" + BindPhone + "'";
+
+                    if (!string.IsNullOrWhiteSpace(timeStart))//开班时间
+                    {
+                        sql += "and CreateTime >=  '" + timeStart+ "'";
+                    }
+
+                    if (!string.IsNullOrWhiteSpace(timeEnd)) //结束时间
+                    {
+                        sql += "and CreateTime <=  '" + timeEnd  + "'";
+                    }
+                     
+                    sql += "  order by ID desc ";
+                     
+                     
+                    using (SqlDataAdapter da = new SqlDataAdapter(sql, conn))
+                    {
+                        DataTable dt = new DataTable();
+                        da.Fill(dt);
+                        return dt;
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message + "转换的过程中发生了错误!");
+            }
+        }
+
 
 
 

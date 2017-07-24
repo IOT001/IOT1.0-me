@@ -72,7 +72,7 @@ namespace DataProvider.Models
         /// <summary>
         /// 开班开始时间 
         /// </summary>
-        public DateTime? StartTime_start
+        public string StartTime_start
         { set; get; }
          
 
@@ -80,14 +80,14 @@ namespace DataProvider.Models
         /// <summary>
         /// 开班结束时间
         /// </summary>
-        public DateTime? StartTime_end
+        public string StartTime_end
         { set; get; }
 
 
         /// <summary>
         /// 结班开始时间 
         /// </summary>
-        public DateTime? EndTime_start
+        public string EndTime_start
         { set; get; }
 
 
@@ -95,7 +95,7 @@ namespace DataProvider.Models
         /// <summary>
         /// 结班结束时间
         /// </summary>
-        public DateTime? EndTime_end
+        public string EndTime_end
         { set; get; }
 
 

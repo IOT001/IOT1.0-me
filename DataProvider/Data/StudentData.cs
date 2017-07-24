@@ -28,8 +28,14 @@ namespace DataProvider.Data
            sb.Append(" 1=1 ");
            if (!string.IsNullOrWhiteSpace(search.Name))//姓名
                sb.AppendFormat(" and Name like '%{0}%' ", search.Name);
-           if (search.CreateTime_end != null && search.CreateTime_start !=null)//时间
-               sb.AppendFormat(" and CreateTime between '{0}'  and  '{1}'", search.CreateTime_start,search.CreateTime_end);
+           //if (search.CreateTime_end != null && search.CreateTime_start !=null)//时间
+           //    sb.AppendFormat(" and CreateTime between '{0}'  and  '{1}'", search.CreateTime_start,search.CreateTime_end);
+
+           if (!string.IsNullOrWhiteSpace(search.CreateTime_start))//开班时间
+               sb.AppendFormat(" and CreateTime > = '{0}' ", search.CreateTime_start);
+           if (!string.IsNullOrWhiteSpace(search.CreateTime_end))//结束时间
+               sb.AppendFormat(" and CreateTime <= '{0}' ", search.CreateTime_end);
+
            where = sb.ToString();
            int allcount = 0;
            var list = CommonPage<vw_Students>.GetPageList(

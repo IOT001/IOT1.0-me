@@ -85,22 +85,22 @@
 
 
 <script type="text/javascript" >
-    $(function () {
+    //$(function () {
 
-        var now = new Date();
-        var nowTime = now.getTime();
-        var day = now.getDay();
-        var oneDayLong = 24 * 60 * 60 * 1000;
+    //    var now = new Date();
+    //    var nowTime = now.getTime();
+    //    var day = now.getDay();
+    //    var oneDayLong = 24 * 60 * 60 * 1000;
 
 
-        var MondayTime = new Date(nowTime - (day - 1) * oneDayLong).Format("yyyy-MM-dd");
-        var SundayTime = new Date(nowTime + (7 - day) * oneDayLong).Format("yyyy-MM-dd");
+    //    var MondayTime = new Date(nowTime - (day - 1) * oneDayLong).Format("yyyy-MM-dd");
+    //    var SundayTime = new Date(nowTime + (7 - day) * oneDayLong).Format("yyyy-MM-dd");
 
-        var MondayTimeText = document.getElementById('MondayTime_Text');
-        MondayTimeText.innerText ="本周："+ MondayTime +"~";
-        var SundayTimeText = document.getElementById('SundayTime_Text');
-        SundayTimeText.innerText = SundayTime;
-    })
+    //    var MondayTimeText = document.getElementById('MondayTime_Text');
+    //    MondayTimeText.innerText ="本周："+ MondayTime +"~";
+    //    var SundayTimeText = document.getElementById('SundayTime_Text');
+    //    SundayTimeText.innerText = SundayTime;
+    //})
 
 
      
