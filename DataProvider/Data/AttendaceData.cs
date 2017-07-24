@@ -30,8 +30,14 @@ namespace DataProvider.Data
 
             if (!string.IsNullOrWhiteSpace(search.className))//按钮中文名称
                 sb.AppendFormat(" and ClassName like '%{0}%' ", search.className);
-            if (search.timeStart != null && search.timeEnd != null)//时间
-                sb.AppendFormat(" and ClassDate between '{0}'  and  '{1}'", search.timeStart, search.timeEnd);
+            //if (search.timeStart != null && search.timeEnd != null)//时间
+            //    sb.AppendFormat(" and ClassDate between '{0}'  and  '{1}'", search.timeStart, search.timeEnd);
+
+            if (!string.IsNullOrWhiteSpace(search.timeStart))//开班时间
+                sb.AppendFormat(" and ClassDate > = '{0}' ", search.timeStart);
+            if (!string.IsNullOrWhiteSpace(search.timeEnd))//结束时间
+                sb.AppendFormat(" and ClassDate <= '{0}' ", search.timeEnd);
+
             where = sb.ToString();
             int allcount = 0;
             var list = CommonPage<vw_ClassAttendanceList>.GetPageList(

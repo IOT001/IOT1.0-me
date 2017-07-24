@@ -46,6 +46,7 @@ namespace IOT1._0.Controllers.Office
             if (dis != null)
             {
                 ajax.data = dis;//放入数据
+                ajax.status = EnumAjaxStatus.Success;
                 ajax.msg = "获取成功！";
             }
             return Json(ajax);
