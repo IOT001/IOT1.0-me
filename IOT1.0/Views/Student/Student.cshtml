@@ -189,7 +189,7 @@
             type: "post",
             data: { id: id },
             success: function (json) {
-                if (json.status = 200) {//成功
+                if (json.status == 200) {//成功
                     $("#Name").val(json.data.Name);
                     $("#BindPhone").val(json.data.BindPhone);
 
@@ -219,6 +219,10 @@
 
 
                     layer.close(loadindex);//关闭加载层
+                }
+                else {
+                    layer.close(loadindex);//关闭加载层
+                    layer.msg(json.msg);
                 }
             },
             error: function (xmLHttpRequest, textStatus, errorThrown) {
@@ -259,13 +263,6 @@
 
         }
 
-
-
-        obj.Birthday = $("#Birthday").val().trim();
-        if (!obj.Birthday) {
-            layer.msg("请选择出生年月日！");
-            return false;
-        }
         obj.Picurl = $("#Picurl").val().trim();
         obj.FatherName = $("#FatherName").val().trim();
         obj.FatherContract = $("#FatherContract").val().trim();
@@ -289,13 +286,16 @@
         $.post(action, {
             "data": JSON.stringify(obj)//序列化对象
         }, function (json) {
-            if (json.status = 200) {//成功
+            if (json.status == 200) {//成功
 
                 layer.msg(json.msg);//弹出服务器返回的消息
                 setTimeout(function () {//操作
                     layer.closeAll();//关闭所有层
                     window.location.reload(); //刷新
                 }, 3000);
+            }
+            else {
+                layer.msg(json.msg);//弹出服务器返回的消息
             }
         }, 'json');
     }
@@ -366,7 +366,7 @@
                             $.post(action, {
                                 "data": JSON.stringify(obj)//序列化对象
                             }, function (json) {
-                                if (json.status = 200) {//成功
+                                if (json.status == 200) {//成功
 
 
                                     $("#img").attr("src", json.data.thumbnailImage);

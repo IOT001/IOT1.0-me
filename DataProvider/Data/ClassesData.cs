@@ -23,7 +23,7 @@ namespace DataProvider.Data
             string table = string.Empty, fields = string.Empty, orderby = string.Empty, where = string.Empty;//定义结构
             fields = @"  * ";//输出字段
             table = @" vw_Classes ";//表或者视图
-            orderby = "ID";//排序信息
+            orderby = "ID desc";//排序信息
             StringBuilder sb = new StringBuilder();//构建where条件
             sb.Append(" 1=1 ");
             if (!string.IsNullOrWhiteSpace(search.ClassName))//班级名称
@@ -37,15 +37,19 @@ namespace DataProvider.Data
             if (!string.IsNullOrWhiteSpace(search.TeacherID))//当前讲师
                 sb.AppendFormat(" and TeacherID = '{0}' ", search.TeacherID);
 
-            if (!string.IsNullOrWhiteSpace(search.islisten))//如果不是试听班
+            if (search.islisten == "1")//如果是试听班
             {
-                sb.AppendFormat(" and TeachTypeID in (2,3) ");
+                sb.AppendFormat(" and TeachTypeID =1 ");
+                
+            }
+            else if (search.islisten == "0")//不是试听班
+            {
+                sb.AppendFormat(" and TeachTypeID > 1 ");
             }
             else
             {
-                sb.AppendFormat(" and TeachTypeID in (1) ");
+ 
             }
-
             if (search.TeachTypeID != 0 && search.TeachTypeID != null)//授课方式TeachTypeID
                 sb.AppendFormat(" and TeachTypeID = {0} ", search.TeachTypeID);
 

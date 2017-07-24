@@ -265,7 +265,7 @@ namespace IOT1._0.Controllers.Enroll
                 en.APID = apid;
                 en.StudentID = studentid;
                 en.ClassID = classid;
-                en.ClassHour = 
+                en.ClassHour = classhour;
                 en.UsedHour = 0;
                 en.Price = payment;
                 en.Paid = payment;

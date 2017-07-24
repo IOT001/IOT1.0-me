@@ -77,7 +77,7 @@
                                             <a href="javascript:follow('@m.ID')" class="btn btn-primary btn-xs" type="button"><i class="fa fa-edit"></i> 跟进</a>
                                             <a href="javascript:shiting('@m.ID')" class="btn btn-primary btn-xs" type="button"><i class="fa fa-edit"></i> 试听</a>
                                             <a href="javascript:jiaru('@m.ApName','@m.ApTel','@m.ID','@m.ApStudentID')" class="btn btn-primary btn-xs" type="button"><i class="fa fa-edit"></i> 加入</a>
-                                            <a href="javascript:baoming('@m.ID','@m.ApStudentID')" class="btn btn-primary btn-xs" type="button"><i class="fa fa-edit"></i> 报名</a>
+                                            <a href="javascript:baoming('@m.ID','@m.ApStudentID','@m.ApStateID')" class="btn btn-primary btn-xs" type="button"><i class="fa fa-edit"></i> 报名</a>
                                             <a href="javascript:piaoju('@m.ID','@m.ApStateID')" class="btn btn-primary btn-xs" type="button"><i class="fa fa-edit"></i> 票据</a>
                                         </td>
                                     </tr>
@@ -450,7 +450,7 @@
                 "apid": _apid,//序列化对象
                 "classid": row.ID
             }, function (json) {
-                if (json.status = 200) {//成功
+                if (json.status == 200) {//成功
 
                     layer.msg(json.msg);//弹出服务器返回的消息
                     setTimeout(function () {//操作
@@ -793,7 +793,7 @@
         $.post(action, {
             "data": JSON.stringify(obj)//序列化对象
         }, function (json) {
-            if (json.status = 200) {//成功
+            if (json.status == 200) {//成功
 
                 layer.msg(json.msg);//弹出服务器返回的消息
                 setTimeout(function () {//操作
@@ -834,7 +834,7 @@
             type: "post",
             data: { id: id },
             success: function (json) {
-                if (json.status = 200) {//成功
+                if (json.status == 200) {//成功
                     $("#ApName").val(json.data.ApName);
                     $("#ApTel").val(json.data.ApTel);
                     $("#APLinkMan").val(json.data.APLinkMan);
@@ -894,7 +894,7 @@
         $.post(action, {
             "data": JSON.stringify(obj)//序列化对象
         }, function (json) {
-            if (json.status = 200) {//成功
+            if (json.status == 200) {//成功
 
                 layer.msg(json.msg);//弹出服务器返回的消息
                 setTimeout(function () {//操作
@@ -932,7 +932,7 @@
         $('#classes').bootstrapTable('refresh');
     }
     //报名
-    function baoming(apid,studentid) {
+    function baoming(apid,studentid,apstateid) {
         // cleanData("baoming");//清空数据
         _apid = apid;//存全局，爬丢失
         _studentid = studentid;
@@ -941,6 +941,12 @@
             layer.msg("非正式学员不允许直接报名，请先加入学员！")
             return;
         }
+        if (apstateid == "3")
+        {
+            layer.msg("预约单已完成报名！")
+            return;
+        }
+        $("#classes2 tbody input[type='checkbox']").iCheck('uncheck');//取消全选   
         layer.open({
             type: 1,
             title: "<h3 class='ibox-title'>报名</h3>",
@@ -948,6 +954,10 @@
             content: $('#baoming'),
             btn: ['结算', '取消'],
             yes: function () {
+                if ($("#classes2 tbody input[type='checkbox']:checked").length <= 0) {
+                    layer.msg("至少选择一条记录进行报名！")
+                    return;
+                }
                 var did = "";   //选中班级List，用分行分开
                 var Enrolldata = [];//需要提交报名数据
                 $("#classes2 tbody input[type='checkbox']:checked").each(function (ai, am) {//循环选中的班级列表
@@ -1070,7 +1080,7 @@
             "data": JSON.stringify(obj),//序列化对象
             "apid": _apid
         }, function (json) {
-            if (json.status = 200) {//成功
+            if (json.status == 200) {//成功
 
                 layer.msg(json.msg);//弹出服务器返回的消息
                 setTimeout(function () {//操作
@@ -1144,7 +1154,7 @@
                         $.post(action, {
                             "data": JSON.stringify(obj)//序列化对象
                         }, function (json) {
-                            if (json.status = 200) {//成功
+                            if (json.status == 200) {//成功
 
 
                                 $("#img").attr("src", json.data.thumbnailImage);

@@ -358,7 +358,7 @@
         $.post('@Url.Action("AddAppointment", "Enroll")', {
             "data": JSON.stringify(obj)//序列化对象
         }, function (json) {
-            if (json.status = 200) {//成功
+            if (json.status == 200) {//成功
 
                 layer.msg(json.msg);//弹出服务器返回的消息
                 setTimeout(function () {//操作

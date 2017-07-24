@@ -86,7 +86,7 @@ namespace DataProvider.Data
         /// <returns></returns>
         public static List<FollowRecord> GetFollowListByAPID(string apid)
         {
-            string sql = @" select * from FollowRecord where APID = @APID";
+            string sql = @" select * from FollowRecord where APID = @APID order by id desc";
             var parameters = new DynamicParameters();
             parameters.Add("@APID", apid);
 

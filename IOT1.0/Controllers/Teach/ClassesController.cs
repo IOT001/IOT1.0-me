@@ -74,6 +74,7 @@ namespace IOT1._0.Controllers.Teach
             if (Clas != null)
             {
                 ajax.data = Clas;//放入数据
+                ajax.status = EnumAjaxStatus.Success;
                 ajax.msg = "获取成功！";
             }
             return Json(ajax);
