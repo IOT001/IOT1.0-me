@@ -154,7 +154,7 @@
                                         <td>
                                             <a href="javascript:modify('@m.ID');" class="btn btn-primary btn-xs" type="button"><i class="fa fa-edit"></i>编辑</a>
 
-                                            <a href="javascript:ClassList('@m.ID','@m.ClassName','@m.Enroll','@m.StateID')" class="btn btn-primary btn-xs" type="button"><i class="fa fa-forward"></i>排课</a>
+                                            <a href="javascript:ClassList('@m.ID','@m.ClassName','@m.Enroll','@m.StateID','@m.TeachTypeID','@m.TotalLesson')" class="btn btn-primary btn-xs" type="button"><i class="fa fa-forward"></i>排课</a>
                                             <a href="javascript:adjust('@m.ID')" class="btn btn-primary btn-xs" type="button"><i class="fa fa-adjust"></i>分配</a>
                                         </td>
 
@@ -354,7 +354,7 @@
             <div class="form-group">
                 <label class="col-sm-3 control-label">课时总数：</label>
                 <div class="col-sm-5">
-                    <input type="text" placeholder="请填写课时总数" class="form-control input-sm" id="TotalLesson_ClassList">
+                    <input type="text"  readonly="true" class="form-control input-sm" id="TotalLesson_ClassList">
                 </div>
             </div>
 
@@ -680,14 +680,19 @@
 
 
     //排课弹窗
-    function ClassList(id, ClassName, Enroll, StateID) {
+    function ClassList(id, ClassName, Enroll, StateID, TeachTypeID,TotalLesson) {
         if (StateID != 1) {
             layer.msg("已排课,不能重复排课！");
+            return false;
+        }
+        if (TeachTypeID == 1) {
+            layer.msg("试听班,不能排课！");
             return false;
         }
         cleanData("ClassList");
         $("#ClassName_generate").html(ClassName);
         $("#Enroll_generate").html(Enroll);
+        $("#TotalLesson_ClassList").val(TotalLesson);
         layer.open({
             type: 1,
             title: "<h5 class='ibox-title'>排课</h3>",
@@ -887,11 +892,11 @@
             layer.msg("请选择排课开始时间！");
             return false;
         }
-        obj.End_Date = $("#End_Date").val().trim();//赋值必须和数据库字段对应
-        if (!obj.End_Date) {
-            layer.msg("请选择排课结束时间！");
-            return false;
-        }
+        //obj.End_Date = $("#End_Date").val().trim();//赋值必须和数据库字段对应
+        //if (!obj.End_Date) {
+        //    layer.msg("请选择排课结束时间！");
+        //    return false;
+        //}
 
         obj.TeacherID = $("#TeacherID_ClassList").val().trim();
         if (!obj.TeacherID) {
