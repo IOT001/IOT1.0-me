@@ -310,7 +310,7 @@
                     </div>
                 </div>
             </div>
-            <div class="form-group">
+         @*   <div class="form-group">
                 <label class="col-sm-3 control-label">排课结束时间：</label>
                 <div class="col-sm-5">
                     <div class="DateS input-group date">
@@ -318,7 +318,7 @@
                         <input type="text" class="form-control input-sm" id="End_Date">
                     </div>
                 </div>
-            </div>
+            </div>*@
 
             <div class="form-group ">
                 <label class="col-sm-3 control-label">当前讲师：</label>
@@ -947,9 +947,9 @@
             obj.Saturday = 6;
         }
         if ($("#Sunday").is(':checked')) {//判断停用按钮是否选中
-            obj.Tuesday = 7;
+            obj.Sunday = 0; //因为c#后台获取到星期天是0
         }
-        if (!(obj.Monday || obj.Tuesday || obj.Wednesday || obj.Thursday || obj.Friday || obj.Saturday || obj.Tuesday)) {
+        if (!(obj.Monday || obj.Tuesday || obj.Wednesday || obj.Thursday || obj.Friday || obj.Saturday || obj.Sunday)) {
             layer.msg("请至少沟选一个星期！");
             return false;
         }
