@@ -59,6 +59,9 @@ namespace DataProvider.Data
                     Appointment ap = AppointmentData.GetOneByID(obj.APID);
                     ap.ApStateID = 3;//已报名
                     db.Update<Appointment>(ap);
+                    Classes ca = ClassesData.GetClassesByID(obj.ClassID);
+                    ca.PresentEnroll = ca.PresentEnroll + 1;
+                    MsSqlMapperHepler.Update<Classes>(ca, DBKeys.PRX);//报名数加1
                 }
                 ret = true;
                 db.Commit();
@@ -139,7 +142,7 @@ namespace DataProvider.Data
             {
                 sb.AppendFormat(" and ClassID = '{0}' ", search.ClassID);
             }
-            if (!string.IsNullOrWhiteSpace(search.TeachTypeID.ToString()))//授课方式
+            if (search.TeachTypeID != null)//授课方式
             {
                 sb.AppendFormat(" and TeachTypeID = '{0}' ", search.TeachTypeID);
             }

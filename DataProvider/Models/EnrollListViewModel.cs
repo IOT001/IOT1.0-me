@@ -82,7 +82,7 @@ namespace DataProvider.Models
        /// <summary>
        /// 授课方式，字典表类型5，1是试听，2集体，3一对一
        /// </summary>
-       public int TeachTypeID { set; get; }
+       public int? TeachTypeID { set; get; }
    }
 
 }
