@@ -264,6 +264,7 @@ function cleanData(container) {
     $("table").each(function () {//清除flexigrid控件
         $(this).removeData();
     });
+    $("input[type='checkbox']", _container).iCheck('uncheck');//取消全选   
 }
 
 //清除数据cleanData("container");小模型，不包含grid

@@ -54,7 +54,7 @@ namespace DataProvider.Models
        /// </summary>
        public string ApTel { set; get; }
 
-            /// <summary>
+       /// <summary>
        /// 学号
        /// </summary>
        public string Enroll_StudentID { set; get; }
@@ -83,6 +83,14 @@ namespace DataProvider.Models
        /// 授课方式，字典表类型5，1是试听，2集体，3一对一
        /// </summary>
        public int? TeachTypeID { set; get; }
+       /// <summary>
+       /// 正式学员姓名
+       /// </summary>
+       public string Name { set; get; }
+       /// <summary>
+       /// 正式学员绑定手机号
+       /// </summary>
+       public string BindPhone { set; get; }
    }
 
 }

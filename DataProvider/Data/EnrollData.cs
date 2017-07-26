@@ -146,6 +146,14 @@ namespace DataProvider.Data
             {
                 sb.AppendFormat(" and TeachTypeID = '{0}' ", search.TeachTypeID);
             }
+            if (!string.IsNullOrWhiteSpace(search.Name))//正式学员的姓名
+            {
+                sb.AppendFormat(" and Name like '%{0}%' ", search.Name);
+            }
+            if (!string.IsNullOrWhiteSpace(search.BindPhone))//正式学员的姓名
+            {
+                sb.AppendFormat(" and BindPhone like '%{0}%' ", search.BindPhone);
+            }
             where = sb.ToString();
 
             int allcount = 0;

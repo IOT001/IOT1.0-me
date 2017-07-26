@@ -90,24 +90,7 @@
     <script src="~/Scripts/fileinput/js/fileinput.min.js"></script>
 
     <script>
-        function cleanData(container) {
-            var _container = $("#" + container);
-            $("input:text", _container).val("").trigger("change");//清除文本框
-            $("textarea", _container).val("").trigger("chagne");//清除文本域
-            $("input:password", _container).val("").trigger("change");//清除密码框
-            $("input:checkbox:checked", _container).attr("checked", false).trigger("change");//清除复选框
-            $("input:radio:checked", _container).attr("checked", false).trigger("change");//清除点选框
-            $("select", _container).each(function () {//清除下拉框
-                this.selectedIndex = 0;
-                $(this).trigger("change");
-            });
-            $("div[type=ComboBox]").each(function () {//清除combobox控件
-                this.clean();
-            });
-            $(".bootstrap-table").each(function () {//清除flexigrid控件
-                $(this).bootstrapTable('removeAll');
-            });
-        }
+
 
 
         //反序列化日期格式
@@ -158,7 +141,7 @@
     @RenderBody()
 
 
-    <script>
+    <script type="text/javascript">
         $(function () {
             $('.full-height-scroll').slimScroll({
                 height: '100%'
@@ -180,7 +163,25 @@
             forceParse: false,
             autoclose: true
         });
-       
+        function cleanData(container) {
+            var _container = $("#" + container);
+            $("input:text", _container).val("").trigger("change");//清除文本框
+            $("textarea", _container).val("").trigger("chagne");//清除文本域
+            $("input:password", _container).val("").trigger("change");//清除密码框
+            $("input:checkbox:checked", _container).iCheck('uncheck');//清除复选框
+            //$("input:radio:checked", _container).attr("checked", false).trigger("change");//清除点选框
+            $("select", _container).each(function () {//清除下拉框
+                this.selectedIndex = 0;
+                $(this).trigger("change");
+            });
+            $("div[type=ComboBox]").each(function () {//清除combobox控件
+                this.clean();
+            });
+            $(".bootstrap-table").each(function () {//清除flexigrid控件
+                $(this).bootstrapTable('removeAll');
+            });
+         
+        }
     </script>
     @RenderSection("scripts", required: false)
 </body>
