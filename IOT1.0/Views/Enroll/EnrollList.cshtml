@@ -933,7 +933,7 @@
     }
     //报名
     function baoming(apid,studentid,apstateid) {
-        // cleanData("baoming");//清空数据
+         cleanData("baoming");//清空数据
         _apid = apid;//存全局，爬丢失
         _studentid = studentid;
         if (!studentid)
@@ -946,7 +946,7 @@
             layer.msg("预约单已完成报名！")
             return;
         }
-        $("#classes2 tbody input[type='checkbox']").iCheck('uncheck');//取消全选   
+      // $("#classes2 tbody input[type='checkbox']").iCheck('uncheck');//取消全选   
         layer.open({
             type: 1,
             title: "<h3 class='ibox-title'>报名</h3>",
