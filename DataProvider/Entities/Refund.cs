@@ -52,5 +52,13 @@ namespace DataProvider.Entities
         /// 审核备注
         /// </summary>				
         public string AuditingRemark { get; set; }
+        /// <summary>
+        /// 申请金额
+        /// </summary>
+        public decimal ApplyPrice { get; set; }
+        /// <summary>
+        /// 财务最后支付，财务审核时，运行输入比申请金额小的值
+        /// </summary>
+        public decimal? CheckPrice { get; set; }
     }
 }

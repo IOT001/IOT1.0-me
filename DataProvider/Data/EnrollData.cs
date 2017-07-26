@@ -154,6 +154,17 @@ namespace DataProvider.Data
             {
                 sb.AppendFormat(" and BindPhone like '%{0}%' ", search.BindPhone);
             }
+            if (!string.IsNullOrWhiteSpace(search.islesson))//正式学员的姓名
+            {
+                if (search.islesson == "1")//试听
+                {
+                    sb.AppendFormat(" and TeachTypeID = 1 ");
+                }
+                else
+                {
+                    sb.AppendFormat(" and TeachTypeID > 1 ");
+                }
+            }
             where = sb.ToString();
 
             int allcount = 0;

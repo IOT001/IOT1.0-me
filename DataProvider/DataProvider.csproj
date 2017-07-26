@@ -58,17 +58,6 @@
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="NPOI">
-      <HintPath>..\packages\NPOI\NPOI.dll</HintPath>
-    </Reference>
-    <Reference Include="NPOI.OOXML">
-      <HintPath>..\packages\NPOI\NPOI.OOXML.dll</HintPath>
-    </Reference>
-    <Reference Include="NPOI.OpenXml4Net">
-      <HintPath>..\packages\NPOI\NPOI.OpenXml4Net.dll</HintPath>
-    </Reference>
-    <Reference Include="NPOI.OpenXmlFormats">
-    </Reference>
     <Reference Include="NPOI, Version=2.0.1.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\NPOI\NPOI.dll</HintPath>
@@ -151,6 +140,7 @@
     <Compile Include="Entities\Enroll.cs" />
     <Compile Include="Entities\FollowRecord.cs" />
     <Compile Include="Entities\Message.cs" />
+    <Compile Include="Entities\Refund.cs" />
     <Compile Include="Entities\Students.cs" />
     <Compile Include="Entities\SYSButton.cs" />
     <Compile Include="Entities\SYSAccount.cs" />
@@ -165,6 +155,7 @@
     <Compile Include="Entities\vw_FollowList.cs" />
     <Compile Include="Entities\vw_menu.cs" />
     <Compile Include="Entities\vw_Message.cs" />
+    <Compile Include="Entities\vw_Refund.cs" />
     <Compile Include="Entities\vw_StudentEvaluate.cs" />
     <Compile Include="Entities\vw_Students.cs" />
     <Compile Include="Entities\ClassListJob.cs" />

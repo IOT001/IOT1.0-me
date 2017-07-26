@@ -67,5 +67,18 @@ namespace DataProvider.Entities
         /// 状态中文
         /// </summary>				
         public string StateName { get; set; }
+        /// <summary>
+        /// 学员绑定手机号
+        /// </summary>
+        public string BindPhone { get; set; }
+        /// <summary>
+        /// 申请退款的金额
+        /// </summary>
+        public decimal ApplyPrice { get; set; }
+       /// <summary>
+        /// 财务最后支付，财务审核时，运行输入比申请金额小的值
+       /// </summary>
+        public decimal? CheckPrice { get; set; }
+
     }
 }
