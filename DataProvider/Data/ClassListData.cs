@@ -27,12 +27,55 @@ namespace DataProvider.Data
             var number = 0;//因为事务查询数据库会直接卡死
             bool ret = false;
             DBRepository db = new DBRepository(DBKeys.PRX);
+
+            int Multiple = 0;
+            if (!string.IsNullOrWhiteSpace(weekday.Monday))
+            {
+               Multiple= Multiple+1;  //判断是否包含在星期里面
+            }
+            if (!string.IsNullOrWhiteSpace(weekday.Tuesday))
+            {
+                Multiple = Multiple + 1;  //判断是否包含在星期里面
+            }
+            if (!string.IsNullOrWhiteSpace(weekday.Wednesday))
+            {
+                Multiple = Multiple + 1;  //判断是否包含在星期里面
+            }
+            if (!string.IsNullOrWhiteSpace(weekday.Thursday))
+            {
+                Multiple = Multiple + 1;  //判断是否包含在星期里面
+            }
+            if (!string.IsNullOrWhiteSpace(weekday.Friday))
+            {
+                Multiple = Multiple + 1;  //判断是否包含在星期里面
+            }
+            if (!string.IsNullOrWhiteSpace(weekday.Saturday))
+            {
+                Multiple = Multiple + 1;  //判断是否包含在星期里面
+            }
+            if (!string.IsNullOrWhiteSpace(weekday.Sunday))
+            {
+                Multiple = Multiple + 1;  //判断是否包含在星期里面
+            }
+
+            int curriculum = 0;
+            if ((Clss.TotalLesson % Multiple)!=0)
+            {
+                  curriculum = (Clss.TotalLesson / Multiple) + 2;
+            }
+            else
+            {
+                  curriculum = (Clss.TotalLesson / Multiple) + 1;
+            }
+
+           
+
             try
             {
 
                 db.BeginTransaction();//事务开始
                  int Last=0;
-                for (int i = 1; i <= Clss.TotalLesson+1; i++)//根据总课时和开始时间来生成课程
+                 for (int i = 1; i <= curriculum; i++)//根据总课时和开始时间来生成课程
                 {
                     // var Date = date.Start_Date.AddDays(i);
                     //var week = Convert.ToInt32(Date.DayOfWeek);  //这个时间是星期几
@@ -155,7 +198,7 @@ namespace DataProvider.Data
 
 
                         }    //最后一次生成
-                        else if (i == Clss.TotalLesson+1)//有可能选择的是星期1，2。但是开始时间是从星期开始，所以不能七天来判断
+                        else if (i == curriculum)//有可能选择的是星期1，2。但是开始时间是从星期开始，所以不能七天来判断
                         {
 
 
@@ -185,10 +228,10 @@ namespace DataProvider.Data
                                 if (Last <= Convert.ToInt32(weekday.Saturday))
                                 {
                                     weekday.Saturday = null;
-                                } 
+                                }
                                 //星期天特殊处理
-                                    weekday.Sunday = null;
-                                 
+                                weekday.Sunday = null;
+
 
 
 
@@ -234,34 +277,41 @@ namespace DataProvider.Data
                                 if (Monday > -1 || Tuesday > -1 || Wednesday > -1 || Thursday > -1 || Friday > -1 || Saturday > -1 || Sunday > -1)
                                 {
 
-
-                                    if (number == 0)
+                                    int count_number = Getnumber(Clas.ClassID);//取行号
+                                    if (count_number == Clss.TotalLesson)
                                     {
-                                        number = Getnumber(Clas.ClassID);//取行号
+                                        //没有必要往下面执行了，因为已经执行完了
                                     }
-                                    number = number + 1;
-                                    Clas.weekday = week;//星期几
-                                    Clas.ClassDate = Date;//上课日期
-                                    Clas.ClassIndex = number;  //班次序号，也就是班级生成的集体上课记录 
-                                    db.Insert<ClassList>(Clas); //增加排课表数据 
-                                    // MsSqlMapperHepler.Insert<ClassList>(Clas, DBKeys.PRX);  //增加排课表数据 
-
-
-                                    List<Enroll> Enroll = GetEnrollByID(Clas.ClassID);//获取Enroll报名表的数据
-                                    AttendanceRecord attend = new AttendanceRecord();
-                                    attend.CreateTime = DateTime.Now;  //创建时间
-                                    attend.CreatorId = Clas.CreatorId; //创建人
-                                    attend.ClassID = Clas.ClassID;//班级编号
-                                    attend.ClassIndex = number;//班次序号，也就是班级生成的集体上课记录 
-                                    attend.AttendanceTypeID = 1;//上课状态,默认为1，未考勤
-                                    attend.AttendanceWayID = 3;//AttendanceWayID默认3，教师操作的考勤。
-                                    for (int j = 0; j < Enroll.Count(); j++)
+                                    else
                                     {
-                                        attend.StudentID = Enroll[j].StudentID;
-                                        db.Insert<AttendanceRecord>(attend);//增加上课记录表数据
-                                        //MsSqlMapperHepler.Insert<AttendanceRecord>(attend, DBKeys.PRX); //增加上课记录表数据
-                                    }
+                                        if (number == 0)
+                                        {
+                                            number = Getnumber(Clas.ClassID);//取行号
+                                        }
+                                        number = number + 1;
+                                        Clas.weekday = week;//星期几
+                                        Clas.ClassDate = Date;//上课日期
+                                        Clas.ClassIndex = number;  //班次序号，也就是班级生成的集体上课记录 
+                                        db.Insert<ClassList>(Clas); //增加排课表数据 
+                                        // MsSqlMapperHepler.Insert<ClassList>(Clas, DBKeys.PRX);  //增加排课表数据 
 
+
+                                        List<Enroll> Enroll = GetEnrollByID(Clas.ClassID);//获取Enroll报名表的数据
+                                        AttendanceRecord attend = new AttendanceRecord();
+                                        attend.CreateTime = DateTime.Now;  //创建时间
+                                        attend.CreatorId = Clas.CreatorId; //创建人
+                                        attend.ClassID = Clas.ClassID;//班级编号
+                                        attend.ClassIndex = number;//班次序号，也就是班级生成的集体上课记录 
+                                        attend.AttendanceTypeID = 1;//上课状态,默认为1，未考勤
+                                        attend.AttendanceWayID = 3;//AttendanceWayID默认3，教师操作的考勤。
+                                        for (int j = 0; j < Enroll.Count(); j++)
+                                        {
+                                            attend.StudentID = Enroll[j].StudentID;
+                                            db.Insert<AttendanceRecord>(attend);//增加上课记录表数据
+                                            //MsSqlMapperHepler.Insert<AttendanceRecord>(attend, DBKeys.PRX); //增加上课记录表数据
+                                        }
+
+                                    }
                                 }
                             }
 
@@ -555,13 +605,15 @@ namespace DataProvider.Data
         public static int Getnumber(string ClassID)
         {
             StringBuilder sb = new StringBuilder();
-            sb.Append("select count(ClassID) from ClassList   ");
+            sb.Append("select count(ClassID) from ClassList  WITH(NOLOCK)  ");
             sb.Append(" where ClassID=@ClassID ");
             var parameters = new DynamicParameters();
             parameters.Add("@ClassID", ClassID);
             return MsSqlMapperHepler.SqlWithParamsSingle<int>(sb.ToString(), parameters, DBKeys.PRX);
         }
 
+
+ 
 
 
         //<summary>
