@@ -441,7 +441,31 @@
         var data = [];
         var hidden = $("[name = hidden_ID]");
         var checkIn = $("[name = chkItem]");
+        var ClockTime_is = $("[name = ClockTime]"); 
+ 
         var checkOutOption = $("[name = class-time]");
+        var judge=0;
+
+        ClockTime_is.each(function (index, value) {
+            var disabled = $(checkIn[index]).attr("disabled")
+            var checked = $(checkIn[index]).is(":checked")
+            if (!disabled) {
+                if (checked) { 
+                    if (value.innerText) {
+                        judge = 1;
+                    }
+                }
+
+            }
+
+        });
+
+        if (judge == 1) {
+            layer.msg("已经填写考勤，请勿重复填写！");
+            return false;
+        }
+         
+    
         hidden.each(function (index, value) {
             var id = value.innerText;
             var checked = $(checkIn[index]).is(":checked")
@@ -454,9 +478,15 @@
                 tmp.ClassIndex = obj.ClassIndex;
                 tmp.ClockTime = checked ? new Date().Format("yyyy-MM-dd HH:mm:ss") : "";
                 tmp.OutStatus = options ? options : '0';
+             
                 data[index] = tmp;
+             
+
             }
         });
+        
+ 
+
         $.post('@Url.Action("saveStudentAttendance", "Attendance")', { "data":JSON.stringify(data)}, function (json) {
             if (json.status == 200) {//成功
                 layer.msg(json.msg);//弹出服务器返回的消息
@@ -470,7 +500,7 @@
             layer.close(loadIndex);//关闭加载层
         });
     }
-
+   
     //点击出勤checkbox
     function onKaoqinCheckBoxChange(uiObject) {
         var t1 = uiObject.is(":checked");
@@ -480,7 +510,8 @@
         var notSelect = (v3 == "");//1 :未考勤
         if (t1 & notSelect) {
             uiObject.iCheck("check");
-        } else {
+            
+        } else { 
             uiObject.iCheck("uncheck");
         }
     }
@@ -493,12 +524,17 @@
                 var t2 = $(this).parent().parent();
                 var t3 = t2.find("input");
                 t3.iCheck("uncheck");
+                 
             }
+         
         });
        
     }
 
     function ChangeDateFormat(jsondate) {
+        if (!jsondate) {
+            return "";
+        }
         jsondate = jsondate.replace("/Date(", "").replace(")/", "");
         if (jsondate.indexOf("+") > 0) {
             jsondate = jsondate.substring(0, jsondate.indexOf("+"));
@@ -526,7 +562,7 @@
                 $.each(json.data[0], function (index, value) {
                     
                     var isCheckAttendance = value.AttendanceTypeID > 1;//判断当前状态是否已考勤
-                    var ischeck = value.AttendanceTypeID > 1 && value.OutStatus < 1;//考勤正常
+                    var ischeck = value.AttendanceTypeID > 1; //&& value.OutStatus < 1;//考勤正常
 
                     var option = '<option value="">请选择缺勤原因</option>';
 
@@ -536,20 +572,24 @@
                         }else
                             option += "<option value='" + valueOption.id + "'>" + valueOption.name + "</option>";
                     });
-
-                        //checked="checked"
+                    //style="display:none"
+                    //checked="checked"
                     //var options = option.replace("value=''", '');
                     tbody += "<tr>"
                         + '<td hidden name="hidden_ID">' + value.StudentID + '</td>'
                         + "<td>" + value.Name + "</td>"
                         + "<td>" + value.Phone + "</td>"
-                        + '<th>出勤 <input type="checkbox" class="checkbox i-checks"  name="chkItem"' +
-                            (ischeck ? 'checked="checked"' : '')
-                            + (isCheckAttendance ? 'disabled="true"' : '')
+                        + '<th>出勤 <input type="checkbox" class="checkbox i-checks"  name="chkItem"' //+
+                           // (ischeck ? 'checked="checked"' : '')
+                           // + (isCheckAttendance ? 'disabled="true"' : '')
                         +' ></th>'
                         + '<td>剩余' + value.LeftHour + '</td>'
+                       
+                    
+                        + '<td name="ClockTime">' + ChangeDateFormat(value.ClockTime)
+                        + '</td>'
                         + '<td><select class="selectpicker  form-control" name="class-time" data-live-search="true"' 
-                        +(isCheckAttendance ? 'disabled="true"' : '')
+                     //   +(isCheckAttendance ? 'disabled="true"' : '')
                         +'onchange="javascript:onKaoqinOptionChange();">'
                         + option
                         + "</select></td>"
@@ -792,7 +832,7 @@
 <div class="ibox float-e-margins" id="follow" style="display:none">
     <div class="ibox-content">
         <form class="form-horizontal">
-            <table class="table table-striped table-bordered" id="kaoqin_title">
+            <table class="table table-striped table-bordered" id="kaoqin_title" >
               
                 
                 </table>
@@ -805,7 +845,9 @@
                                 <th>学员电话</th>
                                 <th>出勤 <input type="checkbox" class="checkbox i-checks" value="" id="btn_all_student" ></th>
                                 <th>剩余课时</th>
+                                <th>考勤时间</th>
                                 <th>缺勤原因</th>
+                              
                             </tr>
                         </thead>
                      @*   <tbody>

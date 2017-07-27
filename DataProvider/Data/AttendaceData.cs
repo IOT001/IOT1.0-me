@@ -7,7 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using System.Threading.Tasks; 
 
 namespace DataProvider.Data
 {
@@ -186,7 +186,7 @@ namespace DataProvider.Data
         /// <returns></returns>
         public static AttendanceRecord GetAttendanceRecordByStudentClass(string studentID, string classId, int classIndex)
         {
-            String sql = "select * from AttendanceRecord where StudentID = @StudentID and ClassID = @ClassID and ClassIndex = @ClassIndex";
+            String sql = "select * from AttendanceRecord  WITH(NOLOCK)  where StudentID = @StudentID and ClassID = @ClassID and ClassIndex = @ClassIndex";
             var dynamic = new DynamicParameters();
             dynamic.Add("@StudentID", studentID);
             dynamic.Add("@ClassID", classId);
@@ -196,29 +196,34 @@ namespace DataProvider.Data
         }
 
 
-        public static bool saveStudentAttendance(List<AttendanceRecord> ar)
+        public static bool saveStudentAttendance(List<AttendanceRecord> ar, string userid)
         {
             bool ret = false;
-
+            DBRepository db = new DBRepository(DBKeys.PRX);
             try{
-                DBRepository db = new DBRepository(DBKeys.PRX);
+
+
+               
                 db.BeginTransaction();//事务开始
 
                 foreach (AttendanceRecord value in ar)
                 {
                     if (value == null) continue;
                     if (value.ClockTime == null && value.OutStatus < 1) continue;
-
+                   
                     AttendanceRecord btnto = AttendaceData.GetAttendanceRecordByStudentClass( value.StudentID,value.ClassID, value.ClassIndex);//获取对象
+                  
                     if (value.ClockTime != null)
                     {
+                        btnto.OutStatus =0;
                         btnto.ClockTime = value.ClockTime;
                         btnto.AttendanceTypeID = 2;//考勤正常
                        Enroll enroll= EnrollData.getEnrollByStudentClass(value.StudentID, value.ClassID);
                        if (enroll != null)
                        {
-                           enroll.UsedHour++;
-                           EnrollData.UpdateEnroll(enroll);
+                          var UsedHour= enroll.UsedHour+1;  
+                          // EnrollData.UpdateEnroll(enroll);
+                          AttendaceData.UpdateEnroll(enroll.ID, UsedHour, DateTime.Now,userid,db);
                        }
                     }
                     if (value.OutStatus > 0)
@@ -226,24 +231,53 @@ namespace DataProvider.Data
                         btnto.AttendanceTypeID = 3;//缺勤
                         btnto.OutStatus = value.OutStatus;
                     }
-                    MsSqlMapperHepler.Update(btnto, DBKeys.PRX);
+                    db.Update(btnto);
                }
 
                 db.Commit(); //事务提交
                 db.Dispose();  //资源释放
                 ret = true;//新增成功
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
-                throw;
+                db.Rollback();
+                db.Dispose();//资源释放
+                throw new Exception(ex.Message + "。" + ex.InnerException.Message);
             }
 
 
             return ret ;
         }
 
+        public static Enroll getEnrollByStudentClass(string studentID, string classId,DBRepository db)
+        {
+            String sql = "select * from Enroll  WITH(NOLOCK)  where StudentID = @StudentID and ClassID = @ClassID ";
+            var dynamic = new DynamicParameters();
+            dynamic.Add("@StudentID", studentID);
+            dynamic.Add("@ClassID", classId);
 
+            return MsSqlMapperHepler.SqlWithParamsSingle<Enroll>(sql, dynamic, DBKeys.PRX);
+        }
+        /// <summary>
+        /// 修改enroll表的用户课时
+        /// </summary>
+        /// <param name="btn"></param>
+        /// <returns></returns>
+        public static int UpdateEnroll(string ID, decimal UsedHour, DateTime UpdateTime, string UpdatorId, DBRepository db)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append(" update enroll set UsedHour=@UsedHour,UpdatorId=@UpdatorId,UpdateTime=@UpdateTime  ");
+            sb.Append(" where ID=@ID ");
+            var parameters = new DynamicParameters();
+            parameters.Add("@UpdateTime", UpdateTime);
+            parameters.Add("@UpdatorId", UpdatorId);
+            parameters.Add("@UsedHour", UsedHour);
+            parameters.Add("@ID", ID);
+            // parameters.Add("@TotalLesson", TotalLesson);
+            return db.Execute(sb.ToString(), parameters);
+
+        }
 
 
 
