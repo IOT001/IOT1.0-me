@@ -160,7 +160,16 @@ namespace IOT1._0.Controllers.Attendance
                 return Json(ajax);
             }
             List<AttendanceRecord> cls = (List<AttendanceRecord>)(JsonConvert.DeserializeObject(data.ToString(), typeof(List<AttendanceRecord>)));
-            if (AttendaceData.saveStudentAttendance(cls))
+
+
+            foreach (AttendanceRecord value in cls)
+            {
+                DataProvider.Entities.Enroll enroll = EnrollData.getEnrollByStudentClass(value.StudentID, value.ClassID);
+
+            }
+
+
+            if (AttendaceData.saveStudentAttendance(cls,UserSession.userid))
             {
                 ajax.status = EnumAjaxStatus.Success;
                 ajax.msg = "保存考勤成功";

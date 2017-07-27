@@ -71,7 +71,7 @@ namespace DataProvider
         /// </summary>
         public int LeftHour { get; set; }
         public string Name { get; set; }
-        public string Phone { get; set; }
+        public string Phone { get; set; } 
 
     }
     [Serializable]
@@ -79,8 +79,7 @@ namespace DataProvider
     {
         public AttendanceRecordORMMapper()
         {
-            base.Table("AttendanceRecord");
-
+            base.Table("AttendanceRecord"); 
             Map(f => f.LeftHour).Ignore();//设置忽略
             Map(f => f.Name).Ignore();//设置忽略
             Map(f => f.Phone).Ignore();//设置忽略
