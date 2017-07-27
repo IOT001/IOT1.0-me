@@ -91,6 +91,10 @@ namespace DataProvider.Models
        /// 正式学员绑定手机号
        /// </summary>
        public string BindPhone { set; get; }
+       /// <summary>
+       /// 是否是试听报名，0否，1是
+       /// </summary>
+       public string islesson { set; get; }
    }
 
 }

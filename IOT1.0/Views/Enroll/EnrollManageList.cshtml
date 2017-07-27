@@ -56,7 +56,8 @@
                                 <button type="submit" class="btn btn-w-m btn-primary btn-sm">查&nbsp;&nbsp;&nbsp;&nbsp;询</button>
 
                             </div>
-                            }
+                        </div>
+                       }
                             <!-- 数据列表 -->
                             <table class="table table-striped table-bordered table-hover dataTables-example">
                                 <thead>
@@ -89,7 +90,7 @@
                                         <td>@m.ClassHour</td>
                                         <td>@m.UsedHour</td>
                                         <td>@m.Paid</td>
-                                        <td></td>
+                                        <td><a href="javascript:apply('@m.BindPhone','@m.Name')" class="btn btn-primary btn-xs" type="button"><i class="fa fa-edit"></i> 申请退款</a></td>
 
                                     </tr>
                                 }
@@ -123,34 +124,56 @@
 
             </div>
         </div>
-        @*弹出层，申请退款*@
-        <div class="ibox float-e-margins" id="refund" style="display:none">
-            <div class="ibox-content">
-                <form class="form-horizontal">
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">学员姓名：</label>
-                        <div class="col-sm-8">
-                            <input type="text" placeholder="学员姓名" class="form-control" id="ApName">
+
+                        @*弹出层，申请退款*@
+                        <div class="ibox float-e-margins" id="refund" style="display:none">
+                            <div class="ibox-content">
+                                <form class="form-horizontal">
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">学员姓名：</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" placeholder="学员姓名" class="form-control" id="applyname">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">联系电话：</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" placeholder="联系电话" class="form-control" id="applyphone">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">申请退款金额：</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" placeholder="申请退款金额" class="form-control" id="ApplyPrice">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">备注：</label>
+                                        <div class="col-sm-8">
+                                            <textarea placeholder="备注" class="form-control" id="ApplyRemark"></textarea>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">联系电话：</label>
-                        <div class="col-sm-8">
-                            <input type="text" placeholder="联系电话" class="form-control" id="ApTel">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">申请退款金额：</label>
-                        <div class="col-sm-8">
-                            <input type="text" placeholder="申请退款金额" class="form-control" id="APLinkMan">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">备注：</label>
-                        <div class="col-sm-8">
-                            <textarea placeholder="备注" class="form-control" id="APRemark"></textarea>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
+                        <script type="text/javascript">
+                            //点击申请退款按钮
+                            function apply(phone, name) {
+                                cleanData("refund");
+                                $("#applyname").val(name);
+                                $("#applyphone").val(phone);
+                                layer.open({
+                                    type: 1,
+                                    title: "<h3 class='ibox-title'>申请退款</h3>",
+                                    area: ['680px', '400px'],
+                                    content: $('#refund'),
+                                    btn: ['保存', '取消'],
+                                    yes: function () {
+
+                                    },
+                                    cancel: function (index) {
+                                        layer.close(index);
+                                    }
+                                });
+                            }
+                        </script>
