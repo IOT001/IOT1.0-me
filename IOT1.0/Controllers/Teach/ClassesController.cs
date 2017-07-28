@@ -242,7 +242,7 @@ namespace IOT1._0.Controllers.Teach
             ClassList Clas = (ClassList)(JsonConvert.DeserializeObject(data.ToString(), typeof(ClassList)));//排课表
             var v= Date.Start_Date;
 
-            Clas.StateID = 2;  //状态
+            Clas.StateID = 1;  //状态
             Clas.CreateTIme = DateTime.Now; //创建时间
             Clas.CreatorId = UserSession.userid; //创建人 
 
