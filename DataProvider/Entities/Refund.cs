@@ -1,16 +1,15 @@
-﻿using System;
+﻿using DapperExtensions.Mapper;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace DataProvider.Entities
 {
     public class Refund
     {
         public Refund()
-        {
-
+        { 
+        
         }
         /// <summary>
         /// ID
@@ -47,7 +46,7 @@ namespace DataProvider.Entities
         /// <summary>
         /// 审核时间
         /// </summary>				
-        public DateTime AuditingTime { get; set; }
+        public Nullable<DateTime> AuditingTime { get; set; }
         /// <summary>
         /// 审核备注
         /// </summary>				
@@ -61,4 +60,21 @@ namespace DataProvider.Entities
         /// </summary>
         public decimal? CheckPrice { get; set; }
     }
+
+    /// <summary>
+    /// Deploy：实体对象映射关系
+    /// </summary>
+    [Serializable]
+    public sealed class RefundORMMapper : ClassMapper<Refund>
+    {
+        public RefundORMMapper()
+        {
+            base.Table("Refund");
+
+            //Map(f => f.socketouts).Ignore();//设置忽略
+            Map(f => f.ID).Key(KeyType.Identity);//设置主键  (如果主键名称不包含字母“ID”，请设置)      
+            AutoMap();
+        }
+    }
+
 }
