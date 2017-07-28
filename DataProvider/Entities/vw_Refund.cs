@@ -60,6 +60,10 @@ namespace DataProvider.Entities
         /// </summary>				
         public string AuditingName { get; set; }
         /// <summary>
+        /// 学生ID
+        /// </summary>				
+        public string SutdenID { get; set; }
+        /// <summary>
         /// 学生中文
         /// </summary>				
         public string SutdentName { get; set; }
@@ -79,6 +83,17 @@ namespace DataProvider.Entities
         /// 财务最后支付，财务审核时，运行输入比申请金额小的值
        /// </summary>
         public decimal? CheckPrice { get; set; }
+       
+          /// <summary>
+        ///班级名称
+       /// </summary>
+        public string ClassName { get; set; }
+           /// <summary>
+        ///报名已交费
+       /// </summary>
+        public decimal Paid { get; set; }
+
+       
 
     }
 }

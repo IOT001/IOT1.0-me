@@ -90,7 +90,7 @@
                                         <td>@m.ClassHour</td>
                                         <td>@m.UsedHour</td>
                                         <td>@m.Paid</td>
-                                        <td><a href="javascript:apply('@m.BindPhone','@m.Name')" class="btn btn-primary btn-xs" type="button"><i class="fa fa-edit"></i> 申请退款</a></td>
+                                        <td><a href="javascript:apply('@Newtonsoft.Json.JsonConvert.SerializeObject(m)')" class="btn btn-primary btn-xs" type="button"><i class="fa fa-edit"></i> 申请退款</a></td>
 
                                     </tr>
                                 }
@@ -132,13 +132,13 @@
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">学员姓名：</label>
                                         <div class="col-sm-8">
-                                            <input type="text" placeholder="学员姓名" class="form-control" id="applyname">
+                                            <input type="text" placeholder="学员姓名" class="form-control" id="applyname" disabled="disabled">
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">联系电话：</label>
                                         <div class="col-sm-8">
-                                            <input type="text" placeholder="联系电话" class="form-control" id="applyphone">
+                                            <input type="text" placeholder="联系电话" class="form-control" id="applyphone" disabled="disabled">
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -158,10 +158,15 @@
                         </div>
                         <script type="text/javascript">
                             //点击申请退款按钮
-                            function apply(phone, name) {
+                            function apply(data) {
                                 cleanData("refund");
-                                $("#applyname").val(name);
-                                $("#applyphone").val(phone);
+                                var obj = JSON.parse(data);
+                                if (obj.UsedHour >= obj.ClassHour) {
+                                    layer.msg("课程已完成不允许退款！");
+                                    return false;
+                                }
+                                $("#applyname").val(obj.Name);
+                                $("#applyphone").val(obj.BindPhone);
                                 layer.open({
                                     type: 1,
                                     title: "<h3 class='ibox-title'>申请退款</h3>",
@@ -169,11 +174,45 @@
                                     content: $('#refund'),
                                     btn: ['保存', '取消'],
                                     yes: function () {
-
+                                        save(obj);
                                     },
                                     cancel: function (index) {
                                         layer.close(index);
                                     }
                                 });
                             }
+
+
+
+                            function save(Enroll) {
+                                var obj = new Object;
+                           
+                                obj.ApplyPrice = $("#ApplyPrice").val().trim();
+                                if (!obj.ApplyPrice) {
+                                    layer.msg("请输入申请退款金额！");
+                                    return false;
+                                }
+                                obj.ApplyRemark = $("#ApplyRemark").val().trim();//赋值必须和数据库字段对应
+                                obj.StudentID = Enroll.StudentID;
+                                obj.EnrollID = Enroll.ID;
+                                obj.StateID = 1;
+                               
+                             
+                                var action = '@Url.Action("SaveEnrollManageList", "Enroll")'; 
+                                            $.post(action, {
+                                                "data": JSON.stringify(obj)//序列化对象
+                                            }, function (json) {
+                                                if (json.status == 200) {//成功
+
+                                                    layer.msg(json.msg);//弹出服务器返回的消息
+                                                    setTimeout(function () {//操作
+                                                        layer.closeAll();//关闭所有层
+                                                        window.location.reload(); //刷新
+                                                    }, 3000);
+                                                }
+                                            }, 'json');
+                                        }
+
+
+
                         </script>
