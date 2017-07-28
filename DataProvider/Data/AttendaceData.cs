@@ -230,7 +230,9 @@ namespace DataProvider.Data
                               s.StateID = 2;//改成在读
                               db.Update<Students>(s);
                           }
-                          
+                          ClassList cl = ClassListData.GetOneByid(value.ClassID, value.ClassIndex);
+                          cl.StateID = 2;//课时状态变成已上
+                          db.Update<ClassList>(cl);
                        }
                     }
                     if (value.OutStatus > 0)

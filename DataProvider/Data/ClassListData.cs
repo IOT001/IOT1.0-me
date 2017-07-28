@@ -657,7 +657,19 @@ namespace DataProvider.Data
             parameters.Add("@TimePeriod", cls.TimePeriod);
             return MsSqlMapperHepler.InsertUpdateOrDeleteSql(sb.ToString(), parameters, DBKeys.PRX);
         }
-         
-
+        /// <summary>
+        /// 获取classlist对象
+        /// </summary>
+        /// <param name="classid"></param>
+        /// <param name="classindex"></param>
+        /// <returns></returns>
+        public static ClassList GetOneByid(string classid, int classindex)
+        {
+            string strsql = "select * from ClassList where ClassID =@ClassID and ClassIndex = @ClassIndex";
+            var parameters = new DynamicParameters();
+            parameters.Add("@ClassID", classid);
+            parameters.Add("@ClassIndex", classindex);
+            return MsSqlMapperHepler.SqlWithParamsSingle<ClassList>(strsql.ToString(), parameters, DBKeys.PRX);
+        }
     }
 }
