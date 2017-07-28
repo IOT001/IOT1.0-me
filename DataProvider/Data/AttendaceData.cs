@@ -224,6 +224,13 @@ namespace DataProvider.Data
                           var UsedHour= enroll.UsedHour+1;  
                           // EnrollData.UpdateEnroll(enroll);
                           AttendaceData.UpdateEnroll(enroll.ID, UsedHour, DateTime.Now,userid,db);
+                          Students s = StudentData.GetStudentsByID(value.StudentID);//获取学员
+                          if (s.StateID != null && (s.StateID.Value == 1 || s.StateID.Value == 3))//冻结和未读状态下
+                          {
+                              s.StateID = 2;//改成在读
+                              db.Update<Students>(s);
+                          }
+                          
                        }
                     }
                     if (value.OutStatus > 0)

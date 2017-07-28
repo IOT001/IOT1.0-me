@@ -125,11 +125,11 @@ namespace DataProvider.Data
             return MsSqlMapperHepler.Insert<Classes>(Clas, DBKeys.PRX);
         }
         /// <summary>
-        /// 保存
+        /// 保存班级信息
         /// </summary>
         /// <param name="btn"></param>
         /// <returns></returns>
-        public static bool UpdateStudent(Classes Stu)
+        public static bool Update(Classes Stu)
         {
             Classes Stuto = ClassesData.GetClassesByID(Stu.ID);//获取对象
             Cloner<Classes, Classes>.CopyTo(Stu, Stuto);//代码克隆，把前台或者的值也就是变更内容复制到目标对象，不做变更的数据不变

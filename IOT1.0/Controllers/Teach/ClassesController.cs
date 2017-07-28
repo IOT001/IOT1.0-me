@@ -104,7 +104,7 @@ namespace IOT1._0.Controllers.Teach
             Clas.UpdateTime = DateTime.Now;
             Clas.UpdatorId = UserSession.userid;
 
-            if (ClassesData.UpdateStudent(Clas))//注意时间类型，而且需要在前台把所有的值
+            if (ClassesData.Update(Clas))//注意时间类型，而且需要在前台把所有的值
             {
                 ajax.msg = "保存成功！";
                 ajax.status = EnumAjaxStatus.Success;
