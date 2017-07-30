@@ -20,7 +20,7 @@ namespace IOT1._0.Controllers.WeiXin
 
             WXIndexViewModel model = new WXIndexViewModel();
             EnrollListSearchModel search = new EnrollListSearchModel();
-            List<vw_Menu> menu = MenuData.GetMenuList(UserSession.userid);//查询报名记录
+            List<vw_Menu> menu = MenuData.GetMenuList();//获取微信版菜单
             model.MenuList = menu;
             return View(model);
         }

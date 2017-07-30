@@ -242,6 +242,7 @@
                 //全页面选择：
 
                 self.DDList = function (item) {
+                    console.log(item)
                     if (item.Childs().length > 0) {
                         $('#C' + item.ID()).toggle();
                     }
@@ -508,7 +509,7 @@
                                 <th class="col-xs-2">菜单ID</th>
                                 <th class="col-xs-3">菜单名称</th>
                                 <th class="col-xs-3">菜单链接</th>
-                                <th class="col-xs-3">菜单状态</th>
+                                <th class="col-xs-3">是否有权限</th>
                             </tr>
                         </thead>
                         <tbody data-bind ="foreach: { data: menu,as: 'P' }">

@@ -75,7 +75,7 @@
                             <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                                 <span class="clear">
                                     <span class="block m-t-xs"><strong class="font-bold">Beaut-zihan</strong></span>
-                                    <span class="text-muted text-xs block">超级管理员<b class="caret"></b></span>
+                                    <!--<span class="text-muted text-xs block">超级管理员<b class="caret"></b></span>-->
                                 </span>
                             </a>
                             <ul class="dropdown-menu animated fadeInRight m-t-xs">
@@ -323,12 +323,12 @@
     <script src="../../Scripts/base.js"></script>
     <script>
     $(document).ready(function () {
-        //var loginpage = 'Login.html';
-        var userInfo = "01447";//登陆信息----------------------------------------------------------
-        ////console.debug(userInfo);
-        //if (!userInfo) {
-        //    window.location.href = SiteRoot + loginpage;
-        //}
+        var loginpage = 'Login.html';
+        var userInfo = localStorage.getItem("ERP_UserInfo");//登陆信息----------------------------------------------------------
+        console.debug(userInfo);
+        if (!userInfo) {
+            window.location.href = SiteRoot + loginpage;
+        }
         var viewModel = new function () {
             var that = this;
             this.menu = ko.mapping.fromJS([]);//菜单
