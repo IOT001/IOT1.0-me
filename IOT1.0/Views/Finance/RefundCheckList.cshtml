@@ -159,18 +159,12 @@
                 <label class="col-xs-3 control-label">审核是否通过：</label>
 
                 <div class="col-xs-4">
-                    <div class="radio i-checks">
+                    <div class="radio i-checks" id="aa">
                         <label class="">
                         <input type="radio" id="apply1" checked="checked"  value="2"  name="a" style="position: absolute; opacity: 0;" onchange="Audi_Judgment1()"> 审核通过
                         </label>
-                    </div>
-                </div>
-
-
-                <div class="col-xs-4">
-                    <div class="radio i-checks">
                         <label class="">
-                 <input type="radio"  id="apply2"  name="a" value="3" style="position: absolute; opacity: 0;" onclick="Audi_Judgment()"> 审核不通过
+                            <input type="radio" id="apply2" name="a" value="3" style="position: absolute; opacity: 0;" onclick="Audi_Judgment()"> 审核不通过
                         </label>
                     </div>
                 </div>
@@ -276,6 +270,9 @@
                             }
  
  
-
+                            $('#aa').on('ifChecked', function (event) { //ifCreated 事件应该在插件初始化之前绑定 
+                                console.log(event);
+                                alert(event.type + ' callback');
+                            });
                         </script>
 
