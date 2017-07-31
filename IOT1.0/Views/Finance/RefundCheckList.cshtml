@@ -56,7 +56,7 @@
 
                             <div class="col-sm-12 project-actions">
                                 <button type="submit" class="btn btn-w-m btn-primary btn-sm">查&nbsp;&nbsp;&nbsp;&nbsp;询</button>
-                                <button type="button" id="Export" onclick="ExportToExcel()" class="btn btn-w-m btn-primary btn-sm">导&nbsp;&nbsp;&nbsp;&nbsp;出</button>
+                             @*   <button type="button" id="Export" onclick="ExportToExcel()" class="btn btn-w-m btn-primary btn-sm">导&nbsp;&nbsp;&nbsp;&nbsp;出</button>*@
                             </div>
                         </div>
                     }
@@ -161,14 +161,13 @@
                 <label class="col-xs-3 control-label">审核是否通过：</label>
 
                 <div class="col-xs-4">
-                    <div class="radio i-checks" id="aa">
+                    <div class="radio i-checks" >
                         <label class="">
-                        <input type="radio" id="apply1" checked="checked"  value="2"   name="radio-choice-h-2"  style="position: absolute; opacity: 0;" change="Audi_Judgment1()"> 审核通过
+                        <input type="radio"  id="apply1"  checked="checked"  value="2"   name="radio-choice-h-2"  style="position: absolute; opacity: 0;"  > 审核通过
                         </label>
-<<<<<<< HEAD
-                        <label class="">
-                            <input type="radio" id="apply2" name="a" value="3" style="position: absolute; opacity: 0;" onclick="Audi_Judgment()"> 审核不通过
-=======
+ 
+                    
+ 
                     </div>
                 </div>
  
@@ -176,9 +175,9 @@
                        
                       <div class="radio i-checks">
                        <label class="">
- <input type="radio"  id="apply2"   name="radio-choice-h-2"  value="3" style="position: absolute;" onclick="Audi_Judgment1()"> 审核不通过
+ <input type="radio"  id="apply2"   name="radio-choice-h-2"  value="3" style="position: absolute;" > 审核不通过
  
->>>>>>> 993ce1cc1ea8ca42a621feb9c48f4177d2701c41
+ 
                         </label>
                 </div>
                 </div>
@@ -235,21 +234,25 @@
                             function save(Refund) {
                                 var obj = new Object;
 
-                                obj.CheckPrice = $("#CheckPrice").val().trim();
+                                obj.CheckPrice = $("#CheckPrice").val().trim() ? $("#CheckPrice").val().trim() : 0;
+                                if ($("#apply2").is(':checked')) {//判断停用按钮是否选中 
+                                    obj.StateID = $("#apply2").val().trim();
+                                }
+                                else {
+                                    obj.StateID = $("#apply1").val().trim();
+
+                                }
+
+                                if (obj.StateID == 2) {
                                 if (!obj.CheckPrice) {
                                     layer.msg("请输入审核金额！");
                                     return false;
                                 }
+                            }
                                 obj.AuditingRemark = $("#AuditingRemark").val().trim();//赋值必须和数据库字段对应
                                 obj.ID = Refund.ID;
 
-                                if ($("#apply2").is(':checked')) {//判断停用按钮是否选中 
-                                    obj.StateID = $("#apply1").val().trim();
-                                }
-                                else {
-                                    obj.StateID = $("#apply2").val().trim();
-
-                                }
+                             
 
 
                                 var action = '@Url.Action("SaveRefund", "Finance")';
@@ -268,7 +271,7 @@
                             }
 
                           
-                            function Audi_Judgment1(){
+                            function Audi_Judgment(){
 
                                 var apply;
                                 if ($("#apply1").is(':checked')) {//判断停用按钮是否选中 
@@ -291,16 +294,34 @@
                                 }
 
                             }
-<<<<<<< HEAD
  
  
-                            $('#aa').on('ifChecked', function (event) { //ifCreated 事件应该在插件初始化之前绑定 
-                                console.log(event);
-                                alert(event.type + ' callback');
+ 
+                            $('#apply2').on('ifChecked', function (event) { //ifCreated 事件应该在插件初始化之前绑定 
+                                Audi_Judgment();
                             });
-=======
+
+                            $('#apply1').on('ifChecked', function (event) { //ifCreated 事件应该在插件初始化之前绑定 
+                                Audi_Judgment();
+                            });
+
                      
 
->>>>>>> 993ce1cc1ea8ca42a621feb9c48f4177d2701c41
+
+                            function ExportToExcel() {
+
+                                var btn = $("#Export");//找按钮
+                                btn.button("loading");// 替换成loading
+                                var Name = $("#Name").val();
+                                var BindPhone = $("#BindPhone").val();
+                                var timeStart = $("#timeStart").val();
+                                var timeEnd = $("#timeEnd").val();
+
+                                window.location = SiteRoot + "Finance/ExportToExcel?Name=" + Name + "&BindPhone=" + BindPhone + "&timeStart=" + timeStart + "&timeEnd=" + timeEnd;
+                                alert("正在导出，请耐心等待一段时间，请点击确定继续......")
+                                btn.button("reset");//重置初始状态
+                            }
+
+ 
                         </script>
 
