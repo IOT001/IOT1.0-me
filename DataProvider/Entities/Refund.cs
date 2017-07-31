@@ -34,7 +34,7 @@ namespace DataProvider.Entities
         /// <summary>
         /// 申请时间
         /// </summary>				
-        public DateTime CreateTime { get; set; }
+        public Nullable<DateTime> CreateTime { get; set; }
         /// <summary>
         /// 创建人，申请人
         /// </summary>				
@@ -54,7 +54,7 @@ namespace DataProvider.Entities
         /// <summary>
         /// 申请金额
         /// </summary>
-        public decimal ApplyPrice { get; set; }
+        public decimal ? ApplyPrice { get; set; }
         /// <summary>
         /// 财务最后支付，财务审核时，运行输入比申请金额小的值
         /// </summary>
