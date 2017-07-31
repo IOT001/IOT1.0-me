@@ -6,6 +6,8 @@
 @model RefundCheckListModel
 @section styles{
     <style type="text/css">
+
+
     </style>
 }
 <div class="wrapper wrapper-content  animated fadeInRight">
@@ -161,12 +163,24 @@
                 <div class="col-xs-4">
                     <div class="radio i-checks" id="aa">
                         <label class="">
-                        <input type="radio" id="apply1" checked="checked"  value="2"  name="a" style="position: absolute; opacity: 0;" onchange="Audi_Judgment1()"> 审核通过
+                        <input type="radio" id="apply1" checked="checked"  value="2"   name="radio-choice-h-2"  style="position: absolute; opacity: 0;" change="Audi_Judgment1()"> 审核通过
                         </label>
+<<<<<<< HEAD
                         <label class="">
                             <input type="radio" id="apply2" name="a" value="3" style="position: absolute; opacity: 0;" onclick="Audi_Judgment()"> 审核不通过
-                        </label>
+=======
                     </div>
+                </div>
+ 
+                <div class="col-xs-4">
+                       
+                      <div class="radio i-checks">
+                       <label class="">
+ <input type="radio"  id="apply2"   name="radio-choice-h-2"  value="3" style="position: absolute;" onclick="Audi_Judgment1()"> 审核不通过
+ 
+>>>>>>> 993ce1cc1ea8ca42a621feb9c48f4177d2701c41
+                        </label>
+                </div>
                 </div>
             </div>
 
@@ -184,6 +198,9 @@
                                         </div>
                                     </div>
 
+
+ 
+
                                     
                                 </form>
                             </div>
@@ -194,7 +211,7 @@
                                 cleanData("refund");
                                 var obj = JSON.parse(data);
                                
-                                $("#applyname").val(obj.Name);
+                                $("#applyname").val(obj.SutdentName);
                                 $("#ApplyPrice").val(obj.ApplyPrice);
                                 $("#ApplyRemark").val(obj.ApplyRemark);
                                 $("#CheckPrice").val(obj.ApplyPrice);
@@ -215,21 +232,27 @@
 
 
 
-                            function save(Enroll) {
+                            function save(Refund) {
                                 var obj = new Object;
 
-                                obj.ApplyPrice = $("#ApplyPrice").val().trim();
-                                if (!obj.ApplyPrice) {
-                                    layer.msg("请输入申请退款金额！");
+                                obj.CheckPrice = $("#CheckPrice").val().trim();
+                                if (!obj.CheckPrice) {
+                                    layer.msg("请输入审核金额！");
                                     return false;
                                 }
-                                obj.ApplyRemark = $("#ApplyRemark").val().trim();//赋值必须和数据库字段对应
-                                obj.StudentID = Enroll.StudentID;
-                                obj.EnrollID = Enroll.ID;
-                                obj.StateID = 1;
+                                obj.AuditingRemark = $("#AuditingRemark").val().trim();//赋值必须和数据库字段对应
+                                obj.ID = Refund.ID;
+
+                                if ($("#apply2").is(':checked')) {//判断停用按钮是否选中 
+                                    obj.StateID = $("#apply1").val().trim();
+                                }
+                                else {
+                                    obj.StateID = $("#apply2").val().trim();
+
+                                }
 
 
-                                var action = '@Url.Action("SaveEnrollManageList", "Enroll")';
+                                var action = '@Url.Action("SaveRefund", "Finance")';
                                 $.post(action, {
                                     "data": JSON.stringify(obj)//序列化对象
                                 }, function (json) {
@@ -268,11 +291,16 @@
                                 }
 
                             }
+<<<<<<< HEAD
  
  
                             $('#aa').on('ifChecked', function (event) { //ifCreated 事件应该在插件初始化之前绑定 
                                 console.log(event);
                                 alert(event.type + ' callback');
                             });
+=======
+                     
+
+>>>>>>> 993ce1cc1ea8ca42a621feb9c48f4177d2701c41
                         </script>
 
