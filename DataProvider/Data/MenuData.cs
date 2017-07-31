@@ -11,7 +11,7 @@ namespace DataProvider.Data
    public class MenuData
     {
        public static string preurl = Common.GetAppConfig<string>("preurlconfig", "");
-       public static List<vw_Menu> GetMenuList(string staffid)
+       public static List<vw_Menu> GetMenuList()
        {
            StringBuilder sb = new StringBuilder();
            sb.AppendFormat("SELECT *,'{0}' + URL as logurl ", preurl);

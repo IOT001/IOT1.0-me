@@ -311,7 +311,7 @@
                 <label class="col-xs-3 control-label">出生年月日：</label>
                 <div class="col-xs-8">
 
-                    <div class="DateS input-group date">
+                    <div class="DateS input-group date input-daterange">
                         <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                         <input type="text" class="form-control input-sm" id="Birthday">
                     </div>
@@ -912,7 +912,7 @@
         layer.open({
             type: 1,
             title: "<h3 class='ibox-title'>安排试听</h3>",
-            area: ['1000px', '600px'],
+            area: ['1000px', '500px'],
             content: $('#shiting'),
             btn: ['保存', '取消'],
             yes: function () {
@@ -1017,7 +1017,7 @@
         layer.open({
             type: 1,
             title: "<h3 class='ibox-title'>成为正式学员</h3>",
-            area: ['800px', '600px'],
+            area: ['800px', '500px'],
             content: $('#jiaru'),
             btn: ['成为正式学员', '取消'],
             yes: function () {
@@ -1087,6 +1087,9 @@
                     layer.closeAll();//关闭所有层
                     window.location.reload(); //刷新
                 }, 3000);
+            }
+            else {
+                layer.msg(json.msg);
             }
         }, 'json');
     }

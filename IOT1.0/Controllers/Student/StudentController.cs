@@ -168,7 +168,7 @@ namespace IOT1._0.Controllers.Teach
             SYSAccountRole sysR = new SYSAccountRole();//用户角色
             RandomOperate operate = new RandomOperate();
             //添加默认权限
-            Stu.BindAccount = operate.GenerateCheckCode(30);
+            Stu.BindAccount = Stu.ID;//方便登陆
             sys.ACC_Account = Stu.BindAccount;
             sys.ACC_CreatedBy = UserSession.userid;
             sys.ACC_CreatedOn = DateTime.Now;
