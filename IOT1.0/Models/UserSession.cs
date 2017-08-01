@@ -91,21 +91,5 @@ namespace IOT1._0.Models
                 return aa;
             }
         }
-        ////模拟错误
-        //public static string _userid
-        //{
-        //    set
-        //    {
-
-        //        HttpContext.Current.Session["userid"] = value;
-        //    }
-        //    get
-        //    {
-
-        //            //HttpContext.Current.Response.Redirect("~/login.html", true);
-        //            throw new Exception("登录超时，请重新登录！");
-
-        //    }
-        //}
     }
 }

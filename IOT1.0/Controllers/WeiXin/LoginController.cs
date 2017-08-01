@@ -46,9 +46,9 @@ namespace IOT1._0.Controllers.WeiXin
 
                 foreach (var d in dt)//设置session
                 {
-                    UserSession.userid = d.ACC_Account;
-                    UserSession.username = d.ACC_Account;
-                    UserSession.UserLoginTime = DateTime.Now.ToString();
+                    UserSessionWX.userid = d.ACC_Account;
+                    UserSessionWX.username = d.ACC_Account;
+                    UserSessionWX.UserLoginTime = DateTime.Now.ToString();
                 }
                 ajax.msg = "登录成功！";
                 ajax.status = EnumAjaxStatus.Success;

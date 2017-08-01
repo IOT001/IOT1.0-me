@@ -17,7 +17,8 @@ namespace IOT1._0.Controllers.WeiXin
 
         public ActionResult Index()
         {
-
+            if (string.IsNullOrEmpty(UserSessionWX.userid))
+            { }
             WXIndexViewModel model = new WXIndexViewModel();
             EnrollListSearchModel search = new EnrollListSearchModel();
             List<vw_Menu> menu = MenuData.GetMenuList();//获取微信版菜单
