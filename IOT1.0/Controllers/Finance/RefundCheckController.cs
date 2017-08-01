@@ -63,13 +63,13 @@ namespace IOT1._0.Controllers.Finance
         /// </summary>
         /// <param name="json"></param>
 
-        public void ExportToExcel(string Name, string BindPhone, string timeStart, string timeEnd)
-        {
+        //public void ExportToExcel(string Name, string BindPhone, string timeStart, string timeEnd)
+        //{
 
-            DataTable datasource = DailyReportData.DPExportToExcel(Name, BindPhone, timeStart, timeEnd);
-            ERP.Models.MyNPOIModel.ExportByWeb(datasource, "退款审核", "退款审核" + ".xls");
+        //    DataTable datasource = DailyReportData.DPExportToExcel(Name, BindPhone, timeStart, timeEnd);
+        //    ERP.Models.MyNPOIModel.ExportByWeb(datasource, "退款审核", "退款审核" + ".xls");
 
-        }
+        //}
 
 
 
