@@ -6,36 +6,33 @@
 @model WX_UserProgressListModel
 
 
-   
+
 
 <div class="wrapper wrapper-content animated fadeInRight w640">
-     <div class="ibox-title">
+    <div class="ibox">
+        <div class="ibox-title">
 
             <h2>
-                <a class="pull-left m-r-md">
+                <a href="@Url.Action("Index")" class="pull-left m-r-md">
                     <i class="fa fa-chevron-left"></i>
                 </a>我的课程进度
             </h2>
         </div>
-    @if (Model != null && Model.UserProgressList.Count() > 0)
-                    {
-                        foreach (var m in Model.UserProgressList)
-                        {
-    <div class="row">
-            <div class="ibox">
-
-                 
+        @if (Model != null && Model.UserProgressList.Count() > 0)
+        {
+            foreach (var m in Model.UserProgressList)
+            {
                 <div class="ibox-title">
-                   
-                        @if (@m.Progress_Bar>=100)
-                        {
-                         <span class="label label-default pull-right">已结束</span>
-                        }
-                        else
-                        {
-                          <span class="label label-primary pull-right">进行中</span>
-                        }
-           
+
+                    @if (@m.Progress_Bar >= 100)
+                    {
+                        <span class="label label-default pull-right">已结束</span>
+                    }
+                    else
+                    {
+                        <span class="label label-primary pull-right">进行中</span>
+                    }
+
                     <h3>@m.CourseName</h3>
                 </div>
                 <div class="ibox-content">
@@ -68,10 +65,8 @@
                         </div>
                     </div>
                 </div>
-            </div>
-           
-    </div>
 
-                         }
-                     }
+            }
+        }
+    </div>
 </div>
