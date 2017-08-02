@@ -6,9 +6,17 @@
 @model WX_UserProgressListModel
 
 
-
+   
 
 <div class="wrapper wrapper-content animated fadeInRight w640">
+     <div class="ibox-title">
+
+            <h2>
+                <a class="pull-left m-r-md">
+                    <i class="fa fa-chevron-left"></i>
+                </a>我的课程进度
+            </h2>
+        </div>
     @if (Model != null && Model.UserProgressList.Count() > 0)
                     {
                         foreach (var m in Model.UserProgressList)

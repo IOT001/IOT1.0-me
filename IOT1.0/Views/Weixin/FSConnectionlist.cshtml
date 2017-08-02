@@ -7,11 +7,19 @@
  @model WX_FSConnectionlistModel
  
 <div class="ibox float-e-margins w640" >
+        <div class="ibox-title">
+
+            <h2>
+                <a class="pull-left m-r-md">
+                    <i class="fa fa-chevron-left"></i>
+                </a>我的课程表
+            </h2>
+        </div>
     <div class="ibox-title">
         
         @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "frmQuery", @class = "form-horizontal" }))
                    {
-         <div class="form-group">
+                    <div class="form-group">
                  
                             <div class="col-sm-2">
                                 <label class="control-label">开始时间:</label>
@@ -37,9 +45,13 @@
 
                                 </div>
                             </div>
-             <button type="submit" class="btn btn-w-m btn-primary btn-sm">查&nbsp;&nbsp;&nbsp;&nbsp;询</button>
-              
-                        </div>
+               </div>
+              <div class="form-group">
+                <div class="col-sm-10 project-actions">
+                                <button type="submit" class="btn btn-w-m btn-primary btn-sm">查&nbsp;&nbsp;&nbsp;&nbsp;询</button>
+                            </div>
+                </div>
+                      
          }
 
 
