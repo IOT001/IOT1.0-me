@@ -17,11 +17,7 @@
         </div>
     <div class="row">
         <div class="col-sm-12">
-            <div class="ibox">
-                <div class="ibox-content text-center">
-                    <h3 class="m-b-xxs">留言板</h3>
-                </div>
-            </div>
+         
             @if (Model != null && Model.MessageList.Count() > 0)
             {
                 foreach (var m in Model.MessageList)
