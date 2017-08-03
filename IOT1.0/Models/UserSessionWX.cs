@@ -83,14 +83,11 @@ namespace IOT1._0.Models
                 return HttpContext.Current.Session["ValidateCode"].ToString();
             }
         }
-  
-        public  static List<string> roles
+
+        public static List<string> roles
         {
-            get
-            {
-                List<string> aa = MsSqlMapperHepler.SqlWithParams<string>("select ROLE_Id from vw_AccountRole where staffid ='" + userid + "'", null, DBKeys.PRX);
-                return aa;
-            }
+            set;
+            get;
         }
         ////模拟错误
         //public static string _userid

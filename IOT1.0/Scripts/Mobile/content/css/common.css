@@ -11,7 +11,7 @@ button, input, select, textarea { font-size: 100%; }
 input[type="submit"], input[type="reset"], input[type="button"], button { -webkit-appearance: none; }
 li { list-style-type: none; vertical-align: top; }
 img { vertical-align: middle; border: 0px; margin: 0; padding: 0; display: block;width:100%;}
-h1, h2, h3, h4, h5, h6 { margin: 0; padding: 0; font-size: 100%; }
+
 address, cite, dfn, em, var { font-style: normal; }
 table { border-collapse: collapse; border-spacing: 0; }
 a img { border: 0; }
@@ -34,7 +34,7 @@ a:hover { text-decoration: none; -webkit-tap-highlight-color: transparent; }
 .w640 { position: relative;max-width: 640px; min-width: 320px; margin: 0 auto; overflow: hidden; overflow-x: hidden; overflow-x: hidden !important; }
 .w600 { width: 93.75%; margin: 0 auto; }
 .w620 { width: 96.875%!important;display: block; margin: 0 auto; overflow: hidden; }
-.w640 img { width: 100%; height: auto; }
+
 html{ font-size:32px; }
 body{ background: #fff; }
 html,body,section{ min-height: 100%; }
@@ -83,3 +83,5 @@ html,body,section{ min-height: 100%; }
 .bottomNav li.cur i.i02{background-position:-5.0rem -2.3125rem;}
 .bottomNav li.cur i.i03{background-position:-10rem -2.3125rem;}
 .bottomNav li.cur i.i04{background-position:-15rem -2.3125rem;}
+
+

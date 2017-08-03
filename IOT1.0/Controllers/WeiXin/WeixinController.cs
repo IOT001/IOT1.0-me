@@ -18,8 +18,14 @@ namespace IOT1._0.Controllers.WeiXin
             return View();
         }
 
-      
-
+        /// <summary>
+        /// 个人中心
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult UserCenter()
+        {
+            return View();
+        }
 
 
     }
