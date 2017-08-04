@@ -7,13 +7,17 @@
 @model WX_MessageBrowseModel
 
 <div class="wrapper wrapper-content  animated fadeInRight w640">
+            <div class="ibox-title">
+
+            <h2>
+                <a href="@Url.Action("Index")" class="pull-left m-r-md">
+                    <i class="fa fa-chevron-left"></i>
+                </a>我的留言板
+            </h2>
+        </div>
     <div class="row">
         <div class="col-sm-12">
-            <div class="ibox">
-                <div class="ibox-content text-center">
-                    <h3 class="m-b-xxs">留言板</h3>
-                </div>
-            </div>
+         
             @if (Model != null && Model.MessageList.Count() > 0)
             {
                 foreach (var m in Model.MessageList)

@@ -1,0 +1,33 @@
+﻿@{
+    ViewBag.Title = "个人中心";
+    Layout = "~/Views/Shared/_Layoutwx.cshtml";//设置模板文件
+}
+<link href="~/CSS/perCenter.css" rel="stylesheet" />
+<script src="~/Scripts/perCenter.js"></script>
+<div class="topimg">
+    <img src="../Images/perCenter/topimg.jpg" alt="">
+    <p>
+        个人中心
+    </p>
+</div>
+<div class="myBox">
+    <ul>
+        <li>
+            <div class="w600">
+                <div class="fl"><i>&nbsp;</i>我的角色</div>
+                <div class="fr">管理员</div>
+            </div>
+        </li>
+    </ul>
+</div>
+<a class="signOut" href="javascript:;">退出登录</a>
+
+
+<div class="shadow">&nbsp;</div>
+<div class="alert">
+    <p>&nbsp;</p>
+    <div class="alertBtn">
+        <a href="javascript:;" class="cancel">取消</a>
+        <a href="login" class="confirm">确定</a>
+    </div>
+</div>
