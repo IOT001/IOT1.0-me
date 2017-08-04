@@ -3,9 +3,11 @@
 @{
     ViewBag.Title = "上课详细信息";
 } 
+
 @model WX_FSConnectionlistModel
 
-<div class="ibox float-e-margins w640">
+
+<div class="ibox float-e-margins w640" id="cc">
     @if (Model != null )
     {
     <div class="ibox-title">
@@ -22,8 +24,8 @@
                 <label class="col-xs-8 form-control-static">@Model.FSConnectionInfo.TeachersName</label>
             </div>
             <div class="form-group ">
-                <label class="col-xs-4 control-label">表现：</label>
-                <label class="col-xs-8 form-control-static">表现优秀</label>
+                <label class="col-xs-4 control-label">作业内容：</label>
+                <label class="col-xs-8 form-control-static">@Model.FSConnectionInfo.JobContent</label>
             </div>
            
             <div class="form-group ">
@@ -34,10 +36,53 @@
                 <label class="col-xs-4 control-label">备注：</label>
                 <label class="col-xs-8 form-control-static">@Model.FSConnectionInfo.Remark</label>
             </div>
+
+
+
+                  <div class="form-group">
+                <label class="col-sm-12">上传记录：</label>
+                <div class="col-sm-12">
+                    <table class="table table-striped table-bordered dataTables-example" id="ClassListJob">
+                        <thead>
+                            <tr>
+                                <th>上传日期</th> 
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        
+                    
+                        <!-- 循环数据 -->
+                        <tbody>
+                       @if (Model != null && Model.Enclosure.Count() > 0)
+                    {
+                       foreach (var item in Model.Enclosure)
+                       { 
+                       
+                            <tr>
+                                <td>@item.CreateTime</td>
+                                 
+                                <td><a  target="_blank"  href="@item.FileRoute"><i class="fa fa-edit"></i> 下载</a></td>
+                            </tr>
+                       }
+                    }
+                        </tbody>
+                     
+                    </table>
+                </div>
+            </div>
+
+
+
         </form>
+    
+
     </div>
         
     }
 
+      
+
+
 </div>
 
+ 

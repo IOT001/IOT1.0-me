@@ -32,7 +32,8 @@ namespace DataProvider
         public int CourseID { get; set; }
         public string weekday { get; set; }
         public string CourseName { get; set; }
-        public string TeachersName { get; set; } 
+        public string TeachersName { get; set; }
+        public string JobContent { get; set; } 
         
         
     }

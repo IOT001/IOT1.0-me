@@ -1,4 +1,5 @@
-﻿using DataProvider.Paging;
+﻿using DataProvider.Entities;
+using DataProvider.Paging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,6 +20,11 @@ namespace DataProvider.Models
        /// 学员上课记录详细信息
        /// </summary>
        public vw_AttendanceRecord FSConnectionInfo { get; set; }
+
+        /// <summary>
+       /// 学员上课记录详细信息
+       /// </summary>
+       public List<vw_ClassListJob> Enclosure { get; set; }
 
        /// <summary>
        /// 页面的搜索条件
