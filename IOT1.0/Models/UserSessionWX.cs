@@ -39,7 +39,7 @@ namespace IOT1._0.Models
             {
                 if (HttpContext.Current.Session["userid"] == null || HttpContext.Current.Session["userid"].ToString().Trim() == "")
                 {
-                    HttpContext.Current.Response.Redirect("Login", true);
+                    HttpContext.Current.Response.Redirect("~/Weixin/Login", true);
                     return null;
                 }
                 else
