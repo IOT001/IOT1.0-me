@@ -21,28 +21,20 @@
         {
             <div class="form-group">
  
-                <div class="col-xs-3">
+                <div class="col-xs-5">
                     <div class="input-daterange input-group" id="datepicker">
-              @*          @Html.TextBoxFor(t => t.search.timeStart, new { @class = "input-sm form-control" , @value = DateTime.Now })  *@
-                          <input type="text"   id="first" value="1"/>
-                        @Html.TextBoxFor(t => t.search.timeStart, new { @class = "input-sm form-control", @value = DateTime.Now })
+              
+                        @Html.TextBoxFor(t => t.search.timeStart, new { @class = "input-sm form-control",@value = DateTime.Now })
                     </div>
                 </div>
 
 
-                <div class="col-xs-2">
+                <div class="col-xs-5">
                     @Html.TextBoxFor(t => t.search.timeEnd, new { @class = "input-sm form-control", @value = DateTime.Now })
                  
                 </div>
 
-
-                <div class="col-xs-3">
-                  @*  <div class="input-daterange input-group" id="datepicker1">
-                        @Html.TextBoxFor(t => t.search.timeEnd, new { @class = "input-sm form-control", @type = "text", @value = DateTime.Now })
-
-
-                    </div>*@
-                </div>
+ 
             </div>@*
             <div class="form-group">
                 <div class="col-sm-10 project-actions">
@@ -158,12 +150,7 @@
 
     //})
 
-    $('#This_Week').click(function cc() {
-
-        alert(ccc);
-    })
-    function This_Week() {
-
+    $('#This_Week').click(function This_Week() { 
         var now = new Date();
         var nowTime = now.getTime();
         var day = now.getDay();
@@ -173,22 +160,48 @@
         var MondayTime = new Date(nowTime - (day - 1) * oneDayLong);
         var SundayTime = new Date(nowTime + (7 - day) * oneDayLong);
 
-        var MondayTimeText = document.getElementById('MondayTime_Text');
-       
+        var MondayTimeText = document.getElementById('search_timeStart');
+
 
         MondayTimeText.value = new Date(MondayTime.setDate(0)).Format("yyyy-MM-dd");
-       
-        var SundayTimeText = document.getElementById('SundayTime_Text');
+
+        var SundayTimeText = document.getElementById('search_timeEnd');
+        SundayTimeText.value = new Date(SundayTime.setDate(6)).Format("yyyy-MM-dd");
+    })
+
+
+    $('#Next_Week').click(function Next_Week() {
+    
+        var oneDayLong = 24 * 60 * 60 * 1000;
+    var MondayTimeText = document.getElementById('search_timeStart');
+    var SundayTimeText = document.getElementById('search_timeEnd');
+    if (MondayTimeText.value == null || MondayTimeText.value == "") {
+        This_Week_1();
+    }
+    else {
+        MondayTimeText.value = new Date( new Date(MondayTimeText.value).getTime() + (oneDayLong*7 ) ).Format("yyyy-MM-dd");
+        SundayTimeText.value = new Date( new Date(SundayTimeText.value).getTime() + (oneDayLong * 7)).Format("yyyy-MM-dd");
+    }
+      
+    })
+    function This_Week_1() {
+        var now = new Date();
+        var nowTime = now.getTime();
+        var day = now.getDay();
+        var oneDayLong = 24 * 60 * 60 * 1000;
+        // var date = new Date(now.getTime() - 7 * 24 * 3600 * 1000).Format("yyyy-MM-dd");
+
+        var MondayTime = new Date(nowTime - (day - 1) * oneDayLong);
+        var SundayTime = new Date(nowTime + (7 - day) * oneDayLong);
+
+        var MondayTimeText = document.getElementById('search_timeStart');
+
+
+        MondayTimeText.value = new Date(MondayTime.setDate(0)).Format("yyyy-MM-dd");
+
+        var SundayTimeText = document.getElementById('search_timeEnd');
         SundayTimeText.value = new Date(SundayTime.setDate(6)).Format("yyyy-MM-dd");
     }
-    
-    function Next_Week() {
-        var MondayTimeText = document.getElementById('MondayTime_Text');
-        var SundayTimeText = document.getElementById('SundayTime_Text');
-
-        MondayTimeText.value = new Date(MondayTimeText.value).setDate(7).Format("yyyy-MM-dd");
-        SundayTimeText.value = new Date(SundayTimeText.value).setDate(7).Format("yyyy-MM-dd");
-
-    }
+     
 
 </script>
