@@ -93,7 +93,12 @@ namespace IOT1._0.Controllers.Teach
             }
             TeacherSearchModel search = new TeacherSearchModel();
             search.MobilePhone = teacher.MobilePhone;
-            TeacherData.GetTeachersList(search);
+            int teas = TeacherData.GetTeachersList(search).Count();
+            if (teas > 0)//手机号重复了
+            {
+                ajax.msg = "手机号重复！";
+                return Json(ajax);
+            }
             RandomOperate operate = new RandomOperate();
 
             teacher.CreateTime = DateTime.Now;
