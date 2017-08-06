@@ -218,7 +218,7 @@ namespace DataProvider.Data
            var  number = Getnumber(sys.AR_AccountId);//判断是否存在
            if (number > 0)
             {
-                db.Delete<SYSAccountRole>(sys.AR_AccountId);
+                db.Execute("Delete From SYS_AccountRole where AR_AccountId = " + sys.AR_AccountId);
             }
            
 

@@ -168,10 +168,10 @@ namespace IOT1._0.Controllers.Teach
             {
                 if (!string.IsNullOrEmpty(TeacherData.AddSYS_SystemRole(sys)))//注意时间类型，而且需要在前台把所有的值
             {
-                ajax.msg = "新增成功！";
+                ajax.msg = "操作成功！";
                 ajax.status = EnumAjaxStatus.Success;
             } 
-            } 
+          } 
             return Json(ajax);
         }
 
