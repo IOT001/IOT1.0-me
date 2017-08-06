@@ -25,13 +25,13 @@
                     <div class="input-daterange input-group" id="datepicker">
               @*          @Html.TextBoxFor(t => t.search.timeStart, new { @class = "input-sm form-control" , @value = DateTime.Now })  *@
                           <input type="text"   id="first" value="1"/>
-                    <input type="text"  name="search.timeStart"  id="MondayTime_Text"/>
+                        @Html.TextBoxFor(t => t.search.timeStart, new { @class = "input-sm form-control", @value = DateTime.Now })
                     </div>
                 </div>
 
 
                 <div class="col-xs-2">
-                     <input type="text" name="search.timeEnd"  id="SundayTime_Text"/>
+                    @Html.TextBoxFor(t => t.search.timeEnd, new { @class = "input-sm form-control", @value = DateTime.Now })
                  
                 </div>
 
