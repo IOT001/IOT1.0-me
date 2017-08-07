@@ -143,7 +143,7 @@ namespace DataProvider.Data
             string table = string.Empty, fields = string.Empty, orderby = string.Empty, where = string.Empty;//定义结构
             fields = @"  * ";//输出字段
             table = @" vw_Teachers ";//表或者视图
-            orderby = "CreateTime";//排序信息
+            orderby = "CreateTime desc";//排序信息
             StringBuilder sb = new StringBuilder();//构建where条件
             sb.Append(" 1=1 ");
 
@@ -214,24 +214,32 @@ namespace DataProvider.Data
         {
             DBRepository db = new DBRepository(DBKeys.PRX);
             db.BeginTransaction();//事务开始 
-
-           var  number = Getnumber(sys.AR_AccountId);//判断是否存在
-           if (number > 0)
+            string ret = "0";
+            try
             {
-                db.Execute("Delete From SYS_AccountRole where AR_AccountId = " + sys.AR_AccountId);
-            }
-           
+                var number = Getnumber(sys.AR_AccountId);//判断是否存在
+                if (number > 0)
+                {
+                    db.Execute("Delete From SYS_AccountRole where AR_AccountId = " + sys.AR_AccountId);
+                }
 
-            for (int i = 0; i < sys.AR_SystemRoleIdS.Length; i++)
+
+                for (int i = 0; i < sys.AR_SystemRoleIdS.Length; i++)
+                {
+                    sys.AR_SystemRoleId = int.Parse(sys.AR_SystemRoleIdS[i]);
+                    db.Insert<SYSAccountRole>(sys);
+                }
+
+                db.Commit(); //事务提交 
+                ret = "1";//新增成功 
+                db.Dispose();  //资源释放
+            }
+            catch (Exception ex)
             {
-                sys.AR_SystemRoleId =int.Parse(sys.AR_SystemRoleIdS[i]);
-                db.Insert<SYSAccountRole>(sys);
+                db.Rollback();
+                db.Dispose();
+                throw new Exception(ex.Message);
             }
-             
-            db.Commit(); //事务提交 
-            string ret = "1";//新增成功 
-            db.Dispose();  //资源释放
-
             return ret;
         }
 

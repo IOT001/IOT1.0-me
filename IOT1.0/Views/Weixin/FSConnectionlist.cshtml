@@ -19,7 +19,7 @@
 
         @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "frmQuery", @class = "form-horizontal" }))
         {
-            <div class="form-group">
+            <div class="form-group" style="display:none">
  
                 <div class="col-xs-5">
                     <div class="input-daterange input-group" id="datepicker">
@@ -44,7 +44,7 @@
                 
     
             
-    <div class="ibox-title">
+    <div class="">
         <div class="btn-group">
             <button class="btn btn-primary" type="submit" id="This_Week" onclick="This_Week">本&nbsp;&nbsp;&nbsp;&nbsp;周</button>
             <button class="btn btn-primary" type="submit" id="Next_Week" onclick="Next_Week"  >下一周</button>
