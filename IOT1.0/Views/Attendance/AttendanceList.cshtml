@@ -758,7 +758,7 @@
                         if (!evalute) {
                             evalute = '';
                         }
-                        row += "<tr><td>" + ChangeDateFormat(value.CreateTime) + "</td><td  >" + value.JobTitle + "</td><td>" + value.JobContent + "</td>  <td> <a  target='blank' href='" + value.FileRoute + "'><i class='fa fa-edit'></i> 下载</a></td>  </tr>"
+                        row += "<tr><td>" + ChangeDateFormat(value.CreateTime) + "</td><td  >" + value.JobTitle + "</td><td>" + value.JobContent + "</td>  <td> <a  target='blank' href='" + value.FileRoute + "'><i class='fa fa-edit'></i> 下载</a>     <a href='javascript:DELETE("+value.ID+");' class='btn btn-primary btn-xs' type='button'><i class='fa fa-edit'></i> 删除</a> </td>   </tr>"
                         //<a  target="_blank" href="/Upload/AttendanceList/201707201530541035.doc"><i class="fa fa-edit"></i> 下载</a>
                     })
                     row = "<tbody>" + row + "</tbody>";
@@ -775,6 +775,30 @@
         });
     }
      
+
+    //点击列表的编辑按钮，编辑操作
+    function DELETE(id) {
+        if (confirm("你确定要删除？")) {
+
+             
+             var   action = '@Url.Action("DELETE", "Attendance")'; 
+              $.post(action, {
+                  "ID": id
+              }, function (json) {
+                  if (json.status == 200) {//成功 
+                      layer.msg(json.msg);//弹出服务器返回的消息
+                      setTimeout(function () {//操作 
+                          window.location.reload(); //刷新
+                      }, 3000);
+                  }
+              }, 'json');
+
+        }
+
+
+
+    }
+
 
 </script>
 @*弹出层，调课*@
