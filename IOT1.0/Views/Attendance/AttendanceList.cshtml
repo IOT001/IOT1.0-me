@@ -758,7 +758,7 @@
                         if (!evalute) {
                             evalute = '';
                         }
-                        row += "<tr><td>" + ChangeDateFormat(value.CreateTime) + "</td><td  >" + value.JobTitle + "</td><td>" + value.JobContent + "</td>  <td> <a  target='blank' href='" + value.FileRoute + "'><i class='fa fa-edit'></i> 下载</a>     <a href='javascript:DELETE("+value.ID+");' class='btn btn-primary btn-xs' type='button'><i class='fa fa-edit'></i> 删除</a> </td>   </tr>"
+                        row += "<tr><td>" + ChangeDateFormat(value.CreateTime) + "</td><td  >" + value.JobTitle + "</td><td>" + value.JobContent + "</td>  <td> <a  target='blank' href='" + value.FileRoute + "'><i class='fa fa-edit'></i> 下载</a>     <a href='javascript:DELETE(" + value.ID + ");' class='' type='button'><i class='fa fa-edit'></i> 删除</a> </td>   </tr>"
                         //<a  target="_blank" href="/Upload/AttendanceList/201707201530541035.doc"><i class="fa fa-edit"></i> 下载</a>
                     })
                     row = "<tbody>" + row + "</tbody>";
