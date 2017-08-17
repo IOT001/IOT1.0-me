@@ -1,4 +1,5 @@
-﻿<html>
+﻿<!DOCTYPE html>
+<html>
 <head>
     <title>@ViewBag.Title</title>
     <meta charset="utf-8">
@@ -11,7 +12,7 @@
     <link href="~/Scripts/assets/css/animate.css" rel="stylesheet" />
 
     <link href="~/Scripts/assets/css/style.css" rel="stylesheet" />
-    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Scripts/Mobile/content/css/common.css")" />
+    @*<link rel="stylesheet" type="text/css" href="@Url.Content("~/Scripts/Mobile/content/css/common.css")" />*@
     <script type="text/javascript" src="@Url.Content("~/Scripts/assets/js/jquery.min.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Scripts/Mobile/content/js/layer/layer.mobile.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Scripts/Mobile/content/js/resize.js")"></script>
@@ -114,6 +115,22 @@
     @RenderSection("style", false)
     <script type="text/javascript">
         var sharedata = { title: "", desc: "", link: "", imgUrl: "" };
+        //日期格式化
+        Date.prototype.Format = function (fmt) { //author: meizz 
+            var o = {
+                "M+": this.getMonth() + 1, //月份 
+                "d+": this.getDate(), //日 
+                "H+": this.getHours(), //小时 
+                "m+": this.getMinutes(), //分 
+                "s+": this.getSeconds(), //秒 
+                "q+": Math.floor((this.getMonth() + 3) / 3), //季度 
+                "S": this.getMilliseconds() //毫秒 
+            };
+            if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+            for (var k in o)
+                if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+            return fmt;
+        }
     </script>
 </head>
 <body class="gray-bg">
@@ -146,8 +163,7 @@
                 </ul>
             </div>
         </div>*@
-        @RenderSection("script", false)
-
+        @RenderSection("script", false) 
         <script src="~/Scripts/bootStrap/js/bootstrap.min.js"></script>
         <script src="~/Scripts/assets/js/content.js"></script>
         @RenderSection("wxscripts", false)

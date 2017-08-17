@@ -359,6 +359,10 @@
         }
 
         obj.MobilePhone = $("#mobilephone").val().trim();
+        if (!obj.MobilePhone) {
+            layer.msg("请输入手机号！");
+            return false;
+        }
         obj.EntryDate = $("#inDate").val().trim();
         obj.Email = $("#email").val().trim();
         obj.WeChat = $("#weixin").val().trim();
@@ -382,6 +386,9 @@
                     layer.closeAll();//关闭所有层
                     window.location.reload(); //刷新
                 }, 3000);
+            }
+            else {
+                layer.msg(json.msg);
             }
         }, 'json');
     }

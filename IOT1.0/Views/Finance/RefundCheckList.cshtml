@@ -94,7 +94,14 @@
                                         <td>@m.ApplyPrice</td>
                                         <td>@m.ApplyRemark</td>
                                         <td>@m.CheckPrice</td>
-                                        <td><a href="javascript:apply('@Newtonsoft.Json.JsonConvert.SerializeObject(m)')" class="btn btn-primary btn-xs" type="button"><i class="fa fa-edit"></i>审核</a></td>
+                                        @if (string.IsNullOrEmpty(m.AuditingID))//如果没审核
+                                        { 
+                                             <td><a href="javascript:apply('@Newtonsoft.Json.JsonConvert.SerializeObject(m)')" class="btn btn-primary btn-xs" type="button"><i class="fa fa-edit"></i>审核</a></td>
+                                        }
+                                       else
+                                       {
+                                             <td>--</td>
+                                        }
 
                                     </tr>
                                 }

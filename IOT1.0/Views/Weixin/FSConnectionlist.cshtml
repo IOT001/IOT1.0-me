@@ -19,43 +19,50 @@
 
         @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "frmQuery", @class = "form-horizontal" }))
         {
-            <div class="form-group">
-
-                <div class="col-xs-2">
-                    <label class="control-label">开始时间:</label>
-                </div>
-
-
-                <div class="col-xs-3">
+            <div class="form-group" style="display:none">
+ 
+                <div class="col-xs-5">
                     <div class="input-daterange input-group" id="datepicker">
-                        @Html.TextBoxFor(t => t.search.timeStart, new { @class = "input-sm form-control", @type = "text", @value = DateTime.Now })
+              
+                        @Html.TextBoxFor(t => t.search.timeStart, new { @class = "input-sm form-control",@value = DateTime.Now })
                     </div>
                 </div>
 
 
-                <div class="col-xs-2">
-                    <label class="control-label">结束时间:</label>
+                <div class="col-xs-5">
+                    @Html.TextBoxFor(t => t.search.timeEnd, new { @class = "input-sm form-control", @value = DateTime.Now })
+                 
                 </div>
 
-
-                <div class="col-xs-3">
-                    <div class="input-daterange input-group" id="datepicker1">
-                        @Html.TextBoxFor(t => t.search.timeEnd, new { @class = "input-sm form-control", @type = "text", @value = DateTime.Now })
-
-
-                    </div>
-                </div>
-            </div>
+ 
+            </div>@*
             <div class="form-group">
                 <div class="col-sm-10 project-actions">
                     <button type="submit" class="btn btn-w-m btn-primary btn-sm">查&nbsp;&nbsp;&nbsp;&nbsp;询</button>
                 </div>
-            </div>
-
+            </div>*@
+                
+    
+            
+    <div class="">
+        <div class="btn-group">
+            <button class="btn btn-primary" type="submit" id="This_Week" onclick="This_Week">本&nbsp;&nbsp;&nbsp;&nbsp;周</button>
+            <button class="btn btn-primary" type="submit" id="Next_Week" onclick="Next_Week"  >下一周</button>
+        </div>
+    </div>
+            
         }
 
 
     </div>
+
+@*    <div class="ibox-title">
+        <div class="btn-group">
+            <button class="btn btn-primary" type="submit" type="button">本&nbsp;&nbsp;&nbsp;&nbsp;周</button>
+            <button class="btn btn-primary" type="submit" type="button">下一周</button>
+        </div>
+    </div>*@
+
     <div id="mydiv"></div>
     <div class="ibox-content">
         <table class="table">
@@ -75,7 +82,7 @@
                     foreach (var m in Model.FSConnectionlist)
                     {
                         <tr>
-                            <td>@m.ClassDate</td>
+                            <td>@DateTime.Parse(@m.ClassDate + "").ToString("yyyy-MM-dd")</td>
                             <td>@m.weekday</td>
                             <td>@m.Name</td>
                             <td>@m.CourseName</td>
@@ -101,25 +108,100 @@
 
 <script type="text/javascript" >
     //$(function () {
-
+    //    var first = document.getElementById('first');
+    //    if (first.value == 1) {
+    //        first.value = 2;
     //    var now = new Date();
     //    var nowTime = now.getTime();
     //    var day = now.getDay();
     //    var oneDayLong = 24 * 60 * 60 * 1000;
+    //   // var date = new Date(now.getTime() - 7 * 24 * 3600 * 1000).Format("yyyy-MM-dd");
 
-
-    //    var MondayTime = new Date(nowTime - (day - 1) * oneDayLong).Format("yyyy-MM-dd");
-    //    var SundayTime = new Date(nowTime + (7 - day) * oneDayLong).Format("yyyy-MM-dd");
+    //    var MondayTime = new Date(nowTime - (day - 1) * oneDayLong);
+    //    var SundayTime = new Date(nowTime + (7 - day) * oneDayLong);
 
     //    var MondayTimeText = document.getElementById('MondayTime_Text');
-    //    MondayTimeText.innerText ="本周："+ MondayTime +"~";
+       
+
+    //    MondayTimeText.value = new Date(MondayTime.setDate(0)).Format("yyyy-MM-dd");
+       
     //    var SundayTimeText = document.getElementById('SundayTime_Text');
-    //    SundayTimeText.innerText = SundayTime;
+    //    SundayTimeText.value = new Date(SundayTime.setDate(6)).Format("yyyy-MM-dd");
+
+    //    //var now = new Date();
+    //    //var nowTime = now.getTime();
+    //    //var day = now.getDay();
+    //    //var oneDayTime = 24 * 60 * 60 * 1000;
+
+    //    ////显示周一
+    //    //var MondayTime = nowTime - (day - 1) * oneDayTime;
+
+    //    ////显示周日
+
+    //    //var SundayTime = nowTime + (7 - day) * oneDayTime;
+
+
+    //    ////初始化日期时间
+    //    //var monday = new Date(MondayTime).Format("yyyy-MM-dd");
+
+    //    //var sunday = new Date(SundayTime).Format("yyyy-MM-dd");
+
+    //    }
+
     //})
 
+    $('#This_Week').click(function This_Week() { 
+        var now = new Date();
+        var nowTime = now.getTime();
+        var day = now.getDay();
+        var oneDayLong = 24 * 60 * 60 * 1000;
+        // var date = new Date(now.getTime() - 7 * 24 * 3600 * 1000).Format("yyyy-MM-dd");
 
+        var MondayTime = new Date(nowTime - (day - 1) * oneDayLong);
+        var SundayTime = new Date(nowTime + (7 - day) * oneDayLong);
+
+        var MondayTimeText = document.getElementById('search_timeStart');
+
+
+        MondayTimeText.value = new Date(MondayTime.setDate(0)).Format("yyyy-MM-dd");
+
+        var SundayTimeText = document.getElementById('search_timeEnd');
+        SundayTimeText.value = new Date(SundayTime.setDate(6)).Format("yyyy-MM-dd");
+    })
+
+
+    $('#Next_Week').click(function Next_Week() {
+    
+        var oneDayLong = 24 * 60 * 60 * 1000;
+    var MondayTimeText = document.getElementById('search_timeStart');
+    var SundayTimeText = document.getElementById('search_timeEnd');
+    if (MondayTimeText.value == null || MondayTimeText.value == "") {
+        This_Week_1();
+    }
+    else {
+        MondayTimeText.value = new Date( new Date(MondayTimeText.value).getTime() + (oneDayLong*7 ) ).Format("yyyy-MM-dd");
+        SundayTimeText.value = new Date( new Date(SundayTimeText.value).getTime() + (oneDayLong * 7)).Format("yyyy-MM-dd");
+    }
+      
+    })
+    function This_Week_1() {
+        var now = new Date();
+        var nowTime = now.getTime();
+        var day = now.getDay();
+        var oneDayLong = 24 * 60 * 60 * 1000;
+        // var date = new Date(now.getTime() - 7 * 24 * 3600 * 1000).Format("yyyy-MM-dd");
+
+        var MondayTime = new Date(nowTime - (day - 1) * oneDayLong);
+        var SundayTime = new Date(nowTime + (7 - day) * oneDayLong);
+
+        var MondayTimeText = document.getElementById('search_timeStart');
+
+
+        MondayTimeText.value = new Date(MondayTime.setDate(0)).Format("yyyy-MM-dd");
+
+        var SundayTimeText = document.getElementById('search_timeEnd');
+        SundayTimeText.value = new Date(SundayTime.setDate(6)).Format("yyyy-MM-dd");
+    }
      
-
- 
 
 </script>

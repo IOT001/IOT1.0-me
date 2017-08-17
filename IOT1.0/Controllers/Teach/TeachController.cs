@@ -83,17 +83,31 @@ namespace IOT1._0.Controllers.Teach
             {
                 return Json(ajax);
             }
+            
             Teachers teacher = (Teachers)(JsonConvert.DeserializeObject(data.ToString(), typeof(Teachers)));
             SYSAccount sys = (SYSAccount)(JsonConvert.DeserializeObject(data.ToString(), typeof(SYSAccount)));
+            if (string.IsNullOrEmpty(teacher.MobilePhone))
+            {
+                ajax.msg = "请输入教师手机号！";
+                return Json(ajax);
+            }
+            TeacherSearchModel search = new TeacherSearchModel();
+            search.MobilePhone = teacher.MobilePhone;
+            int teas = TeacherData.GetTeachersList(search).Count();
+            if (teas > 0)//手机号重复了
+            {
+                ajax.msg = "手机号重复！";
+                return Json(ajax);
+            }
             RandomOperate operate = new RandomOperate();
 
             teacher.CreateTime = DateTime.Now;
             teacher.CreatorId = UserSession.userid;
             teacher.ID = operate.GenerateCheckCode(36);
 
-            
-            teacher.BindAccountID = operate.GenerateCheckCode(30);
-            sys.ACC_Account = teacher.BindAccountID;
+
+            teacher.BindAccountID = teacher.MobilePhone;
+            sys.ACC_Account = teacher.MobilePhone;//用手机号作为登陆账号
             sys.ACC_CreatedBy = UserSession.userid;
             sys.ACC_CreatedOn = DateTime.Now;
             sys.ACC_Password = operate.CreateMD5Hash("123");
@@ -154,10 +168,10 @@ namespace IOT1._0.Controllers.Teach
             {
                 if (!string.IsNullOrEmpty(TeacherData.AddSYS_SystemRole(sys)))//注意时间类型，而且需要在前台把所有的值
             {
-                ajax.msg = "新增成功！";
+                ajax.msg = "操作成功！";
                 ajax.status = EnumAjaxStatus.Success;
             } 
-            } 
+          } 
             return Json(ajax);
         }
 

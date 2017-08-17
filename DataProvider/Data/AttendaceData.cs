@@ -353,7 +353,26 @@ namespace DataProvider.Data
             parameters.Add("@ClassIndex", cls.ClassIndex); 
             return MsSqlMapperHepler.InsertUpdateOrDeleteSql(sb.ToString(), parameters, DBKeys.PRX);
         }
-         
+
+
+
+
+
+        /// <summary>
+        /// 根据ID删除上传作业 ClassListJob表
+        /// </summary>
+        /// <param name="ID"></param>
+        /// <returns></returns>
+        public static int DELETE_ClassListJob(String ID)
+        {
+
+            StringBuilder sb = new StringBuilder();
+            sb.Append(" delete  from ClassListJob ");
+            sb.Append(" where ID = @ID"); 
+            var parameters = new DynamicParameters();
+            parameters.Add("@ID", ID); 
+            return MsSqlMapperHepler.InsertUpdateOrDeleteSql(sb.ToString(), parameters, DBKeys.PRX);
+        }
 
 
 
