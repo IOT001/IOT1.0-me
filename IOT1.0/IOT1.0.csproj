@@ -162,6 +162,7 @@
     <Compile Include="Controllers\Enroll\FollowListController.cs" />
     <Compile Include="Controllers\Enroll\EnrollAuditController.cs" />
     <Compile Include="Controllers\Enroll\EnrollController.cs" />
+    <Compile Include="Controllers\Enroll\ImportController.cs" />
     <Compile Include="Controllers\Finance\DailyReportController.cs" />
     <Compile Include="Controllers\Finance\RefundCheckController.cs" />
     <Compile Include="Controllers\WeiXin\IndexController.cs" />
@@ -4795,6 +4796,7 @@
     <Content Include="Views\Enroll\EnrollManageList.cshtml" />
     <Content Include="Views\Finance\RefundCheckList.cshtml" />
     <Content Include="Views\Weixin\UserCenter.cshtml" />
+    <Content Include="Views\Enroll\Import.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

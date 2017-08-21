@@ -107,6 +107,11 @@ namespace DataProvider.Entities
         /// 状态名称
         /// </summary>
         public string StateName { get; set; }
+        /// <summary>
+        /// 所属分校,1舜浦，2吾悦
+        /// </summary>
+        public string ComCode { get; set; }
+       
     }
    /// <summary>
    /// Deploy：实体对象映射关系
