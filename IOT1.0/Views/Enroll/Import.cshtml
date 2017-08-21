@@ -1,0 +1,82 @@
+﻿@using DataProvider.Models
+@using DataProvider.Paging
+@{
+    ViewBag.Title = "导入";
+}
+
+ 
+             <input type="file"     id="uploadFile" />
+            <button type="button"  class=" btn btn-primary" onclick="UploadPic()">&nbsp&nbsp上&nbsp&nbsp传&nbsp&nbsp</button>
+
+
+<script type="text/javascript">
+
+    //上传文件
+    function UploadPic() {
+        var extensionName = /.xlsx|.xls/;
+        var file = $("#uploadFile")[0].files[0];
+
+        if (!file) {
+            layer.msg("未找到相关文件！");
+            return false;
+        }
+
+        ////如果文件大于5M
+        //if (file.size > 1048576 * 5) {
+        //    layer.msg("您上传的文件太大了，最多允许5MB，请重新选择文件！");
+        //    return false;
+        //}
+
+        if (extensionName.test(file.name)) {
+            if (window.FileReader) {
+                var reader = new FileReader();
+                reader.onload = function (evt) {
+                    if (evt.target.readyState === FileReader.DONE) {
+                        var offset = evt.target.result.indexOf(";base64,");
+                        //var fileTemp = null;
+                        //if (offset > 0) {
+                        //    //前八个字节是数据流的头所以要去除。
+                        //    fileTemp = evt.target.result.substr(offset + 8);
+                        //}
+                        //取得文件的扩展名
+                        var fileExt = file.name.replace(/.+\./, "");
+                        //将分离出来的二进制文件流放到参数里
+
+                        var filename = file.name;
+
+                        var obj = new Object;
+                        obj.filename = filename;
+                        obj.fileExt = fileExt;
+
+                        var action = '@Url.Action("Upload", "Enroll")'
+                        $.post(action, {
+                            "data": JSON.stringify(obj)//序列化对象
+                        }, function (json) {
+                            if (json.status == 200) {//成功
+                                 
+                                layer.msg(json.msg);//弹出服务器返回的消息 
+                            }
+                        }, 'json');
+
+
+
+                    }
+                }
+               
+                reader.onerror = function () {
+                    layer.msg("文件读取时发生错误！");
+                    return false;
+                }
+                reader.readAsDataURL(file);    // 将文件读取成一段以 data:开头的字符串
+            }
+        }
+        else {
+            layer.msg("只支持xlsx,xls类型的文件上传，请重新选择文件！");
+            return false;
+        }
+
+
+
+    }
+
+</script>
