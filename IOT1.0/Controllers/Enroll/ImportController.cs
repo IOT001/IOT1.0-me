@@ -9,9 +9,13 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.OleDb;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+
+
+
 
 namespace IOT1._0.Controllers.Enroll
 {
@@ -41,13 +45,18 @@ namespace IOT1._0.Controllers.Enroll
                 return Json(ajax);
             }
              JObject jsonObj = JObject.Parse(data);
-             var filename = jsonObj["filename"].ToString();
+             var fileTemp = jsonObj["fileTemp"].ToString();
            
 
              var fileExt = jsonObj["fileExt"].ToString();
-             DataTable dt = GetData(filename, fileExt).Tables[0];
-            
 
+
+             string path =Picture.DPSaveOrderFile(string.Format("报名数据表{0}.xls", string.Format("{0:yyyyMMddHHmmssffff}", DateTime.Now)), "Execl", fileTemp);
+
+
+
+
+             DataTable dt = Picture.GetData(path, fileExt).Tables[0]; 
              string ApName = dt.Columns["学员姓名"].ToString(); 
              if (string.IsNullOrEmpty(ApName))
              {
@@ -104,52 +113,10 @@ namespace IOT1._0.Controllers.Enroll
 
         }
 
-        public DataSet GetData(string path, string fileSuffix)
-        {
+       
 
 
-            if (string.IsNullOrEmpty(fileSuffix))
 
-                return null;
-
-
-            using (DataSet ds = new DataSet())
-            {
-
-                //判断Excel文件是2003版本还是2007版本
-
-                string connString = "";
-
-                if (fileSuffix == ".xls")
-
-                    connString = "Provider=Microsoft.Jet.OLEDB.4.0;" + "Data Source=" + path + ";" + ";Extended Properties=\"Excel 8.0;HDR=YES;IMEX=1\"";
-
-                else
-
-                    connString = "Provider=Microsoft.ACE.OLEDB.12.0;" + "Data Source=" + path + ";" + ";Extended Properties=\"Excel 12.0;HDR=YES;IMEX=1\"";
-
-                //读取文件
-
-                string sql_select = " SELECT * FROM [Sheet1$]";
-
-                using (OleDbConnection conn = new OleDbConnection(connString))
-
-                using (OleDbDataAdapter cmd = new OleDbDataAdapter(sql_select, conn))
-                {
-
-                    conn.Open();
-
-                    cmd.Fill(ds);
-
-                }
-
-                if (ds == null || ds.Tables.Count <= 0) return null;
-
-                return ds;
-
-            }
-
-        }
 
 
 
