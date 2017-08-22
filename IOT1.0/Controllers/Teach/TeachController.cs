@@ -36,6 +36,12 @@ namespace IOT1._0.Controllers.Teach
             model.buttonIL = CommonData.Instance.GetBropDownListData(ButtonIL);
 
 
+
+            //分校下拉项
+            List<CommonEntity> ComCodeIL = CommonData.Get_SYS_Company_List();//分校
+            model.ComCodeIL = CommonData.Instance.GetBropDownListData(ComCodeIL);
+
+
             //多沟选框
             List<DataProvider.Data.CommonData.SYS_Role> SourceIL = CommonData.GetSYS_SystemRoleList(3);
             ViewData["SYS_Role"] = SourceIL;

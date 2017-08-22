@@ -25,7 +25,13 @@ namespace DataProvider.Models
         /// <summary>
         /// 按钮下拉框，演示用
         /// </summary>
-        public List<SelectListItem> buttonIL { get; set; } 
+        public List<SelectListItem> buttonIL { get; set; }
+
+        /// <summary>
+        /// 分校下拉框
+        /// </summary>
+        public List<SelectListItem> ComCodeIL { get; set; } 
+
     }
     public class TeacherSearchModel : CommonPageEntity
     {
@@ -42,7 +48,10 @@ namespace DataProvider.Models
         /// </summary>
         public string MobilePhone { set; get; }
 
-
+        /// <summary>
+        /// 分校下拉框的选中值
+        /// </summary>
+        public string ComCode { set; get; }
         
     }
 }

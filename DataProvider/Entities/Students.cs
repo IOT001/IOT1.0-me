@@ -36,7 +36,7 @@ namespace DataProvider
         public Nullable<System.DateTime> DeleteTime { get; set; }
         public string BindAccount { get; set; }
         public string Picurl { get; set; }
-        
+        public string ComCode { get; set; }
 
     }
 }

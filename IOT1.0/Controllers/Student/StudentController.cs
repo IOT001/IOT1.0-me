@@ -34,6 +34,12 @@ namespace IOT1._0.Controllers.Teach
             List<CommonEntity> SourceIL = CommonData.GetDictionaryList(2);//1是字典类型值,仅供测试参考
             model.SourceIL = CommonData.Instance.GetBropDownListData(SourceIL);
 
+
+            //分校下拉项
+            List<CommonEntity> ComCodeIL = CommonData.Get_SYS_Company_List();//分校
+            model.ComCodeIL = CommonData.Instance.GetBropDownListData(ComCodeIL);
+
+
             model.Studentlist = StudentData.GetStudentList(search);//填充页面模型数据
             return View(model);//返回页面模型
 
