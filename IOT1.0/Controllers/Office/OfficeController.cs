@@ -11,7 +11,7 @@ using System.Web.Mvc;
 
 namespace IOT1._0.Controllers.Office
 {
-    public class OfficeController : Controller
+    public partial class OfficeController : Controller
     {
 
         /// <summary>
