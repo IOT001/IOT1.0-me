@@ -10,7 +10,7 @@ using System.Web.Mvc;
 
 namespace DataProvider.Models
 {
-    public class MessageListViewModel
+    public class FileManageListViewModel
     {
 
 
@@ -18,11 +18,11 @@ namespace DataProvider.Models
         /// <summary>
         /// 页面查询模型
         /// </summary>
-        public MessageListSearchModel search = new MessageListSearchModel();
+        public FileManageListSearchModel search = new FileManageListSearchModel();
         /// <summary>
         /// 页面的列表数据
         /// </summary>
-        public PagedList<Message> Messagelist { get; set; }
+        public PagedList<Files> Fileslist { get; set; }
  
           /// <summary>
         /// 多选框的数据源
@@ -34,14 +34,17 @@ namespace DataProvider.Models
     /// <summary>
     /// 按钮查询模型对象
     /// </summary>
-    public class MessageListSearchModel : CommonPageEntity
+    public class FileManageListSearchModel : CommonPageEntity
     {
         /// <summary>
-        ///留言标题
+        ///文件名称
         /// </summary>
-        public string Title { set; get; }
+        public string FileName { set; get; }
 
-       
+        /// <summary>
+        ///文件标题
+        /// </summary>
+        public string FileTitle { set; get; }
 
     }
 

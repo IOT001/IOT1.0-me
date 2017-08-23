@@ -131,6 +131,7 @@
     <Compile Include="Data\FollowListData.cs" />
     <Compile Include="Data\EnrollManageListData.cs" />
     <Compile Include="Data\RefundCheckData.cs" />
+    <Compile Include="Data\FileManageListData.cs" />
     <Compile Include="DPBase.cs" />
     <Compile Include="Entities\Appointment.cs" />
     <Compile Include="Entities\AttendanceRecord.cs" />
@@ -141,6 +142,7 @@
     <Compile Include="Entities\DictionaryItem.cs" />
     <Compile Include="Entities\Discount.cs" />
     <Compile Include="Entities\Enroll.cs" />
+    <Compile Include="Entities\Files.cs" />
     <Compile Include="Entities\FollowRecord.cs" />
     <Compile Include="Entities\Message.cs" />
     <Compile Include="Entities\Refund.cs" />
@@ -184,7 +186,7 @@
     <Compile Include="Models\ClassesListViewModel.cs" />
     <Compile Include="Entities\vw_ClassAttendanceList.cs" />
     <Compile Include="Models\DiscountListViewModel.cs" />
-    <Compile Include="Models\MessageListViewModel.cs" />
+    <Compile Include="Models\FileManageListViewMode.cs" />
     <Compile Include="Models\StudentScheduleListViewModel.cs" />
     <Compile Include="Models\WXIndexViewModel.cs" />
     <Compile Include="Models\WX_PaymentListModel.cs" />
@@ -193,6 +195,7 @@
     <Compile Include="Models\DailyReportListViewModel.cs" />
     <Compile Include="Models\FollowListListViewModel.cs" />
     <Compile Include="Models\RefundCheckListModel.cs" />
+    <Compile Include="Models\MessageListViewModel.cs" />
     <Compile Include="NERP.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

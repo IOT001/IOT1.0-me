@@ -4810,6 +4810,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Scripts\jQgrid\" />
     <Folder Include="Upload\Execl\" />
+    <Folder Include="Upload\Files\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
