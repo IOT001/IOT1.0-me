@@ -25,7 +25,14 @@ namespace DataProvider.Models
         /// <summary>
         ///下拉框  
         /// </summary>
-        public List<SelectListItem> SourceIL { get; set; } 
+        public List<SelectListItem> SourceIL { get; set; }
+
+
+
+        /// <summary>
+        /// 分校下拉框
+        /// </summary>
+        public List<SelectListItem> ComCodeIL { get; set; } 
 
     }
 
@@ -60,7 +67,10 @@ namespace DataProvider.Models
         /// </summary>
         public int DicItemID { set; get; }
 
-
+        /// <summary>
+        /// 分校下拉框的选中值
+        /// </summary>
+        public string ComCode { set; get; }
     }
 
 }

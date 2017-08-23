@@ -1,6 +1,8 @@
 ﻿using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.OleDb;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -228,6 +230,101 @@ namespace DataProvider.Data
                 System.IO.Directory.CreateDirectory(path);
             }
         }
+
+
+
+
+
+
+
+        
+        /// <summary>
+        /// 保存文件，获取路径
+        /// </summary>
+        /// <param name="file"></param>
+        /// <returns></returns>
+        public static string DPSaveOrderFile(string fileName, string category, string fileContent)
+        {
+            string path = string.Empty;
+            try
+            {
+                string strDomainAppPath = HttpRuntime.AppDomainAppPath;
+                path = strDomainAppPath.Substring(0, strDomainAppPath.LastIndexOf("\\")) + "\\Upload\\" + category + "\\" + fileName;
+
+                if (File.Exists(path))
+                {
+                    string dictName = Path.GetDirectoryName(path);
+                    string pureName = Path.GetFileNameWithoutExtension(path);
+                    string extName = Path.GetExtension(path);
+                    File.Move(path, dictName + "\\" + pureName + "_" + String.Format("{0:yyyyMMddHHmmssffff}", DateTime.Now) + extName);
+                }
+
+                using (FileStream fs = new FileStream(path, FileMode.CreateNew))
+                {
+                    Byte[] bData = Convert.FromBase64String(fileContent);
+                    BinaryWriter bw = new BinaryWriter(fs);
+                    bw.Write(bData);
+                    bw.Flush();
+                    bw.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw (new Exception(path));
+                //ErrorMessage.ErrorMess(ex.Message);
+            }
+
+            return path;
+        }
+
+
+        public static DataSet GetData(string path, string fileSuffix)
+        {
+
+
+            if (string.IsNullOrEmpty(fileSuffix))
+
+                return null;
+
+
+            using (DataSet ds = new DataSet())
+            {
+
+                //判断Excel文件是2003版本还是2007版本
+
+                string connString = "";
+
+                if (fileSuffix == ".xls")
+
+                    connString = "Provider=Microsoft.Jet.OLEDB.4.0;" + "Data Source=" + path + ";" + ";Extended Properties=\"Excel 8.0;HDR=YES;IMEX=1\"";
+
+                else
+
+                    connString = "Provider=Microsoft.ACE.OLEDB.12.0;" + "Data Source=" + path + ";" + ";Extended Properties=\"Excel 12.0;HDR=YES;IMEX=1\"";
+
+                //读取文件
+
+                string sql_select = " SELECT * FROM [Sheet1$]";
+
+                using (OleDbConnection conn = new OleDbConnection(connString))
+
+                using (OleDbDataAdapter cmd = new OleDbDataAdapter(sql_select, conn))
+                {
+
+                    conn.Open();
+
+                    cmd.Fill(ds);
+
+                }
+
+                if (ds == null || ds.Tables.Count <= 0) return null;
+
+                return ds;
+
+            }
+
+        }
+
 
 
     }

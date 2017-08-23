@@ -107,6 +107,7 @@ namespace DataProvider.Data
             btnto.Remark = btn.Remark;
             btnto.Email = btn.Email;
             btnto.ContactAddress = btn.ContactAddress;
+            btnto.ComCode = btn.ComCode;
             //Cloner<Teachers, Teachers>.CopyTo(btn, btnto);//代码克隆，把前台或者的值也就是变更内容复制到目标对象，不做变更的数据不变
             return MsSqlMapperHepler.Update(btnto, DBKeys.PRX);
         }

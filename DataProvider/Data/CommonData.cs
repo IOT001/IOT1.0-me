@@ -105,6 +105,30 @@ namespace DataProvider.Data
 
 
 
+        #region 获取分校
+
+        /// <summary>
+        /// 获取字典列表
+        /// </summary>
+        /// <param name="dicTypeID"></param>
+        /// <returns>用于分校下拉的绑定项目</returns>
+        public static List<CommonEntity> Get_SYS_Company_List()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append(" select COMP_Code as ID,COMP_Name as name from SYS_Company ");
+            sb.Append(" WHERE 1 = @StateID");
+            var parameters = new DynamicParameters();
+            var StateID = 1;
+            parameters.Add("@StateID", StateID);
+            return MsSqlMapperHepler.SqlWithParams<CommonEntity>(sb.ToString(), parameters, DBKeys.PRX);
+
+        }
+        #endregion
+
+
+
+
+
         //<summary>
         //获取dictionaryItem行数
         //</summary>

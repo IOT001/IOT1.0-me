@@ -289,6 +289,7 @@
                     $("#weixin").val(json.data.WeChat);
                     $("#card_no").val(json.data.IDNumber);
                     $("#address").val(json.data.ContactAddress);
+                    $("#ComCode").val(json.data.ComCode);//所属分校
 
                     if (json.data.EntryDate != null) {
                         var date = ChangeDateFormat(json.data.EntryDate)
@@ -369,6 +370,13 @@
         obj.IDNumber = $("#card_no").val().trim();
         obj.ContactAddress = $("#address").val().trim();
         obj.LeaveDate = $("#outDate").val().trim();
+        obj.ComCode = $("#ComCode").val().trim();
+        
+        if (!obj.ComCode) {
+            layer.msg("请选择所属分校！");
+            return false;
+        }
+
         obj.Remark = $("#remark").val().trim();
 
         var action = '';
@@ -474,7 +482,7 @@
             <div class="form-group ">
                 <label class="col-sm-3 control-label">联系电话：</label>
                 <div class="col-sm-8">
-                    <input type="number" placeholder="联系电话" class="form-control input-sm" id="mobilephone">
+                    <input type="text" placeholder="联系电话" class="form-control input-sm" id="mobilephone">
                 </div>
             </div>
 
@@ -531,6 +539,17 @@
                     </div>
                 </div>
             </div>
+
+
+                <div class="form-group ">
+                <label class="col-sm-3 control-label ">所属分校 ：</label>
+                <div class="col-sm-8">
+                     @Html.DropDownListFor(t => t.search.ComCode, Model.ComCodeIL, new { @class = "form-control input-sm chosen-select", @style = "width:100%;height:100%;", @tabindex = "4" ,id="ComCode"})
+
+                </div>
+            </div>
+
+             
 
             <div class="form-group ">
                 <label class="col-xs-3 control-label">备注：</label>

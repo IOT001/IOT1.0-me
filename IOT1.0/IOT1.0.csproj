@@ -162,8 +162,10 @@
     <Compile Include="Controllers\Enroll\FollowListController.cs" />
     <Compile Include="Controllers\Enroll\EnrollAuditController.cs" />
     <Compile Include="Controllers\Enroll\EnrollController.cs" />
+    <Compile Include="Controllers\Enroll\ImportController.cs" />
     <Compile Include="Controllers\Finance\DailyReportController.cs" />
     <Compile Include="Controllers\Finance\RefundCheckController.cs" />
+    <Compile Include="Controllers\Office\FileManageController.cs" />
     <Compile Include="Controllers\WeiXin\IndexController.cs" />
     <Compile Include="Controllers\WeiXin\MessageListController.cs" />
     <Compile Include="Controllers\WeiXin\PaymentListController.cs" />
@@ -4795,6 +4797,8 @@
     <Content Include="Views\Enroll\EnrollManageList.cshtml" />
     <Content Include="Views\Finance\RefundCheckList.cshtml" />
     <Content Include="Views\Weixin\UserCenter.cshtml" />
+    <Content Include="Views\Enroll\Import.cshtml" />
+    <Content Include="Views\Office\FileManageList.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -4805,7 +4809,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Scripts\jQgrid\" />
-    <Folder Include="Upload\" />
+    <Folder Include="Upload\Execl\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

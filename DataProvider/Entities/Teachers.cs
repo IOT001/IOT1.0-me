@@ -123,8 +123,16 @@ namespace DataProvider.Entities
         {
             get; 
             set; 
-        }        
-		   
+        }
+
+        /// <summary>
+        /// 分校，对应SYS_Company
+        /// </summary>
+        public string ComCode
+        {
+            get;
+            set;
+        } 
 	}
 
     /// <summary>
