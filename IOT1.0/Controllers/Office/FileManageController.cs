@@ -29,6 +29,10 @@ namespace IOT1._0.Controllers.Office
             List<DataProvider.Data.CommonData.SYS_Role> SourceIL = CommonData.GetSYS_SystemRoleList(3);
             ViewData["SYS_Role"] = SourceIL;
 
+            List<string> roles = UserSession.roles;//取账号角色
+            search.isnull = roles;
+
+             
             model.Fileslist = FileManageListData.GetFileseList(search);//填充页面模型数据
             return View(model);//返回页面模型
         }
@@ -37,7 +41,7 @@ namespace IOT1._0.Controllers.Office
 
 
         /// <summary>
-        /// 新增留言
+        /// 新增文件
         /// </summary>
         /// <returns></returns>
         public JsonResult AddFiles()
@@ -52,17 +56,39 @@ namespace IOT1._0.Controllers.Office
             {
                 return Json(ajax);
             }
+
+
+
+            List<string> roles = UserSession.roles;//取账号角色
+            //判断是否添加了管理员和校长权限。添加了才可以新增
+            int isnull = 0;
+            for (int i = 0; i < roles.Count; i++)
+            {
+                if (roles[i] == "1" || roles[i] == "4")
+                {
+                    isnull = 1;
+                }
+            }
+            if (isnull != 1)
+            {
+                ajax.status = EnumAjaxStatus.Success;
+                ajax.msg = "不是管理员权限,不能上传文件！";
+                return Json(ajax);
+            }
+
+
+
             Files files = (Files)(JsonConvert.DeserializeObject(data.ToString(), typeof(Files)));
-            if (!string.IsNullOrWhiteSpace(files.ToRoles))
+            if (!string.IsNullOrWhiteSpace(files.ToRoles))//判断是否是空值
             {
 
-                var ToRolese = files.ToRoles.TrimEnd(',');
-                string[] ToRoles = ToRolese.Split(',');
+                var ToRolese = files.ToRoles.TrimEnd(',');//因为获取的值最后有一个，所以最后的，去掉
+                string[] ToRoles = ToRolese.Split(',');//根据,号分割
                 string ROLE_Names = "";
                 foreach (var item in ToRoles)
                 {
                     //多沟选框获取中文信息
-                    var SourceIL = CommonData.GetSYS_SystemRoleList_ROLE_Id(int.Parse(item));
+                    var SourceIL = CommonData.GetSYS_SystemRoleList_ROLE_Id(int.Parse(item));//根据ID获取中文名称
                     ROLE_Names += SourceIL[0] + ",";
                 }
                 var ROLE_Name = ROLE_Names.TrimEnd(',');//去除最后的一个逗号
@@ -76,11 +102,14 @@ namespace IOT1._0.Controllers.Office
             JObject jsonObj = JObject.Parse(Files);
             var fileTemp = jsonObj["fileTemp"].ToString(); //文件内容
             var FileName = jsonObj["FileName"].ToString(); //文件名称
-            var fileExt = jsonObj["fileExt"].ToString();//文件后缀
+          //  var fileExt = jsonObj["fileExt"].ToString();//文件后缀
+
+            string FileName_Format = string.Format("{0:yyyyMMddHHmmssffff}", DateTime.Now) + FileName;
+
+            Picture.DPSaveOrderFile(FileName_Format, "Files", fileTemp);
 
 
-            Picture.DPSaveOrderFile(string.Format(FileName + "{0}.xls", string.Format("{0:yyyyMMddHHmmssffff}", DateTime.Now)), "Files", fileTemp);
-
+            files.FileName = FileName_Format;
             if (FileManageListData.AddFiles(files) > 0)//注意时间类型，而且需要在前台把所有的值
             {
                 ajax.msg = "新增成功！";

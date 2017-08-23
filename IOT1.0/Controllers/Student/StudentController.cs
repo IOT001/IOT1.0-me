@@ -136,12 +136,14 @@ namespace IOT1._0.Controllers.Teach
                 if (!string.IsNullOrEmpty(studid))//之前已经存在学员，则做绑定操作
                 {
                     StudentData.BindStudentforAP(studid, apid);
+                    ajax.status = EnumAjaxStatus.Success;
                     ajax.msg = "已成功绑定到学员！";
                     return Json(ajax);
                 }
             }
             if (!string.IsNullOrEmpty(studid))
             {
+                ajax.status = EnumAjaxStatus.Success;
                 ajax.msg = "手机号码已存在，不能重复使用！";
                 return Json(ajax);
             }

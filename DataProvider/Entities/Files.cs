@@ -58,7 +58,7 @@ namespace DataProvider.Entities
             
             get
             {
-                string route = ConfigurationManager.AppSettings["ClassJobPath"].ToString() + FileName;
+                string route = ConfigurationManager.AppSettings["FilePath"].ToString() + FileName;
                 return route;
             }
             set { FileRoute = value; }

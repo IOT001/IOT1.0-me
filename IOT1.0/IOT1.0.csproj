@@ -4808,6 +4808,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="obj\" />
     <Folder Include="Scripts\jQgrid\" />
     <Folder Include="Upload\Execl\" />
     <Folder Include="Upload\Files\" />

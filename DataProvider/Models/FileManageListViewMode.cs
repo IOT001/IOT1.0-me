@@ -46,6 +46,11 @@ namespace DataProvider.Models
         /// </summary>
         public string FileTitle { set; get; }
 
+         /// <summary>
+        ///判断这个角色的权限
+        /// </summary>
+        public List<string> isnull { set; get; }
+        
     }
 
 }

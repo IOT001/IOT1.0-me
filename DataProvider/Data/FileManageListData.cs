@@ -13,7 +13,7 @@ namespace DataProvider.Data
     public class FileManageListData
     {
         /// <summary>
-        /// 分页优惠表列表
+        /// 查询文件管理
         /// </summary>
         /// <param name="search"></param>
         /// <returns></returns>
@@ -26,7 +26,42 @@ namespace DataProvider.Data
             StringBuilder sb = new StringBuilder();//构建where条件
             sb.Append(" 1=1 ");
             if (!string.IsNullOrWhiteSpace(search.FileName))//名称
-                sb.AppendFormat(" and FileName like '%{0}%' ", search.FileName); 
+                sb.AppendFormat(" and FileName like '%{0}%' ", search.FileName);
+            if (!string.IsNullOrWhiteSpace(search.FileTitle))//名称
+                sb.AppendFormat(" and FileTitle like '%{0}%' ", search.FileTitle);
+
+
+            //判断是否添加了管理员和校长权限，添加了就不查询全部
+            int isnull=0;
+            for (int i = 0; i < search.isnull.Count; i++)
+            {
+                if (search.isnull[i] == "1" || search.isnull[i] == "4")
+                {
+                    isnull = 1;
+                }
+            }
+            if (search.isnull.Count==0)
+            {
+                 isnull = 2;
+            }
+            //根据获取的角色来判断是否是管理员和校长，不是就按角色本身来查询
+            if (isnull != 1)
+            { 
+              for (int i = 0; i < search.isnull.Count; i++)
+            {
+                if (search.isnull[i] != "1" || search.isnull[i] != "4")
+                {
+                    sb.AppendFormat(" and ToRoles like '%{0}%' ", search.isnull[i]);  
+                }
+            }
+            }
+            
+            if(isnull == 2)
+            {
+                sb.AppendFormat(" and 1<>1 ");  
+            }
+  
+
             where = sb.ToString();
             int allcount = 0;
             var list = CommonPage<Files>.GetPageList(

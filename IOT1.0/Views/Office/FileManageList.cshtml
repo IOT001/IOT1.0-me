@@ -58,7 +58,7 @@
                                 <th>文件名称</th>
                                 <th>备注</th>
                                 <th>相关部门</th>
-                              @*  <th>操作</th>*@
+                                <th>操作</th> 
                             </tr>
                         </thead>
                         <!-- 循环数据 -->
@@ -74,6 +74,9 @@
                                         <td>@m.FileName</td>
                                         <td>@m.Remark</td> 
                                         <td>@m.ToRolesName</td>
+                                            <td>
+                                    <a  target="blank" href="@m.FileRoute "><i class="fa fa-edit"></i> 下载</a> 
+                                            </td>
                                   @*      <td>
                                             <a href="javascript:modify(@m.id);" class="btn btn-primary btn-xs" type="button"><i class="fa fa-edit"></i> 编辑</a>
 
@@ -83,7 +86,7 @@
                             }
                             else
                             {
-                                <tr><td colspan="5" style="text-align:center; color:red;">未查询到数据,请更换查询条件试试!</td></tr>
+                                <tr><td colspan="6" style="text-align:center; color:red;">未查询到数据,请更换查询条件试试!</td></tr>
                             }
                         </tbody>
                     </table>
@@ -117,18 +120,14 @@
     <div class="ibox-content">
         <form class="form-horizontal">
 
-
-  @*     <div class="col-xs-3">
-         <h3>请选择要上传的路径：</h3> 
-         <div class="input-group">
-              <span class="input-group-btn">
-                  <input class="form-control" type="text" id ="textPath"   />
-                  <button type="button" class="btn btn-default" onclick="OpenUploadWindow()">选择文件</button>
-                   
-              </span>
-         </div>         
-         <input id="uploadFile" type="file" class="hidden"   />
-    </div>*@
+ 
+            
+            <div class="form-group ">
+                <label class="col-sm-3 control-label">文件标题：</label>
+                <div class="col-sm-8">
+                    <input type="text" placeholder="请输入文件标题" class="form-control input-sm" id="FileTitle">
+                </div>
+            </div>
 
                 <div class="form-group ">
                 <label class="col-sm-3 control-label">请选择要上传的路径：</label>
@@ -141,12 +140,6 @@
                      <input id="uploadFile" type="file" class="hidden"   />
             </div>
 
-            <div class="form-group ">
-                <label class="col-sm-3 control-label">文件标题：</label>
-                <div class="col-sm-8">
-                    <input type="text" placeholder="请输入文件标题" class="form-control input-sm" id="Title">
-                </div>
-            </div>
 
             <div class="form-group ">
                 <label class="col-sm-3 control-label">备注：</label>
@@ -221,9 +214,22 @@
     function save(id) {
 
 
+        var obj = new Object;
+        if (id) {//有ID就是修改模式，没有就是新增模式
+            obj.id = id;
+        }
+        obj.FileTitle = $("#FileTitle").val().trim();
+        if (!obj.FileTitle) {
+            layer.msg("请输入文件标题！");
+            return false;
+        }
+
+        obj.Remark = $("#Remark").val().trim();
 
 
-        if (extensionName.test(file.name)) {
+
+        var file = $("#uploadFile")[0].files[0];
+        
             if (window.FileReader) {
                 var reader = new FileReader();
                 reader.onload = function (evt) {
@@ -231,15 +237,6 @@
 
  
 
-                        var obj = new Object;
-                        if (id) {//有ID就是修改模式，没有就是新增模式
-                            obj.id = id;
-                        }
-                        obj.FileTitle = $("#FileTitle").val().trim();
-                        if (!obj.FileTitle) {
-                            layer.msg("请输入文件标题！");
-                            return false;
-                        }
 
 
 
@@ -265,14 +262,14 @@
                             fileTemp = evt.target.result.substr(offset + 8);
                         }
                         //取得文件的扩展名
-                        var fileExt = file.name.replace(/.+\./, "");
+                       // var fileExt = file.name.replace(/.+\./, "");
                         //将分离出来的二进制文件流放到参数里
 
                         var FileName = file.name;
 
                         var Files = new Object;
                         Files.fileTemp = fileTemp;
-                        Files.fileExt = fileExt;
+                       // Files.fileExt = fileExt;
                         Files.FileName = FileName;
 
 
@@ -304,11 +301,8 @@
                 }
                 reader.readAsDataURL(file);    // 将文件读取成一段以 data:开头的字符串
             }
-        }
-        else {
-            layer.msg("只支持xlsx,xls类型的文件上传，请重新选择文件！");
-            return false;
-        }
+       
+       
 
 
     }
