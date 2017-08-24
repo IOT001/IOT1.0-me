@@ -668,6 +668,22 @@
     }
 
 
+
+
+
+    function OpenUploadWindow() {
+        $("#uploadFile").click().change(
+            function () {
+                var file = document.getElementById("uploadFile").value;
+                $("#Picurl").val(file);
+                document.getElementById("Picurl").value = file;
+            }
+            );
+
+    }
+
+
+
     //上传文件
     function UploadPic() {
         //var extensionName = /.JPG|.JPEG|.jpg|.png|.gif|.jpeg/;
@@ -989,9 +1005,16 @@
             <div class="form-group">
                 <label class="col-sm-3 control-label">文件上传：</label>
                 <div class="col-sm-8">
-                    <input class="form-control" type="text" id="Picurl" />
+                @*    <input class="form-control" type="text" id="Picurl" />
                     <input type="file" id="uploadFile" />
-                    <button type="button" class=" btn btn-primary" onclick="UploadPic()">&nbsp&nbsp上&nbsp&nbsp传&nbsp&nbsp</button>
+                    <button type="button" class=" btn btn-primary" onclick="UploadPic()">&nbsp&nbsp上&nbsp&nbsp传&nbsp&nbsp</button>*@
+
+
+                         <input class="form-control" type="text" id ="Picurl"   />
+                  <button type="button" class="btn btn-w-m btn-primary " onclick="OpenUploadWindow()">选择文件</button>
+                  <button onclick="UploadPic()" class="btn btn-primary" type="button">上传</button>
+             
+                     <input id="uploadFile" type="file" class="hidden"   />
 
                 </div>
             </div>
