@@ -8,24 +8,11 @@
     <!-- CSS -->
     <link rel="stylesheet" href="CSS/mobile_reset.css">
     <link rel="stylesheet" href="CSS/mobile_supersized.css">
-    <!--     <link rel="stylesheet" href="CSS/mobile_style.css">-->
     <link href="Scripts/bootStrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="Scripts/assets/css/style.css" rel="stylesheet" />
+    <link href="Scripts/assets/css/login.css" rel="stylesheet" />
     <style>
-        #supersized li {
-            top: 80px;
-            bottom: 80px;
-            height: auto;
-        }
 
-        .page-container {
-            position: relative;
-            width: 400px;
-            margin: 180px 50px 0 auto;
-            text-align: center;
-            background-color: rgba(255, 255, 255, 0.5);
-            padding: 30px 50px 50px 50px;
-            border-radius:10px;
-        }
     </style>
     <!-- Javascript -->
     <script src="Scripts/jquery-1.9.1.min.js"></script>
@@ -37,6 +24,9 @@
     <script src="Scripts/base.js"></script>
 
     <script>
+        if (window.top !== window.self) {
+            window.top.location = window.location;
+        }
         $(document).ready(function () {
             if (!navigator.geolocation) // 判断浏览器是否支持HTML5特性！！！
             {
@@ -83,26 +73,44 @@
         });
     </script>
 </head>
-
-<body>
-    <div class="page-container">
-
-        <form>
-            <h1>启联教育系统</h1>
-            <div class="form-group">
-
-                <input type="text" id="txtUserName" class="form-control" placeholder="用户名">
+<body class="signin">
+    <div class="signinpanel">
+        <div class="row">
+            <div class="col-sm-7">
+                <div class="signin-info">
+                    <div class="logopanel m-b">
+                        <h1>青浦启联教育管理系统</h1>
+                    </div>
+                    <div class="m-b"></div>
+                    <h4>欢迎使用 <strong>青浦启联教育管理系统</strong></h4>
+                    <ul class="m-b">
+                        <li><i class="fa fa-arrow-circle-o-right m-r-xs"></i> 功能全面</li>
+                        <li><i class="fa fa-arrow-circle-o-right m-r-xs"></i> 软件灵活</li>
+                        <li><i class="fa fa-arrow-circle-o-right m-r-xs"></i> 移动办公</li>
+                        <li><i class="fa fa-arrow-circle-o-right m-r-xs"></i> 方便快捷</li>
+                        <li><i class="fa fa-arrow-circle-o-right m-r-xs"></i> 不断更新</li>
+                    </ul>
+                    <strong>还没有账号？ <a href="#">立即注册&raquo;</a></strong>
+                </div>
             </div>
-            <div class="form-group">
-                <input id="txtPassword" type="password" name="password" class="form-control" placeholder="密码">
+            <div class="col-sm-5"> 
+                <form method="post" action="index.html">
+                    <h4 class="no-margins">登录：</h4>
+                    <p class="m-t-md">登录到青浦启联教育管理系统</p>
+                    <input type="text" id="txtUserName" class="form-control uname" placeholder="用户名">
+                    <input id="txtPassword" type="password" class="form-control pword m-b" placeholder="密码" />
+                    <a href="">忘记密码了？</a>
+                    <button id="btnSubmit" type="submit" class="btn btn-block btn-primary">登&nbsp;&nbsp;&nbsp;&nbsp;录</button>
+                </form>
             </div>
-            <button id="btnSubmit" type="submit" class="btn btn-block btn-primary">登&nbsp;&nbsp;&nbsp;&nbsp;录</button>
-            <div class="error"><span></span></div>
-
-        </form>
-        <div hidden id="msg" class="alert alert-warning alert-dismissible" role="alert">
-            <br /><h1>用户名或密码错误!</h1>
+        </div>
+        <div class="signup-footer">
+            <div class="pull-left">
+                Copyright 2014-2017 ZR Software technology studio. All rights reserved. Telephone：13601818784
+            </div>
         </div>
     </div>
 </body>
+
+
 </html>
