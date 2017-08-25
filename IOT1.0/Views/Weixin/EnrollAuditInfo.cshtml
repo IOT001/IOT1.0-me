@@ -1,0 +1,43 @@
+﻿@using DataProvider.Models
+@using DataProvider.Paging
+@{
+    ViewBag.Title = "报名审核详细信息";
+    Layout = "~/Views/Shared/_Layoutwx.cshtml";//设置模板文件
+}
+
+@model WX_FSConnectionlistModel
+
+
+<div class="ibox float-e-margins w640" id="cc">
+    @if (Model != null)
+    {
+        <div class="ibox-title">
+            <h5>@Model.FSConnectionInfo.ClassName  学员：@Model.FSConnectionInfo.Name</h5>
+        </div>
+        <div class="ibox-content">
+            <form class="form-horizontal">
+                <div class="form-group ">
+                    <label class="col-xs-4 control-label">班级：</label>
+                    <label class="col-xs-8 form-control-static">@Model.FSConnectionInfo.ClassName</label>
+                </div>
+                <div class="form-group ">
+                    <label class="col-xs-4 control-label">报名课时：</label>
+                    <label class="col-xs-8 form-control-static">@Model.FSConnectionInfo.TeachersName</label>
+                </div>
+                <div class="form-group ">
+                    <label class="col-xs-4 control-label">原费用：</label>
+                    <label class="col-xs-8 form-control-static">@Model.FSConnectionInfo.JobContent</label>
+                </div>
+                <div class="form-group ">
+                    <label class="col-xs-4 control-label">申请优惠：</label>
+                    <label class="col-xs-8 form-control-static">@Model.FSConnectionInfo.Evaluate</label>
+                </div>
+                <div class="form-group ">
+                    <label class="col-xs-4 control-label">备注：</label>
+                    <label class="col-xs-8 form-control-static">@Model.FSConnectionInfo.Remark</label>
+                </div>
+            </form>
+        </div>
+    }
+
+</div>

@@ -166,6 +166,7 @@
     <Compile Include="Controllers\Finance\DailyReportController.cs" />
     <Compile Include="Controllers\Finance\RefundCheckController.cs" />
     <Compile Include="Controllers\Office\FileManageController.cs" />
+    <Compile Include="Controllers\WeiXin\EnrollAuditController.cs" />
     <Compile Include="Controllers\WeiXin\IndexController.cs" />
     <Compile Include="Controllers\WeiXin\MessageListController.cs" />
     <Compile Include="Controllers\WeiXin\PaymentListController.cs" />
@@ -4799,6 +4800,8 @@
     <Content Include="Views\Weixin\UserCenter.cshtml" />
     <Content Include="Views\Enroll\Import.cshtml" />
     <Content Include="Views\Office\FileManageList.cshtml" />
+    <Content Include="Views\Weixin\EnrollAuditList.cshtml" />
+    <Content Include="Views\Weixin\EnrollAuditInfo.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
