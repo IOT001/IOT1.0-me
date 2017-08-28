@@ -196,5 +196,38 @@ namespace DataProvider.Data
         {
             return MsSqlMapperHepler.GetOne<BillConfig>(1, DBKeys.PRX);
         }
+
+        /// <summary>
+        /// 批量新增报名审核记录
+        /// </summary>
+        /// <param name="list"></param>
+        /// <returns></returns>
+        public static bool AddEnrollAuditList(List<EnrollAudit> list)
+        {
+            bool ret = false;
+            DBRepository db = new DBRepository(DBKeys.PRX);
+            db.BeginTransaction();
+            try
+            {
+
+                foreach (var obj in list)
+                {
+                    
+                    db.Insert<EnrollAudit>(obj);
+                    Appointment ap = AppointmentData.GetOneByID(obj.APID);
+                    ap.ApStateID = 5;//待审核
+                    db.Update<Appointment>(ap);
+                }
+                ret = true;
+                db.Commit();
+            }
+            catch (Exception ex)
+            {
+                db.Rollback();
+                db.Dispose();
+                throw new Exception(ex.Message);
+            }
+            return ret;
+        }
     }
 }

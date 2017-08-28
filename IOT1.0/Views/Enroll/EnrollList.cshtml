@@ -656,10 +656,10 @@
             radioClass: 'iradio_square-green',
         });
         //改版课时的时候触发，重新计算应付金额
-        $("#txtks").change(function () {
+        $("input[name='txtks'],input[name='discountText']").change(function () {
             var och = $(this).parent().parent().find("td").eq(9).text()//原来的费用
             var oks = $(this).parent().parent().find("td").eq(5).text()//总课时数
-            var realbm = $(this).val();//实际报名课时，取input填写值
+            var realbm = $(this).parent().parent().find("td").eq(6).children('input').val()//实际报名课时，取input填写值
         
             var yhje = $(this).parent().parent().find("td").eq(8).children('input').val()//取出优惠金额
             var bcff = (realbm / oks) * och - yhje;//算本次最终报名费用
@@ -745,14 +745,14 @@
     //编辑项，填写报名课时
     function editCol(value, row, index, key) {
         return [
-             '<input type="text" value=' + row.TotalLesson + ' class="input-sm form-control" style="width:50px" id="txtks">'
+             '<input type="text" value=' + row.TotalLesson + ' class="input-sm form-control" style="width:50px" name="txtks">'
         ].join('');
         
     } 
     //编辑项，当自定义优惠时允许修改优惠金额
     function editDiscount(value, row, index, key) {
         return [
-             '<input id="discountText" type="text" value="0" class="input-sm form-control" style="width:50px" disabled="disabled">'
+             '<input name="discountText" type="text" value="0" class="input-sm form-control" style="width:50px" disabled="disabled">'
         ].join('');
 
     } editDiscount
@@ -944,6 +944,14 @@
         if (apstateid == "3")
         {
             layer.msg("预约单已完成报名！")
+            return;
+        }
+        if (apstateid == "4") {
+            layer.msg("预约单已作废！")
+            return;
+        }
+        if (apstateid == "5") {
+            layer.msg("请耐心等待上级审核！")
             return;
         }
       // $("#classes2 tbody input[type='checkbox']").iCheck('uncheck');//取消全选   

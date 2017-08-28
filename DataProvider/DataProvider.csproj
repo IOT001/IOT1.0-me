@@ -142,6 +142,7 @@
     <Compile Include="Entities\DictionaryItem.cs" />
     <Compile Include="Entities\Discount.cs" />
     <Compile Include="Entities\Enroll.cs" />
+    <Compile Include="Entities\EnrollAudit.cs" />
     <Compile Include="Entities\Files.cs" />
     <Compile Include="Entities\FollowRecord.cs" />
     <Compile Include="Entities\Message.cs" />
@@ -157,6 +158,7 @@
     <Compile Include="Entities\vw_DailyReport.cs" />
     <Compile Include="Entities\vw_Discount.cs" />
     <Compile Include="Entities\vw_Enroll.cs" />
+    <Compile Include="Entities\vw_EnrollAudit.cs" />
     <Compile Include="Entities\vw_FollowList.cs" />
     <Compile Include="Entities\vw_menu.cs" />
     <Compile Include="Entities\vw_Message.cs" />

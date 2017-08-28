@@ -246,42 +246,94 @@ namespace IOT1._0.Controllers.Enroll
                 return Json(ajax);
             }
             JArray ja = (JArray)JsonConvert.DeserializeObject(_did);//序列化前台获取的列表数据，因为报名数据可能存在多笔
-            List<DataProvider.Entities.Enroll> ENList = new List<DataProvider.Entities.Enroll>();
+            
+            int submittype = 1;//结算，直接完成报名
             foreach (var item in ja)
             {
-                string classid = ((JObject)item)["classid"].ToString();//报名的班级ID
-                decimal payment = decimal.Parse(((JObject)item)["payment"].ToString());//报名的班级ID
-                string apid = ((JObject)item)["apid"].ToString();//预约号
-                string studentid = ((JObject)item)["studentid"].ToString();//学员号
-                int classhour =  int.Parse(((JObject)item)["classhour"].ToString());//报名课时
                 int discountid = int.Parse(((JObject)item)["discountid"].ToString() == "" ? "0" : ((JObject)item)["discountid"].ToString());//选择的优惠ID
-                decimal discountprice = decimal.Parse(((JObject)item)["discountprice"].ToString());//本次优惠的金额
-                if (string.IsNullOrEmpty(studentid))
+                if (discountid == -1)//存在自定义优惠项
                 {
-                    ajax.msg = "不是正式学员不允许结算！清先绑定学员或者成为正式学员。";
-                    return Json(ajax);
-                }
-                DataProvider.Entities.Enroll en = new DataProvider.Entities.Enroll();
-                en.ID = CommonData.DPGetTableMaxId("EN", "ID", "Enroll", 8);
-                en.APID = apid;
-                en.StudentID = studentid;
-                en.ClassID = classid;
-                en.ClassHour = classhour;
-                en.UsedHour = 0;
-                en.Price = payment;
-                en.Paid = payment;
-                en.DiscountID = discountid;
-                en.DiscountPrice = discountprice;
-                en.CreateTime = DateTime.Now;
-                en.CreatorId = UserSession.userid;
-                ENList.Add(en);
-                if (EnrollData.AddList(ENList))
-                {
-                    
-                    ajax.status = EnumAjaxStatus.Success;
+                    submittype = 2;
                 }
             }
-            ajax.msg = "结算成功，完成报名！";
+            if (submittype == 1)
+            {
+                List<DataProvider.Entities.Enroll> ENList = new List<DataProvider.Entities.Enroll>();
+                foreach (var item in ja)
+                {
+                    string classid = ((JObject)item)["classid"].ToString();//报名的班级ID
+                    decimal payment = decimal.Parse(((JObject)item)["payment"].ToString());//报名的班级ID
+                    string apid = ((JObject)item)["apid"].ToString();//预约号
+                    string studentid = ((JObject)item)["studentid"].ToString();//学员号
+                    int classhour = int.Parse(((JObject)item)["classhour"].ToString());//报名课时
+                    int discountid = int.Parse(((JObject)item)["discountid"].ToString() == "" ? "0" : ((JObject)item)["discountid"].ToString());//选择的优惠ID
+                    decimal discountprice = decimal.Parse(((JObject)item)["discountprice"].ToString());//本次优惠的金额
+                    if (string.IsNullOrEmpty(studentid))
+                    {
+                        ajax.msg = "不是正式学员不允许结算！清先绑定学员或者成为正式学员。";
+                        return Json(ajax);
+                    }
+                    DataProvider.Entities.Enroll en = new DataProvider.Entities.Enroll();
+                    en.ID = CommonData.DPGetTableMaxId("EN", "ID", "Enroll", 8);
+                    en.APID = apid;
+                    en.StudentID = studentid;
+                    en.ClassID = classid;
+                    en.ClassHour = classhour;
+                    en.UsedHour = 0;
+                    en.Price = payment;
+                    en.Paid = payment;
+                    en.DiscountID = discountid;
+                    en.DiscountPrice = discountprice;
+                    en.CreateTime = DateTime.Now;
+                    en.CreatorId = UserSession.userid;
+                    ENList.Add(en);
+                }
+                if (EnrollData.AddList(ENList))
+                {
+
+                    ajax.status = EnumAjaxStatus.Success;
+                    ajax.msg = "结算成功，完成报名！";
+                }
+            }
+            else//提交到审核
+            {
+                List<EnrollAudit> ENList = new List<EnrollAudit>();
+                foreach (var item in ja)
+                {
+                    string classid = ((JObject)item)["classid"].ToString();//报名的班级ID
+                    decimal payment = decimal.Parse(((JObject)item)["payment"].ToString());//报名的班级ID
+                    string apid = ((JObject)item)["apid"].ToString();//预约号
+                    string studentid = ((JObject)item)["studentid"].ToString();//学员号
+                    int classhour = int.Parse(((JObject)item)["classhour"].ToString());//报名课时
+                    int discountid = int.Parse(((JObject)item)["discountid"].ToString() == "" ? "0" : ((JObject)item)["discountid"].ToString());//选择的优惠ID
+                    decimal discountprice = decimal.Parse(((JObject)item)["discountprice"].ToString());//本次优惠的金额
+                    if (string.IsNullOrEmpty(studentid))
+                    {
+                        ajax.msg = "不是正式学员不允许结算！清先绑定学员或者成为正式学员。";
+                        return Json(ajax);
+                    }
+                    EnrollAudit en = new EnrollAudit();
+                    en.APID = apid;
+                    en.StudentID = studentid;
+                    en.ClassID = classid;
+                    en.ClassHour = classhour;
+                    en.UsedHour = 0;
+                    en.Price = payment;
+                    en.Paid = payment;
+                    en.DiscountID = discountid;
+                    en.DiscountPrice = discountprice;
+                    en.CreateTime = DateTime.Now;
+                    en.CreatorId = UserSession.userid;
+                    ENList.Add(en);
+                }
+                if (EnrollData.AddEnrollAuditList(ENList))
+                {
+
+                    ajax.status = EnumAjaxStatus.Success;
+                    ajax.msg = "已提交审核！";
+                }
+            }
+            
             return Json(ajax);
         }
         /// <summary>
@@ -299,5 +351,6 @@ namespace IOT1._0.Controllers.Enroll
             model.ListenList = EnrollData.GeEnrollList(search); //填充页面模型数据
             return View(model);//返回页面模型
         }
+
     }
 }
