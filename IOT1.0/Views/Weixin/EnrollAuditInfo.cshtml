@@ -5,39 +5,104 @@
     Layout = "~/Views/Shared/_Layoutwx.cshtml";//设置模板文件
 }
 
-@model WX_FSConnectionlistModel
+@model EnrollAuditInfoViewModel
 
 
 <div class="ibox float-e-margins w640" id="cc">
     @if (Model != null)
     {
+         foreach (var m in Model.EnrollAuditInfoList)
+            {
         <div class="ibox-title">
-            <h5>@Model.FSConnectionInfo.ClassName  学员：@Model.FSConnectionInfo.Name</h5>
+            <h5> 学员：@m.ApName</h5>
         </div>
         <div class="ibox-content">
             <form class="form-horizontal">
                 <div class="form-group ">
                     <label class="col-xs-4 control-label">班级：</label>
-                    <label class="col-xs-8 form-control-static">@Model.FSConnectionInfo.ClassName</label>
+                    <label class="col-xs-8 form-control-static">@m.ClassName </label>
                 </div>
                 <div class="form-group ">
                     <label class="col-xs-4 control-label">报名课时：</label>
-                    <label class="col-xs-8 form-control-static">@Model.FSConnectionInfo.TeachersName</label>
+                    <label class="col-xs-8 form-control-static">@m.ClassHour</label>
                 </div>
                 <div class="form-group ">
                     <label class="col-xs-4 control-label">原费用：</label>
-                    <label class="col-xs-8 form-control-static">@Model.FSConnectionInfo.JobContent</label>
+                    <label class="col-xs-8 form-control-static">@m.Price</label>
                 </div>
                 <div class="form-group ">
                     <label class="col-xs-4 control-label">申请优惠：</label>
-                    <label class="col-xs-8 form-control-static">@Model.FSConnectionInfo.Evaluate</label>
+                    <label class="col-xs-8 form-control-static">@m.DiscountPrice</label>
                 </div>
                 <div class="form-group ">
                     <label class="col-xs-4 control-label">备注：</label>
-                    <label class="col-xs-8 form-control-static">@Model.FSConnectionInfo.Remark</label>
+                    <label class="col-xs-8 form-control-static">@m.Remark</label>
                 </div>
             </form>
         </div>
     }
+    
+    <div class="col-sm-9 project-actions">
+           <button type="button" class="btn btn-w-m btn-primary btn-sm" onclick="Audited()">审核通过</button>
+           <button type="button" class="btn btn-w-m btn-primary btn-sm" onclick="AuditNotThrough()">审核不通过</button>
+       </div>
+        
+    }
+
 
 </div>
+
+
+
+
+<script type="text/javascript">
+    function Audited() {
+
+        var action = '@Url.Action("Audited", "WeiXin")'
+        $.post(action, {
+             
+        }, function (json) {
+            if (json.status == 200) {//成功
+
+                layer.mobile(json.msg);//弹出服务器返回的消息
+                setTimeout(function () {//操作
+                    layer.closeAll();//关闭所有层
+                    window.location.reload(); //刷新
+                }, 3000);
+            }
+            else {
+                layer.open({
+                    content: json.msg
+     , btn: '我知道了'
+                });
+               // layer.mobile(json.msg);//弹出服务器返回的消息
+            }
+        }, 'json');
+    }
+    
+
+    function AuditNotThrough() {
+        var action = '@Url.Action("AuditNotThrough", "WeiXin")'
+        $.post(action, {
+            "data": JSON.stringify(obj)//序列化对象
+        }, function (json) {
+            if (json.status == 200) {//成功
+
+                layer.mobile(json.msg);//弹出服务器返回的消息
+                setTimeout(function () {//操作
+                    layer.closeAll();//关闭所有层
+                    window.location.reload(); //刷新
+                }, 3000);
+            }
+            else {
+                layer.mobile(json.msg);//弹出服务器返回的消息
+            }
+        }, 'json');
+
+    }
+
+
+</script>
+
+
+ 

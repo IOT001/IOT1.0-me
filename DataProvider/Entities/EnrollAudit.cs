@@ -66,7 +66,7 @@ namespace DataProvider.Entities
         /// <summary>
         /// UpdateTime
         /// </summary>				
-        public DateTime? UpdateTime { get; set; }
+        public DateTime ? UpdateTime { get; set; }
         /// <summary>
         /// DeletorId
         /// </summary>				
@@ -95,5 +95,15 @@ namespace DataProvider.Entities
         /// ApprovedRemark
         /// </summary>				
         public string ApprovedRemark { get; set; }
+
+
+        /// <summary>
+        /// 1现金，2pos，3微信，4支付宝，5扣卡
+        /// </summary>				
+        public string CollectionRec { get; set; }
+
     }
+
+
+
 }

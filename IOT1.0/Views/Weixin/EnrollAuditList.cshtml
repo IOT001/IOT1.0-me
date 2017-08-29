@@ -4,7 +4,7 @@
     ViewBag.Title = "报名审核列表";
     Layout = "~/Views/Shared/_Layoutwx.cshtml";//设置模板文件
 }
-@model WX_FSConnectionlistModel
+@model EnrollAuditListViewModel
 
 <div class="ibox float-e-margins w640">
     <div class="ibox-title">
@@ -17,9 +17,17 @@
     </div>
     <div class="ibox-title">
 
-        @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "frmQuery", @class = "form-horizontal" }))
+          @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "frmQuery", @class = "form-horizontal" }))
         {
-
+             
+    
+            
+    <div class="">
+        <div class="btn-group">
+            <button class="btn btn-primary" type="submit" id="This_Week" onclick="This_Week">查&nbsp;&nbsp;&nbsp;&nbsp;询</button> 
+        </div>
+    </div>
+            
         }
 
 
@@ -40,26 +48,25 @@
             </thead>
 
             <tbody>
-                @*@if (Model != null && Model.FSConnectionlist.Count() > 0)
+                @if (Model != null && Model.EnrollAuditList.Count() > 0)
                 {
-                    foreach (var m in Model.FSConnectionlist)
+                    foreach (var m in Model.EnrollAuditList)
                     {
                         <tr>
-                            <td>@DateTime.Parse(@m.ClassDate + "").ToString("yyyy-MM-dd")</td>
-                            <td>@m.weekday</td>
-                            <td>@m.Name</td>
-                            <td>@m.CourseName</td>
-
-                            <td><a href="@Url.Action("FSConnectionInfo", "Weixin", new { id = @m.ID })" class=" btn-block"><i class="fa fa-arrow-circle-right fa-2x"></i></a></td>
+                            <td>@m.ID</td>
+                            <td>@DateTime.Parse(@m.CreateTime + "").ToString("yyyy-MM-dd")</td>
+                            <td>@m.ApName</td>
+                            <td>@m.StateName</td> 
+                            <td><a href="@Url.Action("EnrollAuditInfo", "Weixin", new { APID = @m.ID })" class=" btn-block"><input type="button" value="审核" class="btn btn-primary btn-xs"  /></a></td>
                         </tr>
                     }
                 }
                 else
                 {
                     <tr>
-                        <td colspan="4" style="text-align:center; color:red;">未查询到数据,请更换查询条件试试!</td>
+                        <td colspan="5" style="text-align:center; color:red;">未查询到数据,请更换查询条件试试!</td>
                     </tr>
-                }*@
+                }
             </tbody>
         </table>
     </div>
