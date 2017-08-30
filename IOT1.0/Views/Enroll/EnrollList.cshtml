@@ -384,7 +384,43 @@
         </form>
     </div>
 </div>
-
+@*报名下的二级弹出层，编辑收款记录*@
+<div class="ibox float-e-margins" id="collection" style="display:none">
+    <div class="ibox-content">
+        <form class="form-horizontal">
+            <div class="form-group">
+                <label class="col-sm-3 control-label">现金：</label>
+                <div class="col-sm-8">
+                    <input type="text" placeholder="现金" class="form-control" id="PayType1">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">Pos：</label>
+                <div class="col-sm-8">
+                    <input type="text" placeholder="Pos" class="form-control" id="PayType2">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">微信：</label>
+                <div class="col-sm-8">
+                    <input type="text" placeholder="微信" class="form-control" id="PayType3">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">支付宝：</label>
+                <div class="col-sm-8">
+                    <input type="text" placeholder="支付宝" class="form-control" id="PayType4">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">扣卡：</label>
+                <div class="col-sm-8">
+                    <input type="text" placeholder="扣卡" class="form-control" id="PayType5">
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
 @*用bootstrap-table需要引入*@
 <script src="~/Scripts/assets/js/plugins/bootstrap-table/bootstrap-table.min.js"></script>
 <script src="~/Scripts/assets/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
@@ -628,7 +664,11 @@
             title: '操作',
             align: 'center',
             formatter: checkCol
-        }]
+        }, {
+            title: '资金明细',
+            align: 'center'
+        }
+        ]
     });
     //查询参数
     function queryParams_bm(params) {
@@ -768,7 +808,9 @@
             '<div class="checkbox i-checks" name="chkDiscount" data-did="' + row.ID + '"><label><input type="checkbox" value=""> <i></i> </label></div>'
         ]
     }
+
     //结束报名-------------------------------------------------------------------------------------------------
+
     //保存或者新增预约
     function save(id) {
         var obj = new Object;
@@ -810,7 +852,7 @@
         cleanData("buttoninfo");
         layer.open({
             type: 1,
-            title: "<h3 class='ibox-title'>编辑按钮</h3>",
+            title: "<h3 class='ibox-title'>编辑</h3>",
             area: ['680px', '400px'],
             content: $('#buttoninfo'),
             btn: ['保存', '取消'],
@@ -954,8 +996,13 @@
             layer.msg("请耐心等待上级审核！")
             return;
         }
-      // $("#classes2 tbody input[type='checkbox']").iCheck('uncheck');//取消全选   
-        layer.open({
+        // $("#classes2 tbody input[type='checkbox']").iCheck('uncheck');//取消全选   
+        //如果勾选，弹出金额明细
+        $("#classes2 tbody input[type='checkbox']").on('ifChecked', function (event) {
+            var trindex = $(this).parent().parent().parent().parent().parent().data("index");//取到行索引
+            opencollection(trindex);
+        });
+         layer.open({
             type: 1,
             title: "<h3 class='ibox-title'>报名</h3>",
             area: ['1000px', '550px'],
@@ -977,6 +1024,7 @@
                     var classhour = $(this).parent().parent().parent().parent().parent().find("td").eq(6).children('input').val();//实际报名课时，取input填写值
                     var discountid = $(this).parent().parent().parent().parent().parent().find("td").eq(7).children('select').val()//取到优惠ID
                     var discountprice = $(this).parent().parent().parent().parent().parent().find("td").eq(8).children('input').val();//本次优惠金额
+                    var collectionrec = $(this).parent().parent().parent().parent().parent().find("td").eq(12).text();//自己明细记录需要登录本次付款
                     Enrolldata.push({
                         "classid": classid,
                         "payment": payment,
@@ -984,7 +1032,8 @@
                         "studentid": studentid,
                         "classhour": classhour,
                         "discountid": discountid,
-                        "discountprice": discountprice
+                        "discountprice": discountprice,
+                        "collectionrec":collectionrec
                     })
                 });
                 
@@ -1005,6 +1054,28 @@
                 layer.close(index);
             }
         });
+    }
+    //打开资金明细,传入行索引
+    function opencollection(trindex) {
+        layer.open({
+            type: 1,
+            title: "<h3 class='ibox-title'>资金明细</h3>",
+            area: ['680px', '400px'],
+            content: $('#collection'),
+            btn: ['保存', '取消'],
+            yes: function (index) {
+                var collecttext = "";//自己明细记录用逗号隔开
+                $("#collection input").each(function (ai, am) {//循环自己明细的文本框，给父级行赋值
+                 collecttext += $(this).val() + ","                 
+                })
+                $("#classes2 tbody tr:eq(" + trindex + ")").find("td").eq(12).text(collecttext)
+                layer.close(index);
+            },
+            cancel: function (index) {
+                layer.close(index);
+            }
+        });
+
     }
     //点击报名弹出窗口的查询按钮事件
     $("#QueryClass2").click(function () {
