@@ -1,0 +1,154 @@
+﻿@{
+    ViewBag.Title = "sign";
+    Layout = "~/Views/Shared/_LayoutEmpty.cshtml";//设置模板文件
+}
+<style type="text/css">
+    body {
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+    }
+
+    .work_area {
+        width: 600px;
+        height: 283px;
+        border: solid 1px #06C;
+    }
+
+        .work_area .button_area {
+            width: 100%;
+            height: 33px;
+            background-color: #06C;
+            text-align: right;
+        }
+
+            .work_area .button_area .button {
+                margin: 5px;
+            }
+
+            .work_area .button_area .button_r {
+                margin: 5px 25px 5px 5px;
+            }
+
+        .work_area .editing_area {
+            width: 100%;
+            height: 250px;
+            border: solid 0px #CC6600;
+        }
+
+    .work_show {
+        width: 600px;
+        height: 127px;
+        border: solid 1px #06C;
+    }
+
+        .work_show .preview {
+            width: 300px;
+            height: 126px;
+            float: left;
+        }
+</style>
+<body ondragstart="window.event.returnValue=false;" oncontextmenu="window.event.returnValue=false;" onselectstart="event.returnValue=false;">
+    <!-- 首先有个工作区域 -->
+    <div class="work_area">
+        <!-- 按钮区域 用来显示一些按钮 -->
+        <div class="button_area">
+            <input class="button" name="rewrite" type="button" value="rewrite" onclick="rewrite()" />
+            <input class="button" name="preview" type="button" value="preview" onclick="preview()" />
+            <input class="button_r" name="save" type="button" value="save" onclick="save()" />
+        </div>
+        <!-- 编辑区域 用来写字的 -->
+        <div class="editing_area">
+            <canvas width="600" height="250" id="canvasEdit"></canvas>
+        </div>
+
+        <div class="work_show">
+            <div id="previewShow" class="preview"></div>
+            <div class="preview"><textarea id="textarea" style="width:299px; float:left;" rows="8"></textarea></div>
+        </div>
+
+    </div>
+
+    <!-- 预览 -->
+</body>
+
+<script>
+    var canvas = document.getElementById('canvasEdit');
+	canvas.addEventListener('mousemove', onMouseMove, false);
+	canvas.addEventListener('mousedown', onMouseDown, false);
+	canvas.addEventListener('mouseup', onMouseUp, false);
+	var context = canvas.getContext('2d');
+	var linex = new Array();
+	var liney = new Array();
+	var linen = new Array();
+	var lastX = 1;
+	var lastY = 30;
+	var flag = 0;
+	function onMouseMove(evt)
+	{
+		if (flag == 1)
+		{
+			linex.push(evt.layerX);
+			liney.push(evt.layerY);
+			linen.push(1);
+			context.save();
+			context.translate(context.canvas.width / 2, context.canvas.height / 2);
+			context.translate(-context.canvas.width / 2 , -context.canvas.height/2 - 33);
+			context.beginPath();
+			context.lineWidth = 2;
+			for (var i = 1; i < linex.length; i++)
+			{
+				lastX = linex[i];
+				lastY = liney[i];
+				if (linen[i] == 0)
+					context.moveTo(lastX, lastY);
+				else
+					context.lineTo(lastX, lastY);
+			}
+			//context.strokeStyle = 'hsl(50%, 50%, 50%)';
+			//context.shadowColor = 'white';
+			context.shadowBlur = 10;
+			context.stroke();
+			context.restore();
+		}
+	}
+	function onMouseDown(evt)
+	{
+		flag = 1;
+		linex.push(evt.layerX);
+		liney.push(evt.layerY);
+		linen.push(0);
+	}
+	function onMouseUp(evt)
+	{
+		flag = 0;
+		linex.push(evt.layerX);
+		liney.push(evt.layerY);
+		linen.push(0);
+	}
+	// 重画
+	function rewrite(){
+		linex = new Array();
+		liney = new Array();
+		linen = new Array();
+		context.clearRect(0,0,canvas.width,canvas.height);
+		preview();
+	}
+	function preview(){
+		var show=document.getElementById("previewShow");
+		show.innerHTML="";
+		show.appendChild(convertCanvasToImage(canvas));
+	}
+	function save(){
+		var textarea=document.getElementById("textarea");
+		textarea.innerHTML="";
+		textarea.appendChild(convertCanvasToImage(canvas));
+	}
+	function convertCanvasToImage(canvas){
+		var image=new Image();
+		image.width=300;
+		image.height=125;
+		image.src=canvas.toDataURL("i/png");
+		return image;
+	}
+</script>

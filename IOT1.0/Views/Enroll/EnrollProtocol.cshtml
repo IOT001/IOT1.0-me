@@ -1,0 +1,231 @@
+﻿@{
+    ViewBag.Title = "装修管理合同";
+}
+@using (Html.BeginForm("ConvertThisPageToPdf", "Report", null, FormMethod.Post))
+{
+    <div id="convertThisPageButtonDiv" style="position: absolute; left: 0;">
+        <input type="submit" value="导出PDF文件" />
+    </div>
+    <fieldset disabled>
+        <div class="wrap">
+            <div class="page page1">
+                <div class="header">
+                    <div class="logo"><img src="~/Images/qllogo.jpg" style="width:130px" /></div>
+                    <h1>学员入学协议<span>——告家长书</span></h1>
+                </div>
+                <p>尊敬的学员家长，欢迎您报读启联教育培训中心课程，为向各位学员及家长提供优秀的教学质量，特拟定如下注意事项及规定。望予以配合。</p>
+                <h2>注意事项</h2>
+                <p>A. 学员支付的定金不少于课程总价的10%，余额需在报名日起两周内付清，学员必须在全额付款后方可正式上课。</p>
+                <p>B. 学员上课期间注意事项：</p>
+                <p>1. 上课期间禁止录音、录像、如发现，一律没收；同时需听从老师安排，不可喧哗、随意走动、以免影响上课秩序。</p>
+                <p>2. 课间休息时，禁止在校内外奔跑、嘻戏打闹，以免发生碰撞或受伤。</p>
+                <p>3. 进入校区后，禁止学员随意出入工作人员办公区域。由于学员因素导致学校设备设施损坏，学员需照价赔偿。</p>
+                <p>C. 学员如对教学或服务有建议，欢迎以书面、电话及电子邮件的形式向学校提出。学校将在两周内予以回复。如果学员出勤率不到80%,无权对教学质量发表评论；如教师获得班级80%以上学员的支持，本校将不接受个别学员要求跟换教师的要求。</p>
+
+
+                <h2>转班规定</h2>
+                <p>除以下原因外，本校一律不接受任何转班申请：</p>
+                <p>1. 口语类课程，开课后四次课程内允许转班。</p>
+                <p>2. 学校进行班级合并时引起的转班。</p>
+                <p>3. 连续报读2个班级或以上的课程时，在下个级别课程未就读前，可申请转班。</p>
+
+
+                <h2>退费规定</h2>
+                <p>A. 除以下原因外，本校一律不接受退费申请：</p>
+                <p>1. 学员在读期间内因病住院（15天以上），必须在二级以上医院有效证明原件办理课程冻结（具体须知见告知书第四项第A条）或转班；如需办理退费，需扣除咨询费用（学费总金额的10%）及以上课时费。</p>
+                <p>2. 学员因出国申请退费，必须持本人护照原件、国外有效签证原件和近期出境机票办理退费，必须扣除询费用（学费总金额的10%）及以上课时费，同时须再扣除剩余学费的15%。</p>
+                <p>3. 学校若由于不可预见的因素导致班级被取消，学员可申请退费（扣除已上课程费用，但不扣除咨询费用）。</p>
+                <div class="footer">1/2</div>
+            </div>
+            <div class="page page2">
+                <p>B. 为保证学员家长权益，退费需提交的材料：入学协议原件（即：红联、学员本人或直接亲属的银行账号（退费入账账号名必须与入学协议红联中的学员家长姓名一致），退费周期为填写退费申请单起的一个月内。</p>
+                <p>C. 学员如未能提供入学协议原件（即：红联）以及相关证明，学习一律不予办理退费</p>
+
+                <h2>其他规定</h2>
+                <p>冻结课程为三个月以上（含三个月），六个月以下（含六个月）。</p>
+                <p>必须提交的材料：二级以上医院出具的病情诊断报告、学员病例证明、就医发票复印件、医生开具的有效病假单原件</p>
+                <p>为保证学校整体的教学质量，从小养成学生良好的学习习惯。凡在我校就读的学员，一律按《启联教育课程请假制度》。</p>
+                <p>插班学员学费必须按就读时此班级剩余课次缴费。工作人员不得按课程原价全额收取学费，若遇到全额收取的情况，学员家长可向总部进行投诉。</p>
+                <p><span>启联教育投诉监督电话： 021-59738995</span><span>启联教育网站：http://www.unique.com</span></p>
+                <p><span>启联教育培训中心</span></p>
+                <p>请仔细阅读以上内容，并签字确认。以上条款至学员家长签字确认后生效。以上条款如因任何其他原因而被确认无效，都不影响其他宽阔的效力。</p>
+                <div class="sign"><span onclick="signname()">签字：____________</span></div>
+                <div class="footer">2/2</div>
+            </div>
+        </div>
+    </fieldset>
+}
+
+<!-- 首先有个工作区域 -->
+<div class="work_area" id="signarea">
+    <!-- 按钮区域 用来显示一些按钮 -->
+    <div class="button_area">
+        <input class="button" name="rewrite" type="button" value="rewrite" onclick="rewrite()" />
+        <input class="button" name="preview" type="button" value="preview" onclick="preview()" />
+        <input class="button_r" name="save" type="button" value="save" onclick="save()" />
+    </div>
+    <!-- 编辑区域 用来写字的 -->
+    <div class="editing_area">
+        <canvas width="600" height="250" id="canvasEdit"></canvas>
+    </div>
+
+    <div class="work_show">
+        <div id="previewShow" class="preview"></div>
+        <div class="preview"><textarea id="textarea" style="width:299px; float:left;" rows="8"></textarea></div>
+    </div>
+
+</div>
+@section styles{
+    <link href="http://www.525j.com.cn/Theme/zhuanti/head/css/common.css" rel="stylesheet" type="text/css">
+    <style type="text/css">
+        body {
+            background: #ddd;
+        }
+
+        .wrap {
+            width: 210mm;
+            margin: 0 auto;
+            background: #fff;
+        }
+
+        .page {
+            padding: 25mm 18mm;
+            /*width: 174mm;*/
+            height: 247mm;
+            margin-bottom: 0px;
+            background: #fff;
+            overflow: hidden;
+            font-family: "SimSun";
+            color: #000;
+            font-size: 12pt;
+            position: relative;
+        }
+
+            .page h1 {
+                font-size: 18pt;
+                text-align: center;
+                line-height: 4em;
+                font-weight: bold;
+            }
+
+            .page h2 {
+                line-height: 1.5em;
+                margin: .5em 0;
+                font-weight: bold;
+                font-size: 10.5pt;
+            }
+
+            .page h3, .page p {
+                line-height: 1.5em;
+                margin: .3em 0;
+                text-indent: 2em;
+                font-size: 10.5pt;
+            }
+
+        .page1 h3, .page1 p {
+            line-height: 1.5em;
+            margin: .5em 0;
+            text-indent: 2em;
+            text-align: justify;
+        }
+
+        .page span {
+            /*border-bottom: 1px solid #000;*/
+        }
+
+        .page p.textindent {
+            text-indent: 0;
+        }
+
+        .page p.remark {
+            height: 72px;
+            overflow: hidden;
+        }
+
+        .sign span {
+            border-bottom: none;
+        }
+
+        .header {
+            position: absolute;
+            top: 2mm;
+            left: 19mm;
+            width: 174mm;
+            height: 80px;
+            overflow: hidden;
+            background: #fff;
+        }
+
+            .header .logo {
+                float: left;
+            }
+
+            .header p {
+                float: right;
+                padding-top: 15mm;
+                font-size: 9pt;
+                color: #000;
+            }
+
+                .header p span {
+                    border-bottom: none;
+                }
+
+        .footer {
+            position: absolute;
+            bottom: 0;
+            left: 0mm;
+            height: 25mm;
+            color: #000;
+            text-align: center;
+            width: 100%;
+            font-size: 9pt;
+        }
+
+        .pletter {
+            letter-spacing: 2px;
+        }
+
+        .wrap .page2, .wrap .page3 {
+            padding-top: 20px;
+        }
+
+    </style>
+}
+@section scripts
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('body').removeClass('gray-bg');
+            var gxbM = $(".gxb span");
+            for (var j = 0; j < gxbM.length; j++) {
+                !(gxbM.eq(j).html()) && (gxbM.eq(j).html("&nbsp;/&nbsp;"));
+            }
+            var year = $(".year");
+            for (var i = 0; i < year.length; i++) {
+                !(year.eq(i).html()) && (year.eq(i).html("&nbsp;&nbsp;&nbsp;&nbsp;"));
+            }
+            var gonqi = $(".month");
+            for (var i = 0; i < gonqi.length; i++) {
+                !(gonqi.eq(i).html()) && (gonqi.eq(i).html("&nbsp;&nbsp;"));
+            }
+        })
+        function signname() {
+            layer.open({
+                type: 2,
+                title: "<h3 class='ibox-title'>在线签名</h3>",
+                area: ['800px', '500px'],
+                shade: [0],
+                content: ['@Url.Action("Sign", "Common")'], //iframe的url，no代表不显示滚动条
+                btn: ['确定', '取消'],
+                yes: function (index) {
+                    layer.close(index);
+                },
+                cancel: function (index) {
+                    layer.close(index);
+                }
+            });
+        }
+    
+    </script>
+}

@@ -158,7 +158,9 @@
     <Compile Include="Controllers\Authority\RoleController.cs" />
     <Compile Include="Controllers\Authority\TestController.cs" />
     <Compile Include="Controllers\Authority\UpLoadController.cs" />
+    <Compile Include="Controllers\Common\CommonController.cs" />
     <Compile Include="Controllers\Enroll\EnrollManageListController.cs" />
+    <Compile Include="Controllers\Enroll\EnrollProtocolController.cs" />
     <Compile Include="Controllers\Enroll\FollowListController.cs" />
     <Compile Include="Controllers\Enroll\EnrollAuditController.cs" />
     <Compile Include="Controllers\Enroll\EnrollController.cs" />
@@ -245,6 +247,7 @@
     <Content Include="Images\loading.gif" />
     <Content Include="Images\perCenter\tip01.png" />
     <Content Include="Images\perCenter\topimg.jpg" />
+    <Content Include="Images\qllogo.jpg" />
     <Content Include="Images\uploadify-cancel.png" />
     <Content Include="Login - 复制.html" />
     <Content Include="Pages\Admin\Account.html" />
@@ -4803,6 +4806,9 @@
     <Content Include="Views\Office\FileManageList.cshtml" />
     <Content Include="Views\Weixin\EnrollAuditInfo.cshtml" />
     <Content Include="Views\Weixin\EnrollAuditList.cshtml" />
+    <Content Include="Views\Enroll\EnrollProtocol.cshtml" />
+    <Content Include="Views\Common\sign.cshtml" />
+    <Content Include="Views\Shared\_LayoutEmpty.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
