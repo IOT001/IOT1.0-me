@@ -37,19 +37,21 @@ namespace IOT1._0.Controllers.WeiXin
         /// </summary>
         /// <param name="json"></param>
         /// <returns></returns>
-        public JsonResult Audited(string APID)
+        public JsonResult Audited()
         {
             AjaxStatusModel ajax = new AjaxStatusModel();//功能操作类的返回类型都是AjaxStatusModel，数据放到AjaxStatusModel.data中，前台获取json后加载
             ajax.status = EnumAjaxStatus.Error;//默认失败
 
             ajax.msg = "保存失败！";//前台获取，用于显示提示信息
-            var data = Request["data"];//获取前台传递的数据，主要序列化
-            if (string.IsNullOrEmpty(data))
+            var APID = Request["APID"];//获取前台传递的数据 
+            if (string.IsNullOrEmpty(APID))
             {
                 return Json(ajax);
             }
+
             EnrollAudit eran = new EnrollAudit();
 
+            eran.APID = APID;
             eran.UpdateTime = DateTime.Now;
             eran.UpdatorId = UserSession.userid;
 
@@ -68,19 +70,21 @@ namespace IOT1._0.Controllers.WeiXin
         /// </summary>
         /// <param name="json"></param>
         /// <returns></returns>
-        public JsonResult AuditNotThrough(string APID)
+        public JsonResult AuditNotThrough()
         {
             AjaxStatusModel ajax = new AjaxStatusModel();//功能操作类的返回类型都是AjaxStatusModel，数据放到AjaxStatusModel.data中，前台获取json后加载
             ajax.status = EnumAjaxStatus.Error;//默认失败
 
             ajax.msg = "保存失败！";//前台获取，用于显示提示信息
-            var data = Request["data"];//获取前台传递的数据，主要序列化
-            if (string.IsNullOrEmpty(data))
+            var APID = Request["APID"];//获取前台传递的数据 
+            if (string.IsNullOrEmpty(APID))
             {
                 return Json(ajax);
             }
             EnrollAudit eran = new EnrollAudit();
 
+
+            eran.APID = APID;
             eran.UpdateTime = DateTime.Now;
             eran.UpdatorId = UserSession.userid;
 

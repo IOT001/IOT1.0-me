@@ -67,6 +67,7 @@ namespace DataProvider.Data
                 Enroll er = new Enroll();
                 foreach (var en in List)
                 {
+                    er.ID = CommonData.DPGetTableMaxId("EN", "ID", "Enroll", 8);
                     er.APID = en.APID;
                     er.ApprovedBy = en.ApprovedBy;
                     er.ApprovedRemark = en.ApprovedRemark;
@@ -154,6 +155,7 @@ namespace DataProvider.Data
             sb.Append(" where APID=@APID  and DiscountID=-1 and StateID= 2 ");
             var parameters = new DynamicParameters();
             parameters.Add("@APID", APID);
+            parameters.Add("@StateID", StateID); 
             parameters.Add("@UpdateTime", UpdateTime);
             parameters.Add("@UpdatorId", UpdatorId); 
             return db.Execute(sb.ToString(), parameters);

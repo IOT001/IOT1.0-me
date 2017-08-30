@@ -56,15 +56,35 @@
 
 
 <script type="text/javascript">
-    function Audited() {
+ 
+    function GetQueryString(name)
 
+    {
+
+        var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+
+        var r = window.location.search.substr(1).match(reg);
+
+        if(r!=null)return  unescape(r[2]); return null;
+
+    } 
+
+
+
+
+    function Audited() {
+        var APID;
+          APID = GetQueryString("APID");
         var action = '@Url.Action("Audited", "WeiXin")'
         $.post(action, {
-             
+            "APID": APID//序列化对象
         }, function (json) {
             if (json.status == 200) {//成功
 
-                layer.mobile(json.msg);//弹出服务器返回的消息
+                layer.open({
+                    content: json.msg,
+                    time: 2 //2秒后自动关闭 
+                });//弹出服务器返回的消息
                 setTimeout(function () {//操作
                     layer.closeAll();//关闭所有层
                     window.location.reload(); //刷新
@@ -72,30 +92,41 @@
             }
             else {
                 layer.open({
-                    content: json.msg
-     , btn: '我知道了'
-                });
-               // layer.mobile(json.msg);//弹出服务器返回的消息
+                    content: json.msg,
+                    time: 2 //2秒后自动关闭 
+                });//弹出服务器返回的消息
+              
             }
         }, 'json');
     }
     
 
     function AuditNotThrough() {
+
+        var APID;
+        APID = GetQueryString("APID");
+
         var action = '@Url.Action("AuditNotThrough", "WeiXin")'
         $.post(action, {
-            "data": JSON.stringify(obj)//序列化对象
+            "APID": APID//序列化对象
         }, function (json) {
             if (json.status == 200) {//成功
 
-                layer.mobile(json.msg);//弹出服务器返回的消息
+                layer.open({
+                    content: json.msg,
+                    time: 2 //2秒后自动关闭 
+                });//弹出服务器返回的消息
                 setTimeout(function () {//操作
                     layer.closeAll();//关闭所有层
                     window.location.reload(); //刷新
                 }, 3000);
             }
             else {
-                layer.mobile(json.msg);//弹出服务器返回的消息
+                layer.open({
+                    content: json.msg,
+                    time: 2 //2秒后自动关闭 
+                });//弹出服务器返回的消息
+
             }
         }, 'json');
 
