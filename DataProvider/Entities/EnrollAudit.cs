@@ -95,5 +95,9 @@ namespace DataProvider.Entities
         /// ApprovedRemark
         /// </summary>				
         public string ApprovedRemark { get; set; }
+        /// <summary>
+        /// 收款记录，用逗号隔开，1现金，2pos，3微信，4支付宝，5扣卡
+        /// </summary>
+        public string CollectionRec { get; set; }
     }
 }

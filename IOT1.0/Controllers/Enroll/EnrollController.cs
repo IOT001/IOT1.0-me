@@ -262,12 +262,24 @@ namespace IOT1._0.Controllers.Enroll
                 foreach (var item in ja)
                 {
                     string classid = ((JObject)item)["classid"].ToString();//报名的班级ID
-                    decimal payment = decimal.Parse(((JObject)item)["payment"].ToString());//报名的班级ID
+                    decimal payment = decimal.Parse(((JObject)item)["payment"].ToString());//本次付款
                     string apid = ((JObject)item)["apid"].ToString();//预约号
                     string studentid = ((JObject)item)["studentid"].ToString();//学员号
                     int classhour = int.Parse(((JObject)item)["classhour"].ToString());//报名课时
                     int discountid = int.Parse(((JObject)item)["discountid"].ToString() == "" ? "0" : ((JObject)item)["discountid"].ToString());//选择的优惠ID
                     decimal discountprice = decimal.Parse(((JObject)item)["discountprice"].ToString());//本次优惠的金额
+                    string[] collectionrec = ((JObject)item)["collectionrec"].ToString().TrimEnd(',').Split(',');//自己明细，需要验证总和等于付款金额
+                    decimal paymentrec = 0M;
+                    foreach (string i in collectionrec)
+                    {
+                        if(!string.IsNullOrEmpty(i))
+                        paymentrec += decimal.Parse(i);
+                    }
+                    if (payment != paymentrec)
+                    {
+                        ajax.msg = "资金明细与付款金额不同，请重新填写";
+                        return Json(ajax);
+                    }
                     if (string.IsNullOrEmpty(studentid))
                     {
                         ajax.msg = "不是正式学员不允许结算！清先绑定学员或者成为正式学员。";
@@ -286,6 +298,7 @@ namespace IOT1._0.Controllers.Enroll
                     en.DiscountPrice = discountprice;
                     en.CreateTime = DateTime.Now;
                     en.CreatorId = UserSession.userid;
+                    en.CollectionRec = ((JObject)item)["collectionrec"].ToString().TrimEnd(',');
                     ENList.Add(en);
                 }
                 if (EnrollData.AddList(ENList))
@@ -307,6 +320,20 @@ namespace IOT1._0.Controllers.Enroll
                     int classhour = int.Parse(((JObject)item)["classhour"].ToString());//报名课时
                     int discountid = int.Parse(((JObject)item)["discountid"].ToString() == "" ? "0" : ((JObject)item)["discountid"].ToString());//选择的优惠ID
                     decimal discountprice = decimal.Parse(((JObject)item)["discountprice"].ToString());//本次优惠的金额
+                    //验证资金明细
+                    string[] collectionrec = ((JObject)item)["collectionrec"].ToString().Split(',');//自己明细，需要验证总和等于付款金额
+                    decimal paymentrec = 0M;
+                    foreach (string i in collectionrec)
+                    {
+                        if (!string.IsNullOrEmpty(i))
+                        paymentrec += decimal.Parse(i);
+                    }
+                    if (payment != paymentrec)
+                    {
+                        ajax.msg = "资金明细与付款金额不同，请重新填写";
+                        return Json(ajax);
+                    }
+
                     if (string.IsNullOrEmpty(studentid))
                     {
                         ajax.msg = "不是正式学员不允许结算！清先绑定学员或者成为正式学员。";
@@ -324,6 +351,7 @@ namespace IOT1._0.Controllers.Enroll
                     en.DiscountPrice = discountprice;
                     en.CreateTime = DateTime.Now;
                     en.CreatorId = UserSession.userid;
+                    en.CollectionRec = ((JObject)item)["collectionrec"].ToString().TrimEnd(',');
                     ENList.Add(en);
                 }
                 if (EnrollData.AddEnrollAuditList(ENList))
