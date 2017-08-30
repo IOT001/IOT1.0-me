@@ -132,6 +132,8 @@
     <Compile Include="Data\EnrollManageListData.cs" />
     <Compile Include="Data\RefundCheckData.cs" />
     <Compile Include="Data\FileManageListData.cs" />
+    <Compile Include="Data\EnrollAuditListData.cs" />
+    <Compile Include="Data\EnrollAuditInfoData.cs" />
     <Compile Include="DPBase.cs" />
     <Compile Include="Entities\Appointment.cs" />
     <Compile Include="Entities\AttendanceRecord.cs" />
@@ -198,6 +200,8 @@
     <Compile Include="Models\FollowListListViewModel.cs" />
     <Compile Include="Models\RefundCheckListModel.cs" />
     <Compile Include="Models\MessageListViewModel.cs" />
+    <Compile Include="Models\EnrollAuditListViewModel.cs" />
+    <Compile Include="Models\EnrollAuditInfoViewModel.cs" />
     <Compile Include="NERP.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

@@ -187,6 +187,7 @@
     <Compile Include="Controllers\WeiXin\FSConnectionlistController.cs" />
     <Compile Include="Controllers\WeiXin\FSConnectionInfoController.cs" />
     <Compile Include="Controllers\WeiXin\UserProgressController.cs" />
+    <Compile Include="Controllers\WeiXin\EnrollAuditInfoController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -4800,8 +4801,8 @@
     <Content Include="Views\Weixin\UserCenter.cshtml" />
     <Content Include="Views\Enroll\Import.cshtml" />
     <Content Include="Views\Office\FileManageList.cshtml" />
-    <Content Include="Views\Weixin\EnrollAuditList.cshtml" />
     <Content Include="Views\Weixin\EnrollAuditInfo.cshtml" />
+    <Content Include="Views\Weixin\EnrollAuditList.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
