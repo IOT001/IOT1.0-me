@@ -10,8 +10,8 @@
     }
 
     .work_area {
-        width: 600px;
-        height: 283px;
+        width: 100%;
+        height: 100%;
         border: solid 1px #06C;
     }
 
@@ -52,19 +52,18 @@
     <!-- 首先有个工作区域 -->
     <div class="work_area">
         <!-- 按钮区域 用来显示一些按钮 -->
-        <div class="button_area">
+        @*<div class="button_area">
             <input class="button" name="rewrite" type="button" value="rewrite" onclick="rewrite()" />
             <input class="button" name="preview" type="button" value="preview" onclick="preview()" />
-            <input class="button_r" name="save" type="button" value="save" onclick="save()" />
-        </div>
+            <input class="button_r" name="save" type="button" value="确定" onclick="save()" />
+        </div>*@
         <!-- 编辑区域 用来写字的 -->
         <div class="editing_area">
             <canvas width="600" height="250" id="canvasEdit"></canvas>
         </div>
 
-        <div class="work_show">
+        <div class="work_show" style="display:none">
             <div id="previewShow" class="preview"></div>
-            <div class="preview"><textarea id="textarea" style="width:299px; float:left;" rows="8"></textarea></div>
         </div>
 
     </div>
@@ -93,7 +92,7 @@
 			linen.push(1);
 			context.save();
 			context.translate(context.canvas.width / 2, context.canvas.height / 2);
-			context.translate(-context.canvas.width / 2 , -context.canvas.height/2 - 33);
+			context.translate(-context.canvas.width / 2 , -context.canvas.height/2 - 1);
 			context.beginPath();
 			context.lineWidth = 2;
 			for (var i = 1; i < linex.length; i++)
@@ -139,10 +138,15 @@
 		show.innerHTML="";
 		show.appendChild(convertCanvasToImage(canvas));
 	}
+    //提交签名
 	function save(){
-		var textarea=document.getElementById("textarea");
-		textarea.innerHTML="";
-		textarea.appendChild(convertCanvasToImage(canvas));
+	    var show = document.getElementById("previewShow");
+	    show.innerHTML = "";
+	    var image = new Image();
+	    image = convertCanvasToImage(canvas)
+	    show.appendChild(image);
+	    return image.src;
+
 	}
 	function convertCanvasToImage(canvas){
 		var image=new Image();

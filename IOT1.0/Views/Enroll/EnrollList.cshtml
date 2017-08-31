@@ -79,6 +79,7 @@
                                             <a href="javascript:jiaru('@m.ApName','@m.ApTel','@m.ID','@m.ApStudentID')" class="btn btn-primary btn-xs" type="button"><i class="fa fa-edit"></i> 加入</a>
                                             <a href="javascript:baoming('@m.ID','@m.ApStudentID','@m.ApStateID')" class="btn btn-primary btn-xs" type="button"><i class="fa fa-edit"></i> 报名</a>
                                             <a href="javascript:piaoju('@m.ID','@m.ApStateID')" class="btn btn-primary btn-xs" type="button"><i class="fa fa-edit"></i> 票据</a>
+                                            <a href="@Url.Action("EnrollProtocol", "Enroll", new { id = m.ID, typeid = 1 })" class="btn btn-primary btn-xs" target="_blank">协议</a>
                                         </td>
                                     </tr>
                                 }

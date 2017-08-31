@@ -1,6 +1,8 @@
-﻿@{
-    ViewBag.Title = "装修管理合同";
+﻿@using DataProvider.Models
+@{
+    ViewBag.Title = "学员入学协议";
 }
+@model EnrollProtocolViewModel
 @using (Html.BeginForm("ConvertThisPageToPdf", "Report", null, FormMethod.Post))
 {
     <div id="convertThisPageButtonDiv" style="position: absolute; left: 0;">
@@ -49,32 +51,20 @@
                 <p><span>启联教育投诉监督电话： 021-59738995</span><span>启联教育网站：http://www.unique.com</span></p>
                 <p><span>启联教育培训中心</span></p>
                 <p>请仔细阅读以上内容，并签字确认。以上条款至学员家长签字确认后生效。以上条款如因任何其他原因而被确认无效，都不影响其他宽阔的效力。</p>
-                <div class="sign"><span onclick="signname()">签字：____________</span></div>
+                @if (Model.si != null)
+                {
+                    <div class="sign">签字：<img style="width:300px;width:150px" src="@Model.si.ImageData"></div>
+                }
+                else
+                {
+                  <div class="sign">签字：<span onclick="signname()">___________________</span></div>
+                }
                 <div class="footer">2/2</div>
             </div>
         </div>
     </fieldset>
 }
 
-<!-- 首先有个工作区域 -->
-<div class="work_area" id="signarea">
-    <!-- 按钮区域 用来显示一些按钮 -->
-    <div class="button_area">
-        <input class="button" name="rewrite" type="button" value="rewrite" onclick="rewrite()" />
-        <input class="button" name="preview" type="button" value="preview" onclick="preview()" />
-        <input class="button_r" name="save" type="button" value="save" onclick="save()" />
-    </div>
-    <!-- 编辑区域 用来写字的 -->
-    <div class="editing_area">
-        <canvas width="600" height="250" id="canvasEdit"></canvas>
-    </div>
-
-    <div class="work_show">
-        <div id="previewShow" class="preview"></div>
-        <div class="preview"><textarea id="textarea" style="width:299px; float:left;" rows="8"></textarea></div>
-    </div>
-
-</div>
 @section styles{
     <link href="http://www.525j.com.cn/Theme/zhuanti/head/css/common.css" rel="stylesheet" type="text/css">
     <style type="text/css">
@@ -195,37 +185,43 @@
 @section scripts
 {
     <script type="text/javascript">
-        $(document).ready(function () {
-            $('body').removeClass('gray-bg');
-            var gxbM = $(".gxb span");
-            for (var j = 0; j < gxbM.length; j++) {
-                !(gxbM.eq(j).html()) && (gxbM.eq(j).html("&nbsp;/&nbsp;"));
-            }
-            var year = $(".year");
-            for (var i = 0; i < year.length; i++) {
-                !(year.eq(i).html()) && (year.eq(i).html("&nbsp;&nbsp;&nbsp;&nbsp;"));
-            }
-            var gonqi = $(".month");
-            for (var i = 0; i < gonqi.length; i++) {
-                !(gonqi.eq(i).html()) && (gonqi.eq(i).html("&nbsp;&nbsp;"));
-            }
-        })
-        function signname() {
-            layer.open({
-                type: 2,
-                title: "<h3 class='ibox-title'>在线签名</h3>",
-                area: ['800px', '500px'],
-                shade: [0],
-                content: ['@Url.Action("Sign", "Common")'], //iframe的url，no代表不显示滚动条
+    //调用签名窗口
+    function signname() {
+        layer.open({
+            type: 2,
+            title: "<h3 class='ibox-title'>在线签名</h3>",
+            area: ['600px', '300px'],
+            shade: [0],
+            content: ['@Url.Action("Sign", "Common")'], //iframe的url，no代表不显示滚动条
                 btn: ['确定', '取消'],
-                yes: function (index) {
-                    layer.close(index);
+                yes: function (index, layero) {
+                    // 得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
+                    var iframeWin = top.window[layero.find('iframe')[0]['name']];
+                    // iframeWin.validate();
+                    var aa = iframeWin.save();
+                    $.post('@Url.Action("SaveStringKeySign", "Common")', {
+                        "id": '@Model.apid',//序列化对象
+                        "typeid": "1",
+                        "imagedata": aa
+                    }, function (json) {
+                        if (json.status == 200) {//成功
+
+                            layer.msg(json.msg);//弹出服务器返回的消息
+                            setTimeout(function () {//操作
+                                layer.closeAll();//关闭所有层
+                                window.location.reload(); //刷新
+                            }, 3000);
+                        }
+                        else {
+                            layer.msg(json.msg);
+                        }
+                    }, 'json');
                 },
                 cancel: function (index) {
                     layer.close(index);
                 }
             });
         }
-    
+
     </script>
 }

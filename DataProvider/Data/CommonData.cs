@@ -214,10 +214,26 @@ namespace DataProvider.Data
             /// </summary>
             public string name { get; set; }
         }
-
-
-
- 
+        /// <summary>
+        /// 保存签名数据
+        /// </summary>
+        /// <returns></returns>
+        public static int SaveSign(SignImage si)
+        {
+            return MsSqlMapperHepler.Insert(si,DBKeys.PRX);
+        }
+        /// <summary>
+        /// 获取主键类型是字符串的签名对象
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="typeid"></param>
+        /// <returns></returns>
+        public static SignImage GetStringKeySign(string id, int typeid)
+        {
+            string strsql = "select top 1 * from SignImage where StringKey = '" + id + "' and TypeID = " + typeid + " order by CreateTime desc";
+            SignImage si = MsSqlMapperHepler.SqlWithParamsSingle<SignImage>(strsql, null, DBKeys.PRX);
+            return si;
+        }
 
     }
 }

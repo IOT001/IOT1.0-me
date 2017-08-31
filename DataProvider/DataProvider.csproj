@@ -149,6 +149,7 @@
     <Compile Include="Entities\FollowRecord.cs" />
     <Compile Include="Entities\Message.cs" />
     <Compile Include="Entities\Refund.cs" />
+    <Compile Include="Entities\SignImage.cs" />
     <Compile Include="Entities\Students.cs" />
     <Compile Include="Entities\SYSButton.cs" />
     <Compile Include="Entities\SYSAccount.cs" />
@@ -181,6 +182,7 @@
     <Compile Include="Models\ButtonListViewModel.cs" />
     <Compile Include="Models\EnrollListViewModel.cs" />
     <Compile Include="Models\EnrollManageListModel.cs" />
+    <Compile Include="Models\EnrollProtocolViewModel.cs" />
     <Compile Include="Models\ListenListViewModel.cs" />
     <Compile Include="Models\ReservationModel.cs" />
     <Compile Include="Models\WX_MessageBrowseModel.cs" />
