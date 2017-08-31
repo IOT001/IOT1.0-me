@@ -134,6 +134,7 @@
     <Compile Include="Data\FileManageListData.cs" />
     <Compile Include="Data\EnrollAuditListData.cs" />
     <Compile Include="Data\EnrollAuditInfoData.cs" />
+    <Compile Include="Data\ReimburseData.cs" />
     <Compile Include="DPBase.cs" />
     <Compile Include="Entities\Appointment.cs" />
     <Compile Include="Entities\AttendanceRecord.cs" />
@@ -174,6 +175,8 @@
     <Compile Include="Entities\vw_Teachers.cs" />
     <Compile Include="Entities\Classes.cs" />
     <Compile Include="Entities\vw_ClassListJob.cs" />
+    <Compile Include="Entities\vw_Reimburse.cs" />
+    <Compile Include="Entities\Reimburse.cs" />
     <Compile Include="Implement\ExcuteModelImplement.cs" />
     <Compile Include="Interface\IExcuteModal.cs" />
     <Compile Include="Models\AppointmentPrintModel.cs" />
@@ -202,6 +205,7 @@
     <Compile Include="Models\MessageListViewModel.cs" />
     <Compile Include="Models\EnrollAuditListViewModel.cs" />
     <Compile Include="Models\EnrollAuditInfoViewModel.cs" />
+    <Compile Include="Models\ReimbursetListViewModel.cs" />
     <Compile Include="NERP.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
