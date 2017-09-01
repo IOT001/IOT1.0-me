@@ -2,6 +2,7 @@
 @using DataProvider.Paging
 @{
     ViewBag.Title = "报销管理";
+    object SYS_Role = ViewData["SYS_Role"];
 }
 @model ReimbursetListViewModel
 @section styles{
@@ -40,7 +41,7 @@
 
                             <div class="col-sm-3">
                                 <div class="input-daterange input-group" id="datepicker">
-                                    @Html.TextBoxFor(t => t.search.CreateTime_start, new { @class = "input-sm form-control", @type = "text" , @value = DateTime.Now  })
+                                    @Html.TextBoxFor(t => t.search.CreateTime_start, new { @class = "input-sm form-control", @type = "text", @value = DateTime.Now })
                                    
                                     <span class="input-group-addon">到</span>
                              
@@ -118,17 +119,15 @@
                                         <td>@m.ApplyPrice</td>
                                         <td>@m.CheckPrice</td>
                                         <td>
-                                            <a href="javascript:modify('@m.ID');" class="btn btn-primary btn-xs" type="button"><i class="fa fa-edit"></i> 编辑</a>
-                                          @*  @if (m.StateID == 2)
-                                            {
-                                                 <a href="javascript:Enable('@m.ID');" class="btn btn-primary btn-xs" type="button"><i class="fa fa-edit"></i> 启用</a>
+                                            <a href="javascript:modify('@m.ID','@m.StateID');" class="btn btn-primary btn-xs" type="button"><i class="fa fa-edit"></i> 编辑</a>
+                                            @if (!string.IsNullOrEmpty(SYS_Role.ToString()))
+                                           { 
+                                           if (SYS_Role == "1")
+                                           {
+                                                 <a href="javascript:To_Examine ('@m.ID');" class="btn btn-primary btn-xs" type="button"><i class="fa fa-edit"></i> 审核</a>
                                           
+                                           }     
                                             }
-                                            else 
-                                            {
-                                               <a href="javascript:Disable('@m.ID');" class="btn btn-primary btn-xs" type="button"><i class="fa fa-edit"></i> 停用</a>
-                                            }*@
-                                           
 
                                         </td>
                                     </tr>
@@ -171,7 +170,7 @@
                     <label class="col-sm-3 control-label">申请人：</label>
                     <div class="col-sm-8">
                            
-                     @Html.DropDownListFor(t => t.search.TeacherID, Model.TeacherIDIL, new { @class = "form-control input-sm chosen-select", @style = "width:100%;height:100%;", @tabindex = "4",@id="TeacherID" })
+                     @Html.DropDownListFor(t => t.search.TeacherID, Model.TeacherIDIL, new { @class = "form-control input-sm chosen-select", @style = "width:100%;height:100%;", @tabindex = "4", @id = "TeacherID" })
 
                     </div>
                 </div>
@@ -186,7 +185,7 @@
                 <div class="form-group" >
                     <label class="col-sm-3 control-label">报销金额：</label>
                     <div class="col-sm-8">
-                        <input type="text" placeholder="请输入报销金额" class="form-control" id="ApplyPrice">
+                        <input type="text" placeholder="请输入报销金额" class="form-control" id="ApplyPrice" >
                     </div>
                 </div>
                 <div class="form-group" id="toexamine">
@@ -207,10 +206,14 @@
         </div>
 </div>
 <script type="text/javascript">
-    //新增或编辑优惠
-    function modify(id) {
-         $("#examine").hide();//因为申请的时候批核人和金额是不能显示的
-          $("#toexamine").hide();
+    //新增或编辑
+    function modify(id, StateID) {
+        if (StateID==2) {
+            layer.msg("已审核的不能修改！");
+            return false;
+        }
+        hide();
+        removeAttr()
         cleanData("Reimburse");//清空数据
         layer.open({
             type: 1,
@@ -235,6 +238,30 @@
 
 
    
+    function To_Examine(id) {
+        show();//显示隐藏的
+        disabled()//不能编辑
+        cleanData("Reimburse");//清空数据
+        layer.open({
+            type: 1,
+            title: "<h3 class='ibox-title'>报销</h3>",
+            area: ['680px', '380px'],
+            content: $('#Reimburse'),
+            btn: ['保存', '取消'],
+            yes: function () {
+                To_Examine_save(id);
+            },
+            cancel: function (index) {
+                layer.close(index);
+            }
+        });
+
+        if (id) {//提供存着ID就是修改，则加载数据，不然打开空页面
+            var loadindex = layer.load();
+            loaddetail(id, loadindex)
+        }
+    }
+
 
 
     function loaddetail(id, loadindex) {
@@ -281,9 +308,29 @@
         obj.ApplyPrice = $("#ApplyPrice").val().trim();
        
         obj.CheckPrice = $("#CheckPrice").val().trim();
+        if (!obj.ApplyPrice) {
+            layer.msg("请输入报销金额！");
+            return false;
+        }
+
+        if (isNaN(obj.ApplyPrice)) {
+            layer.msg("报销金额必须是数字！");
+            return false;
+        }
+        
+
         obj.AuditingRemark = $("#AuditingRemark").val().trim();
        
-  
+    
+
+        if (obj.CheckPrice=="") {
+            obj.CheckPrice = 0;
+        }
+        if (isNaN(obj.CheckPrice)) {
+            layer.msg("财务支付必须是数字！");
+            return false;
+        }
+
 
         var action = '';
         if (id) {//有ID就是修改模式，没有就是新增模式
@@ -304,6 +351,61 @@
         }, 'json');
     }
 
+
+
+
+    //审核
+    function To_Examine_save(id) {
+
+        var obj = new Object;
+        if (id) {//有ID就是修改模式，没有就是新增模式
+            obj.ID = id;
+        }
+        obj.TeacherID = $("#TeacherID").val().trim(); 
+        obj.ApplyRemark = $("#ApplyRemark").val().trim();
+        obj.ApplyPrice = $("#ApplyPrice").val().trim(); 
+        obj.CheckPrice = $("#CheckPrice").val().trim(); 
+        obj.AuditingRemark = $("#AuditingRemark").val().trim();
+
+
+
+        if (!obj.CheckPrice) {
+            layer.msg("请输入财务支付金额！");
+            return false;
+        }
+        if (isNaN(obj.CheckPrice)) {
+            layer.msg("财务支付金额必须是数字！");
+            return false;
+        }
+        if (parseInt(obj.ApplyPrice) < parseInt(obj.CheckPrice)) {
+            layer.msg("财务支付金额不能比报销金额大！");
+            return false;
+        } 
+        
+
+         
+         
+         var   action = '@Url.Action("To_Examine_save", "Office")';
+        
+        $.post(action, {
+            "data": JSON.stringify(obj)//序列化对象
+        }, function (json) {
+            if (json.status == 200) {//成功
+
+                layer.msg(json.msg);//弹出服务器返回的消息
+                setTimeout(function () {//操作
+                    layer.closeAll();//关闭所有层
+                    window.location.reload(); //刷新
+                }, 3000);
+            }
+        }, 'json');
+    }
+
+
+
+
+
+
     function exportForm() {
         var $frm = $('#exportform');
         var array = $('#frmQuery').serializeArray();
@@ -318,10 +420,30 @@
     }
 
 
+    function hide() {
 
+        $("#examine").hide();//因为申请的时候批核人和金额是不能显示的
+        $("#toexamine").hide();
+    }
 
     function show() {
         $("#examine").show();
         $("#toexamine").show();
     }
+
+    function disabled() {
+
+        $("#TeacherID").attr("disabled", "disabled");
+        $("#ApplyRemark").attr("disabled", "disabled");
+        $("#ApplyPrice").attr("disabled", "disabled");
+    }
+
+    function removeAttr() {
+
+        $("#TeacherID").removeAttr("disabled");
+        $("#ApplyRemark").removeAttr("disabled");
+        $("#ApplyPrice").removeAttr("disabled");
+    }
+
+
 </script>

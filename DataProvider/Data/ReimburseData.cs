@@ -25,8 +25,8 @@ namespace DataProvider.Data
             orderby = "ID";//排序信息
             StringBuilder sb = new StringBuilder();//构建where条件
             sb.Append(" 1=1 ");
-            if (!string.IsNullOrWhiteSpace(search.Name))//老师名称
-                sb.AppendFormat(" and DiscountName like '%{0}%' ", search.Name);
+            if (!string.IsNullOrWhiteSpace(search.TeacherID))//老师名称
+                sb.AppendFormat(" and TeacherID = '{0}' ", search.TeacherID);
 
             if (!string.IsNullOrWhiteSpace(search.StateID))//状态
                 sb.AppendFormat(" and StateID = '{0}' ", search.StateID);

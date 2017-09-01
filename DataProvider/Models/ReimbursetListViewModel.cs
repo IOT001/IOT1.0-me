@@ -42,11 +42,7 @@ namespace DataProvider.Models
     /// </summary>
     public class ReimbursetListSearchModel : CommonPageEntity
     {
-        /// <summary>
-        ///老师姓名
-        /// </summary>
-        public string Name { set; get; }
-
+        
         
         /// <summary>
         /// 创建时间开始

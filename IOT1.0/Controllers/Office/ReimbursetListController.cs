@@ -33,6 +33,20 @@ namespace IOT1._0.Controllers.Office
             List<CommonEntity> TeacherIDIL = CommonData.GetTeachersList();//1是字典类型值,仅供测试参考
             model.TeacherIDIL = CommonData.Instance.GetBropDownListData(TeacherIDIL);
 
+
+            string SYS_Role = "0";
+            List<string> roles = UserSession.roles;//取账号角色 
+            for (int i = 0; i < roles.Count; i++)
+            {
+                if (roles[i] == "1" || roles[i] == "4")
+                {
+                    SYS_Role = "1";
+                }
+            }
+
+            ViewData["SYS_Role"] = SYS_Role;
+
+
             model.Reimbursetlist = ReimburseData.GetReimburseList(search);//填充页面模型数据
             return View(model);//返回页面模型
         }
@@ -112,6 +126,33 @@ namespace IOT1._0.Controllers.Office
 
 
 
+        /// <summary>
+        /// 审核
+        /// </summary>
+        /// <param name="json"></param>
+        /// <returns></returns>
+        public JsonResult To_Examine_save()
+        {
+            AjaxStatusModel ajax = new AjaxStatusModel();//功能操作类的返回类型都是AjaxStatusModel，数据放到AjaxStatusModel.data中，前台获取json后加载
+            ajax.status = EnumAjaxStatus.Error;//默认失败
+            ajax.msg = "保存失败！";//前台获取，用于显示提示信息
+            var data = Request["data"];//获取前台传递的数据，主要序列化
+            if (string.IsNullOrEmpty(data))
+            {
+                return Json(ajax);
+            }
+            Reimburse rb = (Reimburse)(JsonConvert.DeserializeObject(data.ToString(), typeof(Reimburse)));
+
+            rb.StateID = "2";//状态1为待审核，2为审核，3为不通过
+            rb.AuditingTime = DateTime.Now; //创建时间
+            rb.AuditingID = UserSession.userid;//创建人
+            if (ReimburseData.UpdateReimburse(rb))//注意时间类型，而且需要在前台把所有的值
+            {
+                ajax.msg = "保存成功！";
+                ajax.status = EnumAjaxStatus.Success;
+            }
+            return Json(ajax);
+        }
 
     }
 }

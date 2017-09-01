@@ -94,7 +94,7 @@ namespace DataProvider.Entities
         /// <summary>
         /// 申请退款的金额
         /// </summary>
-        public decimal ? ApplyPrice
+        public Nullable<decimal>  ApplyPrice
         {
             get;
             set;
@@ -102,7 +102,7 @@ namespace DataProvider.Entities
         /// <summary>
         /// 财务支付，财务审核时，运行输入比申请金额小的值
         /// </summary>
-        public decimal? CheckPrice
+        public Nullable<decimal> CheckPrice
         {
             get;
             set;
@@ -112,6 +112,23 @@ namespace DataProvider.Entities
         
 
 	}
+
+
+    /// <summary>
+    /// Deploy：实体对象映射关系
+    /// </summary>
+    [Serializable]
+    public sealed class ReimburseORMMapper : ClassMapper<Reimburse>
+    {
+        public ReimburseORMMapper()
+        {
+            base.Table("Reimburse");
+             
+            Map(f => f.ID).Key(KeyType.Identity);//设置主键  (如果主键名称不包含字母“ID”，请设置)      
+            AutoMap();
+        }
+    }
+
 
     
 }
