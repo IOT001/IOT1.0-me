@@ -1,10 +1,10 @@
 ﻿@using DataProvider.Models
 @using DataProvider.Paging
 @{
-    ViewBag.Title = "转让协议管理";
+    ViewBag.Title = "转让协议管理"; 
     object SYS_Role = ViewData["SYS_Role"];
 }
-@model ReimbursetListViewModel
+@model TransferListViewModel
 @section styles{
     <style type="text/css">
     </style>
@@ -23,19 +23,30 @@
 
 
                             <div class="col-sm-2">
-                                <label class="control-label">转让学员:</label>
+                                <label class="control-label">甲方:</label>
                             </div>
                             <div class="col-sm-3">
 
+    @Html.TextBoxFor(t => t.search.JName, new { @class = "form-control input-sm", @type = "text", @placeholder = "请输入甲方" }) 
 
-                                @*@Html.DropDownListFor(t => t.search.TeacherID, Model.TeacherIDIL, new { @class = "form-control input-sm chosen-select", @style = "width:100%;height:100%;", @tabindex = "4" })*@
+                            </div> 
+
+                             
+                                   <div class="col-sm-2">
+                                <label class="control-label">乙方:</label>
+                            </div>
+                            <div class="col-sm-3">
+
+                               @Html.TextBoxFor(t => t.search.YName, new { @class = "form-control input-sm", @type = "text", @placeholder = "请输入乙方" })  
 
                             </div>
 
+                        </div>
 
 
 
-                            <div class="col-xs-2">
+                        <div class="form-group">
+                               <div class="col-xs-2">
                                 <label class="control-label">创建时间:</label>
                             </div>
 
@@ -51,21 +62,16 @@
                             </div>
 
 
-                        </div>
 
-
-
-                        <div class="form-group">
-                            <div class="col-sm-2">
+                                     <div class="col-sm-2">
                                 <label class="control-label">审核状态:</label>
                             </div>
                             <div class="col-sm-3">
-
-                                @*@Html.DropDownListFor(t => t.search.StateID, Model.StateIDIL, new { @class = "form-control input-sm chosen-select", @style = "width:100%;height:100%;", @tabindex = "4" })*@
-
+                             
+                                @Html.DropDownListFor(t => t.search.StateID, Model.StateIDIL, new { @class = "form-control input-sm chosen-select", @style = "width:100%;height:100%;", @tabindex = "4" })
+                         
 
                             </div>
-
 
                         </div>
 
@@ -90,10 +96,8 @@
                                 <th>系统ID</th>
                                 <th>甲方</th>
                                 <th>乙方</th>
-                                <th>转让课程</th>
-                                <th>转让课时</th>
-                                <th>转至课程</th>
-                                <th>转至课时</th>
+                                <th>转让课程</th> 
+                                <th>转至课程</th> 
                                 <th>创建时间</th>
                                 <th>状态</th>
                                 <th>审核人</th>
@@ -103,21 +107,19 @@
                         <!-- 循环数据 -->
                         <tbody>
 
-                            @if (Model != null && Model.Reimbursetlist.Count() > 0)
+                            @if (Model != null && Model.Transferlist.Count() > 0)
                             {
-                                foreach (var m in Model.Reimbursetlist)
+                                foreach (var m in Model.Transferlist)
                                 {
                                     <tr>
-                                        <td class="jz">@m.Teachername</td>
-                                        <td>@m.StateIDname</td>
-                                        <td>@m.ApplyRemark</td>
-                                        <td>@m.CreatorId</td>
+                                        <td class="jz">@m.ID</td>
+                                        <td>@m.JName</td>
+                                        <td>@m.YName</td> 
+                                        <td>@m.JClassHour</td>
+                                        <td>@m.TranHour</td>
                                         <td>@m.CreateTime</td>
-                                        <td>@m.AuditingIDname</td>
-                                        <td>@m.AuditingTime</td>
-                                        <td>@m.AuditingRemark</td>
-                                        <td>@m.ApplyPrice</td>
-                                        <td>@m.CheckPrice</td>
+                                        <td>@m.StateIDName</td>
+                                        <td>@m.ApprovedBy</td> 
                                         <td>
                                             <a href="javascript:modify('@m.ID','@m.StateID');" class="btn btn-primary btn-xs" type="button"><i class="fa fa-edit"></i> 编辑</a>
                                             @if (!string.IsNullOrEmpty(SYS_Role.ToString()))
@@ -140,13 +142,13 @@
                         </tbody>
 
                     </table>
-                    @if (Model != null && Model.Reimbursetlist.TotalPageCount > 0)
+                    @if (Model != null && Model.Transferlist.TotalPageCount > 0)
                     {
                         <div class="row">
-                            <div class="dataTables_info col-sm-6">每页显示 @Model.search.PageSize 条，共<span>@Model.Reimbursetlist.TotalItemCount</span>条数据</div>
+                            <div class="dataTables_info col-sm-6">每页显示 @Model.search.PageSize 条，共<span>@Model.Transferlist.TotalItemCount</span>条数据</div>
                             <div class="col-sm-6">
 
-                                @Html.Pager(Model.Reimbursetlist, new PagerOptions(), "", new RouteValueDictionary {
+                                @Html.Pager(Model.Transferlist, new PagerOptions(), "", new RouteValueDictionary {
                                    { "pageindex",  Model.search.CurrentPage },
                                    { "pagesize", ViewBag.PageSize }
                                }, null)
@@ -170,92 +172,100 @@
             <div class="form-group">
                 <label class="col-sm-2 control-label">甲方：</label>
                 <div class="col-sm-4">
-
+                     <input type="text" placeholder="甲方" class="form-control" id="JName">
                 </div>
                 <label class="col-sm-2 control-label">甲方身份证：</label>
                 <div class="col-sm-4">
-
+                      <input type="text" placeholder="甲方身份证" class="form-control" id="JIDCode">
                 </div>
             </div>
 
             <div class="form-group">
                 <label class="col-sm-2 control-label">甲方地址：</label>
                 <div class="col-sm-4">
-
+                      <input type="text" placeholder="甲方地址" class="form-control" id="JAddress">
                 </div>
                 <label class="col-sm-2 control-label">甲方联系方式：</label>
                 <div class="col-sm-4">
-
+                      <input type="text" placeholder="甲方联系方式" class="form-control" id="JLinkType">
                 </div>
             </div>
 
             <div class="form-group">
                 <label class="col-sm-2 control-label">转让学员：</label>
-                <div class="col-sm-4">
-
+                <div class="col-sm-4"> 
+                                @Html.DropDownListFor(t => t.search.JStudentID, Model.StudentsIDIL, new { @class = "form-control input-sm chosen-select", @style = "width:100%;height:100%;", @tabindex = "4",@id = "JStudentID" })
                 </div>
-                <label class="col-sm-2 control-label">所报课程：</label>
+                <label class="col-sm-2 control-label">所报班级：</label>
                 <div class="col-sm-4">
+        
+
+                    <select data-placeholder="请选择所报班级..." id = "JClassName"   class="discountSelect form-control input-sm" style="width:100%;height:100%;" ><option value="">请选择</option></select>
 
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label">剩余课时：</label>
                 <div class="col-sm-4">
-
+                      <input type="text" placeholder="甲方" class="form-control" id="JClassHour">
                 </div>
                 <label class="col-sm-2 control-label">剩余价格：</label>
                 <div class="col-sm-4">
-
+                      <input type="text" placeholder="甲方" class="form-control" id="JClassHourPrice">
                 </div>
             </div>
             @*----乙方--*@
             <div class="form-group">
                 <label class="col-sm-2 control-label">乙方：</label>
                 <div class="col-sm-4">
-
+                      <input type="text" placeholder="乙方" class="form-control" id="YName">
                 </div>
                 <label class="col-sm-2 control-label">乙方身份证：</label>
                 <div class="col-sm-4">
-
+                      <input type="text" placeholder="乙方身份证" class="form-control" id="YIDCode">
                 </div>
             </div>
 
             <div class="form-group">
                 <label class="col-sm-2 control-label">乙方地址：</label>
                 <div class="col-sm-4">
-
+                      <input type="text" placeholder="乙方地址" class="form-control" id="YAddress">
                 </div>
                 <label class="col-sm-2 control-label">乙方联系方式：</label>
                 <div class="col-sm-4">
-
+                      <input type="text" placeholder="乙方联系方式" class="form-control" id="YLinkType">
                 </div>
             </div>
 
             <div class="form-group">
                 <label class="col-sm-2 control-label">接受学员：</label>
                 <div class="col-sm-4">
+                        @Html.DropDownListFor(t => t.search.YStudentID, Model.StudentsIDIL_1, new { @class = "form-control input-sm chosen-select", @style = "width:100%;height:100%;", @tabindex = "4",@id = "YStudentID" })
+
+
+                    
 
                 </div>
-                <label class="col-sm-2 control-label">转至课程：</label>
+                <label class="col-sm-2 control-label">转至班级：</label>
                 <div class="col-sm-4">
-
+                    
+                    <select data-placeholder="请选择所报班级..." id = "YClassid"   class="discountSelect form-control input-sm" style="width:100%;height:100%;" ><option value="">请选择</option></select>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label">折合课时：</label>
                 <div class="col-sm-4">
-
+                      <input type="text" placeholder="甲方" class="form-control" id="TranHour">
                 </div>
                 <label class="col-sm-2 control-label">折合价格：</label>
                 <div class="col-sm-4">
-
+                      <input type="text" placeholder="甲方" class="form-control" id="TranPrice">
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label">转款天数：</label>
                 <div class="col-sm-4">
-
+                      <input type="text" placeholder="甲方" class="form-control" id="TranDays">
                 </div>
 
             </div>
@@ -286,5 +296,197 @@
 
 
     }
+
+     
+
+ 
+      $("#JStudentID").change(function () {
+            var JStudentID = $("#JStudentID").val();
+            $("#JClassName option").remove();
+
+            $.post('@Url.Action("Getvw_EnrollList", "Finance")', { JStudentID: JStudentID }, function (json) {
+            //注册优惠下拉框change事件，选择自定义时允许自己输入优惠金额,要放在回调的这个地方，不然无效，
+          
+            for (var i = 0; i < json.length; i++) {
+                $("#JClassName").append("<option  data-ClassHour = '" + json[i].ClassHour + "' data-UsedHour = '" + json[i].UsedHour + "' value='" + json[i].ID + "'>" + json[i].Name + "</option>");
+            }
+        }, 'json').error(function () { alter("ERRPR!") });
+
+      
+          
+          var ClassHour = $("#JClassName option:selected").data("classhour")
+          var UsedHour = $("#JClassName option:selected").data("usedhour")
+          $("#JClassHour").val(ClassHour - UsedHour);
+
+        });
+ 
+ 
+
+    $("#YStudentID").change(function () {
+        var YStudentID = $("#YStudentID").val();
+        $("#YClassid option").remove();
+
+        $.post('@Url.Action("GetClasses", "Finance")', { YStudentID: YStudentID }, function (json) {
+                //注册优惠下拉框change事件，选择自定义时允许自己输入优惠金额,要放在回调的这个地方，不然无效，
+
+                for (var i = 0; i < json.length; i++) {
+                    $("#YClassid").append("<option  value='" + json[i].id + "'>" + json[i].name + "</option>");
+                }
+            }, 'json').error(function () { alter("ERRPR!") });
+
+
+        });
+
+
+
+    $("#JClassName").change(function () {
+
+        var ClassHour = $("#JClassName option:selected").data("classhour")
+        var UsedHour = $("#JClassName option:selected").data("usedhour")
+        $("#JClassHour").val(ClassHour - UsedHour);
+
+    });
+
+
+
+
+
+
+
+
+
+    function loaddetail(id, loadindex) {
+        $.ajax({
+            url: '@Url.Action("GetTransfer", "Finance")',
+            type: "post",
+            data: { id: id },
+            success: function (json) {
+                if (json.status == 200) {//成功
+                     
+
+                    $("#JName").val(json.data.JName);
+                    $("#JIDCode").val(json.data.JIDCode);
+                    $("#JAddress").val(json.data.JAddress);
+                    $("#JLinkType").val(json.data.JLinkType);
+                    $("#JStudentID").val(json.data.JStudentID);
+                    $("#JClassName").val(json.data.JENID);
+                    $("#JClassHour").val(json.data.JClassHour);
+                    $("#JClassHourPrice").val(json.data.JClassHourPrice);
+
+
+
+                    $("#YName").val(json.data.YName);
+                    $("#YIDCode").val(json.data.YIDCode);
+                    $("#YAddress").val(json.data.YAddress);
+                    $("#YLinkType").val(json.data.YLinkType);
+                    $("#YStudentID").val(json.data.YStudentID);
+                    $("#YClassid").val(json.data.YClassid);
+                    $("#TranPrice").val(json.data.TranPrice);
+                    $("#TranHour").val(json.data.TranHour);
+                    $("#TranDays").val(json.data.TranDays);
+
+                    
+                    layer.close(loadindex);//关闭加载层
+                }
+            },
+            error: function (xmLHttpRequest, textStatus, errorThrown) {
+                layer.msg("系统异常，请重试<br/>错误信息：" + xmLHttpRequest.responseText);
+            }
+        });
+    }
+
+    //保存或者新增
+    function save(id) {
+
+        var obj = new Object;
+        if (id) {//有ID就是修改模式，没有就是新增模式
+            obj.ID = id;
+        }
+        obj.JName = $("#JName").val().trim();
+        
+
+        obj.JIDCode = $("#JIDCode").val().trim();
+        obj.JAddress = $("#JAddress").val().trim();
+
+        obj.JLinkType = $("#JLinkType").val().trim();
+        
+ 
+
+        obj.JStudentID = $("#JStudentID").val().trim();
+        obj.JENID = $("#JClassName").val().trim();
+        
+        obj.JClassHour = $("#JClassHour").val().trim();
+        if (isNaN(obj.JClassHour)) {
+            layer.msg("剩余课时必须是数字！");
+            return false;
+        }
+        obj.JClassHourPrice = $("#JClassHourPrice").val().trim();
+        if (isNaN(obj.JClassHourPrice)) {
+            layer.msg("剩余价格必须是数字！");
+            return false;
+        }
+        obj.YName = $("#YName").val().trim();
+        obj.YIDCode = $("#YIDCode").val().trim();
+        obj.YAddress = $("#YAddress").val().trim();
+        obj.YLinkType = $("#YLinkType").val().trim();
+        obj.YStudentID = $("#YStudentID").val().trim();
+        obj.YClassid = $("#YClassid").val().trim();
+        obj.TranPrice = $("#TranPrice").val().trim();
+        if (isNaN(obj.TranPrice)) {
+            layer.msg("折合课时必须是数字！");
+            return false;
+        }
+        obj.TranHour = $("#TranHour").val().trim();
+        if (isNaN(obj.TranHour)) {
+            layer.msg("折合价格必须是数字！");
+            return false;
+        }
+        obj.TranDays = $("#TranDays").val().trim();
+        
+        if (isNaN(obj.TranDays)) {
+            layer.msg("转款天数必须是数字！");
+            return false;
+        }
+
+
+        var action = '';
+        if (id) {//有ID就是修改模式，没有就是新增模式
+            action = '@Url.Action("SaveTransfer", "Finance")';
+        }
+        else { action = '@Url.Action("AddTransfer", "Finance")' }
+        $.post(action, {
+            "data": JSON.stringify(obj)//序列化对象
+        }, function (json) {
+            if (json.status == 200) {//成功
+
+                layer.msg(json.msg);//弹出服务器返回的消息
+                setTimeout(function () {//操作
+                    layer.closeAll();//关闭所有层
+                    window.location.reload(); //刷新
+                }, 3000);
+            }
+        }, 'json');
+    }
+
+
+
+     
+
+
+
+    function exportForm() {
+        var $frm = $('#exportform');
+        var array = $('#frmQuery').serializeArray();
+
+        for (i = 0, length = array.length; i < length; i++) {
+            key = array[i].name;
+            value = array[i].value;
+            $frm.append($('<input name = "' + key + '" value = "' + value + '"  style="display:none"/>'));
+        }
+
+        $frm.submit();
+    }
+
+ 
 
 </script>

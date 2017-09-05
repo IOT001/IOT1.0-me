@@ -81,6 +81,27 @@ namespace DataProvider.Data
 
 
 
+        #region 获取字典学生表列表
+
+        /// <summary>
+        /// 获取字典列表
+        /// </summary>
+        /// <param name="dicTypeID"></param>
+        /// <returns>用于下拉的绑定项目</returns>
+        public static List<CommonEntity> GetStudentsList()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append("select id,name from Students");
+            sb.Append(" WHERE 1=@one");
+            var parameters = new DynamicParameters();
+            var one = 1;
+            parameters.Add("@one", one);
+            return MsSqlMapperHepler.SqlWithParams<CommonEntity>(sb.ToString(), parameters, DBKeys.PRX);
+
+        }
+        #endregion
+
+
         #region 获取课程表列表
 
         /// <summary>
@@ -100,6 +121,7 @@ namespace DataProvider.Data
 
         }
         #endregion
+
 
 
 

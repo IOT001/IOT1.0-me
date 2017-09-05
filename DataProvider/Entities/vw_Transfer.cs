@@ -6,11 +6,9 @@ using System.Threading.Tasks;
 
 namespace DataProvider.Entities
 {
-   public class Transfer
+   public class vw_Transfer
     {
-        public Transfer()
-        {
-        }
+        
         /// <summary>
         /// ID
         /// </summary>				
@@ -74,7 +72,7 @@ namespace DataProvider.Entities
         /// <summary>
         /// 乙方的报名记录，可能没有，在审核转让协议的时候新增
         /// </summary>				
-        public int YENID { get; set; }
+        public string YENID { get; set; }
         /// <summary>
         /// 乙方所选择的班级号
         /// </summary>				
@@ -131,5 +129,10 @@ namespace DataProvider.Entities
         /// 对应字典表20,1待审核，2审核通过，3审核不通过
         /// </summary>				
         public int StateID { get; set; }
+         /// <summary>
+        /// 状态中文
+        /// </summary>				
+        public string StateIDName { get; set; }
+       
     }
 }
