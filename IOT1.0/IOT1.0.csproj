@@ -167,6 +167,7 @@
     <Compile Include="Controllers\Enroll\ImportController.cs" />
     <Compile Include="Controllers\Finance\DailyReportController.cs" />
     <Compile Include="Controllers\Finance\RefundCheckController.cs" />
+    <Compile Include="Controllers\Finance\TransferController.cs" />
     <Compile Include="Controllers\Office\ReimbursetListController.cs" />
     <Compile Include="Controllers\Office\FileManageController.cs" />
     <Compile Include="Controllers\WeiXin\EnrollAuditController.cs" />
@@ -4811,6 +4812,7 @@
     <Content Include="Views\Common\sign.cshtml" />
     <Content Include="Views\Shared\_LayoutEmpty.cshtml" />
     <Content Include="Views\Office\ReimburseList.cshtml" />
+    <Content Include="Views\Finance\TransferAgreementList.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

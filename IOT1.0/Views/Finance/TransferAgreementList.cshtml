@@ -1,0 +1,290 @@
+﻿@using DataProvider.Models
+@using DataProvider.Paging
+@{
+    ViewBag.Title = "转让协议管理";
+    object SYS_Role = ViewData["SYS_Role"];
+}
+@model ReimbursetListViewModel
+@section styles{
+    <style type="text/css">
+    </style>
+}
+<div class="wrapper wrapper-content  animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <!-- 数据显示区 -->
+                <div class="ibox-content">
+                    <!-- 功能操作区 -->
+                    @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "frmQuery", @class = "form-horizontal form-horizontal" }))
+                    {
+
+                        <div class="form-group">
+
+
+                            <div class="col-sm-2">
+                                <label class="control-label">转让学员:</label>
+                            </div>
+                            <div class="col-sm-3">
+
+
+                                @*@Html.DropDownListFor(t => t.search.TeacherID, Model.TeacherIDIL, new { @class = "form-control input-sm chosen-select", @style = "width:100%;height:100%;", @tabindex = "4" })*@
+
+                            </div>
+
+
+
+
+                            <div class="col-xs-2">
+                                <label class="control-label">创建时间:</label>
+                            </div>
+
+                            <div class="col-sm-3">
+                                <div class="input-daterange input-group" id="datepicker">
+                                    @Html.TextBoxFor(t => t.search.CreateTime_start, new { @class = "input-sm form-control", @type = "text", @value = DateTime.Now })
+
+                                    <span class="input-group-addon">到</span>
+
+                                    @Html.TextBoxFor(t => t.search.CreateTime_end, new { @class = "input-sm form-control", @type = "text", @value = DateTime.Now })
+
+                                </div>
+                            </div>
+
+
+                        </div>
+
+
+
+                        <div class="form-group">
+                            <div class="col-sm-2">
+                                <label class="control-label">审核状态:</label>
+                            </div>
+                            <div class="col-sm-3">
+
+                                @*@Html.DropDownListFor(t => t.search.StateID, Model.StateIDIL, new { @class = "form-control input-sm chosen-select", @style = "width:100%;height:100%;", @tabindex = "4" })*@
+
+
+                            </div>
+
+
+                        </div>
+
+
+
+
+                        <div class="form-group">
+                            <div class="col-sm-4">
+                                <div class="btn-group">
+                                    <button class="btn btn-primary btn-sm" type="button" onclick="javascript:modify();"><i class="fa fa-plus-square"></i> 新增</button>
+                                </div>
+                            </div>
+                            <div class="col-sm-8 project-actions">
+                                <button type="submit" id="submit" class="btn btn-w-m btn-primary btn-sm">查&nbsp;&nbsp;&nbsp;&nbsp;询</button>
+                            </div>
+                        </div>
+                    }
+                    <!-- 数据列表 -->
+                    <table class="table table-striped table-bordered table-hover dataTables-example">
+                        <thead>
+                            <tr>
+                                <th>系统ID</th>
+                                <th>甲方</th>
+                                <th>乙方</th>
+                                <th>转让课程</th>
+                                <th>转让课时</th>
+                                <th>转至课程</th>
+                                <th>转至课时</th>
+                                <th>创建时间</th>
+                                <th>状态</th>
+                                <th>审核人</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <!-- 循环数据 -->
+                        <tbody>
+
+                            @if (Model != null && Model.Reimbursetlist.Count() > 0)
+                            {
+                                foreach (var m in Model.Reimbursetlist)
+                                {
+                                    <tr>
+                                        <td class="jz">@m.Teachername</td>
+                                        <td>@m.StateIDname</td>
+                                        <td>@m.ApplyRemark</td>
+                                        <td>@m.CreatorId</td>
+                                        <td>@m.CreateTime</td>
+                                        <td>@m.AuditingIDname</td>
+                                        <td>@m.AuditingTime</td>
+                                        <td>@m.AuditingRemark</td>
+                                        <td>@m.ApplyPrice</td>
+                                        <td>@m.CheckPrice</td>
+                                        <td>
+                                            <a href="javascript:modify('@m.ID','@m.StateID');" class="btn btn-primary btn-xs" type="button"><i class="fa fa-edit"></i> 编辑</a>
+                                            @if (!string.IsNullOrEmpty(SYS_Role.ToString()))
+                                            {
+                                                if (SYS_Role == "1")
+                                                {
+                                                    <a href="javascript:To_Examine ('@m.ID');" class="btn btn-primary btn-xs" type="button"><i class="fa fa-edit"></i> 审核</a>
+
+                                                }
+                                            }
+
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr><td colspan="11" style="text-align:center; color:red;">未查询到数据,请更换查询条件试试!</td></tr>
+                            }
+                        </tbody>
+
+                    </table>
+                    @if (Model != null && Model.Reimbursetlist.TotalPageCount > 0)
+                    {
+                        <div class="row">
+                            <div class="dataTables_info col-sm-6">每页显示 @Model.search.PageSize 条，共<span>@Model.Reimbursetlist.TotalItemCount</span>条数据</div>
+                            <div class="col-sm-6">
+
+                                @Html.Pager(Model.Reimbursetlist, new PagerOptions(), "", new RouteValueDictionary {
+                                   { "pageindex",  Model.search.CurrentPage },
+                                   { "pagesize", ViewBag.PageSize }
+                               }, null)
+                            </div>
+
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+@*弹出层，新增转让记录*@
+<div class="ibox float-e-margins" id="Reimburse" style="display:none">
+    <div class="ibox-content">
+        <form class="form-horizontal">
+            @*----甲方--*@
+            <div class="form-group">
+                <label class="col-sm-2 control-label">甲方：</label>
+                <div class="col-sm-4">
+
+                </div>
+                <label class="col-sm-2 control-label">甲方身份证：</label>
+                <div class="col-sm-4">
+
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">甲方地址：</label>
+                <div class="col-sm-4">
+
+                </div>
+                <label class="col-sm-2 control-label">甲方联系方式：</label>
+                <div class="col-sm-4">
+
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">转让学员：</label>
+                <div class="col-sm-4">
+
+                </div>
+                <label class="col-sm-2 control-label">所报课程：</label>
+                <div class="col-sm-4">
+
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">剩余课时：</label>
+                <div class="col-sm-4">
+
+                </div>
+                <label class="col-sm-2 control-label">剩余价格：</label>
+                <div class="col-sm-4">
+
+                </div>
+            </div>
+            @*----乙方--*@
+            <div class="form-group">
+                <label class="col-sm-2 control-label">乙方：</label>
+                <div class="col-sm-4">
+
+                </div>
+                <label class="col-sm-2 control-label">乙方身份证：</label>
+                <div class="col-sm-4">
+
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">乙方地址：</label>
+                <div class="col-sm-4">
+
+                </div>
+                <label class="col-sm-2 control-label">乙方联系方式：</label>
+                <div class="col-sm-4">
+
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">接受学员：</label>
+                <div class="col-sm-4">
+
+                </div>
+                <label class="col-sm-2 control-label">转至课程：</label>
+                <div class="col-sm-4">
+
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">折合课时：</label>
+                <div class="col-sm-4">
+
+                </div>
+                <label class="col-sm-2 control-label">折合价格：</label>
+                <div class="col-sm-4">
+
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">转款天数：</label>
+                <div class="col-sm-4">
+
+                </div>
+
+            </div>
+        </form>
+    </div>
+</div>
+<script type="text/javascript">
+    //新增或编辑
+    function modify(id, StateID) {
+        if (StateID==2) {
+            layer.msg("已审核的不能修改！");
+            return false;
+        }
+        cleanData("Reimburse");//清空数据
+        layer.open({
+            type: 1,
+            title: "<h3 class='ibox-title'>报销</h3>",
+            area: ['800px', '600px'],
+            content: $('#Reimburse'),
+            btn: ['保存', '取消'],
+            yes: function () {
+                save(id);
+            },
+            cancel: function (index) {
+                layer.close(index);
+            }
+        });
+
+
+    }
+
+</script>
