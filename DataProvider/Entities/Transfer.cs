@@ -102,7 +102,7 @@ namespace DataProvider.Entities
         /// <summary>
         /// CreateTime
         /// </summary>				
-        public DateTime CreateTime { get; set; }
+        public DateTime? CreateTime { get; set; }
         /// <summary>
         /// UpdatorId
         /// </summary>				

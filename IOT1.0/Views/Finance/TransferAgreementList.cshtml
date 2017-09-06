@@ -305,26 +305,34 @@
 
  
       $("#JStudentID").change(function () {
-            var JStudentID = $("#JStudentID").val();
-            $("#JClassName option").remove();
+          JstudentChage();
 
-            $.post('@Url.Action("Getvw_EnrollList", "Finance")', { JStudentID: JStudentID }, function (json) {
-            //注册优惠下拉框change事件，选择自定义时允许自己输入优惠金额,要放在回调的这个地方，不然无效，
-          
-            for (var i = 0; i < json.length; i++) {
-                $("#JClassName").append("<option  data-ClassHour = '" + json[i].ClassHour + "' data-UsedHour = '" + json[i].UsedHour + "' value='" + json[i].ID + "'>" + json[i].Name + "</option>");
-            }
-        }, 'json').error(function () { alter("ERRPR!") });
+        });
+      //改甲方学员时触发事件 
+      function JstudentChage(bandid) {
+          var JStudentID = $("#JStudentID").val();
+          $("#JClassName option").remove();
+          $("#JClassName").append("<option value=''>-请选择-</option>");
+          $.post('@Url.Action("Getvw_EnrollList", "Finance")', { JStudentID: JStudentID }, function (json) {
+  
 
-      
-          
+              for (var i = 0; i < json.length; i++) {
+                  if (json[i].ID == bandid)//说明选中
+                  {
+                      $("#JClassName").append("<option selected='selected' data-ClassHour = '" + json[i].ClassHour + "' data-UsedHour = '" + json[i].UsedHour + "' value='" + json[i].ID + "'>" + json[i].Name + "</option>");
+                  }
+                  else {
+                      $("#JClassName").append("<option  data-ClassHour = '" + json[i].ClassHour + "' data-UsedHour = '" + json[i].UsedHour + "' value='" + json[i].ID + "'>" + json[i].Name + "</option>");
+                  }
+              }
+          }, 'json').error(function () { alter("ERRPR!") });
+
+
+
           var ClassHour = $("#JClassName option:selected").data("classhour")
           var UsedHour = $("#JClassName option:selected").data("usedhour")
           $("#JClassHour").val(ClassHour - UsedHour);
-
-        });
- 
- 
+      }
 
     $("#YStudentID").change(function () {
         var YStudentID = $("#YStudentID").val();
@@ -373,7 +381,7 @@
                     $("#JAddress").val(json.data.JAddress);
                     $("#JLinkType").val(json.data.JLinkType);
                     $("#JStudentID").val(json.data.JStudentID);
-                    $("#JClassName").val(json.data.JENID);
+                    JstudentChage(json.data.JENID);//触发change事件
                     $("#JClassHour").val(json.data.JClassHour);
                     $("#JClassHourPrice").val(json.data.JClassHourPrice);
 
