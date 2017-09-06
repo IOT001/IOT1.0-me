@@ -27,9 +27,9 @@ namespace DataProvider.Data
             StringBuilder sb = new StringBuilder();//构建where条件
             sb.Append(" 1=1 ");
             if (!string.IsNullOrWhiteSpace(search.JName))//甲方
-                sb.AppendFormat(" and JStudentIDName = '{0}' ", search.JName);
+                sb.AppendFormat(" and JStudentIDName like '%{0}%' ", search.JName);
             if (!string.IsNullOrWhiteSpace(search.YName))//乙方
-                sb.AppendFormat(" and YStudentIDName = '{0}' ", search.YName);
+                sb.AppendFormat(" and YStudentIDName like '%{0}%' ", search.YName);
 
             if (!string.IsNullOrWhiteSpace(search.StateID))//状态
                 sb.AppendFormat(" and StateID = '{0}' ", search.StateID);
