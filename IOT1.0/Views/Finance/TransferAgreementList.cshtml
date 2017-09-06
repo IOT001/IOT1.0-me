@@ -165,7 +165,7 @@
 
 
 @*弹出层，新增转让记录*@
-<div class="ibox float-e-margins" id="Reimburse" style="display:none">
+<div class="ibox float-e-margins" id="Transfer" style="display:none">
     <div class="ibox-content">
         <form class="form-horizontal">
             @*----甲方--*@
@@ -279,12 +279,12 @@
             layer.msg("已审核的不能修改！");
             return false;
         }
-        cleanData("Reimburse");//清空数据
+        cleanData("Transfer");//清空数据
         layer.open({
             type: 1,
             title: "<h3 class='ibox-title'>转让</h3>",
             area: ['800px', '600px'],
-            content: $('#Reimburse'),
+            content: $('#Transfer'),
             btn: ['保存', '取消'],
             yes: function () {
                 save(id);
@@ -311,8 +311,10 @@
       //改甲方学员时触发事件 
       function JstudentChage(bandid) {
           var JStudentID = $("#JStudentID").val();
-          $("#JClassName option").remove();
-          $("#JClassName").append("<option value=''>-请选择-</option>");
+          $("#JClassName option").remove(); //清空绑定的数据，因为不清空就会把之前绑定的一样存在
+          $("#JClassName").append("<option value=''>-请选择-</option>");//添加初始值
+
+          //调用后台查询
           $.post('@Url.Action("Getvw_EnrollList", "Finance")', { JStudentID: JStudentID }, function (json) {
   
 
@@ -329,17 +331,16 @@
 
 
 
-          var ClassHour = $("#JClassName option:selected").data("classhour")
-          var UsedHour = $("#JClassName option:selected").data("usedhour")
-          $("#JClassHour").val(ClassHour - UsedHour);
+         
       }
 
     $("#YStudentID").change(function () {
         var YStudentID = $("#YStudentID").val();
-        $("#YClassid option").remove();
+        $("#YClassid option").remove();  //清空绑定的数据，因为不清空就会把之前绑定的一样存在
 
+        //调用后台查询
         $.post('@Url.Action("GetClasses", "Finance")', { YStudentID: YStudentID }, function (json) {
-                //注册优惠下拉框change事件，选择自定义时允许自己输入优惠金额,要放在回调的这个地方，不然无效，
+                
 
                 for (var i = 0; i < json.length; i++) {
                     $("#YClassid").append("<option  value='" + json[i].id + "'>" + json[i].name + "</option>");
