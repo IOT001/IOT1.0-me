@@ -133,6 +133,14 @@ namespace DataProvider.Entities
         /// 状态中文
         /// </summary>				
         public string StateIDName { get; set; }
+        /// <summary>
+        /// 甲方名称
+        /// </summary>				
+        public string JStudentIDName { get; set; }
+        /// <summary>
+        /// 乙方名称
+        /// </summary>				
+        public string YStudentIDName { get; set; }
        
     }
 }

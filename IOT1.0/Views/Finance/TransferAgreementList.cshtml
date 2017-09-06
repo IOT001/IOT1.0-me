@@ -23,21 +23,21 @@
 
 
                             <div class="col-sm-2">
-                                <label class="control-label">甲方:</label>
+                                <label class="control-label">甲方学员:</label>
                             </div>
                             <div class="col-sm-3">
 
-    @Html.TextBoxFor(t => t.search.JName, new { @class = "form-control input-sm", @type = "text", @placeholder = "请输入甲方" }) 
+    @Html.TextBoxFor(t => t.search.JName, new { @class = "form-control input-sm", @type = "text", @placeholder = "请输入甲方学员" }) 
 
                             </div> 
 
                              
                                    <div class="col-sm-2">
-                                <label class="control-label">乙方:</label>
+                                <label class="control-label">乙方学员:</label>
                             </div>
                             <div class="col-sm-3">
 
-                               @Html.TextBoxFor(t => t.search.YName, new { @class = "form-control input-sm", @type = "text", @placeholder = "请输入乙方" })  
+                               @Html.TextBoxFor(t => t.search.YName, new { @class = "form-control input-sm", @type = "text", @placeholder = "请输入乙方学员" })  
 
                             </div>
 
@@ -113,8 +113,8 @@
                                 {
                                     <tr>
                                         <td class="jz">@m.ID</td>
-                                        <td>@m.JName</td>
-                                        <td>@m.YName</td> 
+                                        <td>@m.JStudentIDName</td>
+                                        <td>@m.YStudentIDName</td> 
                                         <td>@m.JClassHour</td>
                                         <td>@m.TranHour</td>
                                         <td>@m.CreateTime</td>
@@ -282,7 +282,7 @@
         cleanData("Reimburse");//清空数据
         layer.open({
             type: 1,
-            title: "<h3 class='ibox-title'>报销</h3>",
+            title: "<h3 class='ibox-title'>转让</h3>",
             area: ['800px', '600px'],
             content: $('#Reimburse'),
             btn: ['保存', '取消'],

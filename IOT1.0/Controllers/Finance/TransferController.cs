@@ -131,6 +131,8 @@ namespace IOT1._0.Controllers.Finance
                 return Json(ajax);
             }
             Transfer rb = (Transfer)(JsonConvert.DeserializeObject(data.ToString(), typeof(Transfer)));
+            rb.UpdateTime = DateTime.Now;
+            rb.UpdatorId = UserSession.userid;
 
             if (TransferData.UpdateTransfer(rb))//注意时间类型，而且需要在前台把所有的值
             {
