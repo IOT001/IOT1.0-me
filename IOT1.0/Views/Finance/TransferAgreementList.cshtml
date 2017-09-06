@@ -294,6 +294,10 @@
             }
         });
 
+        if (id) {//提供存着ID就是修改，则加载数据，不然打开空页面
+            var loadindex = layer.load();
+            loaddetail(id, loadindex)
+        }
 
     }
 
