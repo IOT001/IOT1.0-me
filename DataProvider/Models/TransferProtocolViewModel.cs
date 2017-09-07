@@ -25,5 +25,17 @@ namespace DataProvider.Models
         /// 签名对象
         /// </summary>
         public vw_Transfer si { set; get; }
+
+
+        /// <summary>
+        /// 转让协议甲方值
+        /// </summary>
+        public string ImageData { set; get; }
+
+        /// <summary>
+        /// 转让协议乙方值 
+        /// </summary>
+        public string siB_ImageData { set; get; }
+     
     }
 }

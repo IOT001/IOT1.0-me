@@ -111,27 +111,49 @@
             </div>
             <div class="page page2">
                 
-               
-                @if (Model.si.ImageData != null)
+              
+                @if (Model.si.ImageData != null || Model.si.ImageData != "0")
                 {
-                    <div class="sign">签字：<img style="width:300px;width:150px" src="@Model.si.ImageData"></div>
-                     <div class="sign">签约日期：@Model.si.SignImageCreateTime</div>
+                    <div class="sign"style="float:left" >签字：<img style="width:300px;width:150px" src="@Model.si.ImageData"></div>
                 }
-                else
+                 @if (Model.si.siB_ImageData != null || Model.si.siB_ImageData != "0")
                 {
-                  <div class="sign">签字：<span onclick="signname()">___________________</span></div>
-                }
+                    <div class="sign"  style="float:right">签字：<img style="width:300px;width:150px" src="@Model.si.siB_ImageData"></div>
+                 }
+                <div style="clear:both;">
+                   @if (Model.si.ImageData != null || Model.si.ImageData != "0")
+                {
+                     <div class="sign"style="float:left;" >签约日期：@Model.si.SignImageCreateTime</div>
+                } 
+                 @if (Model.si.siB_ImageData != null || Model.si.siB_ImageData != "0")
+                 {
+                    <div class="sign"  style="float:right">签约日期：@Model.si.siB_CreateTime</div>
+                 }
+                    </div>
 
 
-                 @if (Model.si.siB_ImageData != null)
+                @if (Model.si.ImageData == null)
                 {
-                    <div class="sign">签字：<img style="width:300px;width:150px" src="@Model.si.siB_ImageData"></div>
-                     <div class="sign">签约日期：@Model.si.siB_CreateTime</div>
+                  <div class="sign" style="float:left">签字：<span onclick="signname()">___________________</span></div>
+                    
                 }
-                else
+
+                  @if (Model.si.siB_ImageData == null)
                 {
-                  <div class="sign" style="float:right">签字：<span onclick="signnameB()">___________________</span></div>
+                   <div class="sign"  style="float:right">签约日期：</div>
                 }
+                   @if (Model.si.ImageData == null)
+                   {
+                    <div class="sign" style="clear:both;">签字：<span onclick="signnameB()">___________________</span></div>
+                   } 
+                 @if (Model.si.siB_ImageData == null)
+                 {
+                    <div class="sign"  style="float:right">签约日期：</div>
+                 }
+
+         
+                 
+
                 <div class="footer">2/2</div>
             </div>
         </div>
