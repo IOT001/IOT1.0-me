@@ -34,7 +34,9 @@ namespace IOT1._0.Controllers.Enroll
                 return Json(ajax);
             }
             Transfer rb = TransferData.GetTransferByID(int.Parse(tid));//获取协议
-            DataProvider.Entities.Enroll en = EnrollData.GetEnrollByID(rb.JENID)
+            DataProvider.Entities.Enroll jen = EnrollData.GetEnrollByID(rb.JENID);//甲方报名记录
+            DataProvider.Entities.Enroll yen = EnrollData.getEnrollByStudentClass(rb.YStudentID, rb.YClassid);//乙方报名记录
+
             rb.StateID = 1;//状态1为待审核，2为审核，3为不通过
             rb.CreateTime = DateTime.Now; //创建时间
             rb.CreatorId = UserSession.userid;//创建人
