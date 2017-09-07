@@ -1,0 +1,363 @@
+﻿@using DataProvider.Models
+@{
+    ViewBag.Title = "转让课程协议";
+}
+@model TransferProtocolViewModel
+@using (Html.BeginForm("ConvertThisPageToPdf", "Report", null, FormMethod.Post))
+{
+    
+    
+    
+    <div id="convertThisPageButtonDiv" style="position: absolute; left: 0;">
+        <input type="submit" value="导出PDF文件" />
+    </div> 
+    
+    
+    
+   
+        <div class="wrap">
+            <div class="page page1">
+                <span class="header">
+                    <div class="logo"><img src="~/Images/qllogo.jpg" style="width:130px" /></div>
+                    <h1>启联教育课程转让协议</h1>
+                </span>
+
+                 @if (Model.si != null)
+                 {
+                  
+                     
+            
+                     
+                  <div>
+                <div style="float:left">甲方：</div>
+                <div style="text-decoration:underline;float:left;">@Model.si.JName</div> 
+  
+                <div style="float:left;">(课程持有以下简称甲方)</div> 
+                   </div>
+                    
+
+                 <div style=" clear:both;">
+                 <div style="float:left">身份证号：</div>
+                <div style="text-decoration:underline;float:left;">@Model.si.JIDCode</div>
+               </div>
+                     
+                     
+                    <div style="clear:both;">
+                 <div style="float:left" >地址：</div>
+                <div style="text-decoration:underline;float:left;">@Model.si.JAddress</div>
+                   </div>
+                     
+                     
+                    <div style="clear:both;">
+                 <div style="float:left" >联系方式：</div>
+                <div style="text-decoration:underline;float:left;">@Model.si.JLinkType</div>
+                   </div>
+                     
+                     
+                     
+                     
+                     
+               <div style="clear:both;">
+                <div style="float:left">乙方：</div>
+                <div style="text-decoration:underline;float:left;">@Model.si.YName </div>
+                    <div style="float:left;">(课程持有以下简称乙方)</div> 
+                   </div>
+
+
+                 <div style="clear:both;">
+                 <div style="float:left">身份证号：</div>
+                <div style="text-decoration:underline;display:block;">@Model.si.YIDCode</div>
+               </div>
+                     
+                     
+                    <div style="clear:both;">
+                 <div style="float:left" >地址：</div>
+                <div style="text-decoration:underline;display:block;">@Model.si.YAddress</div>
+                   </div>
+                     
+                     
+                    <div style="clear:both;">
+                 <div style="float:left" >联系方式：</div>
+                <div style="text-decoration:underline;display:block;">@Model.si.YLinkType</div>
+                   </div>
+                     
+               
+ 
+                <p>甲乙双方双方本着资源共享，互惠互利的原则，经过友好协商，就甲方向乙方转让启联教育课程事宜，订立协议，以资双方共同遵守执行。</p>
+                <p>一丶经双方协商一致同意甲方将其所持有的启联教育课程转让给乙方。</p>
+                
+                <p>二丶经双方协商一致确认并经相关第三方启联教育的核实。上述课程所对应的课时内容如下;</p>
+                <p>课程名称：——————————</p>
+                <p>剩余课时：——————————</p>
+                <p>剩余课程价格：——————————（小写）</p>
+
+
+                
+                <p>三丶经双方协商一致后共同确认，上述课程转让价格为：________（大写），折合课程________</p>
+                <p>四丶经双方协商一致后共同确认。转让方式为：囗 第1种/囗 第2种</p>
+                <p>1.签订本协议后双方约定时间地点现在实物转让，转让价款的现金也一并现场点清并给付，转让过后双方不再向对方追究任何责任;</p>
+                <p>2.签订本协议后双方约定时间地点现场实物转让，转让价款则自实物转让后___天内由乙方向甲方指定银行转账</p>
+
+
+               
+                <p>五丶上述第四条中关于第2种转让方式，如乙方自收到课程后拒不在约定时间内向甲方指定银行账户转账，则乙方应向甲方支付转让价格逾期每天千分之二的违约金，并赔偿甲方因此产生的一切损失，据实赔偿（若有），且甲方保留向乙方追究责任的权利，并有权向乙方索回上述课程。</p>
+                <p>六丶一切因本协议所产生的纠纷，双方应首先协商解决：解决不成时，可向本协议签订地人民法院提请诉讼解决。</p>
+                <p>七丶本协议自双方签字之日起生效，并自双方义务履行完毕后自行终止。本协议一式贰份，甲乙双方各执壹份，且同等法律效力。</p>
+                     
+                   
+                     
+                 }     
+                <div class="footer">1/2</div>
+            </div>
+            <div class="page page2">
+                
+              
+                @if (Model.ImageData != null || Model.ImageData != "0")
+                {
+                    <div class="sign"style="float:left" >签字：<img style="width:300px;width:150px" src="@Model.si.ImageData"></div>
+                }
+                 @if (Model.si.siB_ImageData != null || Model.si.siB_ImageData != "0")
+                {
+                    <div class="sign"  style="float:right">签字：<img style="width:300px;width:150px" src="@Model.si.siB_ImageData"></div>
+                 }
+                <div style="clear:both;">
+                   @if (Model.si.ImageData != null || Model.si.ImageData != "0")
+                {
+                     <div class="sign"style="float:left;" >签约日期：@Model.si.SignImageCreateTime</div>
+                } 
+                 @if (Model.si.siB_ImageData != null || Model.si.siB_ImageData != "0")
+                 {
+                    <div class="sign"  style="float:right">签约日期：@Model.si.siB_CreateTime</div>
+                 }
+                    </div>
+
+
+                @if (Model.si.ImageData == null)
+                {
+                  <div class="sign" style="float:left">签字：<span onclick="signname()">___________________</span></div>
+                    
+                }
+
+                  @if (Model.si.siB_ImageData == null)
+                {
+                   <div class="sign"  style="float:right">签约日期：</div>
+                }
+                   @if (Model.si.ImageData == null)
+                   {
+                    <div class="sign" style="clear:both;">签字：<span onclick="signnameB()">___________________</span></div>
+                   } 
+                 @if (Model.si.siB_ImageData == null)
+                 {
+                    <div class="sign"  style="float:right">签约日期：</div>
+                 }
+
+         
+                 
+
+                <div class="footer">2/2</div>
+            </div>
+        </div>
+ 
+}
+
+@section styles{
+    <link href="http://www.525j.com.cn/Theme/zhuanti/head/css/common.css" rel="stylesheet" type="text/css">
+    <style type="text/css">
+        body {
+            background: #ddd;
+        }
+
+        .wrap {
+            width: 210mm;
+            margin: 0 auto;
+            background: #fff;
+        }
+
+        .page {
+            padding: 25mm 18mm;
+            /*width: 174mm;*/
+            height: 247mm;
+            margin-bottom: 0px;
+            background: #fff;
+            overflow: hidden;
+            font-family: "SimSun";
+            color: #000;
+            font-size: 12pt;
+            position: relative;
+        }
+
+            .page h1 {
+                font-size: 18pt;
+                text-align: center;
+                line-height: 4em;
+                font-weight: bold;
+            }
+
+            .page h2 {
+                line-height: 1.5em;
+                margin: .5em 0;
+                font-weight: bold;
+                font-size: 10.5pt;
+            }
+
+            .page h3, .page p {
+                line-height: 1.5em;
+                margin: .3em 0;
+                text-indent: 2em;
+                font-size: 10.5pt;
+            }
+
+        .page1 h3, .page1 p {
+            line-height: 1.5em;
+            margin: .5em 0;
+            text-indent: 2em;
+            text-align: justify;
+        }
+
+        .page span {
+            /*border-bottom: 1px solid #000;*/
+        }
+
+        .page p.textindent {
+            text-indent: 0;
+        }
+
+        .page p.remark {
+            height: 72px;
+            overflow: hidden;
+        }
+
+        .sign span {
+            border-bottom: none;
+        }
+
+        .header {
+            position: absolute;
+            top: 2mm;
+            left: 19mm;
+            width: 174mm;
+            height: 80px;
+            overflow: hidden;
+            background: #fff;
+        }
+
+            .header .logo {
+                float: left;
+            }
+
+            .header p {
+                float: right;
+                padding-top: 15mm;
+                font-size: 9pt;
+                color: #000;
+            }
+
+                .header p span {
+                    border-bottom: none;
+                }
+
+        .footer {
+            position: absolute;
+            bottom: 0;
+            left: 0mm;
+            height: 25mm;
+            color: #000;
+            text-align: center;
+            width: 100%;
+            font-size: 9pt;
+        }
+
+        .pletter {
+            letter-spacing: 2px;
+        }
+
+        .wrap .page2, .wrap .page3 {
+            padding-top: 20px;
+        }
+
+    </style>
+}
+@section scripts
+{
+    <script type="text/javascript">
+    //调用签名窗口
+    function signname() {
+        layer.open({
+            type: 2,
+            title: "<h3 class='ibox-title'>在线签名</h3>",
+            area: ['600px', '300px'],
+            shade: [0],
+            content: ['@Url.Action("Sign", "Common")'], //iframe的url，no代表不显示滚动条
+                btn: ['确定', '取消'],
+                yes: function (index, layero) {
+                    // 得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
+                    var iframeWin = top.window[layero.find('iframe')[0]['name']];
+                    // iframeWin.validate();
+                    var aa = iframeWin.save();
+                    $.post('@Url.Action("SaveIntKeySign", "Common")', {
+                        "id": '@Model.ID',//序列化对象
+                        "typeid": "2",
+                        "imagedata": aa
+                    }, function (json) {
+                        if (json.status == 200) {//成功
+
+                            layer.msg(json.msg);//弹出服务器返回的消息
+                            setTimeout(function () {//操作
+                                layer.closeAll();//关闭所有层
+                                window.location.reload(); //刷新
+                            }, 3000);
+                        }
+                        else {
+                            layer.msg(json.msg);
+                        }
+                    }, 'json');
+                },
+                cancel: function (index) {
+                    layer.close(index);
+                }
+            });
+        }
+
+
+
+
+        function signnameB() {
+            layer.open({
+                type: 2,
+                title: "<h3 class='ibox-title'>在线签名</h3>",
+                area: ['600px', '300px'],
+                shade: [0],
+                content: ['@Url.Action("Sign", "Common")'], //iframe的url，no代表不显示滚动条
+            btn: ['确定', '取消'],
+            yes: function (index, layero) {
+                // 得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
+                var iframeWin = top.window[layero.find('iframe')[0]['name']];
+                // iframeWin.validate();
+                var aa = iframeWin.save();
+                $.post('@Url.Action("SaveIntKeySign", "Common")', {
+                        "id": '@Model.ID',//序列化对象
+                        "typeid": "3",
+                        "imagedata": aa
+                    }, function (json) {
+                        if (json.status == 200) {//成功
+
+                            layer.msg(json.msg);//弹出服务器返回的消息
+                            setTimeout(function () {//操作
+                                layer.closeAll();//关闭所有层
+                                window.location.reload(); //刷新
+                            }, 3000);
+                        }
+                        else {
+                            layer.msg(json.msg);
+                        }
+                    }, 'json');
+                },
+            cancel: function (index) {
+                layer.close(index);
+            }
+        });
+        }
+
+
+    </script>
+}

@@ -257,5 +257,20 @@ namespace DataProvider.Data
             return si;
         }
 
+
+        /// <summary>
+        /// 获取主键类型是整数的签名对象
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="typeid"></param>
+        /// <returns></returns>
+        public static SignImage GetIntKeySign(int id, int typeid)
+        {
+            string strsql = "select top 1 * from SignImage where IntKey = '" + id + "' and TypeID = " + typeid + " order by CreateTime desc";
+            SignImage si = MsSqlMapperHepler.SqlWithParamsSingle<SignImage>(strsql, null, DBKeys.PRX);
+            return si;
+        }
+
+
     }
 }

@@ -122,6 +122,9 @@
                                         <td>@m.ApprovedBy</td> 
                                         <td>
                                             <a href="javascript:modify('@m.ID','@m.StateID');" class="btn btn-primary btn-xs" type="button"><i class="fa fa-edit"></i> 编辑</a>
+
+                                           <a href="@Url.Action("TransferProtocol", "Finance", new { id = m.ID, typeid = 2 })" class="btn btn-primary btn-xs" target="_blank"> <i class="fa fa-edit"></i>协议</a>
+
                                             @if (!string.IsNullOrEmpty(SYS_Role.ToString()))
                                             {
                                                 if (SYS_Role == "1")
@@ -321,10 +324,10 @@
               for (var i = 0; i < json.length; i++) {
                   if (json[i].ID == bandid)//说明选中
                   {
-                      $("#JClassName").append("<option selected='selected' data-ClassHour = '" + json[i].ClassHour + "' data-UsedHour = '" + json[i].UsedHour + "' value='" + json[i].ID + "'>" + json[i].Name + "</option>");
+                      $("#JClassName").append("<option selected='selected' data-ClassHour = '" + json[i].ClassHour + "' data-UsedHour = '" + json[i].UsedHour + "' value='" + json[i].ID + "' data-JClassName='" + json[i].Name + "' >" + json[i].Name + "</option>");
                   }
                   else {
-                      $("#JClassName").append("<option  data-ClassHour = '" + json[i].ClassHour + "' data-UsedHour = '" + json[i].UsedHour + "' value='" + json[i].ID + "'>" + json[i].Name + "</option>");
+                      $("#JClassName").append("<option  data-ClassHour = '" + json[i].ClassHour + "' data-UsedHour = '" + json[i].UsedHour + "' value='" + json[i].ID + "' data-JClassName='" + json[i].Name + "' >" + json[i].Name + "</option>");
                   }
               }
           }, 'json').error(function () { alter("ERRPR!") });
@@ -343,7 +346,7 @@
                 
 
                 for (var i = 0; i < json.length; i++) {
-                    $("#YClassid").append("<option  value='" + json[i].id + "'>" + json[i].name + "</option>");
+                    $("#YClassid").append("<option  value='" + json[i].id + "' data-TranCourse='" + json[i].name + "'>" + json[i].name + "</option>");
                 }
             }, 'json').error(function () { alter("ERRPR!") });
 
@@ -354,8 +357,8 @@
 
     $("#JClassName").change(function () {
 
-        var ClassHour = $("#JClassName option:selected").data("classhour")
-        var UsedHour = $("#JClassName option:selected").data("usedhour")
+        var ClassHour = $("#JClassName option:selected").data("classhour");
+        var UsedHour = $("#JClassName option:selected").data("usedhour");
         $("#JClassHour").val(ClassHour - UsedHour);
 
     });
@@ -459,8 +462,12 @@
         if (isNaN(obj.TranDays)) {
             layer.msg("转款天数必须是数字！");
             return false;
-        }
+        } 
+        var UsedHour = $("#JClassName option:selected").data("usedhour");
+        obj.JClassName = $("#JClassName option:selected").data("jclassname");//甲方的课程名称
 
+        obj.TranCourse = $("#YClassid option:selected").data("trancourse");//折合课程
+      
 
         var action = '';
         if (id) {//有ID就是修改模式，没有就是新增模式
