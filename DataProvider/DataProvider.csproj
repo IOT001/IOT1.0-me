@@ -212,6 +212,7 @@
     <Compile Include="Models\EnrollAuditInfoViewModel.cs" />
     <Compile Include="Models\ReimbursetListViewModel.cs" />
     <Compile Include="Models\TransferListViewModel.cs" />
+    <Compile Include="Models\TransferProtocolViewModel.cs" />
     <Compile Include="NERP.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

@@ -127,6 +127,24 @@ namespace DataProvider.Data
 
         }
         #endregion
+ 
+
+
+
+
+             /// <summary>
+        /// 获取转让协议签名
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="typeid"></param>
+        /// <returns></returns>
+        public static vw_Transfer GetIntKeySign(int id, int typeid)
+        {
+            string strsql = "select top 1 * from vw_Transfer where IntKey = '" + id + "' and TypeID = " + typeid + " order by CreateTime desc";
+            vw_Transfer si = MsSqlMapperHepler.SqlWithParamsSingle<vw_Transfer>(strsql, null, DBKeys.PRX);
+            return si;
+        }
+
 
 
     }
