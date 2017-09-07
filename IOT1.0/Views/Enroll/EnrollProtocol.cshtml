@@ -51,6 +51,77 @@
                 <p><span>启联教育投诉监督电话： 021-59738995</span><span>启联教育网站：http://www.unique.com</span></p>
                 <p><span>启联教育培训中心</span></p>
                 <p>请仔细阅读以上内容，并签字确认。以上条款至学员家长签字确认后生效。以上条款如因任何其他原因而被确认无效，都不影响其他宽阔的效力。</p>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="ibox-content p-xl">
+                            <div class="table-responsive m-t">
+                                <table class="table invoice-table">
+                                    <thead>
+                                        <tr>
+                                            <th>班级</th>
+                                            <th>课时</th>
+                                            <th>金额</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if (Model != null && Model.EnrollList.Count() > 0)
+                                        {
+                                            foreach (var m in Model.EnrollList)
+                                            {
+                                                <tr>
+                                                    <td>
+                                                        <div>
+                                                            <strong>@m.ClassName</strong>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div>
+                                                            <strong>@m.ClassHour</strong>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div>
+                                                            <strong>&yen;@m.Paid</strong>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <tr>
+                                                @*<td colspan="8" style="text-align:center; color:red;">未查询到数据,请更换查询条件试试!</td>*@
+                                            </tr>
+                                        }
+
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- /table-responsive -->
+                            <table class="table invoice-total">
+                                @{
+                                        string allcount = Model.EnrollList.Sum(t => t.Paid).ToString();
+                                        string dx = new DataProvider.MoneyConvertChinese().MoneyToChinese(allcount);
+
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <strong>总价：</strong>
+                                                </td>
+                                                <td>&yen;@allcount</td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <strong>大写金额：</strong>
+                                                </td>
+                                                <td>@dx</td>
+                                            </tr>
+                                        </tbody>
+                                }
+                            </table>
+                        </div>
+                    </div>
+                </div>
                 @if (Model.si != null)
                 {
                     <div class="sign">签字：<img style="width:300px;width:150px" src="@Model.si.ImageData"></div>
@@ -59,9 +130,11 @@
                 {
                   <div class="sign">签字：<span onclick="signname()">___________________</span></div>
                 }
+
                 <div class="footer">2/2</div>
             </div>
         </div>
+
     </fieldset>
 }
 
