@@ -22,6 +22,8 @@ namespace IOT1._0.Controllers.Enroll
             SignImage si = CommonData.GetStringKeySign(apid, typeid);
             model.apid = apid;
             model.si = si;
+            model.EnrollList = EnrollData.GetEnrollPrintByApid(apid);
+            model.bill = EnrollData.GetOneBillConfig();
             return View(model);
         }
 
