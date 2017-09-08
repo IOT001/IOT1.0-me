@@ -3,15 +3,14 @@
     ViewBag.Title = "转让课程协议";
 }
 @model TransferProtocolViewModel
-@using (Html.BeginForm("ConvertThisPageToPdf", "Report", null, FormMethod.Post))
-{
+ 
     
     
     
-    <div id="convertThisPageButtonDiv" style="position: absolute; left: 0;">
+   @* <div id="convertThisPageButtonDiv" style="position: absolute; left: 0;">
         <input type="submit" value="导出PDF文件" />
     </div> 
-    
+    *@
     
     
    
@@ -22,9 +21,7 @@
                     <h1>启联教育课程转让协议</h1>
                 </span>
 
-                 @if (Model.si != null)
-                 {
-                 }
+             
                     
                      
                   <div>
@@ -256,13 +253,18 @@
                  }
 
            </div>
-                 
+               
 
                 <div class="footer">2/2</div>
+                  
+                    <button class="btn btn-primary" id="Print"><i class="fa fa-print"></i> 打印</button>
+             
             </div>
+
+             
         </div>
  
-}
+ 
 
 @section styles{
     <link href="http://www.525j.com.cn/Theme/zhuanti/head/css/common.css" rel="stylesheet" type="text/css">
@@ -461,6 +463,25 @@
             }
         });
         }
+
+
+
+
+
+
+
+
+
+        $('#Print').click(function () {
+            $('#Print').hide();
+            
+            window.print();
+            $('#Print').show();
+           
+           
+        });
+
+
 
 
     </script>
