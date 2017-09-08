@@ -129,8 +129,7 @@
                                             {
                                                 if (SYS_Role == "1")
                                                 {
-                                                    <a href="javascript:To_Examine ('@m.ID');" class="btn btn-primary btn-xs" type="button"><i class="fa fa-edit"></i> 审核</a>
-
+                                                    <a href="javascript:TransferAudit('@m.ID');" class="btn btn-primary btn-xs" type="button"><i class="fa fa-edit"></i> 审核</a>
                                                 }
                                             }
 
@@ -506,7 +505,29 @@
 
         $frm.submit();
     }
+    //审核
+    function TransferAudit(tfid) {
+        if (!tfid) {
+            layer.msg("请选择需要审核的记录！");
+            return false;
+        }
+        var action = '@Url.Action("TransferAudit", "Enroll")';
+        $.post(action, {
+            "tfid": tfid//转移记录ID
+        }, function (json) {
+            if (json.status == 200) {//成功
 
+                layer.msg(json.msg);//弹出服务器返回的消息
+                setTimeout(function () {//操作
+                    layer.closeAll();//关闭所有层
+                    window.location.reload(); //刷新
+                }, 3000);
+            }
+            else {
+                layer.msg(json.msg);//弹出服务器返回的消息
+            }
+        }, 'json');
+    }
  
 
 </script>

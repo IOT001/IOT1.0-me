@@ -158,6 +158,7 @@
     <Compile Include="Entities\SYSAccountRole.cs" />
     <Compile Include="Entities\Teachers.cs" />
     <Compile Include="Entities\Transfer.cs" />
+    <Compile Include="Entities\TransferRecord.cs" />
     <Compile Include="Entities\vw_Appointment.cs" />
     <Compile Include="Entities\vw_AttendanceRecord.cs" />
     <Compile Include="Entities\vw_Classes.cs" />

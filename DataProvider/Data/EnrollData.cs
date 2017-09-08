@@ -229,5 +229,101 @@ namespace DataProvider.Data
             }
             return ret;
         }
+        /// <summary>
+        /// 转让审核,乙方有报名记录
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
+        public static bool TransferAudit1(DataProvider.Entities.Enroll a, DataProvider.Entities.Enroll b,string loginid)
+        {
+            bool ret = false;
+            DBRepository db = new DBRepository(DBKeys.PRX);
+            db.BeginTransaction();
+            try
+            {
+                DataProvider.Entities.Enroll j = EnrollData.GetEnrollByID(a.ID);//甲方原始报名记录
+                TransferRecord tr1 = new TransferRecord();//甲方的转移记录
+                tr1.StudentID = j.StudentID;
+                tr1.BeforeHours = j.ClassHour - j.UsedHour;
+                tr1.AfterHours = a.ClassHour - a.UsedHour;
+                tr1.TypeID = 1;//转让产生的
+                tr1.CreateTime = DateTime.Now;
+                tr1.CreatorId = loginid;
+                db.Insert(tr1);
+                db.Update(j);
+
+
+                DataProvider.Entities.Enroll y = EnrollData.GetEnrollByID(b.ID);//乙方原始报名记录
+                TransferRecord tr2 = new TransferRecord();//甲方的转移记录
+                tr2.StudentID = y.StudentID;
+                tr2.BeforeHours = y.ClassHour - y.UsedHour;
+                tr2.AfterHours = b.ClassHour - b.UsedHour;
+                tr2.TypeID = 1;//转让产生的
+                tr2.CreateTime = DateTime.Now;
+                tr2.CreatorId = loginid;
+                db.Insert(tr2);
+                db.Update(y);
+
+                ret = true;
+                db.Commit();
+            }
+            catch (Exception ex)
+            {
+                db.Rollback();
+                db.Dispose();
+                throw new Exception(ex.Message);
+            }
+            return ret;
+        }
+
+       /// <summary>
+       /// 转让课程，乙方没有报过名
+       /// </summary>
+       /// <param name="a"></param>
+       /// <param name="b"></param>
+       /// <param name="loginid"></param>
+       /// <returns></returns>
+        public static bool TransferAudit2(DataProvider.Entities.Enroll a, DataProvider.Entities.Enroll b, string loginid)
+        {
+            bool ret = false;
+            DBRepository db = new DBRepository(DBKeys.PRX);
+            db.BeginTransaction();
+            try
+            {
+                DataProvider.Entities.Enroll j = EnrollData.GetEnrollByID(a.ID);//甲方原始报名记录
+                TransferRecord tr1 = new TransferRecord();//甲方的转移记录
+                tr1.StudentID = j.StudentID;
+                tr1.BeforeHours = j.ClassHour - j.UsedHour;
+                tr1.AfterHours = a.ClassHour - a.UsedHour;
+                tr1.TypeID = 1;//转让产生的
+                tr1.CreateTime = DateTime.Now;
+                tr1.CreatorId = loginid;
+                db.Insert(tr1);
+                db.Update(j);
+
+
+        
+                TransferRecord tr2 = new TransferRecord();//乙方的转移记录
+                tr2.StudentID = b.StudentID;
+                tr2.BeforeHours = 0;
+                tr2.AfterHours = b.ClassHour - b.UsedHour;
+                tr2.TypeID = 1;//转让产生的
+                tr2.CreateTime = DateTime.Now;
+                tr2.CreatorId = loginid;
+                db.Insert(tr2);
+                db.Insert(b);
+
+                ret = true;
+                db.Commit();
+            }
+            catch (Exception ex)
+            {
+                db.Rollback();
+                db.Dispose();
+                throw new Exception(ex.Message);
+            }
+            return ret;
+        }
     }
 }
