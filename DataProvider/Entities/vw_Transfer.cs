@@ -175,7 +175,7 @@ namespace DataProvider.Entities
            /// <summary>
         /// 乙方申请时间
         /// </summary>				
-        public DateTime siB_CreateTime { get; set; }
+        public Nullable<DateTime>   siB_CreateTime { get; set; }
        
        
     }

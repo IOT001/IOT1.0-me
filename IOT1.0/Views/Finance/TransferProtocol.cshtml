@@ -24,13 +24,16 @@
 
                  @if (Model.si != null)
                  {
-                  
-                     
-            
+                 }
+                    
                      
                   <div>
                 <div style="float:left">甲方：</div>
-                <div style="text-decoration:underline;float:left;">@Model.si.JName</div> 
+                <div style="text-decoration:underline;float:left;">
+                @if (Model.si != null)
+                 {
+                    @Model.si.JName
+                 }</div> 
   
                 <div style="float:left;">(课程持有以下简称甲方)</div> 
                    </div>
@@ -38,19 +41,35 @@
 
                  <div style=" clear:both;">
                  <div style="float:left">身份证号：</div>
-                <div style="text-decoration:underline;float:left;">@Model.si.JIDCode</div>
+                <div style="text-decoration:underline;float:left;">
+                    @if (Model.si != null)
+                 {
+                         @Model.si.JIDCode
+                 }
+                   
+                    </div>
                </div>
                      
                      
                     <div style="clear:both;">
                  <div style="float:left" >地址：</div>
-                <div style="text-decoration:underline;float:left;">@Model.si.JAddress</div>
+                <div style="text-decoration:underline;float:left;">
+                        @if (Model.si != null)
+                 {@Model.si.JAddress
+                 }
+                    
+                    </div>
                    </div>
                      
                      
                     <div style="clear:both;">
                  <div style="float:left" >联系方式：</div>
-                <div style="text-decoration:underline;float:left;">@Model.si.JLinkType</div>
+                <div style="text-decoration:underline;float:left;">
+                        @if (Model.si != null)
+                 {@Model.si.JLinkType
+                 }
+                    
+                    </div>
                    </div>
                      
                      
@@ -59,45 +78,125 @@
                      
                <div style="clear:both;">
                 <div style="float:left">乙方：</div>
-                <div style="text-decoration:underline;float:left;">@Model.si.YName </div>
+                <div style="text-decoration:underline;float:left;">
+                        @if (Model.si != null)
+                 { @Model.si.YName
+                 }
+                    
+                    </div>
                     <div style="float:left;">(课程持有以下简称乙方)</div> 
                    </div>
 
 
                  <div style="clear:both;">
                  <div style="float:left">身份证号：</div>
-                <div style="text-decoration:underline;display:block;">@Model.si.YIDCode</div>
+                <div style="text-decoration:underline;display:block;">
+                        @if (Model.si != null)
+                 { @Model.si.YIDCode
+                 }
+                    
+                   </div>
                </div>
                      
                      
                     <div style="clear:both;">
                  <div style="float:left" >地址：</div>
-                <div style="text-decoration:underline;display:block;">@Model.si.YAddress</div>
+                <div style="text-decoration:underline;display:block;">
+                        @if (Model.si != null)
+                 {@Model.si.YAddress
+                 }
+                    
+                    </div>
                    </div>
                      
                      
                     <div style="clear:both;">
                  <div style="float:left" >联系方式：</div>
-                <div style="text-decoration:underline;display:block;">@Model.si.YLinkType</div>
+                <div style="text-decoration:underline;display:block;">
+                        @if (Model.si != null)
+                 { @Model.si.YLinkType
+                   }
+                    
+                   </div>
                    </div>
                      
-               
+                    
+                 
  
                 <p>甲乙双方双方本着资源共享，互惠互利的原则，经过友好协商，就甲方向乙方转让启联教育课程事宜，订立协议，以资双方共同遵守执行。</p>
                 <p>一丶经双方协商一致同意甲方将其所持有的启联教育课程转让给乙方。</p>
                 
                 <p>二丶经双方协商一致确认并经相关第三方启联教育的核实。上述课程所对应的课时内容如下;</p>
-                <p>课程名称：——————————</p>
-                <p>剩余课时：——————————</p>
-                <p>剩余课程价格：——————————（小写）</p>
+                
+                     <div style="clear:both;">
+                 <div style="float:left" >课程名称：</div>
+                <div style="text-decoration:underline;display:block;">
+                   @if (Model.si != null)
+                 {@Model.si.JClassName
+                   }
+                   </div>
+                 </div>
 
+
+                    <div style="clear:both;">
+                 <div style="float:left" >剩余课时：</div>
+                <div style="text-decoration:underline;display:block;">
+                   @if (Model.si != null)
+                 {@Model.si.JClassHour
+                   }
+                   </div>
+                 </div>
+               
+                       <div style="clear:both;">
+                <div style="float:left">剩余课程价格：</div>
+                <div style="text-decoration:underline;float:left;">
+                        @if (Model.si != null)
+                 { @Model.si.JClassHourPrice
+                 }
+                    
+                    </div>
+                    <div style="float:left;">(小写）</div> 
+                   </div>
+               
+
+
+                      <div style="clear:both;">
+                <div style="float:left">三丶经双方协商一致后共同确认，上述课程转让价格为:</div>
+                <div style="text-decoration:underline;float:left;">
+                        @if (Model.si != null)
+                 { @Model.si.TranPrice
+                 }
+                    
+                    </div>
+                    <div style="float:left;">(大写）</div> 
+                   </div>
+
+
+                         <div style="clear:both;">
+                 <div style="float:left" >折合课程：</div>
+                <div style="text-decoration:underline;display:block;">
+                   @if (Model.si != null)
+                 {@Model.si.TranCourse
+                   }
+                   </div>
+                 </div>
 
                 
-                <p>三丶经双方协商一致后共同确认，上述课程转让价格为：________（大写），折合课程________</p>
+                
                 <p>四丶经双方协商一致后共同确认。转让方式为：囗 第1种/囗 第2种</p>
                 <p>1.签订本协议后双方约定时间地点现在实物转让，转让价款的现金也一并现场点清并给付，转让过后双方不再向对方追究任何责任;</p>
-                <p>2.签订本协议后双方约定时间地点现场实物转让，转让价款则自实物转让后___天内由乙方向甲方指定银行转账</p>
 
+                           <div style="clear:both;">
+                <div style="float:left">2.签订本协议后双方约定时间地点现场实物转让，转让价款则自实物转让后</div>
+                <div style="text-decoration:underline;float:left;">
+                        @if (Model.si != null)
+                 { @Model.si.TranDays
+                 }
+                    
+                    </div>
+                    <div >天内由乙方向甲方指定银行转账</div> 
+                   </div>
+                 
 
                
                 <p>五丶上述第四条中关于第2种转让方式，如乙方自收到课程后拒不在约定时间内向甲方指定银行账户转账，则乙方应向甲方支付转让价格逾期每天千分之二的违约金，并赔偿甲方因此产生的一切损失，据实赔偿（若有），且甲方保留向乙方追究责任的权利，并有权向乙方索回上述课程。</p>
@@ -105,53 +204,58 @@
                 <p>七丶本协议自双方签字之日起生效，并自双方义务履行完毕后自行终止。本协议一式贰份，甲乙双方各执壹份，且同等法律效力。</p>
                      
                    
-                     
-                 }     
                 <div class="footer">1/2</div>
             </div>
             <div class="page page2">
                 
               
-                @if (Model.ImageData != null || Model.ImageData != "0")
+                @if (Model.ImageData != null)
                 {
                     <div class="sign"style="float:left" >签字：<img style="width:300px;width:150px" src="@Model.si.ImageData"></div>
                 }
-                 @if (Model.si.siB_ImageData != null || Model.si.siB_ImageData != "0")
-                {
+                 @if (Model.siB_ImageData != null)
+                 {
                     <div class="sign"  style="float:right">签字：<img style="width:300px;width:150px" src="@Model.si.siB_ImageData"></div>
                  }
                 <div style="clear:both;">
-                   @if (Model.si.ImageData != null || Model.si.ImageData != "0")
-                {
+                   @if (Model.ImageData != null)
+                   {
                      <div class="sign"style="float:left;" >签约日期：@Model.si.SignImageCreateTime</div>
-                } 
-                 @if (Model.si.siB_ImageData != null || Model.si.siB_ImageData != "0")
+                   } 
+                 @if (Model.siB_ImageData != null)
                  {
                     <div class="sign"  style="float:right">签约日期：@Model.si.siB_CreateTime</div>
                  }
                     </div>
 
 
-                @if (Model.si.ImageData == null)
+
+
+
+                @if (Model.ImageData == null)
                 {
                   <div class="sign" style="float:left">签字：<span onclick="signname()">___________________</span></div>
                     
                 }
 
-                  @if (Model.si.siB_ImageData == null)
-                {
-                   <div class="sign"  style="float:right">签约日期：</div>
-                }
-                   @if (Model.si.ImageData == null)
+                  @if (Model.siB_ImageData == null)
+                  {
+                      <div class="sign" style="float:right;">签字：<span onclick="signnameB()">___________________</span></div>
+                 
+                  }
+
+              <div style="clear:both;">
+                   @if (Model.ImageData == null)
                    {
-                    <div class="sign" style="clear:both;">签字：<span onclick="signnameB()">___________________</span></div>
+                       <div class="sign"style="float:left;" >签约日期：</div>
+                    
                    } 
-                 @if (Model.si.siB_ImageData == null)
+                 @if (Model.siB_ImageData == null)
                  {
                     <div class="sign"  style="float:right">签约日期：</div>
                  }
 
-         
+           </div>
                  
 
                 <div class="footer">2/2</div>

@@ -22,8 +22,8 @@ namespace IOT1._0.Controllers.Finance
             vw_Transfer si = TransferData.GetIntKeySign(ID, typeid);
             model.ID = ID;
             model.si = si;
-            model.siB_ImageData =si==null?"0":si.siB_ImageData;
-            model.ImageData = si == null ? "0" : si.ImageData;
+            model.siB_ImageData =si==null?null:si.siB_ImageData;
+            model.ImageData = si == null ? null : si.ImageData;
             return View(model);
         }
 
