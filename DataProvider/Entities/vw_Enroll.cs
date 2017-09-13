@@ -93,6 +93,10 @@ namespace DataProvider
         /// 预约人姓名
         /// </summary>
         public string ApTel { get; set; }
+        /// <summary>
+        /// 剩余课时
+        /// </summary>
+        public decimal RemainClassHour { get; set; }
         
     }
 }

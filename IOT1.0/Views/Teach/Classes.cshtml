@@ -10,6 +10,9 @@
         .clockpicker-popover {
             z-index: 99999999;
         }
+        .chosen-select {
+            padding:0px;
+        }
     </style>
 }
 <link href="~/Scripts/assets/css/plugins/clockpicker/clockpicker.css" rel="stylesheet" />
@@ -153,9 +156,9 @@
                                         <td>@m.StateIDname</td>
                                         <td>
                                             <a href="javascript:modify('@m.ID');" class="btn btn-primary btn-xs" type="button"><i class="fa fa-edit"></i>编辑</a>
-
                                             <a href="javascript:ClassList('@m.ID','@m.ClassName','@m.Enroll','@m.StateID','@m.TeachTypeID','@m.TotalLesson')" class="btn btn-primary btn-xs" type="button"><i class="fa fa-forward"></i>排课</a>
                                             <a href="javascript:adjust('@m.ID')" class="btn btn-primary btn-xs" type="button"><i class="fa fa-adjust"></i>分配</a>
+                                            <a href="javascript:Upgrade('@m.ID')" class="btn btn-primary btn-xs" type="button"><i class="fa fa-level-up"></i>升班</a>
                                         </td>
 
 
@@ -310,15 +313,15 @@
                     </div>
                 </div>
             </div>
-         @*   <div class="form-group">
-                <label class="col-sm-3 control-label">排课结束时间：</label>
-                <div class="col-sm-5">
-                    <div class="DateS input-group date">
-                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                        <input type="text" class="form-control input-sm" id="End_Date">
+            @*   <div class="form-group">
+                    <label class="col-sm-3 control-label">排课结束时间：</label>
+                    <div class="col-sm-5">
+                        <div class="DateS input-group date">
+                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                            <input type="text" class="form-control input-sm" id="End_Date">
+                        </div>
                     </div>
-                </div>
-            </div>*@
+                </div>*@
 
             <div class="form-group ">
                 <label class="col-sm-3 control-label">当前讲师：</label>
@@ -354,7 +357,7 @@
             <div class="form-group">
                 <label class="col-sm-3 control-label">课时总数：</label>
                 <div class="col-sm-5">
-                    <input type="text"  readonly="true" class="form-control input-sm" id="TotalLesson_ClassList">
+                    <input type="text" readonly="true" class="form-control input-sm" id="TotalLesson_ClassList">
                 </div>
             </div>
 
@@ -466,10 +469,6 @@
 <div class="ibox float-e-margins" id="transfer" style="margin: 0px; display: none">
     <div class="ibox-content">
         <form class=" form-inline">
-
-
-
-
             <div class="form-group">
                 <div class="col-sm-3">
                     <label class="control-label">班级名称:</label>
@@ -477,12 +476,7 @@
                 <div class="col-sm-6">
                     <input type="text" placeholder="请班级名称" class="form-control input-sm" id="transfe_ClassName">
                 </div>
-
-
             </div>
-
-
-
             <div class="form-group">
                 <div class="project-actions">
                     <button type="button" class="btn btn-w-m btn-primary btn-sm" onclick="Class_transfe_list()">查&nbsp;&nbsp;&nbsp;&nbsp;询</button>
@@ -496,140 +490,31 @@
                 <!-- m=marging ,t=top ,md=20px -->
                 <div class="">
                     <table class="table table-striped table-bordered table-hover dataTables-example" id="Class_transfe"></table>
-
                 </div>
             </div>
-
-
-
-            @* <div class="m-t-md">
-                    <!-- m=marging ,t=top ,md=20px -->
-                    <div class="">
-                        <table class="table table-striped table-bordered table-hover dataTables-example">
-                            <thead>
-                                <tr>
-                                    <th>班级</th>
-                                    <th>课程</th>
-                                    <th>开班日期</th>
-                                    <th>上课时段</th>
-                                    <th>教室</th>
-                                    <th>讲师</th>
-                                    <th>课时</th>
-                                    <th>报名/总数</th>
-                                    <th>备注</th>
-                                    <th>操作</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <!-- 测试数据 -->
-                                <tr>
-                                    <td>初一数学试听07</td>
-                                    <td>初一数学</td>
-                                    <td>2017-10-11</td>
-                                    <td>10到11点</td>
-                                    <td>第七教室</td>
-                                    <td>彭德怀</td>
-                                    <td>77</td>
-                                    <td>3/12</td>
-                                    <td></td>
-                                    <td>
-                                        <a href="javascript:" class="btn btn-primary btn-xs" type="button"><i class="fa fa-edit"></i>安排</a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>初一英语试听07</td>
-                                    <td>初一英语</td>
-                                    <td>2017-10-11</td>
-                                    <td>10到11点</td>
-                                    <td>第八教室</td>
-                                    <td>王德安</td>
-                                    <td>77</td>
-                                    <td>10/12</td>
-                                    <td></td>
-                                    <td>
-                                        <a href="javascript:" class="btn btn-primary btn-xs" type="button"><i class="fa fa-edit"></i>安排</a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>初一化学试听09</td>
-                                    <td>初一化学</td>
-                                    <td>2017-10-11</td>
-                                    <td>10到11点</td>
-                                    <td>第八教室</td>
-                                    <td>王德安</td>
-                                    <td>77</td>
-                                    <td>10/12</td>
-                                    <td></td>
-                                    <td>
-                                        <a href="javascript:" class="btn btn-primary btn-xs" type="button"><i class="fa fa-edit"></i>安排</a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>初二物理试听07</td>
-                                    <td>初二物理</td>
-                                    <td>2017-10-11</td>
-                                    <td>10到11点</td>
-                                    <td>第八教室</td>
-                                    <td>王德安</td>
-                                    <td>77</td>
-                                    <td>10/12</td>
-                                    <td></td>
-                                    <td>
-                                        <a href="javascript:" class="btn btn-primary btn-xs" type="button"><i class="fa fa-edit"></i>安排</a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>初一英语试听09</td>
-                                    <td>初一英语</td>
-                                    <td>2017-10-11</td>
-                                    <td>10到11点</td>
-                                    <td>第八教室</td>
-                                    <td>王德安</td>
-                                    <td>77</td>
-                                    <td>10/12</td>
-                                    <td></td>
-                                    <td>
-                                        <a href="javascript:follow(1)" class="btn btn-primary btn-xs" type="button"><i class="fa fa-edit"></i>安排</a>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-
-                    </div>
-                </div>*@
         </form>
     </div>
 </div>
 
 @*升班*@
-<div class="ibox float-e-margins" id="adjust" style="margin: 0px; display: none">
+<div class="ibox float-e-margins" id="upgrade" style="margin: 0px; display: none">
     <div class="ibox-content">
         <form class=" form-horizontal">
-            <div class="form-group">
-                <div class="col-sm-2">
-                    <label class="control-label">姓名:</label>
-                </div>
-                <div class="col-sm-4">
-                    <input type="text" placeholder="请输入姓名" class="form-control input-sm" id="Enroll_Name">
-                </div>
-                <div class="col-sm-2">
-                    <label class="control-label">学号:</label>
-                </div>
-                <div class="col-sm-4">
-
-                    <input type="text" placeholder="请输入学号" class="form-control input-sm" id="Enroll_StudentID">
-                </div>
-            </div>
-
+            <input type="text" placeholder="班级ID号" class="form-control input-sm" id="ClassID_UP" style="display:none">
             <div class="m-t-md">
                 <!-- m=marging ,t=top ,md=20px -->
                 <div class="">
-                    <table class="table table-striped table-bordered table-hover dataTables-example" id="Enroll_list"></table>
+                    <table class="table table-striped table-bordered table-hover dataTables-example" id="Enroll_listup"></table>
                 </div>
             </div>
             <div class="form-group">
-                <div class="project-actions">
-                    <button type="button" class="btn btn-w-m btn-primary btn-sm" onclick="QueryEnroll_list()">确&nbsp;&nbsp;&nbsp;&nbsp;定</button>
+                <div class="project-actions m-r-md">
+                    <div class="col-sm-6">
+                        <label class="control-label">请选择您要升级到的班级信息：</label>
+                    </div>
+                    <div class="col-sm-6">
+                        @Html.DropDownListFor(t => t.UpgradeClassID, Model.UpgradeClassesIL, new { @class = "form-control input-sm chosen-select", @id = "UpgradeClass" })
+                    </div>
                 </div>
             </div>
         </form>
@@ -693,7 +578,7 @@
 
 
     //排课弹窗
-    function ClassList(id, ClassName, Enroll, StateID, TeachTypeID,TotalLesson) {
+    function ClassList(id, ClassName, Enroll, StateID, TeachTypeID, TotalLesson) {
         if (StateID != 1) {
             layer.msg("已排课,不能重复排课！");
             return false;
@@ -806,6 +691,51 @@
             }
         });
     }
+    //升班弹出页面
+    function Upgrade(classid) {
+        cleanData("upgrade");//清空数据
+        $("#ClassID_UP").val(classid);//把班级号赋值到空间，方便之后取值
+        layer.open({
+            type: 1,
+            title: "<h3 class='ibox-title'>班级学员</h3>",
+            area: ['800px', '500px'],
+            content: $('#upgrade'),
+            btn: ['确定', '取消'],
+            yes: function () {
+                var oldclassid = $("#ClassID_UP").val();   //旧的班级ID
+                var newclassid = $("#UpgradeClass").val();//新的班级ID
+                var upgradedata = [];//需要提交升班学员数据
+                $("#Enroll_listup").find("tr").each(function (ai, am) {//遍历需要升班的学员列表
+
+                    var enid = $(this).parent().parent().parent().parent().parent().find("td").eq(0).text();//取到的报名ID
+                    var newclasshour = $(this).parent().parent().parent().parent().parent().find("td").eq(6).children('input').val();;//用户填写的转换后的课时
+
+                    upgradedata.push({
+                        "enid": enid,
+                        "newclasshour": newclasshour
+                    })
+                });
+
+                $.post('@Url.Action("AddEnroll", "Enroll")', {
+                    oldclassid: oldclassid,
+                    newclassid: newclassid,
+                    did: JSON.stringify(Enrolldata)
+                },
+                function (json) {
+                    setTimeout(function () {
+                        window.location.reload(); //刷新
+                    }, 3000);
+
+                    layer.closeAll();
+                    layer.msg(json.msg);
+                }, 'json');
+            },
+            cancel: function (index) {
+                layer.close(index);
+            }
+        });
+        $('#Enroll_listup').bootstrapTable('refresh');
+    }
 
     //保存或者新增
     function save(id) {
@@ -867,8 +797,7 @@
         }
         obj.Expenses = $("#Expenses").val().trim();
         var reg = /^[1-9]\d*$/;//正整数
-        if (!reg.test(obj.Expenses))
-        {
+        if (!reg.test(obj.Expenses)) {
             layer.msg("报名费用必须是正整数！");
             return false;
         }
@@ -1056,10 +985,6 @@
             $('#Class_transfe').bootstrapTable('refresh');
 
         }
-
-
-
-
 
     };
     //#endregion
@@ -1289,11 +1214,91 @@
     }
 
 
+    function Class_transfe_list() {
+        //重新刷新
+        $('#Class_transfe').bootstrapTable('refresh');
+    }
 
 
 
 
 
+    //-------------班级升班----------------------------------------------------------
+    $('#Enroll_listup').bootstrapTable({
+        method: 'POST',
+        dataType: 'json',
+        contentType: "application/x-www-form-urlencoded",
+        cache: false,
+        striped: true,                              //是否显示行间隔色
+        sidePagination: "server",           //分页方式：client客户端分页，server服务端分页（*）
+        url: '@Url.Content("~/Teach/GetClassesByClassID")',
+        showColumns: false,
+        pagination: false,
+        queryParams: queryParams_UP,//查询参数
+        columns: [
+
+             {
+                 field: 'ID',
+                 title: '报名ID',
+                 align: 'center',
+                 valign: 'middle',
+                 sortable: true
+             }, {
+                 field: 'Name',
+                 title: '姓名',
+                 align: 'center',
+                 valign: 'middle',
+                 sortable: true
+             }, {
+                 field: 'BindPhone',
+                 title: '联系方式',
+                 align: 'center',
+                 valign: 'middle',
+                 sortable: true
+             },
+              {
+                  field: 'CreateTime',
+                  title: '报名日期',
+                  align: 'center',
+                  valign: 'middle',
+                  formatter: function (value, row, index) {//用于格式化数据
+                      return ChangeDateFormat(value);//调用模板页的通用方法格式化时间
+                  }
+              }, {
+                  field: 'ClassName',
+                  title: '原班级名称',
+                  align: 'center',
+                  valign: 'middle',
+                  sortable: true
+              }
+              , {
+                  field: 'RemainClassHour',
+                  title: '原剩余课时',
+                  align: 'center',
+                  valign: 'middle',
+                  sortable: true
+              }
+              , {
+                  field: '',
+                  title: '升班后课时',
+                  align: 'center',
+                  formatter: editcol_Upgrade
+              }
+
+        ]
+    });
+    //升班查询参数
+    function queryParams_UP(params) {
+        return {
+            ClassID: $("#ClassID_UP").val().trim()
+        };
+    }
+    //升班字段文本框
+    function editcol_Upgrade(value, row, index) {
+        return [
+            '<input name="txtUpgrade" type="text" value="0" class="input-sm form-control" style="width:50px">'
+        ].join('');
+    }
 
 
     //时间比较方法

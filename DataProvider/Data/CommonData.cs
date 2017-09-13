@@ -79,12 +79,10 @@ namespace DataProvider.Data
         }
         #endregion
 
-
-
         #region 获取字典学生表列表
 
         /// <summary>
-        /// 获取字典列表
+        /// 获取学生字典列表
         /// </summary>
         /// <param name="dicTypeID"></param>
         /// <returns>用于下拉的绑定项目</returns>
@@ -101,11 +99,10 @@ namespace DataProvider.Data
         }
         #endregion
 
-
         #region 获取课程表列表
 
         /// <summary>
-        /// 获取字典列表
+        /// 获取课程字典列表
         /// </summary>
         /// <param name="dicTypeID"></param>
         /// <returns>用于下拉的绑定项目</returns>
@@ -122,15 +119,10 @@ namespace DataProvider.Data
         }
         #endregion
 
-
-
-
-
-
         #region 获取分校
 
         /// <summary>
-        /// 获取字典列表
+        /// 获取分校字典列表
         /// </summary>
         /// <param name="dicTypeID"></param>
         /// <returns>用于分校下拉的绑定项目</returns>
@@ -147,7 +139,23 @@ namespace DataProvider.Data
         }
         #endregion
 
+        #region 获取班级字典信息
 
+        /// <summary>
+        /// 获取班级字典信息,不包括试听
+        /// </summary>
+        /// <param name="dicTypeID"></param>
+        /// <returns>用于下拉的绑定项目</returns>
+        public static List<CommonEntity> GetClassesItemList()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append(" select ID,ClassName name from Classes");
+            sb.Append(" WHERE TeachTypeID <> 1");
+            var parameters = new DynamicParameters();
+            return MsSqlMapperHepler.SqlWithParams<CommonEntity>(sb.ToString(), parameters, DBKeys.PRX);
+
+        }
+        #endregion
 
 
 

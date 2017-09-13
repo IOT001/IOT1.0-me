@@ -47,9 +47,15 @@ namespace DataProvider.Models
         /// <summary>
         /// 按钮下拉框，当前上课的时段
         /// </summary>
-        public List<SelectListItem> SourceIL4 { get; set; } 
-
-
+        public List<SelectListItem> SourceIL4 { get; set; }
+        /// <summary>
+        /// 升班用的班级下拉框
+        /// </summary>
+        public List<SelectListItem> UpgradeClassesIL { get; set; }
+        /// <summary>
+        /// 升班所选择的班级ID
+        /// </summary>
+        public int UpgradeClassID { get; set; } 
     }
 
     /// <summary>

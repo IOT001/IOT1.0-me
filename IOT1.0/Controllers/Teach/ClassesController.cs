@@ -51,6 +51,9 @@ namespace IOT1._0.Controllers.Teach
             //下拉项
             List<CommonEntity> SourceIL4 = CommonData.GetDictionaryList(8);//获取上课的时段信息
             model.SourceIL4 = CommonData.Instance.GetBropDownListData(SourceIL4);
+            //获取班级列表下拉框
+            List<CommonEntity> UpgradeClassesIL = CommonData.GetClassesItemList();
+            model.UpgradeClassesIL = CommonData.Instance.GetBropDownListData(UpgradeClassesIL);
 
             model.Classeslist = ClassesData.GeClassesList(search);//填充页面模型数据
             return View(model);//返回页面模型
@@ -257,7 +260,7 @@ namespace IOT1._0.Controllers.Teach
 
 
         /// <summary>
-        ///  按条件查询试听课
+        ///  根据班级信息获取学员的报名信息
         /// </summary>
         /// <returns></returns>
         public ActionResult GetClassesByClassID()
@@ -364,7 +367,17 @@ namespace IOT1._0.Controllers.Teach
             return Json(ajax);
         }
 
-
+        /// <summary>
+        /// 升班的操作
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult UpgradeClass()
+        {
+            AjaxStatusModel ajax = new AjaxStatusModel();//功能操作类的返回类型都是AjaxStatusModel，数据放到AjaxStatusModel.data中，前台获取json后加载
+            ajax.status = EnumAjaxStatus.Error;//默认失败
+            ajax.msg = "保存失败！";//前台获取，用于显示提示信息
+            return Json(ajax);
+        }
 
 
     }
