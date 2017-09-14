@@ -3,6 +3,7 @@ using DataProvider.Entities;
 using DataProvider.Models;
 using DataProvider.Paging;
 using DataProvider.SqlServer;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -259,7 +260,41 @@ namespace DataProvider.Data
             return MsSqlMapperHepler.GetOne<Enroll>(ID, DBKeys.PRX);
         }
 
+        public static bool UpClass(string oldclassid,string newclassid,JArray ja,string operateid)
+        {
+            bool ret = false;
+            DBRepository db = new DBRepository(DBKeys.PRX);
+            try
+            {
+                foreach (var item in ja)
+                {
+                    string enid = ((JObject)item)["enid"].ToString();//报名记录id
+                    decimal newclasshour = decimal.Parse(((JObject)item)["newclasshour"].ToString());//转换后的课时
+                    Enroll en = EnrollData.GetEnrollByID(enid);//获取学员的报名记录
+                    TransferRecord tf = new TransferRecord();//转移记录
+                    tf.StudentID = en.StudentID;
+                    tf.TypeID = 2;//升班
+                    tf.BeforeHours = en.ClassHour - en.UsedHour;
+                    tf.AfterHours = newclasshour;
+                    tf.CreateTime = DateTime.Now;
+                    tf.CreatorId = operateid;
+                    tf.Remark = "升班：原报名号:" + enid + " 原班级号：" + oldclassid + " 新班级：" + newclassid;
+                    db.Insert(tf);
+
+                    en.UsedHour = en.ClassHour - newclasshour;//改变所消耗课时
+                    en.ClassID = newclassid;    
+                    db.Update(en);
 
 
+                }
+            }
+            catch (Exception ex)
+            {
+                db.Rollback();
+                db.Dispose();//资源释放
+                throw new Exception(ex.Message);
+            }
+            return ret;
+        }
     }
 }

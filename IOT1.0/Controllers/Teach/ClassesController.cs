@@ -368,7 +368,7 @@ namespace IOT1._0.Controllers.Teach
         }
 
         /// <summary>
-        /// 升班的操作
+        /// 升班的操作，讲原来的报名记录的剩余课时清零，生成新的报名记录，然后生成转班记录记录当时发生情况
         /// </summary>
         /// <returns></returns>
         public ActionResult UpgradeClass()
@@ -376,6 +376,11 @@ namespace IOT1._0.Controllers.Teach
             AjaxStatusModel ajax = new AjaxStatusModel();//功能操作类的返回类型都是AjaxStatusModel，数据放到AjaxStatusModel.data中，前台获取json后加载
             ajax.status = EnumAjaxStatus.Error;//默认失败
             ajax.msg = "保存失败！";//前台获取，用于显示提示信息
+            string oldclassid = Request["oldclassid"]; //旧的班级号
+            string newclassid = Request["newclassid"];//新的班级号
+            string did = Request["did"];//升班的学员记录
+            JArray ja = (JArray)JsonConvert.DeserializeObject(did);
+            
             return Json(ajax);
         }
 

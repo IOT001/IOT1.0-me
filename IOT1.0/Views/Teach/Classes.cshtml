@@ -716,10 +716,10 @@
                     })
                 });
 
-                $.post('@Url.Action("AddEnroll", "Enroll")', {
+                $.post('@Url.Action("UpgradeClass", "Teach")', {
                     oldclassid: oldclassid,
                     newclassid: newclassid,
-                    did: JSON.stringify(Enrolldata)
+                    did: JSON.stringify(upgradedata)
                 },
                 function (json) {
                     setTimeout(function () {
@@ -1284,7 +1284,12 @@
                   align: 'center',
                   formatter: editcol_Upgrade
               }
-
+              , {
+                  field: '',
+                  title: '补收差价',
+                  align: 'center',
+                  formatter: editcol_Upgrade_difference
+              }
         ]
     });
     //升班查询参数
@@ -1299,7 +1304,12 @@
             '<input name="txtUpgrade" type="text" value="0" class="input-sm form-control" style="width:50px">'
         ].join('');
     }
-
+    //升班补差价
+    function editcol_Upgrade_difference(value, row, index) {
+        return [
+            '<input name="Upgrade_difference" type="text" value="0" class="input-sm form-control" style="width:50px">'
+        ].join('');
+    }
 
     //时间比较方法
     function ComparDate(v1, v2) {
