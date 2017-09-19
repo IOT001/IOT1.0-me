@@ -4817,6 +4817,7 @@
     <Content Include="Views\Office\ReimburseList.cshtml" />
     <Content Include="Views\Finance\TransferAgreementList.cshtml" />
     <Content Include="Views\Finance\TransferProtocol.cshtml" />
+    <Content Include="Views\Attendance\AttendanceOriginal.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

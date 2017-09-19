@@ -1,0 +1,149 @@
+﻿@using DataProvider.Models
+@using DataProvider.Paging
+@{
+    ViewBag.Title = "原始考勤查询";
+}
+@model AttendanceListViewModel
+<style>
+    .layui-layer-page .layui-layer-content {
+        overflow: visible;
+    }
+</style>
+<div class="wrapper wrapper-content  animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <!-- 数据显示区 -->
+                <div class="ibox-content">
+                    <!-- 功能操作区 -->
+                    @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "frmQuery", @class = "form-horizontal form-horizontal" }))
+                    {
+
+
+                        <div class="form-group">
+                            <div class="col-sm-2">
+                                <label class="control-label">班级名称:</label>
+                            </div>
+
+                            <div class="col-sm-3">
+                                @Html.TextBoxFor(t => t.search.className, new { @class = "form-control input-sm", @type = "text", @placeholder = "班级名称" })
+                            </div>
+                            <div class="col-sm-2">
+                                <label class="control-label">上课时间:</label>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="input-daterange input-group" id="datepicker">
+                                    @Html.TextBoxFor(t => t.search.timeStart, new { @class = "form-control input-sm", @type = "text", @name = "start" })
+                                    <span class="input-group-addon">到</span>
+                                    @Html.TextBoxFor(t => t.search.timeEnd, new { @class = "form-control input-sm", @type = "text", @name = "end" })
+                                </div>
+
+                            </div>
+                        </div>
+
+
+
+
+                        <div class="form-group">
+                            <div class="col-sm-11 project-actions">
+                                <button type="button" class="btn btn-w-m btn-primary btn-sm" onclick="javascript:fresh();">查&nbsp;&nbsp;&nbsp;&nbsp;询</button>
+                            </div>
+                        </div>
+                    }
+                    <!-- 数据列表 -->
+                    <table class="table table-striped table-bordered table-hover dataTables-example">
+                        <thead>
+                            <tr>
+                                <th rowspan="2">班级</th>
+                                <th rowspan="2">课程日期</th>
+                                <th rowspan="2">星期</th>
+                                <th rowspan="2">时段</th>
+                                <th rowspan="2">教室</th>
+                                <th rowspan="2">老师</th>
+                                <th colspan="4" scope="col">学员人数</th>
+                                <th rowspan="2">操作</th>
+                            </tr>
+                            <tr>
+                                <th>应到</th>
+                                <th>已到</th>
+                                <th>未到</th>
+                                <th>已评价</th>
+                            </tr>
+                        </thead>
+                        <!-- 循环数据 -->
+                        <tbody>
+
+                            <!-- 测试数据 -->
+                            @if (Model != null && Model.buttonlist.Count() > 0)
+                            {
+                                foreach (var m in Model.buttonlist)
+                                {
+                                    <tr>
+                                        <td class="jz">@m.ClassName</td>
+                                        <td>@DateTime.Parse(m.ClassDate + "").ToString("yyyy-MM-dd")</td> @*按钮名称*@
+                                        <td>@System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.GetDayName(DateTime.Parse(m.ClassDate + "").DayOfWeek)</td>
+                                        <td>@m.TimePeriodValue</td>
+                                        <td>@m.RoomName</td>
+                                        <td>@m.TeacherName</td>
+                                        <td>@m.SumStudents</td>
+                                        <td>@m.CheckINStudents</td>
+                                        <td>@m.UnCheckStudents</td>
+                                        <td>@m.EvaluateStudents</td>
+                                        <td>
+                                            <a href="javascript:" class="btn btn-primary btn-xs" type="button" onclick="javascript:attendance('@Newtonsoft.Json.JsonConvert.SerializeObject(m)');"><i class="fa fa-edit"></i> 考勤</a>
+                                            <a href="javascript:" class="btn btn-primary btn-xs" type="button" onclick="javascript: appraise('@Newtonsoft.Json.JsonConvert.SerializeObject(m)');"><i class="fa fa-edit"></i> 评价</a>
+                                            <a href="javascript:" class="btn btn-primary btn-xs" type="button" onclick="javascript: publishJob('@Newtonsoft.Json.JsonConvert.SerializeObject(m)','@m.ClassID','@m.ClassIndex');"><i class="fa fa-edit"></i> 作业</a>
+                                            <a href="javascript:" class="btn btn-primary btn-xs" type="button" onclick="javascript: modify('@Newtonsoft.Json.JsonConvert.SerializeObject(m)');"><i class="fa fa-edit"></i> 调课</a>
+
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                @*<tr><td colspan="7" style="text-align:center; color:red;">未查询到数据,请更换查询条件试试!</td></tr>*@
+                            }
+                        </tbody>
+                        @*<tfoot>
+                                <tr>
+                                    <th>渲染引擎</th>
+                                    <th>浏览器</th>
+                                    <th>平台</th>
+                                    <th>引擎版本</th>
+                                    <th>CSS等级</th>
+                                </tr>
+                            </tfoot>*@
+                    </table>
+                    @if (Model != null && Model.buttonlist.TotalPageCount > 0)
+                    {
+                        <div class="row">
+                            <div class="dataTables_info col-sm-6">每页显示 @Model.search.PageSize 条，共<span>@Model.buttonlist.TotalItemCount</span>条数据</div>
+                            <div class="col-sm-6">
+
+                                @Html.Pager(Model.buttonlist, new PagerOptions(), "", new RouteValueDictionary {
+                                   { "pageindex",  Model.search.CurrentPage },
+                                   { "pagesize", ViewBag.PageSize }
+                               }, null)
+                            </div>
+
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script type="text/javascript">
+
+    //判断页面是否有回车操作
+    window.document.onkeydown = function (e) {
+        e = e || window.event;
+        if (e.keyCode == 13 || e.keyCode == 108) {
+            document.getElementById('frmQuery').submit();
+        }
+    }
+
+
+
+</script>

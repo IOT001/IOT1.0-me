@@ -149,6 +149,7 @@
     <Compile Include="Entities\EnrollAudit.cs" />
     <Compile Include="Entities\Files.cs" />
     <Compile Include="Entities\FollowRecord.cs" />
+    <Compile Include="Entities\FundsFlow.cs" />
     <Compile Include="Entities\Message.cs" />
     <Compile Include="Entities\Refund.cs" />
     <Compile Include="Entities\SignImage.cs" />

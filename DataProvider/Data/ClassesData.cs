@@ -259,17 +259,26 @@ namespace DataProvider.Data
         {
             return MsSqlMapperHepler.GetOne<Enroll>(ID, DBKeys.PRX);
         }
-
+        /// <summary>
+        /// 升班的操作
+        /// </summary>
+        /// <param name="oldclassid"></param>
+        /// <param name="newclassid"></param>
+        /// <param name="ja"></param>
+        /// <param name="operateid"></param>
+        /// <returns></returns>
         public static bool UpClass(string oldclassid,string newclassid,JArray ja,string operateid)
         {
             bool ret = false;
             DBRepository db = new DBRepository(DBKeys.PRX);
+            db.BeginTransaction();
             try
             {
                 foreach (var item in ja)
                 {
                     string enid = ((JObject)item)["enid"].ToString();//报名记录id
                     decimal newclasshour = decimal.Parse(((JObject)item)["newclasshour"].ToString());//转换后的课时
+                    decimal upprice = decimal.Parse(((JObject)item)["upprice"].ToString()); ;//升班差价
                     Enroll en = EnrollData.GetEnrollByID(enid);//获取学员的报名记录
                     TransferRecord tf = new TransferRecord();//转移记录
                     tf.StudentID = en.StudentID;
@@ -282,11 +291,27 @@ namespace DataProvider.Data
                     db.Insert(tf);
 
                     en.UsedHour = en.ClassHour - newclasshour;//改变所消耗课时
-                    en.ClassID = newclassid;    
+                    en.ClassID = newclassid;
+                    en.UpPrice = upprice;
+                    en.UpdateTime = DateTime.Now;
+                    en.UpdatorId = operateid;
                     db.Update(en);
 
+                    FundsFlow fl = new FundsFlow();//资金流水
+                    fl.TypeID = 4;//类型为升班
+                    fl.Amount = upprice;
+                    fl.KeyID = enid;
+                    fl.CreateTime = DateTime.Now;
+                    fl.CreatorId = operateid;
+                    db.Insert(fl);
 
+                    Classes ca = ClassesData.GetClassesByID(oldclassid);
+                    ca.StateID = 4;//原来班级状态
+                    db.Update(ca); 
                 }
+                ret = true;
+                db.Commit();
+                db.Dispose();
             }
             catch (Exception ex)
             {

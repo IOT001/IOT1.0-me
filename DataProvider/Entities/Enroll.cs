@@ -102,7 +102,9 @@ namespace DataProvider.Entities
         /// 收款记录，用逗号隔开，1现金，2pos，3微信，4支付宝，5扣卡
         /// </summary>
         public string CollectionRec { get; set; }
-
-
+        /// <summary>
+        /// 升班产生的差价
+        /// </summary>
+        public decimal UpPrice { get; set; }
     }
 }

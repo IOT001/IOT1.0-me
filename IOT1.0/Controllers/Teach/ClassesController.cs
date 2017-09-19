@@ -368,7 +368,7 @@ namespace IOT1._0.Controllers.Teach
         }
 
         /// <summary>
-        /// 升班的操作，讲原来的报名记录的剩余课时清零，生成新的报名记录，然后生成转班记录记录当时发生情况
+        /// 升班的操作，将原来的报名记录的剩余课重新计算，然后修改报名记录的班级ID，然后生成转班记录记录当时发生情况,然后还要添加差价记录
         /// </summary>
         /// <returns></returns>
         public ActionResult UpgradeClass()
@@ -380,7 +380,11 @@ namespace IOT1._0.Controllers.Teach
             string newclassid = Request["newclassid"];//新的班级号
             string did = Request["did"];//升班的学员记录
             JArray ja = (JArray)JsonConvert.DeserializeObject(did);
-            
+            if (ClassesData.UpClass(oldclassid, newclassid, ja, UserSession.userid))
+            {
+                ajax.status = EnumAjaxStatus.Success;
+                ajax.msg = "升班成功！";
+            }
             return Json(ajax);
         }
 
