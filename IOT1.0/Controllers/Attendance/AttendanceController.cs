@@ -13,7 +13,7 @@ using IOT1._0.Models;
 
 namespace IOT1._0.Controllers.Attendance
 {
-    public class AttendanceController : Controller
+    public partial class AttendanceController : Controller
     {
         //
         // GET: /AttendanceList/
