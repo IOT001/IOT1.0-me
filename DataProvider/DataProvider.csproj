@@ -138,6 +138,7 @@
     <Compile Include="Data\TransferData.cs" />
     <Compile Include="DPBase.cs" />
     <Compile Include="Entities\Appointment.cs" />
+    <Compile Include="Entities\AttendanceOriginal.cs" />
     <Compile Include="Entities\AttendanceRecord.cs" />
     <Compile Include="Entities\BillConfig.cs" />
     <Compile Include="Entities\ClassesTrans.cs" />
