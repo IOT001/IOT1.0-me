@@ -2,54 +2,90 @@
 @using DataProvider.Paging
 @{
     ViewBag.Title = "原始考勤查询";
+
 }
-@model AttendanceListViewModel
-<style>
-    .layui-layer-page .layui-layer-content {
-        overflow: visible;
-    }
-</style>
+
+@model AttendanceOriginalListViewModel
+
+
+
+
 <div class="wrapper wrapper-content  animated fadeInRight">
     <div class="row">
-        <div class="col-sm-12">
+        <div class="col-xs-12">
             <div class="ibox float-e-margins">
                 <!-- 数据显示区 -->
                 <div class="ibox-content">
                     <!-- 功能操作区 -->
-                    @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "frmQuery", @class = "form-horizontal form-horizontal" }))
+                    @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "frmQuery", @class = "form-horizontal" }))
                     {
+                        
+                    
+                          
                         <div class="form-group">
                             <div class="col-sm-2">
                                 <label class="control-label">学员姓名:</label>
                             </div>
                             <div class="col-sm-3">
-                              
+                                 @Html.TextBoxFor(t => t.search.username, new { @class = "form-control input-sm input-sm", @type = "text", @placeholder = "请输入学员姓名" })  
                             </div>
-                            <div class="col-sm-2">
+                       
+
+                               <div class="col-xs-2">
                                 <label class="control-label">学号:</label>
                             </div>
-                            <div class="col-sm-3">
 
+                      <div class="col-sm-3">
+                                 @Html.TextBoxFor(t => t.search.UserID, new { @class = "form-control input-sm input-sm", @type = "text", @placeholder = "请输入学号" })  
                             </div>
+
                         </div>
-                        <div class="form-group">
+                        
+                        
+                            <div class="form-group">
                             <div class="col-sm-2">
                                 <label class="control-label">班级名称:</label>
                             </div>
                             <div class="col-sm-3">
-                              
+                                 @Html.TextBoxFor(t => t.search.ClassName, new { @class = "form-control input-sm input-sm", @type = "text", @placeholder = "请输入班级名称" })  
+                            </div>
+                       
+                               <div class="col-xs-2">
+                                <label class="control-label">日期:</label>
                             </div>
 
+                            <div class="col-sm-3">
+                                <div class="input-daterange input-group" id="datepicker">
+                                    @Html.TextBoxFor(t => t.search.InputDate_start, new { @class = "input-sm form-control", @type = "text" , @value = DateTime.Now  })
+                                   
+                                    <span class="input-group-addon">到</span>
+                         
+                                    @Html.TextBoxFor(t => t.search.InputDate_end, new { @class = "input-sm form-control", @type = "text", @value = DateTime.Now })
+                             
+                                </div>
+                            </div>
+
+               
                         </div>
 
 
+                        
 
                         <div class="form-group">
-                            <div class="col-sm-11 project-actions">
-                                <button type="button" class="btn btn-w-m btn-primary btn-sm" onclick="javascript:fresh();">查&nbsp;&nbsp;&nbsp;&nbsp;询</button>
+                            <div class="col-sm-4">
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-white btn-sm"><i class="fa fa-refresh"></i> 刷新</button>
+ 
+                                </div>
+                            </div>
+                            <div class="col-sm-8 project-actions">
+                                <button type="submit" class="btn btn-w-m btn-primary btn-sm">查&nbsp;&nbsp;&nbsp;&nbsp;询</button>
                             </div>
                         </div>
+
+
                     }
+
                     <!-- 数据列表 -->
                     <table class="table table-striped table-bordered table-hover dataTables-example">
                         <thead>
@@ -59,25 +95,60 @@
                                 <th>日期</th>
                                 <th>打卡时间</th>
                                 <th>识别</th>
-                                <th>班级</th>
+                                <th>班级名称</th> 
                             </tr>
                         </thead>
                         <!-- 循环数据 -->
                         <tbody>
-
-                            <!-- 测试数据 -->
-
+                            
+                            @if (Model != null && Model.AttendanceOriginallist.Count() > 0)
+                            {
+                                foreach (var m in Model.AttendanceOriginallist)
+                                {
+                                    <tr>
+                                        <td class="jz">@m.UserID</td>
+                                        <td>@m.username</td>  
+                                         <td>@m.InputDate</td>  
+                                        <td>@m.workDates</td>
+                                         <td>@m.Recognise</td>
+                                         <td>@m.ClassName</td>
+                                   
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr><td colspan="6" style="text-align:center; color:red;">未查询到数据,请更换查询条件试试!</td></tr>
+                            }
                         </tbody>
-
+                      
                     </table>
+                    @if (Model != null && Model.AttendanceOriginallist.TotalPageCount > 0)
+                    {
+                        <div class="row">
+                            <div class="dataTables_info col-xs-6">每页显示 @Model.search.PageSize 条，共<span>@Model.AttendanceOriginallist.TotalItemCount</span>条数据</div>
+                            <div class="col-xs-6">
 
+                                @Html.Pager(Model.AttendanceOriginallist, new PagerOptions(), "", new RouteValueDictionary {
+                                   { "pageindex",  Model.search.CurrentPage },
+                                   { "pagesize", ViewBag.PageSize }
+                               }, null)
+                            </div>
+
+                        </div>
+                    }
                 </div>
             </div>
         </div>
 
     </div>
 </div>
+
+
+
 <script type="text/javascript">
+
+
 
     //判断页面是否有回车操作
     window.document.onkeydown = function (e) {
@@ -87,6 +158,4 @@
         }
     }
 
-
-
-</script>
+</script> 

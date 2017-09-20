@@ -136,6 +136,7 @@
     <Compile Include="Data\EnrollAuditInfoData.cs" />
     <Compile Include="Data\ReimburseData.cs" />
     <Compile Include="Data\TransferData.cs" />
+    <Compile Include="Data\AttendanceOriginalData.cs" />
     <Compile Include="DPBase.cs" />
     <Compile Include="Entities\Appointment.cs" />
     <Compile Include="Entities\AttendanceOriginal.cs" />
@@ -184,6 +185,7 @@
     <Compile Include="Entities\vw_Reimburse.cs" />
     <Compile Include="Entities\Reimburse.cs" />
     <Compile Include="Entities\vw_Transfer.cs" />
+    <Compile Include="Entities\vw_AttendanceOriginal.cs" />
     <Compile Include="Implement\ExcuteModelImplement.cs" />
     <Compile Include="Interface\IExcuteModal.cs" />
     <Compile Include="Models\AppointmentPrintModel.cs" />
@@ -216,6 +218,7 @@
     <Compile Include="Models\ReimbursetListViewModel.cs" />
     <Compile Include="Models\TransferListViewModel.cs" />
     <Compile Include="Models\TransferProtocolViewModel.cs" />
+    <Compile Include="Models\AttendanceOriginalListViewModel.cs" />
     <Compile Include="NERP.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
