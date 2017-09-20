@@ -147,6 +147,7 @@
     <Compile Include="App_Start\WebApiSessionHandler.cs" />
     <Compile Include="Controllers\Admin\ButtonListController.cs" />
     <Compile Include="Controllers\Attendance\AttendanceController.cs" />
+    <Compile Include="Controllers\Attendance\AttendanceOriginalController.cs" />
     <Compile Include="Controllers\Authority\AccountController.cs" />
     <Compile Include="Controllers\Authority\BaseController.cs" />
     <Compile Include="Controllers\Authority\LoginController.cs" />
