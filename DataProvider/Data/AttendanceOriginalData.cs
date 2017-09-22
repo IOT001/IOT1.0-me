@@ -63,7 +63,7 @@ namespace DataProvider.Data
                     str.AppendFormat(@"SELECT TOP 1 * from ClassList 
                                     WHERE ABS(DATEDIFF(Hour,ClassDate,'{0}')) < 4 
                                     AND ClassID IN (SELECT ClassID FROM Enroll WHERE StudentID = {1}) 
-                                    ORDER BY ABS(DATEDIFF(Hour,ClassDate,GETDATE()))", ao.workDates, ao.UserID);
+                                    ORDER BY ABS(DATEDIFF(Hour,ClassDate,'{0}'))", ao.workDates, ao.UserID);
                     ClassList cl = MsSqlMapperHepler.SqlWithParamsSingle<ClassList>(str.ToString(), null, DBKeys.PRX);//找到唯一班次
                     if (cl != null)//打卡正确，找到班次
                     {
@@ -75,7 +75,7 @@ namespace DataProvider.Data
                             ar = new AttendanceRecord();
                             ar.StudentID = ao.UserID;
                             ar.ClassID = cl.ClassID;
-                            ar.ClassIndex = ar.ClassIndex;
+                            ar.ClassIndex = cl.ClassIndex;
                             ar.ClockTime = ao.workDates;
                             ar.AttendanceTypeID = 2;//正常
                             ar.AttendanceWayID = 2;//设备考勤
@@ -87,6 +87,10 @@ namespace DataProvider.Data
                             Enroll en = MsSqlMapperHepler.SqlWithParamsSingle<Enroll>(stren, null, DBKeys.PRX);// 找到报名记录
                             if (en == null)
                             {
+                                ao.Recognise = "无效";
+                                ao.Remark = "没有报名记录";
+                                ao.RecogniseTime = DateTime.Now;
+                                db.Update(ao);
                                 throw new Exception("没有报名记录");
                             }
                             else//扣掉学时
@@ -95,6 +99,17 @@ namespace DataProvider.Data
                                 en.UpdateTime = DateTime.Now;
                                 en.UpdatorId = operatorid;
                                 db.Update(en);
+                                if (cl.StateID < 3)//班级状态如果没上课，设置成上课
+                                {
+                                    cl.StateID = 3;
+                                    db.Update(cl);
+                                }
+                                ao.Recognise = "有效";
+                                ao.Remark = "新增考勤记录，识别成功,当前剩余课时：" + (en.ClassHour -en.UsedHour).ToString();
+                                ao.Classid = cl.ClassID;
+                                ao.ClassIndex = cl.ClassIndex;
+                                ao.RecogniseTime = DateTime.Now;
+                                db.Update(ao);
                             }
                         }
                         else
@@ -112,6 +127,10 @@ namespace DataProvider.Data
                                 Enroll en = MsSqlMapperHepler.SqlWithParamsSingle<Enroll>(stren, null, DBKeys.PRX);// 找到报名记录
                                 if (en == null)
                                 {
+                                    ao.Recognise = "无效";
+                                    ao.Remark = "没有报名记录";
+                                    ao.RecogniseTime = DateTime.Now;
+                                    db.Update(ao);
                                     throw new Exception("没有报名记录");
                                 }
                                 else//扣掉学时
@@ -120,11 +139,39 @@ namespace DataProvider.Data
                                     en.UpdateTime = DateTime.Now;
                                     en.UpdatorId = operatorid;
                                     db.Update(en);
+                                    if (cl.StateID < 3)//班级状态如果没上课，设置成上课
+                                    {
+                                        cl.StateID = 3;
+                                        db.Update(cl);
+                                    }
+                                    ao.Recognise = "有效";
+                                    ao.Remark = "更新考勤记录，识别成功,当前剩余课时：" + (en.ClassHour - en.UsedHour).ToString();
+                                    ao.Classid = cl.ClassID;
+                                    ao.ClassIndex = cl.ClassIndex;
+                                    ao.RecogniseTime = DateTime.Now;
+                                    db.Update(ao);
                                 }
+                            }
+                            else{
+                                ao.Recognise = "无效";
+                                ao.Remark = "重复的考勤";
+                                ao.RecogniseTime = DateTime.Now;
+                                ao.Classid = cl.ClassID;
+                                ao.ClassIndex = cl.ClassIndex;
+                                db.Update(ao);
                             }
                         }
                     }
+                    else//没找到对应的班次
+                    {
+                        ao.Recognise = "无效";
+                        ao.Remark = "未找到对应的班次";
+                        ao.RecogniseTime = DateTime.Now;
+                        db.Update(ao);
+                    }
                 }
+                db.Commit();
+                db.Dispose();
             }
             catch (Exception ex)
             {

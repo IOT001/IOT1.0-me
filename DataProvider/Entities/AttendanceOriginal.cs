@@ -12,6 +12,10 @@ namespace DataProvider.Entities
         {
         }
         /// <summary>
+        /// 主键
+        /// </summary>
+        public int ID { get; set; }
+        /// <summary>
         /// UserID
         /// </summary>				
         public string UserID { get; set; }
@@ -51,5 +55,9 @@ namespace DataProvider.Entities
         /// 识别到的班级索引号
         /// </summary>				
         public int ClassIndex { get; set; }
+        /// <summary>
+        /// 识别备注
+        /// </summary>
+        public string Remark { get; set; }
     }
 }

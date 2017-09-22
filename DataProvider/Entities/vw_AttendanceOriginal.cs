@@ -52,6 +52,6 @@ namespace DataProvider.Entities
         /// <summary>
         /// 班级名称
         /// </summary>				
-        public int ClassName { get; set; }
+        public string ClassName { get; set; }
     }
 }
