@@ -96,5 +96,13 @@ namespace DataProvider.Entities
         /// StateName
         /// </summary>				
         public string StateName { get; set; }
+        /// <summary>
+        /// 所属分校
+        /// </summary>
+        public string CompName { get; set; }
+        /// <summary>
+        /// 来源
+        /// </summary>
+        public string SourceName { get; set; }
     }
 }

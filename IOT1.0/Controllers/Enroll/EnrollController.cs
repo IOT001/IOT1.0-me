@@ -35,6 +35,12 @@ namespace IOT1._0.Controllers.Enroll
 
             List<CommonEntity> SourceIL = CommonData.GetDictionaryList(2);//1是字典类型值,仅供测试参考
             model.SourceIL = CommonData.Instance.GetBropDownListData(SourceIL);
+
+            //分校下拉项
+            List<CommonEntity> ComCodeIL = CommonData.Get_SYS_Company_List();//分校
+            model.ComCodeIL = CommonData.Instance.GetBropDownListData(ComCodeIL);
+            model.search.ComCodeIL = CommonData.Instance.GetBropDownListData(ComCodeIL);
+
             model.AppointmentList = AppointmentData.GetAPList(search); //填充页面模型数据
             return View(model);//返回页面模型
         }
@@ -104,6 +110,7 @@ namespace IOT1._0.Controllers.Enroll
             obj.CreateTime = DateTime.Now;
             obj.CreatorId = UserSession.userid;
             obj.ApStateID = 1;//默认未跟进
+            obj.SourceID = 1;//系统录入
             if (AppointmentData.Add(obj))//注意时间类型
             {
                 ajax.msg = "新增成功！";

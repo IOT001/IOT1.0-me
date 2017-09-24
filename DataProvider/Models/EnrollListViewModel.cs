@@ -41,6 +41,14 @@ namespace DataProvider.Models
        /// 授课方式
        /// </summary>
        public List<SelectListItem> SourceIL { get; set; }
+       /// <summary>
+       /// 所属分校下拉
+       /// </summary>
+       public List<SelectListItem> ComCodeIL { get; set; }
+       /// <summary>
+       /// 资源主体
+       /// </summary>
+       public Appointment ap { get; set; }
     }
 
    public class EnrollListSearchModel : CommonPageEntity
@@ -95,6 +103,16 @@ namespace DataProvider.Models
        /// 是否是试听报名，0否，1是
        /// </summary>
        public string islesson { set; get; }
+
+       /// <summary>
+       /// 所属分校下拉
+       /// </summary>
+       public List<SelectListItem> ComCodeIL { get; set; }
+       /// <summary>
+       /// 所属分校的选中值
+       /// </summary>
+       public string ComCode { get; set; }
+
    }
 
 }

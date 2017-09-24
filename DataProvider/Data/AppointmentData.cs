@@ -30,6 +30,13 @@ namespace DataProvider.Data
                 sb.AppendFormat(" and [ApName] like '%{0}%' ", search.ApName);
             if (!string.IsNullOrWhiteSpace(search.ApTel))//城市
                 sb.AppendFormat(" and [ApTel] like '%{0}%' ", search.ApTel);
+            if (!string.IsNullOrWhiteSpace(search.ComCode))//校区
+                sb.AppendFormat(" and [ComCode] = '{0}' ", search.ComCode);
+
+            if (!string.IsNullOrWhiteSpace(search.timeStart))//记录创建时间
+                sb.AppendFormat(" and CreateTime > = '{0}' ", search.timeStart);
+            if (!string.IsNullOrWhiteSpace(search.timeEnd))//结束时间
+                sb.AppendFormat(" and CreateTime <= '{0}' ", search.timeEnd);
             where = sb.ToString();
             int allcount = 0;
             var list = CommonPage<vw_Appointment>.GetPageList(

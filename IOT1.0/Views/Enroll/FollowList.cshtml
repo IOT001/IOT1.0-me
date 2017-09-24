@@ -6,7 +6,6 @@
 @model FollowListListViewModel
 @section styles{
     <style type="text/css">
-
     </style>
 }
 <div class="wrapper wrapper-content  animated fadeInRight">
@@ -24,11 +23,11 @@
                             </div>
 
                             <div class="col-sm-3">
-                                  @Html.TextBoxFor(t => t.search.Name, new { @class = "form-control input-sm", @type = "text", @placeholder = "请输入学生姓名" })
+                                @Html.TextBoxFor(t => t.search.Name, new { @class = "form-control input-sm", @type = "text", @placeholder = "请输入学生姓名" })
                             </div>
                             <label class="col-sm-2 control-label">联系电话：</label>
                             <div class="col-sm-3">
-                                   @Html.TextBoxFor(t => t.search.BindPhone, new { @class = "form-control input-sm", @type = "text", @placeholder = "请输入联系电话" })
+                                @Html.TextBoxFor(t => t.search.BindPhone, new { @class = "form-control input-sm", @type = "text", @placeholder = "请输入联系电话" })
                             </div>
                         </div>
                         <div class="form-group">
@@ -36,7 +35,7 @@
                                 <label class="control-label">回访日期:</label>
                             </div>
 
-                                       <div class="col-sm-3">
+                            <div class="col-sm-3">
                                 <div class="input-daterange input-group" id="datepicker">
                                     @Html.TextBoxFor(t => t.search.timeStart, new { @class = "input-sm form-control", @type = "text", @value = DateTime.Now })
 
@@ -75,21 +74,21 @@
                             </tr>
                         </thead>
                         <!-- 循环数据 -->
-                                     <tbody>
+                        <tbody>
 
                             @if (Model != null && Model.FollowList.Count() > 0)
                             {
                                 foreach (var m in Model.FollowList)
                                 {
-                                <tr>
-                                    <td class="jz">@m.ApName</td>
-                                    <td>@m.ApTel</td>
-                                    <td>@m.APID</td>
-                                    <td>@m.DicItemName</td>
-                                    <td>@m.CreateTime</td>
-                                    <td>@m.DicItemName1</td>
-                                    <td>@m.Remark</td> 
-                                </tr>
+                                    <tr>
+                                        <td class="jz">@m.ApName</td>
+                                        <td>@m.ApTel</td>
+                                        <td>@m.APID</td>
+                                        <td>@m.DicItemName</td>
+                                        <td>@m.CreateTime</td>
+                                        <td>@m.DicItemName1</td>
+                                        <td>@m.Remark</td>
+                                    </tr>
                                 }
                             }
                             else

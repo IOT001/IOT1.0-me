@@ -34,7 +34,23 @@
                                 @Html.TextBoxFor(t => t.search.ApTel, new { @class = "input-sm form-control", @type = "text", @placeholder = "请输入联系电话" })
                             </div>
                         </div>
+                        <div class="form-group">
+                            <div class="col-sm-2">
+                                <label class="control-label">校区：</label>
+                            </div>
 
+                            <div class="col-sm-3">
+                                @Html.DropDownListFor(t => t.search.ComCode,Model.search.ComCodeIL, new { @class = "input-sm form-control"})
+                            </div>
+                            <label class="col-sm-2 control-label">创建日期：</label>
+                            <div class="col-sm-3">
+                                <div class="input-daterange input-group" id="datepicker">
+                                    @Html.TextBoxFor(t => t.search.timeStart, new { @class = "input-sm form-control", @type = "text", @value = DateTime.Now })
+                                    <span class="input-group-addon">到</span>
+                                    @Html.TextBoxFor(t => t.search.timeEnd, new { @class = "input-sm form-control", @type = "text", @value = DateTime.Now })
+                                </div>
+                            </div>
+                        </div>
                         <div class="form-group">
                             <div class="col-sm-4">
                                 <div class="btn-group">
@@ -53,6 +69,8 @@
                                 <th>姓名</th>
                                 <th>联系人</th>
                                 <th>联系电话</th>
+                                <th>校区</th>
+                                <th>来源</th>
                                 <th>状态</th>
                                 <th>是否会员</th>
                                 <th>备注</th>
@@ -69,6 +87,8 @@
                                         <td>@m.ApName</td>
                                         <td>@m.APLinkMan</td>
                                         <td>@m.ApTel</td>
+                                        <td>@m.CompName</td>
+                                        <td>@m.SourceName</td>
                                         <td>@m.StateName</td>
                                         <td>@m.IsJoin</td>
                                         <td>@m.APRemark</td>
@@ -114,7 +134,7 @@
     </div>
 </div>
 
-@*弹出层，新增报名*@
+@*弹出层，新增资源*@
 <div class="ibox float-e-margins" id="buttoninfo" style="display:none">
     <div class="ibox-content">
         <form class="form-horizontal">
@@ -134,6 +154,13 @@
                 <label class="col-sm-3 control-label">联系人：</label>
                 <div class="col-sm-8">
                     <input type="text" placeholder="联系人" class="form-control" id="APLinkMan">
+                </div>
+            </div>
+            <div class="form-group ">
+                <label class="col-sm-3 control-label ">所属分校 ：</label>
+                <div class="col-sm-8">
+                    @Html.DropDownListFor(t => t.ap.ComCode, Model.ComCodeIL, new { @class = "form-control input-sm", @style = ""})
+
                 </div>
             </div>
             <div class="form-group">
@@ -253,14 +280,22 @@
                 <div class="col-xs-8">
                     <input type="text" placeholder="姓名" class="form-control input-sm" id="Name">
 
-                    @*<img src="~/Images/pic/Student/Thumbnail_Image/201706121559407322.jpg" />*@
+
                     <img id="img" style="height: 180px;" />
-                    @*style="display:none"*@
+                    @*
+                          <input class="form-control" type="text" id="Picurl"   />
+                         <input type="file"     id="uploadFile" />
+                        <button type="button"  class=" btn btn-primary" onclick="UploadPic()">&nbsp&nbsp上&nbsp&nbsp传&nbsp&nbsp</button>*@
+
+
+
+
+
                     <input class="form-control" type="text" id="Picurl" />
-                    <input type="file" id="uploadFile" />
-                    <button type="button" class=" btn btn-primary" onclick="UploadPic()">&nbsp&nbsp上&nbsp&nbsp传&nbsp&nbsp</button>
+                    <button type="button" class="btn btn-w-m btn-primary " onclick="OpenUploadWindow()">选择文件</button>
+                    <button onclick="UploadPic()" class="btn btn-primary" type="button">上传</button>
 
-
+                    <input id="uploadFile" type="file" class="hidden" />
                 </div>
 
                 @*            <label class="col-xs-2 control-label">照片：</label>
@@ -312,7 +347,7 @@
                 <label class="col-xs-3 control-label">出生年月日：</label>
                 <div class="col-xs-8">
 
-                    <div class="DateS input-group date input-daterange">
+                    <div class="DateS input-group date">
                         <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                         <input type="text" class="form-control input-sm" id="Birthday">
                     </div>
@@ -371,6 +406,18 @@
 
 
             </div>
+
+
+
+            <div class="form-group ">
+                <label class="col-sm-3 control-label ">所属分校 ：</label>
+                <div class="col-sm-8">
+                    @Html.DropDownListFor(t => t.search.ComCode, Model.ComCodeIL, new { @class = "form-control input-sm chosen-select", @style = "width:100%;height:100%;", @tabindex = "4", id = "ComCode" })
+
+                </div>
+            </div>
+
+
 
 
             <div class="form-group ">
@@ -638,7 +685,7 @@
             title: '报名课时',
             align: 'center',
             valign: 'middle',
-            formatter:editCol 
+            formatter: editCol
         }, {
             field: 'Enroll',
             title: '选择优惠',
@@ -689,8 +736,7 @@
     }
 
     //加载优惠下拉框信息
-    function loadDiscountCom()
-    {
+    function loadDiscountCom() {
         //重新激活选择框
         $('.i-checks').iCheck({
             checkboxClass: 'icheckbox_square-green',
@@ -701,19 +747,19 @@
             var och = $(this).parent().parent().find("td").eq(9).text()//原来的费用
             var oks = $(this).parent().parent().find("td").eq(5).text()//总课时数
             var realbm = $(this).parent().parent().find("td").eq(6).children('input').val()//实际报名课时，取input填写值
-        
+
             var yhje = $(this).parent().parent().find("td").eq(8).children('input').val()//取出优惠金额
             var bcff = (realbm / oks) * och - yhje;//算本次最终报名费用
-       
-   
+
+
             $(this).parent().parent().parent().find("td").eq(10).text(bcff);//赋值报名费用
 
         })
         var dataHTML = '';
-        $.post('@Url.Action("GetDiscountItems", "Enroll")', { }, function (json) {
+        $.post('@Url.Action("GetDiscountItems", "Enroll")', {}, function (json) {
             //注册优惠下拉框change事件，选择自定义时允许自己输入优惠金额,要放在回调的这个地方，不然无效，
             $(".discountSelect.form-control.input-sm").change(function () {
-         
+
                 $(this).children('option:selected').each(function () {
                     var _DiscountTypeID = $(this).data("discounttypeid")//获取选中优惠的类别
                     if (_DiscountTypeID == 1)//打折
@@ -729,7 +775,7 @@
                         $(this).parent().parent().parent().find("td").eq(10).text(bcff);//赋值报名费用
                         $(this).parent().parent().parent().find("td").eq(6).children('input').attr("disabled", "true");
                     }
-                    else if(_DiscountTypeID == 2)//减免方式
+                    else if (_DiscountTypeID == 2)//减免方式
                     {
                         var och = $(this).parent().parent().parent().find("td").eq(9).text()//原来的费用
                         var oks = $(this).parent().parent().parent().find("td").eq(5).text()//总课时数
@@ -742,12 +788,11 @@
                         $(this).parent().parent().parent().find("td").eq(10).text(bcff);//赋值报名费用
                         //$(this).parent().parent().parent().find("td").eq(6).children('input').attr("disabled", "true");
                     }
-                    else
-                    {
+                    else {
                         var och = $(this).parent().parent().parent().find("td").eq(9).text()//原来的费用
                         var oks = $(this).parent().parent().parent().find("td").eq(5).text()//总课时数
                         var realbm = $(this).parent().parent().parent().find("td").eq(6).children('input').val();//实际报名课时，取input填写值
-                        var bcff = (realbm / oks) * och ;//算本次最终报名费用
+                        var bcff = (realbm / oks) * och;//算本次最终报名费用
                         $(this).parent().parent().parent().find("td").eq(8).children('input').val(0);//赋值优惠金额
                         $(this).parent().parent().parent().find("td").eq(10).val(bcff);//赋值报名费用
                         $(this).parent().parent().parent().find("td").eq(10).text(bcff);//赋值报名费用
@@ -763,7 +808,7 @@
                         $(this).parent().parent().parent().find("td").eq(8).children('input').attr("disabled", "true");//设置优惠金额不可用
                     }
                 });
-               
+
 
             });
             for (var i = 0; i < json.length; i++) {
@@ -772,7 +817,7 @@
         }, 'json').error(function () { alter("ERRPR!") });
     }
     //根据填写的课时和优惠计算实际报名费用
-    function compute(oldcharge,oldlessons,reallessons,discounttype,number) {
+    function compute(oldcharge, oldlessons, reallessons, discounttype, number) {
         var realcharge = 0;
         if (discounttype = 1)//折扣：报名课时/总课时 * 原来的报名费用*折扣率
         {
@@ -788,15 +833,15 @@
         return [
              '<input type="text" value=' + row.TotalLesson + ' class="input-sm form-control" style="width:50px" name="txtks">'
         ].join('');
-        
-    } 
+
+    }
     //编辑项，当自定义优惠时允许修改优惠金额
     function editDiscount(value, row, index, key) {
         return [
              '<input name="discountText" type="text" value="0" class="input-sm form-control" style="width:50px" disabled="disabled">'
         ].join('');
 
-    } 
+    }
     //编辑项，下拉选择优惠
     function dropdownCol(value, row, index, key) {
         return [
@@ -828,6 +873,7 @@
         obj.APLinkMan = $("#APLinkMan").val().trim();
         obj.APGrade = $("#APGrade").val().trim();
         obj.APRemark = $("#APRemark").val().trim();
+        obj.ComCode = $("#ap_ComCode").val().trim();
         var action = '';
         if (id) {//有ID就是修改模式，没有就是新增模式
             action = '@Url.Action("SaveAppointment", "Enroll")';
@@ -883,7 +929,7 @@
                     $("#APLinkMan").val(json.data.APLinkMan);
                     $("#APGrade").val(json.data.APGrade);
                     $("#APRemark").val(json.data.APRemark);
-
+                    $("#ap_ComCode").val(json.data.ComCode);
                     layer.close(loadindex);//关闭加载层
                 }
             },
@@ -975,17 +1021,15 @@
         $('#classes').bootstrapTable('refresh');
     }
     //报名
-    function baoming(apid,studentid,apstateid) {
-         cleanData("baoming");//清空数据
+    function baoming(apid, studentid, apstateid) {
+        cleanData("baoming");//清空数据
         _apid = apid;//存全局，爬丢失
         _studentid = studentid;
-        if (!studentid)
-        {
+        if (!studentid) {
             layer.msg("非正式学员不允许直接报名，请先加入学员！")
             return;
         }
-        if (apstateid == "3")
-        {
+        if (apstateid == "3") {
             layer.msg("预约单已完成报名！")
             return;
         }
@@ -997,13 +1041,13 @@
             layer.msg("请耐心等待上级审核！")
             return;
         }
-        // $("#classes2 tbody input[type='checkbox']").iCheck('uncheck');//取消全选   
+        // $("#classes2 tbody input[type='checkbox']").iCheck('uncheck');//取消全选
         //如果勾选，弹出金额明细
         $("#classes2 tbody input[type='checkbox']").on('ifChecked', function (event) {
             var trindex = $(this).parent().parent().parent().parent().parent().data("index");//取到行索引
             opencollection(trindex);
         });
-         layer.open({
+        layer.open({
             type: 1,
             title: "<h3 class='ibox-title'>报名</h3>",
             area: ['1000px', '550px'],
@@ -1017,7 +1061,7 @@
                 var did = "";   //选中班级List，用分行分开
                 var Enrolldata = [];//需要提交报名数据
                 $("#classes2 tbody input[type='checkbox']:checked").each(function (ai, am) {//循环选中的班级列表
-                    
+
                     var classid = $(this).parent().parent().parent().data("did");//取到班级号
                     var payment = $(this).parent().parent().parent().parent().parent().find("td").eq(10).text();//实际报名费用
                     var apid = _apid;//预约号
@@ -1034,10 +1078,10 @@
                         "classhour": classhour,
                         "discountid": discountid,
                         "discountprice": discountprice,
-                        "collectionrec":collectionrec
+                        "collectionrec": collectionrec
                     })
                 });
-                
+
                 $.post('@Url.Action("AddEnroll", "Enroll")', {
                     _did: JSON.stringify(Enrolldata)
                 },
@@ -1067,7 +1111,7 @@
             yes: function (index) {
                 var collecttext = "";//自己明细记录用逗号隔开
                 $("#collection input").each(function (ai, am) {//循环自己明细的文本框，给父级行赋值
-                 collecttext += $(this).val() + ","                 
+                 collecttext += $(this).val() + ","
                 })
                 $("#classes2 tbody tr:eq(" + trindex + ")").find("td").eq(12).text(collecttext)
                 layer.close(index);
@@ -1109,10 +1153,12 @@
         });
     }
     //加入会员
-    function join() {
+    function join(id) {
         var obj = new Object;
-
-        obj.Name = $("#Name").val().trim();;
+        if (id) {//有ID就是修改模式，没有就是新增模式
+            obj.ID = id;
+        }
+        obj.Name = $("#Name").val().trim();
         if (!obj.Name) {
             layer.msg("请输入姓名！");
             return false;
@@ -1130,7 +1176,7 @@
         }
 
 
-        if ($("#Sex").is(':checked')) {//判断停用按钮是否选中 
+        if ($("#Sex").is(':checked')) {//判断停用按钮是否选中
             obj.Sex = $("#Sex").val().trim();
         }
         else {
@@ -1150,12 +1196,22 @@
             layer.msg("请选择来源渠道！");
             return false;
         }
+
+        obj.ComCode = $("#ComCode").val().trim();
+
+        if (!obj.ComCode) {
+            layer.msg("请选择所属分校！");
+            return false;
+        }
+
         obj.Remark = $("#Remark").val().trim();
 
 
         var action = '';
-
-        action = '@Url.Action("AddStudent", "Student")' 
+        if (id) {//有ID就是修改模式，没有就是新增模式
+            action = '@Url.Action("SaveStudent", "Student")';
+        }
+        else { action = '@Url.Action("AddStudent", "Student")' }
         $.post(action, {
             "data": JSON.stringify(obj),//序列化对象
             "apid": _apid
@@ -1169,7 +1225,7 @@
                 }, 3000);
             }
             else {
-                layer.msg(json.msg);
+                layer.msg(json.msg);//弹出服务器返回的消息
             }
         }, 'json');
     }
@@ -1188,7 +1244,7 @@
             shade: [0],
             area: ['800px', '600px'],
             //maxmin: true, //开启最大化最小化按钮
-            content: ['@Url.Action("InvoicePrint", "Enroll")'+ "?apid="+id ], //iframe的url，no代表不显示滚动条
+            content: ['@Url.Action("InvoicePrint", "Enroll")' + "?apid=" + id], //iframe的url，no代表不显示滚动条
             cancel: function () {
                 layer.closeAll();
             }
@@ -1242,7 +1298,7 @@
 
                                 $("#img").attr("src", json.data.thumbnailImage);
                                 $("#Picurl").val(json.data.thumbnailImage);//弹出服务器返回的消息
-                                layer.msg(json.msg);//弹出服务器返回的消息 
+                                layer.msg(json.msg);//弹出服务器返回的消息
                             }
                         }, 'json');
 

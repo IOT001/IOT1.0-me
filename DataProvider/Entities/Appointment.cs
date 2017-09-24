@@ -111,6 +111,10 @@ namespace DataProvider.Entities
         /// 所属分校,1舜浦，2吾悦
         /// </summary>
         public string ComCode { get; set; }
+        /// <summary>
+        /// 来源方式：字典表22,1系统录入，2市场收集，3用户扫码
+        /// </summary>
+        public int? SourceID { get; set; }
        
     }
    /// <summary>
