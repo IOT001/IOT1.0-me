@@ -36,6 +36,10 @@ namespace DataProvider.Data
            if (!string.IsNullOrWhiteSpace(search.CreateTime_end))//结束时间
                sb.AppendFormat(" and CreateTime <= '{0}' ", search.CreateTime_end);
 
+
+           if (!string.IsNullOrWhiteSpace(search.ComCode))//校区
+               sb.AppendFormat(" and [ComCode] = '{0}' ", search.ComCode);
+
            where = sb.ToString();
            int allcount = 0;
            var list = CommonPage<vw_Students>.GetPageList(

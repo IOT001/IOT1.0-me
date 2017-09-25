@@ -94,6 +94,10 @@ namespace DataProvider.Entities
         /// BindAccount
         /// </summary>				
         public string BindAccount { get; set; }
+        /// <summary>
+        /// 分校CODE
+        /// </summary>				
+        public string ComCode { get; set; }
     }
    /// <summary>
    /// Deploy：实体对象映射关系

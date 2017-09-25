@@ -262,5 +262,25 @@ namespace DataProvider.Data
 
 
 
+
+
+        //<summary>
+        //获取Teachers表的分校CODE
+        //</summary>
+        //<param name="Stockid"></param>
+        //<returns></returns> 
+        public static string GetTeachers_ComCode(string MobilePhone)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append("select ComCode from Teachers   ");
+            sb.Append(" where MobilePhone=@MobilePhone ");
+            var parameters = new DynamicParameters();
+            parameters.Add("@MobilePhone", MobilePhone);
+            return MsSqlMapperHepler.SqlWithParamsSingle<string>(sb.ToString(), parameters, DBKeys.PRX);
+        }
+
+
+
+
     }
 }
