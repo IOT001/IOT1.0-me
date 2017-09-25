@@ -1,8 +1,9 @@
-﻿@using DataProvider.Models
+﻿ 
+@using DataProvider.Models
 @using DataProvider.Paging
 @{
     ViewBag.Title = "学员管理";
-
+    object ComCode = ViewData["ComCode"];
 }
 
 @model StudentListViewModel
@@ -48,6 +49,34 @@
 
                         </div>
 
+                        
+                                   <div class="form-group">
+                            <div class="col-sm-2">
+                                <label class="control-label">校区：</label>
+                            </div>
+                                    <div class="col-sm-3">
+                                      
+                                       
+                                         @if (ComCode != null )
+                                           {
+                                              
+                                @Html.DropDownListFor(t => t.search.ComCode,Model.search.ComCodeIL, new { @class = "form-control input-sm chosen-select", @style = "width:100%;height:100%;", @tabindex = "4 "  ,disabled="true"})
+                                        
+                
+                                             
+                                           }
+                                         else
+                                         {
+                                            @Html.DropDownListFor(t => t.search.ComCode,Model.search.ComCodeIL, new { @class = "form-control input-sm chosen-select", @style = "width:100%;height:100%;", @tabindex = "4 "})
+                                         }
+                                            
+                                             
+                                             
+                                             
+                            </div>
+                
+                        </div>
+                        
                         
 
                         <div class="form-group">

@@ -4819,6 +4819,7 @@
     <Content Include="Views\Finance\TransferAgreementList.cshtml" />
     <Content Include="Views\Finance\TransferProtocol.cshtml" />
     <Content Include="Views\Attendance\AttendanceOriginal.cshtml" />
+    <Content Include="Upload\Template\批量导入.xlsx" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

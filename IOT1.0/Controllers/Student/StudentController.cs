@@ -1,5 +1,6 @@
 ﻿using DataProvider;
 using DataProvider.Data;
+using DataProvider.Entities;
 using DataProvider.Models;
 using IOT1._0.Models;
 using Newtonsoft.Json;
@@ -38,6 +39,14 @@ namespace IOT1._0.Controllers.Teach
             //分校下拉项
             List<CommonEntity> ComCodeIL = CommonData.Get_SYS_Company_List();//分校
             model.ComCodeIL = CommonData.Instance.GetBropDownListData(ComCodeIL);
+            model.search.ComCodeIL = CommonData.Instance.GetBropDownListData(ComCodeIL);
+
+
+            //默认选择获取 的值。。
+            string ComCode = TeacherData.GetTeachers_ComCode(UserSession.userid);
+            ViewData["ComCode"] = ComCodeIL.AsEnumerable();
+             
+
 
 
             model.Studentlist = StudentData.GetStudentList(search);//填充页面模型数据

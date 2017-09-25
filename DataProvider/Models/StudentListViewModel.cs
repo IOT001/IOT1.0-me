@@ -23,12 +23,11 @@ namespace DataProvider.Models
         public PagedList<vw_Students> Studentlist { get; set; }
 
         /// <summary>
-        ///下拉框  
+        ///来源渠道下拉框  
         /// </summary>
         public List<SelectListItem> SourceIL { get; set; }
 
-
-
+       
         /// <summary>
         /// 分校下拉框
         /// </summary>
@@ -67,10 +66,18 @@ namespace DataProvider.Models
         /// </summary>
         public int DicItemID { set; get; }
 
+
         /// <summary>
-        /// 分校下拉框的选中值
+        /// 所属分校下拉
         /// </summary>
-        public string ComCode { set; get; }
+        public List<SelectListItem> ComCodeIL { get; set; }
+        /// <summary>
+        /// 所属分校的选中值
+        /// </summary>
+        public string ComCode { get; set; }
+
+      
+
     }
 
 }
