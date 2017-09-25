@@ -10,12 +10,15 @@
     <link href="~/Scripts/bootStrap/css/bootstrap.min.css" rel="stylesheet" />
     <link href="~/Scripts/assets/css/font-awesome.min.css" rel="stylesheet" />
     <link href="~/Scripts/assets/css/animate.css" rel="stylesheet" />
-
+    <link href="~/Scripts/layer/skin/layer.css" rel="stylesheet" />
+    <link href="~/Scripts/layer/skin/layer.ext.css" rel="stylesheet" />
     <link href="~/Scripts/assets/css/style.css" rel="stylesheet" />
     @*<link rel="stylesheet" type="text/css" href="@Url.Content("~/Scripts/Mobile/content/css/common.css")" />*@
     <script type="text/javascript" src="@Url.Content("~/Scripts/assets/js/jquery.min.js")"></script>
-    <script type="text/javascript" src="@Url.Content("~/Scripts/Mobile/content/js/layer/layer.mobile.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Scripts/Mobile/content/js/resize.js")"></script>
+    <script src="~/Scripts/bootStrap/js/bootstrap.min.js"></script>
+    <script src="~/Scripts/assets/js/content.js"></script>
+    <script src="~/Scripts/layer/layer.js"></script>
     <style>
         .w640 {
             position: relative;
@@ -137,35 +140,9 @@
     <section class="w640">
         @RenderBody()
     </section>
-        @*<div class="bottomNav">
-            <div class="w640">
-                <ul class="clearfloat">
-                    <li>
-                        <a href="progress.html">
-                            <i class="i01">&nbsp;</i>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="change.html">
-                            <i class="i02">&nbsp;</i>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="pay.html">
-                            <i class="i03">&nbsp;</i>
-                        </a>
-                    </li>
-                    <li class="cur">
-                        <a href="#">
-                            <i class="i04">&nbsp;</i>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>*@
+
         @RenderSection("script", false) 
-        <script src="~/Scripts/bootStrap/js/bootstrap.min.js"></script>
-        <script src="~/Scripts/assets/js/content.js"></script>
+
         @RenderSection("wxscripts", false)
 </body>
 </html>

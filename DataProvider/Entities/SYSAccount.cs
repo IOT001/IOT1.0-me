@@ -33,7 +33,8 @@ namespace DataProvider
         public System.DateTime ACC_CreatedOn { get; set; }
         public string ACC_LastUpdBy { get; set; }
         public Nullable<System.DateTime> ACC_LastUpdOn { get; set; } 
-        public string USRP_UserCode { get; set; } 
+        public string USRP_UserCode { get; set; }
+        public string ACC_ComCode { get; set; }
     }
 
     /// <summary>

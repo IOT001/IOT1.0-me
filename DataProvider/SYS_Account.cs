@@ -40,6 +40,7 @@ namespace DataProvider
         public Nullable<System.DateTime> ACC_LastUpdOn { get; set; }
         public byte[] ACC_RowVersion { get; set; }
         public string USRP_UserCode { get; set; }
+        public string ACC_ComCode { get; set; }
     
         public virtual ICollection<SYS_AccountRole> SYS_AccountRole { get; set; }
     }

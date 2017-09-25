@@ -39,12 +39,35 @@ namespace IOT1._0.Models
             {
                 if (HttpContext.Current.Session["userid"] == null || HttpContext.Current.Session["userid"].ToString().Trim() == "")
                 {
-                    HttpContext.Current.Response.Redirect("~/Weixin/Login", true);
-                    return null;
+                    HttpContext.Current.Response.Redirect("~/login.html", true);
+                    throw new Exception("登录超时，请重新登录！");
                 }
                 else
                 {
                     return  HttpContext.Current.Session["userid"].ToString();
+                }
+            }
+        }
+        /// <summary>
+        /// 账号所属分校
+        /// </summary>
+        public static string comcode
+        {
+            set
+            {
+
+                HttpContext.Current.Session["comcode"] = value;
+            }
+            get
+            {
+                if (HttpContext.Current.Session["comcode"] == null || HttpContext.Current.Session["userid"].ToString().Trim() == "")
+                {
+                    HttpContext.Current.Response.Redirect("~/login.html", true);
+                    throw new Exception("登录超时，请重新登录！");
+                }
+                else
+                {
+                    return HttpContext.Current.Session["comcode"].ToString();
                 }
             }
         }
@@ -60,6 +83,7 @@ namespace IOT1._0.Models
             {
                 if (HttpContext.Current.Session["UserLoginTime"] == null || HttpContext.Current.Session["UserLoginTime"].ToString().Trim() == "")
                 {
+                    HttpContext.Current.Response.Redirect("~/login.html", true);
                     throw new Exception("登录超时，请重新登录！");
                 }
                 else

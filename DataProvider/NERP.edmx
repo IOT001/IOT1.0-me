@@ -127,6 +127,7 @@
           <Property Name="ACC_LastUpdOn" Type="datetime" />
           <Property Name="ACC_RowVersion" Type="timestamp" Nullable="false" StoreGeneratedPattern="Computed" />
           <Property Name="USRP_UserCode" Type="varchar" MaxLength="30" />
+          <Property Name="ACC_ComCode" Type="varchar" MaxLength="30" />
         </EntityType>
         <EntityType Name="SYS_AccountRole">
           <Key>
@@ -588,6 +589,7 @@
           <Property Type="DateTime" Name="ACC_LastUpdOn" Precision="3" />
           <Property Type="Binary" Name="ACC_RowVersion" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
           <Property Type="String" Name="USRP_UserCode" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="ACC_ComCode" MaxLength="30" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="SYS_AccountRole" Relationship="NERPModel.FK_SYS_AccountRole_SYS_Account" FromRole="SYS_Account" ToRole="SYS_AccountRole" />
         </EntityType>
         <EntityType Name="SYS_AccountRole">
@@ -957,6 +959,7 @@
           <EntitySetMapping Name="SYS_Account">
             <EntityTypeMapping TypeName="NERPModel.SYS_Account">
               <MappingFragment StoreEntitySet="SYS_Account">
+                <ScalarProperty Name="ACC_ComCode" ColumnName="ACC_ComCode" />
                 <ScalarProperty Name="USRP_UserCode" ColumnName="USRP_UserCode" />
                 <ScalarProperty Name="ACC_RowVersion" ColumnName="ACC_RowVersion" />
                 <ScalarProperty Name="ACC_LastUpdOn" ColumnName="ACC_LastUpdOn" />

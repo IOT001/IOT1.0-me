@@ -1,7 +1,10 @@
 ﻿@using DataProvider.Models
 @using DataProvider.Paging
 @model ReservationModel
-
+@{
+    ViewBag.Title = "资源录入";
+    Layout = "~/Views/Shared/_Layoutwx.cshtml";//设置模板文件
+}
 <link href="~/CSS/common.css" rel="stylesheet" />
 <link href="http://m.525j.com.cn/css/wxshare.css" rel="stylesheet" type="text/css" />
 <link href="~/CSS/quotation.css" rel="stylesheet" />
@@ -128,8 +131,6 @@
 
 </section>
 
-<!--选择城市-->
-<!--选择城市height:100%; -->
 
 
 
@@ -354,10 +355,11 @@
         obj.ApTel = $("#ApTel").val().trim();
 
         obj.APRemark = $("#APRemark").val().trim();
-
-        $.post('@Url.Action("AddAppointment", "Enroll")', {
+        obj.SourceID = 2;//市场收集
+        $.post('@Url.Action("AddAppointment", "Weixin")', {
             "data": JSON.stringify(obj)//序列化对象
         }, function (json) {
+            alert("111");
             if (json.status == 200) {//成功
 
                 layer.msg(json.msg);//弹出服务器返回的消息
@@ -366,7 +368,7 @@
                     window.location.reload(); //刷新
                 }, 3000);
             }
-        }, 'json');
+        }, "json");
     }
 
     $(document).ready(function () {

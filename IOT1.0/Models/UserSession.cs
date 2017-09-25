@@ -47,6 +47,29 @@ namespace IOT1._0.Models
                 }
             }
         }
+        /// <summary>
+        /// 账号所属分校
+        /// </summary>
+        public static string comcode
+        {
+            set
+            {
+
+                HttpContext.Current.Session["comcode"] = value;
+            }
+            get
+            {
+                if (HttpContext.Current.Session["comcode"] == null || HttpContext.Current.Session["userid"].ToString().Trim() == "")
+                {
+                    HttpContext.Current.Response.Redirect("~/Weixin/Login", true);
+                    return null;
+                }
+                else
+                {
+                    return HttpContext.Current.Session["comcode"].ToString();
+                }
+            }
+        }
 
         public static string UserLoginTime
         {

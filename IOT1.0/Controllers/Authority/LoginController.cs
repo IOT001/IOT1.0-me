@@ -51,6 +51,7 @@ namespace IOT1._0.Controllers
                 {
                     UserSession.userid = d.ACC_Account;
                     UserSession.username = d.ACC_Account;
+                    UserSession.comcode = d.ACC_ComCode;
                     UserSession.UserLoginTime = DateTime.Now.ToString();
                 }
                 return dt.Count;

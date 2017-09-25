@@ -110,7 +110,11 @@ namespace IOT1._0.Controllers.Enroll
             obj.CreateTime = DateTime.Now;
             obj.CreatorId = UserSession.userid;
             obj.ApStateID = 1;//默认未跟进
-            obj.SourceID = 1;//系统录入
+            if (string.IsNullOrEmpty(obj.ComCode))
+            {
+                ajax.msg = "请选择所属分校！";
+                return Json(ajax);
+            }
             if (AppointmentData.Add(obj))//注意时间类型
             {
                 ajax.msg = "新增成功！";
