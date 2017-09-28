@@ -178,20 +178,20 @@ namespace DataProvider.Data
                                     // MsSqlMapperHepler.Insert<ClassList>(Clas, DBKeys.PRX);  //增加排课表数据 
 
 
-                                    List<Enroll> Enroll = GetEnrollByID(Clas.ClassID);//获取Enroll报名表的数据
-                                    AttendanceRecord attend = new AttendanceRecord();
-                                    attend.CreateTime = DateTime.Now;  //创建时间
-                                    attend.CreatorId = Clas.CreatorId; //创建人
-                                    attend.ClassID = Clas.ClassID;//班级编号
-                                    attend.ClassIndex = number;//班次序号，也就是班级生成的集体上课记录 
-                                    attend.AttendanceTypeID = 1;//上课状态,默认为1，未考勤
-                                    attend.AttendanceWayID = 3;//AttendanceWayID默认3，教师操作的考勤。
-                                    for (int j = 0; j < Enroll.Count(); j++)
-                                    {
-                                        attend.StudentID = Enroll[j].StudentID;
-                                        db.Insert<AttendanceRecord>(attend);//增加上课记录表数据
-                                        //MsSqlMapperHepler.Insert<AttendanceRecord>(attend, DBKeys.PRX); //增加上课记录表数据
-                                    }
+                                    //List<Enroll> Enroll = GetEnrollByID(Clas.ClassID);//获取Enroll报名表的数据
+                                    //AttendanceRecord attend = new AttendanceRecord();
+                                    //attend.CreateTime = DateTime.Now;  //创建时间
+                                    //attend.CreatorId = Clas.CreatorId; //创建人
+                                    //attend.ClassID = Clas.ClassID;//班级编号
+                                    //attend.ClassIndex = number;//班次序号，也就是班级生成的集体上课记录 
+                                    //attend.AttendanceTypeID = 1;//上课状态,默认为1，未考勤
+                                    //attend.AttendanceWayID = 3;//AttendanceWayID默认3，教师操作的考勤。
+                                    //for (int j = 0; j < Enroll.Count(); j++)
+                                    //{
+                                    //    attend.StudentID = Enroll[j].StudentID;
+                                    //    db.Insert<AttendanceRecord>(attend);//增加上课记录表数据
+                                    //    //MsSqlMapperHepler.Insert<AttendanceRecord>(attend, DBKeys.PRX); //增加上课记录表数据
+                                    //}
 
                                 }
                             }
@@ -296,20 +296,20 @@ namespace DataProvider.Data
                                         // MsSqlMapperHepler.Insert<ClassList>(Clas, DBKeys.PRX);  //增加排课表数据 
 
 
-                                        List<Enroll> Enroll = GetEnrollByID(Clas.ClassID);//获取Enroll报名表的数据
-                                        AttendanceRecord attend = new AttendanceRecord();
-                                        attend.CreateTime = DateTime.Now;  //创建时间
-                                        attend.CreatorId = Clas.CreatorId; //创建人
-                                        attend.ClassID = Clas.ClassID;//班级编号
-                                        attend.ClassIndex = number;//班次序号，也就是班级生成的集体上课记录 
-                                        attend.AttendanceTypeID = 1;//上课状态,默认为1，未考勤
-                                        attend.AttendanceWayID = 3;//AttendanceWayID默认3，教师操作的考勤。
-                                        for (int j = 0; j < Enroll.Count(); j++)
-                                        {
-                                            attend.StudentID = Enroll[j].StudentID;
-                                            db.Insert<AttendanceRecord>(attend);//增加上课记录表数据
-                                            //MsSqlMapperHepler.Insert<AttendanceRecord>(attend, DBKeys.PRX); //增加上课记录表数据
-                                        }
+                                        //List<Enroll> Enroll = GetEnrollByID(Clas.ClassID);//获取Enroll报名表的数据
+                                        //AttendanceRecord attend = new AttendanceRecord();
+                                        //attend.CreateTime = DateTime.Now;  //创建时间
+                                        //attend.CreatorId = Clas.CreatorId; //创建人
+                                        //attend.ClassID = Clas.ClassID;//班级编号
+                                        //attend.ClassIndex = number;//班次序号，也就是班级生成的集体上课记录 
+                                        //attend.AttendanceTypeID = 1;//上课状态,默认为1，未考勤
+                                        //attend.AttendanceWayID = 3;//AttendanceWayID默认3，教师操作的考勤。
+                                        //for (int j = 0; j < Enroll.Count(); j++)
+                                        //{
+                                        //    attend.StudentID = Enroll[j].StudentID;
+                                        //    db.Insert<AttendanceRecord>(attend);//增加上课记录表数据
+                                        //    //MsSqlMapperHepler.Insert<AttendanceRecord>(attend, DBKeys.PRX); //增加上课记录表数据
+                                        //}
 
                                     }
                                 }
@@ -376,20 +376,20 @@ namespace DataProvider.Data
                                     // MsSqlMapperHepler.Insert<ClassList>(Clas, DBKeys.PRX);  //增加排课表数据 
 
 
-                                    List<Enroll> Enroll = GetEnrollByID(Clas.ClassID);//获取Enroll报名表的数据
-                                    AttendanceRecord attend = new AttendanceRecord();
-                                    attend.CreateTime = DateTime.Now;  //创建时间
-                                    attend.CreatorId = Clas.CreatorId; //创建人
-                                    attend.ClassID = Clas.ClassID;//班级编号
-                                    attend.ClassIndex = number;//班次序号，也就是班级生成的集体上课记录 
-                                    attend.AttendanceTypeID = 1;//上课状态,默认为1，未考勤
-                                    attend.AttendanceWayID = 3;//AttendanceWayID默认3，教师操作的考勤。
-                                    for (int j = 0; j < Enroll.Count(); j++)
-                                    {
-                                        attend.StudentID = Enroll[j].StudentID;
-                                        db.Insert<AttendanceRecord>(attend);//增加上课记录表数据
-                                        //MsSqlMapperHepler.Insert<AttendanceRecord>(attend, DBKeys.PRX); //增加上课记录表数据
-                                    }
+                                    //List<Enroll> Enroll = GetEnrollByID(Clas.ClassID);//获取Enroll报名表的数据
+                                    //AttendanceRecord attend = new AttendanceRecord();
+                                    //attend.CreateTime = DateTime.Now;  //创建时间
+                                    //attend.CreatorId = Clas.CreatorId; //创建人
+                                    //attend.ClassID = Clas.ClassID;//班级编号
+                                    //attend.ClassIndex = number;//班次序号，也就是班级生成的集体上课记录 
+                                    //attend.AttendanceTypeID = 1;//上课状态,默认为1，未考勤
+                                    //attend.AttendanceWayID = 3;//AttendanceWayID默认3，教师操作的考勤。
+                                    //for (int j = 0; j < Enroll.Count(); j++)
+                                    //{
+                                    //    attend.StudentID = Enroll[j].StudentID;
+                                    //    db.Insert<AttendanceRecord>(attend);//增加上课记录表数据
+                                    //    //MsSqlMapperHepler.Insert<AttendanceRecord>(attend, DBKeys.PRX); //增加上课记录表数据
+                                    //}
 
                                 }
                             }

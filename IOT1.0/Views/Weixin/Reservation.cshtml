@@ -359,7 +359,6 @@
         $.post('@Url.Action("AddAppointment", "Weixin")', {
             "data": JSON.stringify(obj)//序列化对象
         }, function (json) {
-            alert("111");
             if (json.status == 200) {//成功
 
                 layer.msg(json.msg);//弹出服务器返回的消息
