@@ -157,12 +157,33 @@ namespace DataProvider.Data
             //sb.Append(" where a.StudentID=b.StudentID and b.StudentID = c.ID ");
             //
 
-            sb.Append(" select distinct a.*,c.Name as Name,c.BindPhone as Phone , (b.ClassHour-b.UsedHour) as LeftHour from AttendanceRecord a left join  Enroll b  on a.StudentID=b.StudentID  AND a.ClassID=b.ClassID  left join  Students c   on  a.StudentID = c.ID where 1=1");
+            sb.Append(@" select  a.[ID]
+              ,b.[StudentID]
+              ,a.[ClassID]
+              ,a.[ClassIndex]
+              ,a.[ClockTime]
+              ,a.[AttendanceTypeID]
+              ,a.[AttendanceWayID]
+              ,a.[Evaluate]
+              ,a.[Remark]
+              ,a.[CreateTime]
+              ,a.[CreatorId]
+              ,a.[OutStatus]
+              ,a.[UpdateTime]
+              ,a.[UpdatorId],
+              c.Name as Name,
+              c.BindPhone as Phone, 
+              (b.ClassHour-b.UsedHour) as LeftHour 
+              FROM  Enroll b  
+            INNER JOIN ClassList e ON b.ClassID =e.ClassID
+            left join AttendanceRecord a  on a.StudentID=b.StudentID  AND a.ClassID=b.ClassID  
+            LEFT join  Students c   on  b.StudentID = c.ID 
+            WHERE 1=1  ");
 
             if (!string.IsNullOrWhiteSpace(classId))//按钮中文名称
-                sb.Append(" and a.ClassID = @ClassID ");
+                sb.Append(" and b.ClassID = @ClassID ");
             if (classIndex != 0)//按钮中文名称
-                sb.Append(" and a.ClassIndex = @ClassIndex ");
+                sb.Append(" and e.ClassIndex = @ClassIndex ");
 
 
             //if (!string.IsNullOrWhiteSpace(search.BTN_Name_En))//城市
@@ -212,35 +233,79 @@ namespace DataProvider.Data
                     if (value.ClockTime == null && value.OutStatus < 1) continue;
                    
                     AttendanceRecord btnto = AttendaceData.GetAttendanceRecordByStudentClass( value.StudentID,value.ClassID, value.ClassIndex);//获取对象
-                  
+                    if (btnto == null)
+                    {
+                        btnto = new AttendanceRecord();
+                    }
+                    else
+                    {
+                        throw new Exception("考勤已存在");
+                    }
                     if (value.ClockTime != null)
                     {
                         btnto.OutStatus =0;
                         btnto.ClockTime = value.ClockTime;
                         btnto.AttendanceTypeID = 2;//考勤正常
-                       Enroll enroll= EnrollData.getEnrollByStudentClass(value.StudentID, value.ClassID);
-                       if (enroll != null)
-                       {
-                          var UsedHour= enroll.UsedHour+1;  
-                          // EnrollData.UpdateEnroll(enroll);
-                          AttendaceData.UpdateEnroll(enroll.ID, UsedHour, DateTime.Now,userid,db);
-                          Students s = StudentData.GetStudentsByID(value.StudentID);//获取学员
-                          if (s.StateID != null && (s.StateID.Value == 1 || s.StateID.Value == 3))//冻结和未读状态下
-                          {
-                              s.StateID = 2;//改成在读
-                              db.Update<Students>(s);
-                          }
-                          ClassList cl = ClassListData.GetOneByid(value.ClassID, value.ClassIndex);
-                          cl.StateID = 2;//课时状态变成已上
-                          db.Update<ClassList>(cl);
-                       }
+                        btnto.CreateTime = DateTime.Now;
+                        btnto.CreatorId = userid;
+                        btnto.AttendanceWayID = 3;//工作人员操作
+                        btnto.ClassID = value.ClassID;
+                        btnto.ClassIndex = value.ClassIndex;
+                        btnto.StudentID = value.StudentID;
+                        db.Insert(btnto);//新增考勤
+
+                        Enroll enroll= EnrollData.getEnrollByStudentClass(value.StudentID, value.ClassID);
+                        if (enroll != null)
+                        {
+                            enroll.UsedHour = enroll.UsedHour + 1;
+                            db.Update(enroll);
+                            //AttendaceData.UpdateEnroll(enroll.ID, UsedHour, DateTime.Now,userid,db);
+                            Students s = StudentData.GetStudentsByID(value.StudentID);//获取学员
+                            if (s.StateID != null && (s.StateID.Value == 1 || s.StateID.Value == 3))//冻结和未读状态下
+                            {
+                                s.StateID = 2;//改成在读
+                                db.Update<Students>(s);
+                            }
+                            ClassList cl = ClassListData.GetOneByid(value.ClassID, value.ClassIndex);
+                            cl.StateID = 2;//课时状态变成已上
+                            db.Update<ClassList>(cl);
+                        }
+                        else
+                        {
+                            throw new Exception("获取报名记录错误");
+                        }
                     }
-                    if (value.OutStatus > 0)
+                    if (value.OutStatus > 0)//未打卡
                     {
-                        btnto.AttendanceTypeID = 3;//缺勤
                         btnto.OutStatus = value.OutStatus;
+                        btnto.ClockTime = value.ClockTime;
+                        if (value.OutStatus == 2)//正常请假不扣课时
+                        {
+                            btnto.AttendanceTypeID = 4;//请假
+                        }
+                        else
+                        {
+                            btnto.AttendanceTypeID = 3;//缺勤
+                        }
+                        btnto.CreateTime = DateTime.Now;
+                        btnto.CreatorId = userid;
+                        btnto.AttendanceWayID = 3;//工作人员操作
+                        btnto.ClassID = value.ClassID;
+                        btnto.ClassIndex = value.ClassIndex;
+                        btnto.StudentID = value.StudentID;
+                        db.Insert(btnto);//新增考勤
+
+                        Enroll enroll = EnrollData.getEnrollByStudentClass(value.StudentID, value.ClassID);
+                        if (enroll != null && btnto.AttendanceTypeID == 3)//缺勤状态还是要扣课时
+                        {
+                            enroll.UsedHour = enroll.UsedHour + 1;
+                            db.Update(enroll);
+
+                            ClassList cl = ClassListData.GetOneByid(value.ClassID, value.ClassIndex);
+                            cl.StateID = 2;//课时状态变成已上
+                            db.Update<ClassList>(cl);
+                        }
                     }
-                    db.Update(btnto);
                }
 
                 db.Commit(); //事务提交

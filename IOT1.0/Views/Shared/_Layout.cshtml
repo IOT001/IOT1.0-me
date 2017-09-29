@@ -67,7 +67,21 @@
     padding: 14px 15px 7px;
     min-height: 48px;
 }
-
+    /*调整分页样式*/
+     .pagination > span > li {
+        display:inherit
+    }
+    .pagination > span > li > a {
+    background-color: #FFFFFF;
+    border: 1px solid #DDDDDD;
+    color: inherit;
+    float: left;
+    line-height: 1.42857;
+    margin-left: -1px;
+    padding: 4px 10px;
+    position: relative;
+    text-decoration: none;
+}
     </style>
     @RenderSection("styles", false)
     <script src="~/Scripts/jquery-2.2.0.min.js"></script>

@@ -37,11 +37,11 @@ namespace DataProvider
         /// </summary>
         public Nullable<System.DateTime> ClockTime { get; set; }
         /// <summary>
-        /// 字典表，出勤状态，出勤或缺勤
+        /// 字典表，出勤状态，出勤或缺勤字典表类型9,1未出勤，2正常，3缺勤,4请假
         /// </summary>
         public Nullable<int> AttendanceTypeID { get; set; }
         /// <summary>
-        /// 打卡方式，微信，设备，教师
+        /// 打卡方式，微信，设备，教师，字典10,1微信，2设备，3教师系统设置
         /// </summary>
         public Nullable<int> AttendanceWayID { get; set; }
         /// <summary>
