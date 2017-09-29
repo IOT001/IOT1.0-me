@@ -26,42 +26,42 @@ namespace DataProvider.Data
         {
             var number = 0;//因为事务查询数据库会直接卡死
             bool ret = false;
-            DBRepository db = new DBRepository(DBKeys.PRX);
+            DBRepository db = new DBRepository(DBKeys.PRX);//事务
 
             int Multiple = 0;
-            if (!string.IsNullOrWhiteSpace(weekday.Monday))
+            if (!string.IsNullOrWhiteSpace(weekday.Monday))//判断选择的星期是星期几
             {
                Multiple= Multiple+1;  //判断是否包含在星期里面
             }
-            if (!string.IsNullOrWhiteSpace(weekday.Tuesday))
+            if (!string.IsNullOrWhiteSpace(weekday.Tuesday))//判断选择的星期是星期几
             {
                 Multiple = Multiple + 1;  //判断是否包含在星期里面
             }
-            if (!string.IsNullOrWhiteSpace(weekday.Wednesday))
+            if (!string.IsNullOrWhiteSpace(weekday.Wednesday))//判断选择的星期是星期几
             {
                 Multiple = Multiple + 1;  //判断是否包含在星期里面
             }
-            if (!string.IsNullOrWhiteSpace(weekday.Thursday))
+            if (!string.IsNullOrWhiteSpace(weekday.Thursday))//判断选择的星期是星期几
             {
                 Multiple = Multiple + 1;  //判断是否包含在星期里面
             }
-            if (!string.IsNullOrWhiteSpace(weekday.Friday))
+            if (!string.IsNullOrWhiteSpace(weekday.Friday))//判断选择的星期是星期几
             {
                 Multiple = Multiple + 1;  //判断是否包含在星期里面
             }
-            if (!string.IsNullOrWhiteSpace(weekday.Saturday))
+            if (!string.IsNullOrWhiteSpace(weekday.Saturday))//判断选择的星期是星期几
             {
                 Multiple = Multiple + 1;  //判断是否包含在星期里面
             }
-            if (!string.IsNullOrWhiteSpace(weekday.Sunday))
+            if (!string.IsNullOrWhiteSpace(weekday.Sunday))//判断选择的星期是星期几
             {
                 Multiple = Multiple + 1;  //判断是否包含在星期里面
             }
 
-            int curriculum = 0;
-            if ((Clss.TotalLesson % Multiple)!=0)
+            int curriculum = 0;//一个星期总共要生成几天排课
+            if ((Clss.TotalLesson % Multiple)!=0) //总课时除以总共选择了七天里面有效星期，除不尽就要加2个有效星期
             {
-                  curriculum = (Clss.TotalLesson / Multiple) + 2;
+                  curriculum = (Clss.TotalLesson / Multiple) + 2; //总课时除以选择的有效星期
             }
             else
             {
@@ -82,7 +82,7 @@ namespace DataProvider.Data
 
 
 
-                       int weeknow = Convert.ToInt32(date.Start_Date.DayOfWeek);
+                       int weeknow = Convert.ToInt32(date.Start_Date.DayOfWeek);//获取开始排课时间是星期几
                     
                         //因为是以星期一为第一天，所以要判断weeknow等于0时，要向前推6天。  
                         weeknow = (weeknow == 0 ? (7 - 1) : (weeknow - 1));
@@ -116,8 +116,8 @@ namespace DataProvider.Data
                         {
                             Last = Convert.ToInt32(date.Start_Date.DayOfWeek);
                         }
-                        //第一次生成
-                        if (i==1)//有可能选择的是星期1，2。但是开始时间是从星期开始，所以不能七天来判断
+                        //第一次生成（）
+                        if (i==1)//有可能选择的星期不是从星期1开始的，所以不能按一个星期七天来判断，要单独处理
                         {
                             int time_sum =timeEnd.DayOfYear- date.Start_Date.DayOfYear;
                             for (int m = 0; m <= time_sum; m++)
@@ -125,7 +125,7 @@ namespace DataProvider.Data
                                 var Date = date.Start_Date.AddDays(m);
                                 var week = Convert.ToInt32(Date.DayOfWeek);  //这个时间是星期几
                                 
-                                int Monday = -1;
+                                int Monday = -1;//默认为负值
                                 int Tuesday = -1;
                                 int Wednesday = -1;
                                 int Thursday = -1;
@@ -133,35 +133,36 @@ namespace DataProvider.Data
                                 int Saturday = -1;
                                 int Sunday = -1;
 
-                                if (!string.IsNullOrWhiteSpace(weekday.Monday))
+                                if (!string.IsNullOrWhiteSpace(weekday.Monday))//判断有选择星期
                                 {
                                     Monday = week.ToString().IndexOf(weekday.Monday);  //判断是否包含在星期里面
                                 }
-                                if (!string.IsNullOrWhiteSpace(weekday.Tuesday))
+                                if (!string.IsNullOrWhiteSpace(weekday.Tuesday))//判断有选择星期
                                 {
                                     Tuesday = week.ToString().IndexOf(weekday.Tuesday);  //判断是否包含在星期里面
                                 }
-                                if (!string.IsNullOrWhiteSpace(weekday.Wednesday))
+                                if (!string.IsNullOrWhiteSpace(weekday.Wednesday))//判断有选择星期
                                 {
                                     Wednesday = week.ToString().IndexOf(weekday.Wednesday);  //判断是否包含在星期里面
                                 }
-                                if (!string.IsNullOrWhiteSpace(weekday.Thursday))
+                                if (!string.IsNullOrWhiteSpace(weekday.Thursday))//判断有选择星期
                                 {
                                     Thursday = week.ToString().IndexOf(weekday.Thursday);  //判断是否包含在星期里面
                                 }
-                                if (!string.IsNullOrWhiteSpace(weekday.Friday))
+                                if (!string.IsNullOrWhiteSpace(weekday.Friday))//判断有选择星期
                                 {
                                     Friday = week.ToString().IndexOf(weekday.Friday);  //判断是否包含在星期里面
                                 }
-                                if (!string.IsNullOrWhiteSpace(weekday.Saturday))
+                                if (!string.IsNullOrWhiteSpace(weekday.Saturday))//判断有选择星期
                                 {
                                     Saturday = week.ToString().IndexOf(weekday.Saturday);  //判断是否包含在星期里面
                                 }
-                                if (!string.IsNullOrWhiteSpace(weekday.Sunday))
+                                if (!string.IsNullOrWhiteSpace(weekday.Sunday))//判断有选择星期
                                 {
                                     Sunday = week.ToString().IndexOf(weekday.Sunday);  //判断是否包含在星期里面
                                 }
 
+                                //有其中一个值就生成相应对应的星期课程
                                 if (Monday > -1 || Tuesday > -1 || Wednesday > -1 || Thursday > -1 || Friday > -1 || Saturday > -1 || Sunday > -1)
                                 {
 
@@ -197,7 +198,7 @@ namespace DataProvider.Data
                             }
 
 
-                        }    //最后一次生成
+                        }    //最后一次生成，最后一个星期也要特殊处理
                         else if (i == curriculum)//有可能选择的是星期1，2。但是开始时间是从星期开始，所以不能七天来判断
                         {
 

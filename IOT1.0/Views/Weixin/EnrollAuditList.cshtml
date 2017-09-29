@@ -57,7 +57,12 @@
                             <td>@DateTime.Parse(@m.CreateTime + "").ToString("yyyy-MM-dd")</td>
                             <td>@m.ApName</td>
                             <td>@m.StateName</td> 
-                            <td><a href="@Url.Action("EnrollAuditInfo", "Weixin", new { APID = @m.ID })" class=" btn-block"><input type="button" value="审核" class="btn btn-primary btn-xs"  /></a></td>
+                            
+                            @if (@m.EnrollAudit_count > 0)
+                            {
+                                <td><a href="@Url.Action("EnrollAuditInfo", "Weixin", new { APID = @m.ID })" class=" btn-block"><input type="button" value="审核" class="btn btn-primary btn-xs"  /></a></td>
+                            }
+                            
                         </tr>
                     }
                 }

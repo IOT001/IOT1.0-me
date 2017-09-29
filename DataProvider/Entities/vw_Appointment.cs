@@ -104,5 +104,11 @@ namespace DataProvider.Entities
         /// 来源
         /// </summary>
         public string SourceName { get; set; }
+        /// <summary>
+        /// 查询是否有审核数据
+        /// </summary>
+        public int EnrollAudit_count { get; set; }
+       
+
     }
 }
