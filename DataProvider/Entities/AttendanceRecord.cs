@@ -22,8 +22,9 @@ namespace DataProvider
         /// <summary>
         /// 学员号
         /// </summary>
-        ///     /// <summary>
-        public string StudentID { get; set; } 
+        
+        public string StudentID { get; set; }
+        /// <summary>
         /// 班级编号
         /// </summary>
         public string ClassID { get; set; }

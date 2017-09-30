@@ -216,7 +216,12 @@ namespace DataProvider.Data
             return MsSqlMapperHepler.SqlWithParamsSingle<AttendanceRecord>(sql, dynamic, DBKeys.PRX);
         }
 
-
+        /// <summary>
+        /// 保存考勤记录，正常考勤扣除课时
+        /// </summary>
+        /// <param name="ar"></param>
+        /// <param name="userid"></param>
+        /// <returns></returns>
         public static bool saveStudentAttendance(List<AttendanceRecord> ar, string userid)
         {
             bool ret = false;
@@ -233,33 +238,15 @@ namespace DataProvider.Data
                     if (value.ClockTime == null && value.OutStatus < 1) continue;
                    
                     AttendanceRecord btnto = AttendaceData.GetAttendanceRecordByStudentClass( value.StudentID,value.ClassID, value.ClassIndex);//获取对象
-                    if (btnto == null)
-                    {
-                        btnto = new AttendanceRecord();
-                    }
-                    else
-                    {
-                        throw new Exception("考勤已存在");
-                    }
-                    if (value.ClockTime != null)
-                    {
-                        btnto.OutStatus =0;
-                        btnto.ClockTime = value.ClockTime;
-                        btnto.AttendanceTypeID = 2;//考勤正常
-                        btnto.CreateTime = DateTime.Now;
-                        btnto.CreatorId = userid;
-                        btnto.AttendanceWayID = 3;//工作人员操作
-                        btnto.ClassID = value.ClassID;
-                        btnto.ClassIndex = value.ClassIndex;
-                        btnto.StudentID = value.StudentID;
-                        db.Insert(btnto);//新增考勤
 
+                    if (value.ClockTime != null)//正常打卡扣除课时
+                    {
+                       
                         Enroll enroll= EnrollData.getEnrollByStudentClass(value.StudentID, value.ClassID);
                         if (enroll != null)
                         {
                             enroll.UsedHour = enroll.UsedHour + 1;
                             db.Update(enroll);
-                            //AttendaceData.UpdateEnroll(enroll.ID, UsedHour, DateTime.Now,userid,db);
                             Students s = StudentData.GetStudentsByID(value.StudentID);//获取学员
                             if (s.StateID != null && (s.StateID.Value == 1 || s.StateID.Value == 3))//冻结和未读状态下
                             {
@@ -274,27 +261,49 @@ namespace DataProvider.Data
                         {
                             throw new Exception("获取报名记录错误");
                         }
+
+
+                        //插入考勤记录---------------------------------
+                        if (btnto == null)
+                        {
+                            btnto = new AttendanceRecord();
+                            btnto.OutStatus = 0;
+                            btnto.ClockTime = value.ClockTime;
+                            btnto.AttendanceTypeID = 2;//考勤正常
+                            btnto.CreateTime = DateTime.Now;
+                            btnto.CreatorId = userid;
+                            btnto.AttendanceWayID = 3;//工作人员操作
+                            btnto.ClassID = value.ClassID;
+                            btnto.ClassIndex = value.ClassIndex;
+                            btnto.StudentID = value.StudentID;
+                            btnto.Remark = "更新考勤记录，识别成功,当前剩余课时：" + (enroll.ClassHour - enroll.UsedHour).ToString();
+                            db.Insert(btnto);//新增考勤
+                        }
+                        else//如果之前有考勤记录了，且未打卡则更新打卡
+                        {
+                            if (btnto.ClockTime == null)//未打卡
+                            {
+                                btnto.OutStatus = 0;
+                                btnto.ClockTime = value.ClockTime;
+                                btnto.AttendanceTypeID = 2;//考勤正常
+                                btnto.UpdateTime = DateTime.Now;
+                                btnto.UpdatorId = userid;
+                                btnto.AttendanceWayID = 3;//工作人员操作
+                                btnto.ClassID = value.ClassID;
+                                btnto.ClassIndex = value.ClassIndex;
+                                btnto.StudentID = value.StudentID;
+                                btnto.Remark = "更新考勤记录，识别成功,当前剩余课时：" + (enroll.ClassHour - enroll.UsedHour).ToString();
+                                db.Update(btnto);//更新
+                            }
+                            else
+                            {
+                                throw new Exception("已有考勤记录！");
+                            }
+                        }
+
                     }
                     if (value.OutStatus > 0)//未打卡
                     {
-                        btnto.OutStatus = value.OutStatus;
-                        btnto.ClockTime = value.ClockTime;
-                        if (value.OutStatus == 2)//正常请假不扣课时
-                        {
-                            btnto.AttendanceTypeID = 4;//请假
-                        }
-                        else
-                        {
-                            btnto.AttendanceTypeID = 3;//缺勤
-                        }
-                        btnto.CreateTime = DateTime.Now;
-                        btnto.CreatorId = userid;
-                        btnto.AttendanceWayID = 3;//工作人员操作
-                        btnto.ClassID = value.ClassID;
-                        btnto.ClassIndex = value.ClassIndex;
-                        btnto.StudentID = value.StudentID;
-                        db.Insert(btnto);//新增考勤
-
                         Enroll enroll = EnrollData.getEnrollByStudentClass(value.StudentID, value.ClassID);
                         if (enroll != null && btnto.AttendanceTypeID == 3)//缺勤状态还是要扣课时
                         {
@@ -304,6 +313,58 @@ namespace DataProvider.Data
                             ClassList cl = ClassListData.GetOneByid(value.ClassID, value.ClassIndex);
                             cl.StateID = 2;//课时状态变成已上
                             db.Update<ClassList>(cl);
+                        }
+
+                        //新增考勤记录--------------------------------------------------------------
+                        if (btnto == null)
+                        {
+                            btnto = new AttendanceRecord();
+                            btnto.OutStatus = value.OutStatus;
+                            btnto.ClockTime = value.ClockTime;
+                            if (value.OutStatus == 2)//正常请假不扣课时
+                            {
+                                btnto.AttendanceTypeID = 4;//请假
+                            }
+                            else
+                            {
+                                btnto.AttendanceTypeID = 3;//缺勤
+                            }
+                            btnto.CreateTime = DateTime.Now;
+                            btnto.CreatorId = userid;
+                            btnto.AttendanceWayID = 3;//工作人员操作
+                            btnto.ClassID = value.ClassID;
+                            btnto.ClassIndex = value.ClassIndex;
+                            btnto.StudentID = value.StudentID;
+                            btnto.Remark = "更新考勤记录，识别成功,当前剩余课时：" + (enroll.ClassHour - enroll.UsedHour).ToString();
+                            db.Insert(btnto);//新增考勤
+                        }
+                        else//如果之前有考勤记录了，且未打卡则更新打卡
+                        {
+                            if (btnto.ClockTime != null)//已打卡，不允许改成请假
+                            {
+                                btnto.OutStatus = value.OutStatus;
+
+                                if (value.OutStatus == 2)//正常请假不扣课时
+                                {
+                                    btnto.AttendanceTypeID = 4;//请假
+                                }
+                                else
+                                {
+                                    btnto.AttendanceTypeID = 3;//缺勤
+                                }
+                                btnto.UpdateTime = DateTime.Now;
+                                btnto.UpdatorId = userid;
+                                btnto.AttendanceWayID = 3;//工作人员操作
+                                btnto.ClassID = value.ClassID;
+                                btnto.ClassIndex = value.ClassIndex;
+                                btnto.StudentID = value.StudentID;
+                                btnto.Remark = "更新考勤记录，识别成功,当前剩余课时：" + (enroll.ClassHour - enroll.UsedHour).ToString();
+                                db.Update(btnto);//更新
+                            }
+                            else
+                            {
+                                throw new Exception("已有考勤记录！");
+                            }
                         }
                     }
                }

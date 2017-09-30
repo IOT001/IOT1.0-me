@@ -148,7 +148,10 @@ namespace IOT1._0.Controllers.Attendance
 
         }
 
-
+        /// <summary>
+        /// 保存考勤
+        /// </summary>
+        /// <returns></returns>
         public JsonResult saveStudentAttendance()
         {
             AjaxStatusModel ajax = new AjaxStatusModel();//功能操作类的返回类型都是AjaxStatusModel，数据放到AjaxStatusModel.data中，前台获取json后加载

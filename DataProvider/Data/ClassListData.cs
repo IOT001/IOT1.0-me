@@ -4,6 +4,7 @@ using DataProvider.Models;
 using DataProvider.Paging;
 using DataProvider.SqlServer;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -24,380 +25,88 @@ namespace DataProvider.Data
         /// <returns></returns>
         public static bool AddClassList(ClassList Clas, Date date, Classes Clss, Weekday weekday)
         {
-            var number = 0;//因为事务查询数据库会直接卡死
+
             bool ret = false;
             DBRepository db = new DBRepository(DBKeys.PRX);//事务
 
-            int Multiple = 0;
-            if (!string.IsNullOrWhiteSpace(weekday.Monday))//判断选择的星期是星期几
-            {
-               Multiple= Multiple+1;  //判断是否包含在星期里面
-            }
-            if (!string.IsNullOrWhiteSpace(weekday.Tuesday))//判断选择的星期是星期几
-            {
-                Multiple = Multiple + 1;  //判断是否包含在星期里面
-            }
-            if (!string.IsNullOrWhiteSpace(weekday.Wednesday))//判断选择的星期是星期几
-            {
-                Multiple = Multiple + 1;  //判断是否包含在星期里面
-            }
-            if (!string.IsNullOrWhiteSpace(weekday.Thursday))//判断选择的星期是星期几
-            {
-                Multiple = Multiple + 1;  //判断是否包含在星期里面
-            }
-            if (!string.IsNullOrWhiteSpace(weekday.Friday))//判断选择的星期是星期几
-            {
-                Multiple = Multiple + 1;  //判断是否包含在星期里面
-            }
-            if (!string.IsNullOrWhiteSpace(weekday.Saturday))//判断选择的星期是星期几
-            {
-                Multiple = Multiple + 1;  //判断是否包含在星期里面
-            }
-            if (!string.IsNullOrWhiteSpace(weekday.Sunday))//判断选择的星期是星期几
-            {
-                Multiple = Multiple + 1;  //判断是否包含在星期里面
-            }
-
-            int curriculum = 0;//一个星期总共要生成几天排课
-            if ((Clss.TotalLesson % Multiple)!=0) //总课时除以总共选择了七天里面有效星期，除不尽就要加2个有效星期
-            {
-                  curriculum = (Clss.TotalLesson / Multiple) + 2; //总课时除以选择的有效星期
-            }
-            else
-            {
-                  curriculum = (Clss.TotalLesson / Multiple) + 1;
-            }
-
+            int curriculum = Clss.TotalLesson;//总的新增记录条数
+            DateTime thisdate = date.Start_Date;//循环到的日期
            
-
+            
             try
             {
-
-                db.BeginTransaction();//事务开始
-                 int Last=0;
-                 for (int i = 1; i <= curriculum; i++)//根据总课时和开始时间来生成课程
+                ArrayList al = new ArrayList();
+                if (!string.IsNullOrWhiteSpace(weekday.Monday))//判断有选择星期
                 {
-                    // var Date = date.Start_Date.AddDays(i);
-                    //var week = Convert.ToInt32(Date.DayOfWeek);  //这个时间是星期几
-
-
-
-                       int weeknow = Convert.ToInt32(date.Start_Date.DayOfWeek);//获取开始排课时间是星期几
-                    
-                        //因为是以星期一为第一天，所以要判断weeknow等于0时，要向前推6天。  
-                        weeknow = (weeknow == 0 ? (7 - 1) : (weeknow - 1));
-                        int daydiff = (-1) * weeknow;
-
-                        //本周第一天  
-                        string FirstDay = date.Start_Date.AddDays(daydiff).ToString("yyyy-MM-dd");
-                        DateTime timeStart = Convert.ToDateTime(FirstDay);
-
-                        //星期天为最后一天  
-                        int weeknow_sum = Convert.ToInt32(date.Start_Date.DayOfWeek);
-                        weeknow_sum = (weeknow_sum == 0 ? 7 : weeknow_sum);
-                        int daydiff_sum = (7 - weeknow_sum);
-
-                        //本周最后一天  
-                        string LastDay = date.Start_Date.AddDays(daydiff_sum).ToString("yyyy-MM-dd");
-                        DateTime timeEnd = Convert.ToDateTime(LastDay);
-
-
-                      
-                       
-
-                       
-
-                       // search.timeStart = timeStart.ToString();//开始时间
-                       // search.timeEnd = timeEnd.ToString();//结束时间
-
-                       //取到第一次生成数据时的开始时间是星期几、
-                       
-                        if (i == 1)//有可能选择的是星期1，2。但是开始时间是从星期开始，所以不能七天来判断
-                        {
-                            Last = Convert.ToInt32(date.Start_Date.DayOfWeek);
-                        }
-                        //第一次生成（）
-                        if (i==1)//有可能选择的星期不是从星期1开始的，所以不能按一个星期七天来判断，要单独处理
-                        {
-                            int time_sum =timeEnd.DayOfYear- date.Start_Date.DayOfYear;
-                            for (int m = 0; m <= time_sum; m++)
-                            {
-                                var Date = date.Start_Date.AddDays(m);
-                                var week = Convert.ToInt32(Date.DayOfWeek);  //这个时间是星期几
-                                
-                                int Monday = -1;//默认为负值
-                                int Tuesday = -1;
-                                int Wednesday = -1;
-                                int Thursday = -1;
-                                int Friday = -1;
-                                int Saturday = -1;
-                                int Sunday = -1;
-
-                                if (!string.IsNullOrWhiteSpace(weekday.Monday))//判断有选择星期
-                                {
-                                    Monday = week.ToString().IndexOf(weekday.Monday);  //判断是否包含在星期里面
-                                }
-                                if (!string.IsNullOrWhiteSpace(weekday.Tuesday))//判断有选择星期
-                                {
-                                    Tuesday = week.ToString().IndexOf(weekday.Tuesday);  //判断是否包含在星期里面
-                                }
-                                if (!string.IsNullOrWhiteSpace(weekday.Wednesday))//判断有选择星期
-                                {
-                                    Wednesday = week.ToString().IndexOf(weekday.Wednesday);  //判断是否包含在星期里面
-                                }
-                                if (!string.IsNullOrWhiteSpace(weekday.Thursday))//判断有选择星期
-                                {
-                                    Thursday = week.ToString().IndexOf(weekday.Thursday);  //判断是否包含在星期里面
-                                }
-                                if (!string.IsNullOrWhiteSpace(weekday.Friday))//判断有选择星期
-                                {
-                                    Friday = week.ToString().IndexOf(weekday.Friday);  //判断是否包含在星期里面
-                                }
-                                if (!string.IsNullOrWhiteSpace(weekday.Saturday))//判断有选择星期
-                                {
-                                    Saturday = week.ToString().IndexOf(weekday.Saturday);  //判断是否包含在星期里面
-                                }
-                                if (!string.IsNullOrWhiteSpace(weekday.Sunday))//判断有选择星期
-                                {
-                                    Sunday = week.ToString().IndexOf(weekday.Sunday);  //判断是否包含在星期里面
-                                }
-
-                                //有其中一个值就生成相应对应的星期课程
-                                if (Monday > -1 || Tuesday > -1 || Wednesday > -1 || Thursday > -1 || Friday > -1 || Saturday > -1 || Sunday > -1)
-                                {
-
-
-                                    if (number == 0)
-                                    {
-                                        number = Getnumber(Clas.ClassID);//取行号
-                                    }
-                                    number = number + 1;
-                                    Clas.weekday = week;//星期几
-                                    Clas.ClassDate = Date;//上课日期
-                                    Clas.ClassIndex = number;  //班次序号，也就是班级生成的集体上课记录 
-                                    db.Insert<ClassList>(Clas); //增加排课表数据 
-                                    // MsSqlMapperHepler.Insert<ClassList>(Clas, DBKeys.PRX);  //增加排课表数据 
-
-
-                                    //List<Enroll> Enroll = GetEnrollByID(Clas.ClassID);//获取Enroll报名表的数据
-                                    //AttendanceRecord attend = new AttendanceRecord();
-                                    //attend.CreateTime = DateTime.Now;  //创建时间
-                                    //attend.CreatorId = Clas.CreatorId; //创建人
-                                    //attend.ClassID = Clas.ClassID;//班级编号
-                                    //attend.ClassIndex = number;//班次序号，也就是班级生成的集体上课记录 
-                                    //attend.AttendanceTypeID = 1;//上课状态,默认为1，未考勤
-                                    //attend.AttendanceWayID = 3;//AttendanceWayID默认3，教师操作的考勤。
-                                    //for (int j = 0; j < Enroll.Count(); j++)
-                                    //{
-                                    //    attend.StudentID = Enroll[j].StudentID;
-                                    //    db.Insert<AttendanceRecord>(attend);//增加上课记录表数据
-                                    //    //MsSqlMapperHepler.Insert<AttendanceRecord>(attend, DBKeys.PRX); //增加上课记录表数据
-                                    //}
-
-                                }
-                            }
-
-
-                        }    //最后一次生成，最后一个星期也要特殊处理
-                        else if (i == curriculum)//有可能选择的是星期1，2。但是开始时间是从星期开始，所以不能七天来判断
-                        {
-
-
-                            for (int m = 0; m <= 6; m++)
-                            {
-                                //判断相应的星期是否已经生成了，如果生成了就去掉，不生成
-                                if (Last <= Convert.ToInt32(weekday.Monday))
-                                {
-                                    weekday.Monday = null;
-                                }
-                                if (Last <= Convert.ToInt32(weekday.Tuesday))
-                                {
-                                    weekday.Tuesday = null;
-                                }
-                                if (Last <= Convert.ToInt32(weekday.Wednesday))
-                                {
-                                    weekday.Wednesday = null;
-                                }
-                                if (Last <= Convert.ToInt32(weekday.Thursday))
-                                {
-                                    weekday.Thursday = null;
-                                }
-                                if (Last <= Convert.ToInt32(weekday.Friday))
-                                {
-                                    weekday.Friday = null;
-                                }
-                                if (Last <= Convert.ToInt32(weekday.Saturday))
-                                {
-                                    weekday.Saturday = null;
-                                }
-                                //星期天特殊处理
-                                weekday.Sunday = null;
-
-
-
-
-                                var Date = timeStart.AddDays(m);
-                                var week = Convert.ToInt32(Date.DayOfWeek);  //这个时间是星期几
-                                int Monday = -1;
-                                int Tuesday = -1;
-                                int Wednesday = -1;
-                                int Thursday = -1;
-                                int Friday = -1;
-                                int Saturday = -1;
-                                int Sunday = -1;
-
-                                if (!string.IsNullOrWhiteSpace(weekday.Monday))
-                                {
-                                    Monday = week.ToString().IndexOf(weekday.Monday);  //判断是否包含在星期里面
-                                }
-                                if (!string.IsNullOrWhiteSpace(weekday.Tuesday))
-                                {
-                                    Tuesday = week.ToString().IndexOf(weekday.Tuesday);  //判断是否包含在星期里面
-                                }
-                                if (!string.IsNullOrWhiteSpace(weekday.Wednesday))
-                                {
-                                    Wednesday = week.ToString().IndexOf(weekday.Wednesday);  //判断是否包含在星期里面
-                                }
-                                if (!string.IsNullOrWhiteSpace(weekday.Thursday))
-                                {
-                                    Thursday = week.ToString().IndexOf(weekday.Thursday);  //判断是否包含在星期里面
-                                }
-                                if (!string.IsNullOrWhiteSpace(weekday.Friday))
-                                {
-                                    Friday = week.ToString().IndexOf(weekday.Friday);  //判断是否包含在星期里面
-                                }
-                                if (!string.IsNullOrWhiteSpace(weekday.Saturday))
-                                {
-                                    Saturday = week.ToString().IndexOf(weekday.Saturday);  //判断是否包含在星期里面
-                                }
-                                if (!string.IsNullOrWhiteSpace(weekday.Sunday))
-                                {
-                                    Sunday = week.ToString().IndexOf(weekday.Sunday);  //判断是否包含在星期里面
-                                }
-
-                                if (Monday > -1 || Tuesday > -1 || Wednesday > -1 || Thursday > -1 || Friday > -1 || Saturday > -1 || Sunday > -1)
-                                {
-
-                                    int count_number = Getnumber(Clas.ClassID);//取行号
-                                    if (count_number == Clss.TotalLesson)
-                                    {
-                                        //没有必要往下面执行了，因为已经执行完了
-                                    }
-                                    else
-                                    {
-                                        if (number == 0)
-                                        {
-                                            number = Getnumber(Clas.ClassID);//取行号
-                                        }
-                                        number = number + 1;
-                                        Clas.weekday = week;//星期几
-                                        Clas.ClassDate = Date;//上课日期
-                                        Clas.ClassIndex = number;  //班次序号，也就是班级生成的集体上课记录 
-                                        db.Insert<ClassList>(Clas); //增加排课表数据 
-                                        // MsSqlMapperHepler.Insert<ClassList>(Clas, DBKeys.PRX);  //增加排课表数据 
-
-
-                                        //List<Enroll> Enroll = GetEnrollByID(Clas.ClassID);//获取Enroll报名表的数据
-                                        //AttendanceRecord attend = new AttendanceRecord();
-                                        //attend.CreateTime = DateTime.Now;  //创建时间
-                                        //attend.CreatorId = Clas.CreatorId; //创建人
-                                        //attend.ClassID = Clas.ClassID;//班级编号
-                                        //attend.ClassIndex = number;//班次序号，也就是班级生成的集体上课记录 
-                                        //attend.AttendanceTypeID = 1;//上课状态,默认为1，未考勤
-                                        //attend.AttendanceWayID = 3;//AttendanceWayID默认3，教师操作的考勤。
-                                        //for (int j = 0; j < Enroll.Count(); j++)
-                                        //{
-                                        //    attend.StudentID = Enroll[j].StudentID;
-                                        //    db.Insert<AttendanceRecord>(attend);//增加上课记录表数据
-                                        //    //MsSqlMapperHepler.Insert<AttendanceRecord>(attend, DBKeys.PRX); //增加上课记录表数据
-                                        //}
-
-                                    }
-                                }
-                            }
-
-
-                        }
-                        else
-                        {
-                            for (int m = 0; m <= 6; m++)
-                            {
-                                var Date = timeStart.AddDays(m);
-                                var week = Convert.ToInt32(Date.DayOfWeek);  //这个时间是星期几
-                                int Monday = -1;
-                                int Tuesday = -1;
-                                int Wednesday = -1;
-                                int Thursday = -1;
-                                int Friday = -1;
-                                int Saturday = -1;
-                                int Sunday = -1;
-
-                                if (!string.IsNullOrWhiteSpace(weekday.Monday))
-                                {
-                                    Monday = week.ToString().IndexOf(weekday.Monday);  //判断是否包含在星期里面
-                                }
-                                if (!string.IsNullOrWhiteSpace(weekday.Tuesday))
-                                {
-                                    Tuesday = week.ToString().IndexOf(weekday.Tuesday);  //判断是否包含在星期里面
-                                }
-                                if (!string.IsNullOrWhiteSpace(weekday.Wednesday))
-                                {
-                                    Wednesday = week.ToString().IndexOf(weekday.Wednesday);  //判断是否包含在星期里面
-                                }
-                                if (!string.IsNullOrWhiteSpace(weekday.Thursday))
-                                {
-                                    Thursday = week.ToString().IndexOf(weekday.Thursday);  //判断是否包含在星期里面
-                                }
-                                if (!string.IsNullOrWhiteSpace(weekday.Friday))
-                                {
-                                    Friday = week.ToString().IndexOf(weekday.Friday);  //判断是否包含在星期里面
-                                }
-                                if (!string.IsNullOrWhiteSpace(weekday.Saturday))
-                                {
-                                    Saturday = week.ToString().IndexOf(weekday.Saturday);  //判断是否包含在星期里面
-                                }
-                                if (!string.IsNullOrWhiteSpace(weekday.Sunday))
-                                {
-                                    Sunday = week.ToString().IndexOf(weekday.Sunday);  //判断是否包含在星期里面
-                                }
-
-                                if (Monday > -1 || Tuesday > -1 || Wednesday > -1 || Thursday > -1 || Friday > -1 || Saturday > -1 || Sunday > -1)
-                                {
-
-
-                                    if (number == 0)
-                                    {
-                                        number = Getnumber(Clas.ClassID);//取行号
-                                    }
-                                    number = number + 1;
-                                    Clas.weekday = week;//星期几
-                                    Clas.ClassDate = Date;//上课日期
-                                    Clas.ClassIndex = number;  //班次序号，也就是班级生成的集体上课记录 
-                                    db.Insert<ClassList>(Clas); //增加排课表数据 
-                                    // MsSqlMapperHepler.Insert<ClassList>(Clas, DBKeys.PRX);  //增加排课表数据 
-
-
-                                    //List<Enroll> Enroll = GetEnrollByID(Clas.ClassID);//获取Enroll报名表的数据
-                                    //AttendanceRecord attend = new AttendanceRecord();
-                                    //attend.CreateTime = DateTime.Now;  //创建时间
-                                    //attend.CreatorId = Clas.CreatorId; //创建人
-                                    //attend.ClassID = Clas.ClassID;//班级编号
-                                    //attend.ClassIndex = number;//班次序号，也就是班级生成的集体上课记录 
-                                    //attend.AttendanceTypeID = 1;//上课状态,默认为1，未考勤
-                                    //attend.AttendanceWayID = 3;//AttendanceWayID默认3，教师操作的考勤。
-                                    //for (int j = 0; j < Enroll.Count(); j++)
-                                    //{
-                                    //    attend.StudentID = Enroll[j].StudentID;
-                                    //    db.Insert<AttendanceRecord>(attend);//增加上课记录表数据
-                                    //    //MsSqlMapperHepler.Insert<AttendanceRecord>(attend, DBKeys.PRX); //增加上课记录表数据
-                                    //}
-
-                                }
-                            }
-                        }
-
-
-                        date.Start_Date = timeEnd.AddDays(1);//改变最后时间，重新循环
+                    al.Add(2);
+                }
+                if (!string.IsNullOrWhiteSpace(weekday.Tuesday))//判断有选择星期
+                {
+                    al.Add(3);
+                }
+                if (!string.IsNullOrWhiteSpace(weekday.Wednesday))//判断有选择星期
+                {
+                    al.Add(4);
+                }
+                if (!string.IsNullOrWhiteSpace(weekday.Thursday))//判断有选择星期
+                {
+                    al.Add(5);
+                }
+                if (!string.IsNullOrWhiteSpace(weekday.Friday))//判断有选择星期
+                {
+                    al.Add(6);
+                }
+                if (!string.IsNullOrWhiteSpace(weekday.Saturday))//判断有选择星期
+                {
+                    al.Add(7);
+                }
+                if (!string.IsNullOrWhiteSpace(weekday.Sunday))//判断有选择星期
+                {
+                    al.Add(1);
+                }
+                if (Convert.ToInt32(thisdate.DayOfWeek) > int.Parse(al[0].ToString()))//如果当前星期大于要循环的第一个星期
+                {
+                    thisdate = GetWeekFirstDaySun(thisdate).AddDays(7);//起始设为下一周第一天
+                }
+                else
+                {
+                    thisdate = GetWeekFirstDaySun(thisdate);//起始设为当前周第一天
+                }
+                db.BeginTransaction();//事务开始
+                 for (int i = 1; i <= curriculum; )//根据总课时和开始时间来生成课程
+                {        
+                       foreach (int theweek in al)//循环星期
+                       {
+                           
+                           ClassList CL = new ClassList();
+                           CL.ClassID = Clas.ClassID;
+                           CL.ClassIndex = i;
+                           CL.ClassDate = thisdate.AddDays(theweek-1);
+                           CL.TimePeriod = Clas.TimePeriod;
+                           CL.StateID = 1;
+                           CL.TeacherID = Clas.TeacherID;
+                           CL.RoomID = Clas.RoomID;
+                           CL.CreateTIme = DateTime.Now;
+                           CL.CreatorId = Clas.CreatorId;
+                           CL.weekday = theweek;
+                           db.Insert(CL);
+                           //List<Enroll> Enroll = GetEnrollByID(Clas.ClassID);//获取Enroll报名表的数据
+                           //AttendanceRecord attend = new AttendanceRecord();
+                           //attend.CreateTime = DateTime.Now;  //创建时间
+                           //attend.CreatorId = Clas.CreatorId; //创建人
+                           //attend.ClassID = Clas.ClassID;//班级编号
+                           //attend.ClassIndex = number;//班次序号，也就是班级生成的集体上课记录 
+                           //attend.AttendanceTypeID = 1;//上课状态,默认为1，未考勤
+                           //attend.AttendanceWayID = 3;//AttendanceWayID默认3，教师操作的考勤。
+                           //for (int j = 0; j < Enroll.Count(); j++)
+                           //{
+                           //    attend.StudentID = Enroll[j].StudentID;
+                           //    db.Insert<AttendanceRecord>(attend);//增加上课记录表数据
+                           //    //MsSqlMapperHepler.Insert<AttendanceRecord>(attend, DBKeys.PRX); //增加上课记录表数据
+                           //}
+                           i = i + 1;
+                       }
+                       thisdate = thisdate.AddDays(7);//循环到下一周
                 }
 
                 if (UpdateClasses(Clas.ClassID, Clss.TotalLesson, db) > 0)//反写回Classes班级维护表的总课时字段
@@ -405,9 +114,7 @@ namespace DataProvider.Data
                     db.Commit(); //事务提交
                     db.Dispose();  //资源释放
                     ret = true;//新增成功
-                }
-                
-              
+                }           
               
             }
             catch (Exception ex)
@@ -419,11 +126,23 @@ namespace DataProvider.Data
             }
 
             return ret;
-
-
         }
 
+        /// <summary>  
+        /// 得到本周第一天(以星期天为第一天)  
+        /// </summary>  
+        /// <param name="datetime"></param>  
+        /// <returns></returns>  
+        public static DateTime GetWeekFirstDaySun(DateTime datetime)
+        {
+            //星期天为第一天  
+            int weeknow = Convert.ToInt32(datetime.DayOfWeek);
+            int daydiff = (-1) * weeknow;
 
+            //本周第一天  
+            string FirstDay = datetime.AddDays(daydiff).ToString("yyyy-MM-dd");
+            return Convert.ToDateTime(FirstDay);
+        } 
        /// <summary>
        /// 新增,返回的是主键
        /// </summary>
@@ -548,7 +267,7 @@ namespace DataProvider.Data
         public static List<Enroll> GetEnrollByID(string ClassID)
         {
             StringBuilder sb = new StringBuilder();
-            sb.Append("select StudentID  from   Enroll ");
+            sb.Append("select *  from   Enroll ");
             sb.Append(" where ClassID=@ClassID "); 
             var parameters = new DynamicParameters();
             parameters.Add("@ClassID", ClassID);

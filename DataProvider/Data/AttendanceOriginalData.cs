@@ -81,7 +81,7 @@ namespace DataProvider.Data
                             ar.AttendanceWayID = 2;//设备考勤
                             ar.CreateTime = DateTime.Now;
                             ar.CreatorId = operatorid;
-                            db.Insert(ar);
+                            
 
                             string stren = "select * from Enroll where StudentID = '" + ao.UserID + "' and ClassID = '" + cl.ClassID + "'";
                             Enroll en = MsSqlMapperHepler.SqlWithParamsSingle<Enroll>(stren, null, DBKeys.PRX);// 找到报名记录
@@ -111,6 +111,8 @@ namespace DataProvider.Data
                                 ao.RecogniseTime = DateTime.Now;
                                 db.Update(ao);
                             }
+                            ar.Remark = ao.Remark;
+                            db.Insert(ar);
                         }
                         else
                         {
@@ -121,7 +123,7 @@ namespace DataProvider.Data
                                 ar.AttendanceWayID = 2;//设备考勤
                                 ar.UpdateTime = DateTime.Now;
                                 ar.UpdatorId = operatorid;
-                                db.Update(ar);
+     
 
                                 string stren = "select * from Enroll where StudentID = '" + ao.UserID + "' and ClassID = '" + cl.ClassID + "'";
                                 Enroll en = MsSqlMapperHepler.SqlWithParamsSingle<Enroll>(stren, null, DBKeys.PRX);// 找到报名记录
@@ -151,6 +153,8 @@ namespace DataProvider.Data
                                     ao.RecogniseTime = DateTime.Now;
                                     db.Update(ao);
                                 }
+                                ar.Remark = ao.Remark;
+                                db.Update(ar);
                             }
                             else{
                                 ao.Recognise = "无效";
