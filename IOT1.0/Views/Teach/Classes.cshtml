@@ -513,7 +513,7 @@
                         <label class="control-label">请选择您要升级到的班级信息：</label>
                     </div>
                     <div class="col-sm-6">
-                        @Html.DropDownListFor(t => t.UpgradeClassID, Model.UpgradeClassesIL, new { @class = "form-control input-sm chosen-select", @id = "UpgradeClass" })
+                        @Html.DropDownListFor(t => t.UpgradeClassID, Model.UpgradeClassesIL, new { @class = "form-control", @id = "UpgradeClass" })
                     </div>
                 </div>
             </div>
@@ -702,34 +702,41 @@
             content: $('#upgrade'),
             btn: ['确定', '取消'],
             yes: function () {
-                var oldclassid = $("#ClassID_UP").val();   //旧的班级ID
-                var newclassid = $("#UpgradeClass").val();//新的班级ID
-                var upgradedata = [];//需要提交升班学员数据
-                $("#Enroll_listup tbody").find("tr").each(function (ai, am) {//遍历需要升班的学员列表
+                layer.confirm('是否已仔细核对过您填写的信息，确认进行升班?', { icon: 3, title: '提示' }, function (index) {
+                   
 
-                    var enid = $(this).parent().parent().parent().parent().parent().find("td").eq(0).text();//取到的报名ID
-                    var newclasshour = $(this).parent().parent().parent().parent().parent().find("td").eq(6).children('input').val();;//用户填写的转换后的课时
-                    var upprice = $(this).parent().parent().parent().parent().parent().find("td").eq(7).children('input').val();;//用户填写的差价
-                    upgradedata.push({
-                        "enid": enid,
-                        "newclasshour": newclasshour,
-                        "upprice": upprice
-                    })
+                    layer.close(index);
+                    var oldclassid = $("#ClassID_UP").val();   //旧的班级ID
+                    var newclassid = $("#UpgradeClass").val();//新的班级ID
+                    var upgradedata = [];//需要提交升班学员数据
+                    $("#Enroll_listup tbody").find("tr").each(function (ai, am) {//遍历需要升班的学员列表
+
+                        var enid = $(this).parent().parent().parent().parent().parent().find("td").eq(0).text();//取到的报名ID
+                        var newclasshour = $(this).parent().parent().parent().parent().parent().find("td").eq(6).children('input').val();;//用户填写的转换后的课时
+                        var upprice = $(this).parent().parent().parent().parent().parent().find("td").eq(7).children('input').val();;//用户填写的差价
+                        upgradedata.push({
+                            "enid": enid,
+                            "newclasshour": newclasshour,
+                            "upprice": upprice
+                        })
+                    });
+
+                    $.post('@Url.Action("UpgradeClass", "Teach")', {
+                        oldclassid: oldclassid,
+                        newclassid: newclassid,
+                        did: JSON.stringify(upgradedata)
+                    },
+                    function (json) {
+                        setTimeout(function () {
+                            window.location.reload(); //刷新
+                        }, 3000);
+
+                        layer.closeAll();
+                        layer.msg(json.msg);
+                    }, 'json');
                 });
-
-                $.post('@Url.Action("UpgradeClass", "Teach")', {
-                    oldclassid: oldclassid,
-                    newclassid: newclassid,
-                    did: JSON.stringify(upgradedata)
-                },
-                function (json) {
-                    setTimeout(function () {
-                        window.location.reload(); //刷新
-                    }, 3000);
-
-                    layer.closeAll();
-                    layer.msg(json.msg);
-                }, 'json');
+          
+  
             },
             cancel: function (index) {
                 layer.close(index);
@@ -1004,7 +1011,9 @@
                     //重新刷新
                     $('#Class_transfe').bootstrapTable('refresh');
                     $('#Enroll_list').bootstrapTable('refresh');
-
+                    setTimeout(function () {
+                        window.location.reload(); //刷新
+                    }, 3000);
 
 
 

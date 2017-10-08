@@ -31,10 +31,7 @@ namespace DataProvider.Entities
         /// 计划招收
         /// </summary>	
         public Nullable<int> PlanEnroll { get; set; }
-        /// <summary>
-        /// 目前已招收学员
-        /// </summary>	
-        public Nullable<int> PresentEnroll { get; set; }
+
         /// <summary>
         /// 总课时
         /// </summary>	
@@ -60,7 +57,7 @@ namespace DataProvider.Entities
          /// <summary>
         /// 时间段，如9:00~11:00,中间用波浪线表示
         /// </summary>	
-        public string TimePeriod { get; set; }
+        public int? TimePeriod { get; set; }
         /// <summary>
         /// 课程状态ID，字典表
         /// </summary>	

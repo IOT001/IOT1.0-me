@@ -31,7 +31,7 @@ namespace DataProvider
         /// <summary>
         /// 上课的时段 比如 9:00~11:00
         /// </summary>	
-        public string TimePeriod { get; set; }
+        public int? TimePeriod { get; set; }
         /// <summary>
         /// 状态，取字典表
         /// </summary>	

@@ -81,7 +81,7 @@ namespace DataProvider.Data
                            ClassList CL = new ClassList();
                            CL.ClassID = Clas.ClassID;
                            CL.ClassIndex = i;
-                           CL.ClassDate = thisdate.AddDays(theweek-1);
+                           CL.ClassDate =DateTime.Parse(thisdate.AddDays(theweek - 1).ToShortDateString() + GetStartTimePeriodByid(Clas.TimePeriod.Value));
                            CL.TimePeriod = Clas.TimePeriod;
                            CL.StateID = 1;
                            CL.TeacherID = Clas.TeacherID;
@@ -90,20 +90,21 @@ namespace DataProvider.Data
                            CL.CreatorId = Clas.CreatorId;
                            CL.weekday = theweek;
                            db.Insert(CL);
-                           //List<Enroll> Enroll = GetEnrollByID(Clas.ClassID);//获取Enroll报名表的数据
-                           //AttendanceRecord attend = new AttendanceRecord();
-                           //attend.CreateTime = DateTime.Now;  //创建时间
-                           //attend.CreatorId = Clas.CreatorId; //创建人
-                           //attend.ClassID = Clas.ClassID;//班级编号
-                           //attend.ClassIndex = number;//班次序号，也就是班级生成的集体上课记录 
-                           //attend.AttendanceTypeID = 1;//上课状态,默认为1，未考勤
-                           //attend.AttendanceWayID = 3;//AttendanceWayID默认3，教师操作的考勤。
-                           //for (int j = 0; j < Enroll.Count(); j++)
-                           //{
-                           //    attend.StudentID = Enroll[j].StudentID;
-                           //    db.Insert<AttendanceRecord>(attend);//增加上课记录表数据
-                           //    //MsSqlMapperHepler.Insert<AttendanceRecord>(attend, DBKeys.PRX); //增加上课记录表数据
-                           //}
+                           List<Enroll> Enroll = GetEnrollByID(Clas.ClassID);//获取Enroll报名表的数据
+                           AttendanceRecord attend = new AttendanceRecord();
+                           attend.CreateTime = DateTime.Now;  //创建时间
+                           attend.CreatorId = Clas.CreatorId; //创建人
+                           attend.ClassID = Clas.ClassID;//班级编号
+                           attend.ClassIndex = i;//班次序号，也就是班级生成的集体上课记录 
+                           attend.AttendanceTypeID = 1;//上课状态,默认为1，未考勤
+       
+                           for (int j = 0; j < Enroll.Count(); j++)
+                           {
+                               attend.StudentID = Enroll[j].StudentID;
+                               if (Enroll[j].ClassHour - Enroll[j].UsedHour >= i)//如果剩余课时还够
+                               db.Insert<AttendanceRecord>(attend);//增加上课记录表数据
+
+                           }
                            i = i + 1;
                        }
                        thisdate = thisdate.AddDays(7);//循环到下一周
@@ -390,6 +391,18 @@ namespace DataProvider.Data
             parameters.Add("@ClassID", classid);
             parameters.Add("@ClassIndex", classindex);
             return MsSqlMapperHepler.SqlWithParamsSingle<ClassList>(strsql.ToString(), parameters, DBKeys.PRX);
+        }
+        /// <summary>
+        /// 根据TimePeriod的ID获取开始时间
+        /// </summary>
+        /// <param name="perid"></param>
+        /// <returns></returns>
+        public static string GetStartTimePeriodByid(int perid)
+        {
+            string ret = "";
+            string strsql = "select DicItemName from DictionaryItem where DicTypeID = 8 and [DicItemID] = " + perid;
+            ret =" " + MsSqlMapperHepler.SqlWithParamsSingle<string>(strsql, null, DBKeys.PRX).Substring(0, 5);
+            return ret;
         }
     }
 }

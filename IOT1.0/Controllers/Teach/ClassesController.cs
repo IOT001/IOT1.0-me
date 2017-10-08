@@ -156,7 +156,6 @@ namespace IOT1._0.Controllers.Teach
             }
 
 
-            Clas.PresentEnroll = 0;//已报人数
             Clas.PresentLesson = 0;//已上课时
             Clas.StateID = 1;  //状态
             Clas.CreateTime = DateTime.Now; //创建时间
