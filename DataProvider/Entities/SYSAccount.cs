@@ -30,7 +30,7 @@ namespace DataProvider
         public bool ACC_IsSuspended { get; set; }
         public string ACC_Mark { get; set; }
         public string ACC_CreatedBy { get; set; }
-        public System.DateTime ACC_CreatedOn { get; set; }
+        public Nullable<System.DateTime> ACC_CreatedOn { get; set; }
         public string ACC_LastUpdBy { get; set; }
         public Nullable<System.DateTime> ACC_LastUpdOn { get; set; } 
         public string USRP_UserCode { get; set; }

@@ -46,7 +46,7 @@ namespace IOT1._0.Controllers.Admin
             {
                 return Json(ajax);
             }
-            SYS_Account sys = (SYS_Account)(JsonConvert.DeserializeObject(data.ToString(), typeof(SYS_Account)));
+            SYSAccount sys = (SYSAccount)(JsonConvert.DeserializeObject(data.ToString(), typeof(SYSAccount)));
             sys.ACC_Password = StringHelper.CreateMD5(sys.ACC_Password);//md5加密
              
             if (Accounts_UpdateData.UpdateSYS_Account(sys))//注意时间类型，而且需要在前台把所有的值

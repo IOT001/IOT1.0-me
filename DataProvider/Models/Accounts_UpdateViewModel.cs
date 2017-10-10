@@ -12,7 +12,7 @@ namespace DataProvider.Models
         /// <summary>
         /// 账号记录
         /// </summary>
-        public List<SYS_Account> SYS_AccountList { get; set; }
+        public List<SYSAccount> SYS_AccountList { get; set; }
         /// <summary>
         /// SYS_Account_ID
         /// </summary>

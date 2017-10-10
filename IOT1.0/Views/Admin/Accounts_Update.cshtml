@@ -43,7 +43,7 @@
      }
        }
            <div class="col-sm-9 project-actions">
-           <button type="button" class="btn btn-w-m btn-primary btn-sm" onclick="save()" id="save">保存</button>
+           <button type="button" class="btn btn-w-m btn-primary btn-sm" onclick="save()"   >保存</button>
            <button type="button" class="btn btn-w-m btn-primary btn-sm" onclick="hides()" >关闭</button>
        </div>
                
@@ -93,7 +93,7 @@
         obj.ACC_Email = $("#ACC_Email").val().trim();
       
 
-         var   action = '@Url.Action("Accounts_UpdateController", "SaveSYS_Account")';
+         var   action = '@Url.Action("SaveSYS_Account", "Admin")';
         
             $.post(action, {
                 "data": JSON.stringify(obj)//序列化对象
