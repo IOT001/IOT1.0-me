@@ -79,7 +79,7 @@
                                 </div>
                             </div>
                             <div class="col-sm-8 project-actions">
-                                <button type="submit" class="btn btn-w-m btn-primary btn-sm">查&nbsp;&nbsp;&nbsp;&nbsp;询</button>
+                                <button id="submit" type="submit" class="btn btn-w-m btn-primary btn-sm">查&nbsp;&nbsp;&nbsp;&nbsp;询</button>
                             </div>
                         </div>
 
@@ -148,7 +148,7 @@
 
 <script type="text/javascript">
 
-
+    setInterval('SubmitSearch()', 3000);
 
     //判断页面是否有回车操作
     window.document.onkeydown = function (e) {
@@ -158,4 +158,8 @@
         }
     }
 
+    function SubmitSearch()
+    {
+        $("#submit").trigger("click");
+    }
 </script> 

@@ -484,6 +484,13 @@
             document.getElementById('frmQuery').submit();
         }
     }
+    //激活日期控件
+    $('.DateS').datepicker({
+        keyboardNavigation: false,
+        forceParse: false,
+        autoclose: true
+    });
+
     //初始化bootstrapTable,不能放在follow方法内，不然非常消耗内存，而且会多次进入后台
     $('#followlist').bootstrapTable({
         method: 'POST',
@@ -744,6 +751,7 @@
         });
         //改版课时的时候触发，重新计算应付金额
         $("input[name='txtks'],input[name='discountText']").change(function () {
+   
             var och = $(this).parent().parent().find("td").eq(9).text()//原来的费用
             var oks = $(this).parent().parent().find("td").eq(5).text()//总课时数
             var realbm = $(this).parent().parent().find("td").eq(6).children('input').val()//实际报名课时，取input填写值
@@ -752,7 +760,7 @@
             var bcff = (realbm / oks) * och - yhje;//算本次最终报名费用
 
 
-            $(this).parent().parent().parent().find("td").eq(10).text(bcff);//赋值报名费用
+            $(this).parent().parent().find("td").eq(10).text(bcff);//赋值报名费用
 
         })
         var dataHTML = '';
@@ -1103,6 +1111,7 @@
     }
     //打开资金明细,传入行索引
     function opencollection(trindex) {
+        cleanData("collection");//清空数据
         layer.open({
             type: 1,
             title: "<h3 class='ibox-title'>资金明细</h3>",
@@ -1331,6 +1340,16 @@
         }
 
 
+
+    }
+    function OpenUploadWindow() {
+        $("#uploadFile").click().change(
+            function () {
+                var file = document.getElementById("uploadFile").value;
+                $("#Picurl").val(file);
+                document.getElementById("Picurl").value = file;
+            }
+            );
 
     }
 </script>

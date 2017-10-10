@@ -207,7 +207,19 @@ namespace DataProvider.SqlServer
         {
             return DB.Connection.Execute(sql, param as object, DB.Transaction);
         }
+        /// <summary>
+        /// 事务执行存储过程
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="procname"></param>
+        /// <param name="parms"></param>
+        /// <returns></returns>
+        public IEnumerable<T> StoredProcWithParamsSingle<T>(string procname, dynamic parms) where T : class
+        {
 
+            return DB.Connection.Query<T>(procname, (object)parms,DB.Transaction, commandType: CommandType.StoredProcedure);
+
+        }
         /// <summary>
         /// 开始事务
         /// </summary>

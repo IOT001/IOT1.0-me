@@ -55,6 +55,7 @@ namespace DataProvider.Data
                     {
                         throw new Exception("该学员已报名，不允许重复报名！");
                     }
+                    obj.ID = CommonData.DPGetTableMaxId("EN", "ID", "Enroll", 8,db);//走同一个事务
                     db.Insert<Enroll>(obj);
                     Appointment ap = AppointmentData.GetOneByID(obj.APID);
                     ap.ApStateID = 3;//已报名
@@ -214,7 +215,7 @@ namespace DataProvider.Data
                 {
                     
                     db.Insert<EnrollAudit>(obj);
-                    Appointment ap = AppointmentData.GetOneByID(obj.APID);
+                    Appointment ap = db.GetById<Appointment>(obj.APID);
                     ap.ApStateID = 5;//待审核
                     db.Update<Appointment>(ap);
                 }
