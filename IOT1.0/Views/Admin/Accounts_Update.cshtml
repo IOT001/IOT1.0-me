@@ -1,0 +1,124 @@
+﻿@using DataProvider.Models
+@using DataProvider.Paging
+@{
+    ViewBag.Title = "账号管理";
+}
+@model Accounts_UpdateViewModel
+
+
+@*弹出层，处理按钮*@
+<div class="ibox float-e-margins" id="Accounts_Update"  >
+    <div class="ibox-content">
+  
+        <form class="form-horizontal">
+     @if (Model != null && Model.SYS_AccountList.Count() > 0)
+   {
+             foreach (var m in Model.SYS_AccountList)
+       {
+
+            <div class="form-group">
+                <label class="col-sm-3 control-label">账号：</label>
+                <div class="col-sm-8">
+                    <input type="text" placeholder="账号" class="form-control" id="ACC_Account" value="@m.ACC_Account">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">密码：</label>
+                <div class="col-sm-8">
+                    <input type="text" placeholder="密码" class="form-control" id="ACC_Password" >
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">联系电话：</label>
+                <div class="col-sm-8">
+                <input type="text" placeholder="联系电话" class="form-control" id="ACC_MobilePhone" value="@m.ACC_MobilePhone">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">Eamil：</label>
+                <div class="col-sm-8">
+                    <input type="text" placeholder="Eamil" class="form-control" id="ACC_Email" value="@m.ACC_Email">
+                </div>
+            </div>
+     }
+       }
+           <div class="col-sm-9 project-actions">
+           <button type="button" class="btn btn-w-m btn-primary btn-sm" onclick="save()" id="save">保存</button>
+           <button type="button" class="btn btn-w-m btn-primary btn-sm" onclick="hides()" >关闭</button>
+       </div>
+               
+        </form>
+    </div>
+</div>
+
+ 
+
+
+
+
+
+<script type="text/javascript">
+
+    //判断页面是否有回车操作
+    window.document.onkeydown = function (e) {
+        e = e || window.event;
+        if (e.keyCode == 13 || e.keyCode == 108) {
+            document.getElementById('frmQuery').submit();
+        }
+    }
+     
+    function hides() {
+        $("#Accounts_Update").hide();
+    }
+
+    //保存或者新增
+    function save() {
+        var obj = new Object;
+       
+        obj.ACC_id = '@Model.ACC_id';
+      
+        obj.ACC_Account = $("#ACC_Account").val().trim();
+        if (!obj.ACC_Account) {
+            layer.msg("请输入账号！");
+            return false;
+        }
+        
+        obj.ACC_Password = $("#ACC_Password").val().trim();
+        if (!obj.ACC_Password) {
+            layer.msg("请输入密码！");
+            return false;
+        }
+        obj.ACC_MobilePhone = $("#ACC_MobilePhone").val().trim();
+      
+        obj.ACC_Email = $("#ACC_Email").val().trim();
+      
+
+         var   action = '@Url.Action("Accounts_UpdateController", "SaveSYS_Account")';
+        
+            $.post(action, {
+                "data": JSON.stringify(obj)//序列化对象
+            }, function (json) {
+                if (json.status == 200) {//成功
+                    
+                    layer.msg(json.msg);//弹出服务器返回的消息
+                    setTimeout(function () {//操作
+                        layer.closeAll();//关闭所有层
+                        window.location.reload(); //刷新
+                    }, 3000);
+                }
+            },'json');
+        }
+
+        function exportForm() {
+            var $frm = $('#exportform');
+            var array = $('#frmQuery').serializeArray();
+
+            for (i = 0, length = array.length; i < length; i++) {
+                key = array[i].name;
+                value = array[i].value;
+                $frm.append($('<input name = "' + key + '" value = "' + value + '"  style="display:none"/>'));
+            }
+
+            $frm.submit();
+        }
+</script>

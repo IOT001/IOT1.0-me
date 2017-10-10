@@ -145,6 +145,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="App_Start\WebApiSessionHandler.cs" />
+    <Compile Include="Controllers\Admin\Accounts_UpdateController.cs" />
     <Compile Include="Controllers\Admin\ButtonListController.cs" />
     <Compile Include="Controllers\Attendance\AttendanceController.cs" />
     <Compile Include="Controllers\Attendance\AttendanceOriginalController.cs" />
@@ -4820,6 +4821,7 @@
     <Content Include="Views\Finance\TransferProtocol.cshtml" />
     <Content Include="Views\Attendance\AttendanceOriginal.cshtml" />
     <Content Include="Upload\Template\批量导入.xlsx" />
+    <Content Include="Views\Admin\Accounts_Update.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
