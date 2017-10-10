@@ -177,18 +177,28 @@ namespace DataProvider.Data
         }
 
 
-        public static string DPGetTableMaxId(string prefix, string field, string tablename, int digit)
+        public static string DPGetTableMaxId(string prefix, string field, string tablename, int digit, DBRepository db = null)
         {
             try
             {
+                string retstr = null;
+                var parameters = new DynamicParameters();
+                parameters.Add("@title", prefix);//开头字母，前缀字母
+                parameters.Add("@pkName", field);//要插入的表字段
+                parameters.Add("@tableName", tablename);//所在表
+                parameters.Add("@bitCount", digit);//不包括前缀的位数
+                if (db == null)
+                {
 
-                    string retstr;
-                    var parameters = new DynamicParameters();
-                    parameters.Add("@title", prefix);//开头字母，前缀字母
-                    parameters.Add("@pkName", field);//要插入的表字段
-                    parameters.Add("@tableName", tablename);//所在表
-                    parameters.Add("@bitCount", digit);//不包括前缀的位数
+
                     retstr = MsSqlMapperHepler.StoredProcWithParamsSingle<string>("sp_createKey", parameters, DBKeys.PRX);
+                }
+                else
+                {
+                    retstr = db.StoredProcWithParamsSingle<string>("sp_createKey", parameters).FirstOrDefault();
+                }
+
+
                     return retstr;//返回值
    
             }

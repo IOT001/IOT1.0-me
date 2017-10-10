@@ -276,6 +276,11 @@ namespace IOT1._0.Controllers.Enroll
                     decimal payment = decimal.Parse(((JObject)item)["payment"].ToString());//本次付款
                     string apid = ((JObject)item)["apid"].ToString();//预约号
                     string studentid = ((JObject)item)["studentid"].ToString();//学员号
+                    if (string.IsNullOrEmpty(((JObject)item)["classhour"].ToString()))
+                    {
+                        ajax.msg = "报名课时不能为空！";
+                        return Json(ajax);
+                    }
                     int classhour = int.Parse(((JObject)item)["classhour"].ToString());//报名课时
                     int discountid = int.Parse(((JObject)item)["discountid"].ToString() == "" ? "0" : ((JObject)item)["discountid"].ToString());//选择的优惠ID
                     decimal discountprice = decimal.Parse(((JObject)item)["discountprice"].ToString());//本次优惠的金额
@@ -297,7 +302,7 @@ namespace IOT1._0.Controllers.Enroll
                         return Json(ajax);
                     }
                     DataProvider.Entities.Enroll en = new DataProvider.Entities.Enroll();
-                    en.ID = CommonData.DPGetTableMaxId("EN", "ID", "Enroll", 8);
+                    
                     en.APID = apid;
                     en.StudentID = studentid;
                     en.ClassID = classid;
@@ -330,6 +335,11 @@ namespace IOT1._0.Controllers.Enroll
                     string studentid = ((JObject)item)["studentid"].ToString();//学员号
                     int classhour = int.Parse(((JObject)item)["classhour"].ToString());//报名课时
                     int discountid = int.Parse(((JObject)item)["discountid"].ToString() == "" ? "0" : ((JObject)item)["discountid"].ToString());//选择的优惠ID
+                    if(discountid != -1)
+                    {
+                        ajax.msg = "自定义优惠与普通优惠不允许同时存在！";
+                        return Json(ajax);
+                    }
                     decimal discountprice = decimal.Parse(((JObject)item)["discountprice"].ToString());//本次优惠的金额
                     //验证资金明细
                     string[] collectionrec = ((JObject)item)["collectionrec"].ToString().Split(',');//自己明细，需要验证总和等于付款金额
