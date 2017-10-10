@@ -20,12 +20,13 @@ namespace IOT1._0.Controllers.Admin
         //
         // GET: /Accounts_Update/
 
-        public ActionResult Accounts_Update(int id)
+        public ActionResult Accounts_Update()
         {
             Accounts_UpdateViewModel model = new Accounts_UpdateViewModel();
-            int ACC_id = id; 
-            model.ACC_id = ACC_id;
-            model.SYS_AccountList = Accounts_UpdateData.GetAccounts_Update(ACC_id); 
+            string ACC_Account = UserSession.userid;
+            
+            model.SYS_AccountList = Accounts_UpdateData.GetAccounts_Update(ACC_Account);
+            model.ACC_id = model.SYS_AccountList.FirstOrDefault().ACC_Id;
             return View(model);
         }
 

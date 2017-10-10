@@ -12,16 +12,16 @@ namespace DataProvider.Data
 {
     public class Accounts_UpdateData
     {
-              /// <summary>
+       /// <summary>
        /// 跳转查询账号信息
        /// </summary>
        /// <param name="apid"></param>
        /// <returns></returns>
-        public static List<SYS_Account> GetAccounts_Update(int ACC_Id)
+        public static List<SYS_Account> GetAccounts_Update(string ACC_Account)
         {
-            String sql = "select * from SYS_Account where ACC_Id = @ACC_Id   ";
+            String sql = "select * from SYS_Account where ACC_Account = @ACC_Account   ";
             var dynamic = new DynamicParameters();
-            dynamic.Add("@ACC_Id", ACC_Id);
+            dynamic.Add("@ACC_Account", ACC_Account);
             return MsSqlMapperHepler.SqlWithParams<SYS_Account>(sql, dynamic, DBKeys.PRX);  
         }
 
