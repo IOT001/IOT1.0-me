@@ -3,8 +3,7 @@
     ViewBag.Title = "学员入学协议";
 }
 @model EnrollProtocolViewModel
-@using (Html.BeginForm("ConvertThisPageToPdf", "Report", null, FormMethod.Post))
-{
+ 
     <div id="convertThisPageButtonDiv" style="position: absolute; left: 0;">
         <button class="btn btn-primary" id="Print"><i class="fa fa-print"></i> 打印</button>
     </div>
@@ -136,7 +135,7 @@
         </div>
 
     </fieldset>
-}
+ 
 
 @section styles{
     <link href="http://www.525j.com.cn/Theme/zhuanti/head/css/common.css" rel="stylesheet" type="text/css">
