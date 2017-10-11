@@ -6,7 +6,7 @@
 @using (Html.BeginForm("ConvertThisPageToPdf", "Report", null, FormMethod.Post))
 {
     <div id="convertThisPageButtonDiv" style="position: absolute; left: 0;">
-        <input type="submit" value="导出PDF文件" />
+        <button class="btn btn-primary" id="Print"><i class="fa fa-print"></i> 打印</button>
     </div>
     <fieldset disabled>
         <div class="wrap">
@@ -294,7 +294,19 @@
                     layer.close(index);
                 }
             });
-        }
+    }
+
+
+
+        $('#Print ').click(function () {
+            $('#Print').hide();
+           
+            window.print();
+            $('#Print').show();
+           
+
+        });
+
 
     </script>
 }
