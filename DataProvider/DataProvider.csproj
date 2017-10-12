@@ -138,6 +138,7 @@
     <Compile Include="Data\TransferData.cs" />
     <Compile Include="Data\AttendanceOriginalData.cs" />
     <Compile Include="Data\Accounts_UpdateData.cs" />
+    <Compile Include="Data\ClasshourDetailedlistData.cs" />
     <Compile Include="DPBase.cs" />
     <Compile Include="Entities\Appointment.cs" />
     <Compile Include="Entities\AttendanceOriginal.cs" />
@@ -221,6 +222,7 @@
     <Compile Include="Models\TransferProtocolViewModel.cs" />
     <Compile Include="Models\AttendanceOriginalListViewModel.cs" />
     <Compile Include="Models\Accounts_UpdateViewModel.cs" />
+    <Compile Include="Models\WX_ClasshourDetailedlistModel.cs" />
     <Compile Include="NERP.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

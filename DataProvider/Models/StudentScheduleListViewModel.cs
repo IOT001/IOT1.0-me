@@ -61,7 +61,10 @@ namespace DataProvider.Models
         /// ID
         /// </summary>
         public string AttendanceRecord_ID { set; get; }
- 
 
+        /// <summary>
+        /// 学生学号
+        /// </summary>
+        public string StudentID { set; get; }
     }
 }

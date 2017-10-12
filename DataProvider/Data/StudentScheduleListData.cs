@@ -41,6 +41,9 @@ namespace DataProvider.Data
 
            if (!string.IsNullOrWhiteSpace(search.AttendanceRecord_ID))//vw_AttendanceRecord ID
                sb.AppendFormat(" and  ID ='{0}' ", search.AttendanceRecord_ID);
+
+           if (!string.IsNullOrWhiteSpace(search.StudentID))//vw_AttendanceRecord ID
+               sb.AppendFormat(" and  StudentID ='{0}' ", search.StudentID);
            where = sb.ToString();
            int allcount = 0;
            var list = CommonPage<vw_AttendanceRecord>.GetPageList(
