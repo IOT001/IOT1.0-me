@@ -178,6 +178,11 @@ namespace DataProvider.Data
                     sb.AppendFormat(" and TeachTypeID > 1 ");
                 }
             }
+
+
+            if (!string.IsNullOrWhiteSpace(search.ComCode))//校区
+                sb.AppendFormat(" and ComCode = '{0}' ", search.ComCode);
+
             where = sb.ToString();
 
             int allcount = 0;

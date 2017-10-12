@@ -59,6 +59,18 @@ namespace DataProvider.Entities
         /// 财务最后支付，财务审核时，运行输入比申请金额小的值
         /// </summary>
         public decimal? CheckPrice { get; set; }
+        /// <summary>
+        /// 收款单据号
+        /// </summary>				
+        public string ReceiptNum { get; set; }
+        /// <summary>
+        /// 开户行
+        /// </summary>				
+        public string DepositBank { get; set; }
+        /// <summary>
+        /// 账号
+        /// </summary>				
+        public string AccountNumber { get; set; }
     }
 
     /// <summary>

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Mvc;
 
 namespace DataProvider.Models
 {
@@ -17,6 +18,16 @@ namespace DataProvider.Models
         /// 页面的列表数据
         /// </summary>
         public PagedList<vw_Enroll> EnrollManagelist { get; set; }
+
+
+        /// <summary>
+        /// 分校下拉框
+        /// </summary>
+        public List<SelectListItem> ComCodeIL { get; set; } 
+
     }
+
+
+      
 
 }

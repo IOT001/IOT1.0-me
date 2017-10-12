@@ -74,6 +74,14 @@ namespace DataProvider
         /// </summary>
         public string BindPhone { get; set; }
         /// <summary>
+        /// 校区ID
+        /// </summary>
+        public string ComCode { get; set; }
+        /// <summary>
+        /// 校区名称
+        /// </summary>
+        public string CompName { get; set; }
+        /// <summary>
         /// 班级名称
         /// </summary>
         public string ClassName { get; set; }
