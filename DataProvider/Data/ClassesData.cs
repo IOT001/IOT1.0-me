@@ -31,10 +31,7 @@ namespace DataProvider.Data
                 sb.AppendFormat(" and ClassName like '%{0}%' ", search.ClassName);
             if (!string.IsNullOrWhiteSpace(search.CourseID))//课程名称
                 sb.AppendFormat(" and CourseID like '%{0}%' ", search.CourseID);
-            //if (search.StartTime_start != null && search.StartTime_end != null)//开班时间
-            //    sb.AppendFormat(" and StartTime between '{0}'  and  '{1}'", search.StartTime_start, search.StartTime_end);
-            //if (search.EndTime_start != null && search.EndTime_end != null)//结班时间
-            //    sb.AppendFormat(" and EndTime between '{0}'  and  '{1}'", search.EndTime_start, search.EndTime_end);
+   
 
             if (!string.IsNullOrWhiteSpace(search.StartTime_start))//开班时间
                 sb.AppendFormat(" and StartTime > = '{0}' ", search.StartTime_start);
@@ -56,9 +53,9 @@ namespace DataProvider.Data
                 sb.AppendFormat(" and TeachTypeID =1 ");
                 
             }
-            else if (search.islisten == "0")//不是试听班
+            else if (search.islisten == "0")//不是试听班，报名班为了保证有学员课程表，只取未排班数据，以后根据实际情况改
             {
-                sb.AppendFormat(" and TeachTypeID > 1 ");
+                sb.AppendFormat(" and TeachTypeID > 1 and StateID = 1");
             }
             else
             {

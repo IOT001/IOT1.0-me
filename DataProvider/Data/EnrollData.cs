@@ -43,6 +43,14 @@ namespace DataProvider.Data
         public static bool AddList(List<Enroll> list)
         {
             bool ret = false;
+            foreach (var obj in list)
+            {
+                int haveenroll = EnrollData.getEnrollByStuidCalssid(obj.StudentID, obj.ClassID);
+                if (haveenroll > 0)
+                {
+                    throw new Exception("该学员已报名，不允许重复报名！");
+                }
+            }
             DBRepository db = new DBRepository(DBKeys.PRX);
             db.BeginTransaction();
             try
@@ -50,16 +58,20 @@ namespace DataProvider.Data
                             
                 foreach (var obj in list)
                 {
-                    int haveenroll = EnrollData.getEnrollByStuidCalssid(obj.StudentID, obj.ClassID);
-                    if (haveenroll > 0)
-                    {
-                        throw new Exception("该学员已报名，不允许重复报名！");
-                    }
                     obj.ID = CommonData.DPGetTableMaxId("EN", "ID", "Enroll", 8,db);//走同一个事务
                     db.Insert<Enroll>(obj);
-                    Appointment ap = AppointmentData.GetOneByID(obj.APID);
+                    Appointment ap = db.GetById<Appointment>(obj.APID);
                     ap.ApStateID = 3;//已报名
                     db.Update<Appointment>(ap);
+
+                    FundsFlow fl = new FundsFlow();//资金流水
+                    fl.TypeID = 1;//类型为升班
+                    fl.Amount = obj.Paid;
+                    fl.KeyID = obj.ID;
+                    fl.CreateTime = DateTime.Now;
+                    fl.CreatorId = obj.CreatorId;
+                    db.Insert(fl);
+
                     //Classes ca = ClassesData.GetClassesByID(obj.ClassID);
                     //ca.PresentEnroll = ca.PresentEnroll + 1;
                     //MsSqlMapperHepler.Update<Classes>(ca, DBKeys.PRX);//报名数加1

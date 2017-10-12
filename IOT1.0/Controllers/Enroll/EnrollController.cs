@@ -370,6 +370,7 @@ namespace IOT1._0.Controllers.Enroll
                     en.Paid = payment;
                     en.DiscountID = discountid;
                     en.DiscountPrice = discountprice;
+                    en.StateID = 2;//待审核数据
                     en.CreateTime = DateTime.Now;
                     en.CreatorId = UserSession.userid;
                     en.CollectionRec = ((JObject)item)["collectionrec"].ToString().TrimEnd(',');
