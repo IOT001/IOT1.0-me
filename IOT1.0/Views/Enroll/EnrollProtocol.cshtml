@@ -3,10 +3,9 @@
     ViewBag.Title = "学员入学协议";
 }
 @model EnrollProtocolViewModel
-@using (Html.BeginForm("ConvertThisPageToPdf", "Report", null, FormMethod.Post))
-{
+ 
     <div id="convertThisPageButtonDiv" style="position: absolute; left: 0;">
-        <input type="submit" value="导出PDF文件" />
+        <button class="btn btn-primary" id="Print"><i class="fa fa-print"></i> 打印</button>
     </div>
     <fieldset disabled>
         <div class="wrap">
@@ -136,7 +135,7 @@
         </div>
 
     </fieldset>
-}
+ 
 
 @section styles{
     <link href="http://www.525j.com.cn/Theme/zhuanti/head/css/common.css" rel="stylesheet" type="text/css">
@@ -294,7 +293,19 @@
                     layer.close(index);
                 }
             });
-        }
+    }
+
+
+
+        $('#Print ').click(function () {
+            $('#Print').hide();
+           
+            window.print();
+            $('#Print').show();
+           
+
+        });
+
 
     </script>
 }

@@ -45,7 +45,7 @@ namespace DataProvider.Models
         /// </summary>
         public string Name { set; get; }
 
-        
+         
         /// <summary>
         /// 创建时间开始
         /// </summary>
