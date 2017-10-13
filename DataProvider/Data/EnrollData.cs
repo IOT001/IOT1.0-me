@@ -65,7 +65,7 @@ namespace DataProvider.Data
                     db.Update<Appointment>(ap);
 
                     FundsFlow fl = new FundsFlow();//资金流水
-                    fl.TypeID = 1;//类型为升班
+                    fl.TypeID = 1;//类型1报名
                     fl.Amount = obj.Paid;
                     fl.KeyID = obj.ID;
                     fl.CreateTime = DateTime.Now;

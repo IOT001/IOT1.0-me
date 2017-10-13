@@ -67,7 +67,7 @@ namespace DataProvider.Data
                 Enroll er = new Enroll();
                 foreach (var en in List)
                 {
-                    er.ID = CommonData.DPGetTableMaxId("EN", "ID", "Enroll", 8);
+                    er.ID = CommonData.DPGetTableMaxId("EN", "ID", "Enroll", 8,db);
                     er.APID = en.APID;
                     er.ApprovedBy = en.ApprovedBy;
                     er.ApprovedRemark = en.ApprovedRemark;
@@ -89,8 +89,17 @@ namespace DataProvider.Data
                    // er.CollectionRec = en.CollectionRec;
                     
                     db.Insert<Enroll>(er);  //复制 EnrollAudit表数据到报名表
+
+                    FundsFlow fl = new FundsFlow();//资金流水
+                    fl.TypeID = 1;//类型1报名
+                    fl.Amount = er.Paid;
+                    fl.KeyID = er.ID;
+                    fl.CreateTime = DateTime.Now;
+                    fl.CreatorId = er.CreatorId;
+                    db.Insert(fl);
                 }
                 ret = UpdateAppointment(erau.APID, erau.StateID, erau.UpdateTime, erau.UpdatorId, db);  //最后修改Appointment状态为3，3为已报名
+
 
                 db.Commit(); //事务提交  
                 db.Dispose();  //资源释放

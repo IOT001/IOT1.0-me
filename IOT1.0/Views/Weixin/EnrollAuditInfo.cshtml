@@ -14,6 +14,9 @@
          foreach (var m in Model.EnrollAuditInfoList)
             {
         <div class="ibox-title">
+            <a href="@Url.Action("EnrollAuditList")" class="pull-left m-r-md">
+                <i class="fa fa-chevron-left"></i>
+            </a>
             <h5> 学员：@m.ApName</h5>
         </div>
         <div class="ibox-content">
