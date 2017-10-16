@@ -147,6 +147,23 @@ namespace DataProvider.Data
 
 
 
+        /// <summary>
+        /// 获取转让协议未签名时获取的数据
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="typeid"></param>
+        /// <returns></returns>
+        public static vw_Transfer GetIntKeySign_stare(int id)
+        {
+            string strsql = "select top 1 * from vw_Transfer where id = '" + id +"' order by CreateTime desc";
+            vw_Transfer si = MsSqlMapperHepler.SqlWithParamsSingle<vw_Transfer>(strsql, null, DBKeys.PRX);
+            return si;
+        }
+
+
+
+
+
     }
 
 }
