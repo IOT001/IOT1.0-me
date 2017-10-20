@@ -96,11 +96,12 @@
                                 <th>系统ID</th>
                                 <th>甲方</th>
                                 <th>乙方</th>
-                                <th>转让课程</th> 
-                                <th>转至课程</th> 
+                                <th>转让课程</th>
+                                <th>转让课时</th> 
+                                <th>转至课程</th>
+                                <th>折扣课时</th> 
                                 <th>创建时间</th>
                                 <th>状态</th>
-                                <th>审核人</th>
                                 <th>操作</th>
                             </tr>
                         </thead>
@@ -115,17 +116,18 @@
                                         <td class="jz">@m.ID</td>
                                         <td>@m.JStudentIDName</td>
                                         <td>@m.YStudentIDName</td> 
+                                        <td>@m.JClassName</td> 
                                         <td>@m.JClassHour</td>
+                                        <td>@m.TranCourse</td>
                                         <td>@m.TranHour</td>
                                         <td>@m.CreateTime</td>
                                         <td>@m.StateIDName</td>
-                                        <td>@m.ApprovedBy</td> 
                                         <td>
                                             <a href="javascript:modify('@m.ID','@m.StateID');" class="btn btn-primary btn-xs" type="button"><i class="fa fa-edit"></i> 编辑</a>
 
                                            <a href="@Url.Action("TransferProtocol", "Finance", new { id = m.ID, typeid = 2 })" class="btn btn-primary btn-xs" target="_blank"> <i class="fa fa-edit"></i>协议</a>
 
-                                            @if (!string.IsNullOrEmpty(SYS_Role.ToString()))
+                                            @if (!string.IsNullOrEmpty(SYS_Role.ToString()) && m.StateID == 1)
                                             {
                                                 if (SYS_Role == "1")
                                                 {
@@ -507,26 +509,30 @@
     }
     //审核
     function TransferAudit(tfid) {
+
         if (!tfid) {
             layer.msg("请选择需要审核的记录！");
             return false;
         }
-        var action = '@Url.Action("TransferAudit", "Enroll")';
-        $.post(action, {
-            "tfid": tfid//转移记录ID
-        }, function (json) {
-            if (json.status == 200) {//成功
+        layer.confirm('是否已仔细核对过信息，确认审核此记录，一但审核，课时及时生效?', { icon: 3, title: '提示' }, function (index) {
+            var action = '@Url.Action("TransferAudit", "Enroll")';
+            $.post(action, {
+                "tfid": tfid//转移记录ID
+            }, function (json) {
+                if (json.status == 200) {//成功
 
-                layer.msg(json.msg);//弹出服务器返回的消息
-                setTimeout(function () {//操作
-                    layer.closeAll();//关闭所有层
-                    window.location.reload(); //刷新
-                }, 3000);
-            }
-            else {
-                layer.msg(json.msg);//弹出服务器返回的消息
-            }
-        }, 'json');
+                    layer.msg(json.msg);//弹出服务器返回的消息
+                    setTimeout(function () {//操作
+                        layer.closeAll();//关闭所有层
+                        window.location.reload(); //刷新
+                    }, 3000);
+                }
+                else {
+                    layer.msg(json.msg);//弹出服务器返回的消息
+                }
+            }, 'json');
+        });
+
     }
  
 

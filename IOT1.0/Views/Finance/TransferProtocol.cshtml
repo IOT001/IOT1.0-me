@@ -200,31 +200,24 @@
                 <p>五丶上述第四条中关于第2种转让方式，如乙方自收到课程后拒不在约定时间内向甲方指定银行账户转账，则乙方应向甲方支付转让价格逾期每天千分之二的违约金，并赔偿甲方因此产生的一切损失，据实赔偿（若有），且甲方保留向乙方追究责任的权利，并有权向乙方索回上述课程。</p>
                 <p>六丶一切因本协议所产生的纠纷，双方应首先协商解决：解决不成时，可向本协议签订地人民法院提请诉讼解决。</p>
                 <p>七丶本协议自双方签字之日起生效，并自双方义务履行完毕后自行终止。本协议一式贰份，甲乙双方各执壹份，且同等法律效力。</p>
-                     
-                   
-                <div class="footer">1/2</div>
-            </div>
-            <div class="page page2">
-                
-              
                 @if (Model.ImageData != null)
                 {
-                    <div class="sign"style="float:left" >签字：<img style="width:300px;width:150px" src="@Model.si.ImageData"></div>
+                    <div class="sign" style="float:left">签字：<img style="width:300px;width:150px" src="@Model.si.ImageData"></div>
                 }
-                 @if (Model.siB_ImageData != null)
-                 {
-                    <div class="sign"  style="float:right">签字：<img style="width:300px;width:150px" src="@Model.si.siB_ImageData"></div>
-                 }
+                @if (Model.siB_ImageData != null)
+                {
+                    <div class="sign" style="float:right">签字：<img style="width:300px;width:150px" src="@Model.si.siB_ImageData"></div>
+                }
                 <div style="clear:both;">
-                   @if (Model.ImageData != null)
-                   {
-                     <div class="sign"style="float:left;" >签约日期：@Model.si.SignImageCreateTime</div>
-                   } 
-                 @if (Model.siB_ImageData != null)
-                 {
-                    <div class="sign"  style="float:right">签约日期：@Model.si.siB_CreateTime</div>
-                 }
-                    </div>
+                    @if (Model.ImageData != null)
+                    {
+                        <div class="sign" style="float:left;">签约日期：@Model.si.SignImageCreateTime</div>
+                    }
+                    @if (Model.siB_ImageData != null)
+                    {
+                        <div class="sign" style="float:right">签约日期：@Model.si.siB_CreateTime</div>
+                    }
+                </div>
 
 
 
@@ -232,35 +225,33 @@
 
                 @if (Model.ImageData == null)
                 {
-                  <div class="sign" style="float:left">签字：<span onclick="signname()">___________________</span></div>
-                    
+                    <div class="sign" style="float:left">签字：<span onclick="signname()">___________________</span></div>
+
                 }
 
-                  @if (Model.siB_ImageData == null)
-                  {
-                      <div class="sign" style="float:right;">签字：<span onclick="signnameB()">___________________</span></div>
-                 
-                  }
+                @if (Model.siB_ImageData == null)
+                {
+                    <div class="sign" style="float:right;">签字：<span onclick="signnameB()">___________________</span></div>
 
-              <div style="clear:both;">
-                   @if (Model.ImageData == null)
-                   {
-                       <div class="sign"style="float:left;" >签约日期：</div>
-                    
-                   } 
-                 @if (Model.siB_ImageData == null)
-                 {
-                    <div class="sign"  style="float:right">签约日期：</div>
-                 }
+                }
 
-           </div>
-               
+                <div style="clear:both;">
+                    @if (Model.ImageData == null)
+                    {
+                        <div class="sign" style="float:left;">签约日期：</div>
 
-                <div class="footer">2/2</div>
-                  
-                    
-             
+                    }
+                    @if (Model.siB_ImageData == null)
+                    {
+                        <div class="sign" style="float:right">签约日期：</div>
+                    }
+
+                </div>
+
+                   
+                <div class="footer">1/1</div>
             </div>
+
 
              
         </div>
@@ -287,9 +278,9 @@
             margin-bottom: 0px;
             background: #fff;
             overflow: hidden;
-            font-family: "SimSun";
+            font-family: "Microsoft YaHei";
             color: #000;
-            font-size: 12pt;
+            font-size: 10.5pt;
             position: relative;
         }
 

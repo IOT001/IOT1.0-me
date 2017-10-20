@@ -276,7 +276,7 @@ namespace DataProvider.Data
                     string enid = ((JObject)item)["enid"].ToString();//报名记录id
                     decimal newclasshour = decimal.Parse(((JObject)item)["newclasshour"].ToString());//转换后的课时
                     decimal upprice = decimal.Parse(((JObject)item)["upprice"].ToString()); ;//升班差价
-                    Enroll en = EnrollData.GetEnrollByID(enid);//获取学员的报名记录
+                    Enroll en = db.GetById<Enroll>(enid);//获取学员的报名记录
                     TransferRecord tf = new TransferRecord();//转移记录
                     tf.StudentID = en.StudentID;
                     tf.TypeID = 2;//升班
@@ -286,23 +286,33 @@ namespace DataProvider.Data
                     tf.CreatorId = operateid;
                     tf.Remark = "升班：原报名号:" + enid + " 原班级号：" + oldclassid + " 新班级：" + newclassid;
                     db.Insert(tf);
+                    //生成新的报名记录
+                    Enroll upen = new Enroll();
+                    upen.ID = CommonData.DPGetTableMaxId("EN", "ID", "Enroll", 8, db);
+                    upen.APID = "";
+                    upen.StudentID = en.StudentID;
+                    upen.ClassID = newclassid;
+                    upen.ClassHour = newclasshour;
+                    upen.UsedHour = 0;//改变所消耗课时
+                    upen.Price = 0;
+                    upen.Paid = 0;
+                    upen.CreatorId = operateid;
+                    upen.CreateTime = DateTime.Now;
+                    upen.StateID = 1;//无需审核
 
-                    en.UsedHour = en.ClassHour - newclasshour;//改变所消耗课时
-                    en.ClassID = newclassid;
-                    en.UpPrice = upprice;
-                    en.UpdateTime = DateTime.Now;
-                    en.UpdatorId = operateid;
-                    db.Update(en);
+                    upen.UpPrice = upprice;
+
+                    db.Insert(upen);
 
                     FundsFlow fl = new FundsFlow();//资金流水
                     fl.TypeID = 4;//类型为升班
                     fl.Amount = upprice;
-                    fl.KeyID = enid;
+                    fl.KeyID = upen.ID;
                     fl.CreateTime = DateTime.Now;
                     fl.CreatorId = operateid;
                     db.Insert(fl);
 
-                    Classes ca = ClassesData.GetClassesByID(oldclassid);
+                    Classes ca = db.GetById<Classes>(oldclassid);
                     ca.StateID = 4;//原来班级状态
                     db.Update(ca); 
                 }

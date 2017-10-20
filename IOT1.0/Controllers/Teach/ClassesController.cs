@@ -51,7 +51,7 @@ namespace IOT1._0.Controllers.Teach
             //下拉项
             List<CommonEntity> SourceIL4 = CommonData.GetDictionaryList(8);//获取上课的时段信息
             model.SourceIL4 = CommonData.Instance.GetBropDownListData(SourceIL4);
-            //获取班级列表下拉框
+            //获取升级班级列表下拉框，只能是未排课的班级列表
             List<CommonEntity> UpgradeClassesIL = CommonData.GetClassesItemList();
             model.UpgradeClassesIL = CommonData.Instance.GetBropDownListData(UpgradeClassesIL);
 
@@ -367,7 +367,8 @@ namespace IOT1._0.Controllers.Teach
         }
 
         /// <summary>
-        /// 升班的操作，将原来的报名记录的剩余课重新计算，然后修改报名记录的班级ID，然后生成转班记录记录当时发生情况,然后还要添加差价记录
+        /// 升班的操作，为了不影响之前的报名数据，所有生成的新的报名记录，然后生成转班记录记录当时发生情况,然后还要添加差价记录
+        /// 只能升到未排课的班级，升班之后需重新排课
         /// </summary>
         /// <returns></returns>
         public ActionResult UpgradeClass()
@@ -382,7 +383,7 @@ namespace IOT1._0.Controllers.Teach
             if (ClassesData.UpClass(oldclassid, newclassid, ja, UserSession.userid))
             {
                 ajax.status = EnumAjaxStatus.Success;
-                ajax.msg = "升班成功！";
+                ajax.msg = "升班成功！请重新进行排课操作！";
             }
             return Json(ajax);
         }

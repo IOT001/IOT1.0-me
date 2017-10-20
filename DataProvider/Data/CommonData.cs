@@ -150,7 +150,7 @@ namespace DataProvider.Data
         {
             StringBuilder sb = new StringBuilder();
             sb.Append(" select ID,ClassName name from Classes");
-            sb.Append(" WHERE TeachTypeID <> 1");
+            sb.Append(" WHERE TeachTypeID <> 1 and StateID = 1");
             var parameters = new DynamicParameters();
             return MsSqlMapperHepler.SqlWithParams<CommonEntity>(sb.ToString(), parameters, DBKeys.PRX);
 

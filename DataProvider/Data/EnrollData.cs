@@ -253,7 +253,7 @@ namespace DataProvider.Data
         /// <param name="a"></param>
         /// <param name="b"></param>
         /// <returns></returns>
-        public static bool TransferAudit1(DataProvider.Entities.Enroll a, DataProvider.Entities.Enroll b,string loginid)
+        public static bool TransferAudit1(DataProvider.Entities.Enroll a, DataProvider.Entities.Enroll b, string loginid, Transfer rb)
         {
             bool ret = false;
             DBRepository db = new DBRepository(DBKeys.PRX);
@@ -268,21 +268,28 @@ namespace DataProvider.Data
                 tr1.TypeID = 1;//转让产生的
                 tr1.CreateTime = DateTime.Now;
                 tr1.CreatorId = loginid;
+                tr1.Remark = "转班：原报名号:" + a.ID + " 原班级号：" + a.ClassID + " 转至班级：" + b.ClassID;
                 db.Insert(tr1);
-                db.Update(j);
+                db.Update(a);//扣除课时
 
 
                 DataProvider.Entities.Enroll y = EnrollData.GetEnrollByID(b.ID);//乙方原始报名记录
                 TransferRecord tr2 = new TransferRecord();//甲方的转移记录
                 tr2.StudentID = y.StudentID;
                 tr2.BeforeHours = y.ClassHour - y.UsedHour;
-                tr2.AfterHours = b.ClassHour - b.UsedHour;
+                tr2.AfterHours = y.ClassHour - y.UsedHour + rb.TranHour;
                 tr2.TypeID = 1;//转让产生的
                 tr2.CreateTime = DateTime.Now;
                 tr2.CreatorId = loginid;
+                tr2.Remark = "转班：来自报名号:" + a.ID + " 来自班级号：" + a.ClassID + " 转至班级：" + b.ClassID;
                 db.Insert(tr2);
+                y.ClassHour = y.ClassHour + rb.TranHour;//增加乙方的课时
                 db.Update(y);
 
+                rb.StateID = 2;
+                rb.ApprovedBy = loginid;
+                rb.ApprovedTime = DateTime.Now;
+                db.Update(rb);
                 ret = true;
                 db.Commit();
             }
@@ -302,7 +309,7 @@ namespace DataProvider.Data
        /// <param name="b"></param>
        /// <param name="loginid"></param>
        /// <returns></returns>
-        public static bool TransferAudit2(DataProvider.Entities.Enroll a, DataProvider.Entities.Enroll b, string loginid)
+        public static bool TransferAudit2(DataProvider.Entities.Enroll a, DataProvider.Entities.Enroll b, string loginid, Transfer rb)
         {
             bool ret = false;
             DBRepository db = new DBRepository(DBKeys.PRX);
@@ -317,8 +324,9 @@ namespace DataProvider.Data
                 tr1.TypeID = 1;//转让产生的
                 tr1.CreateTime = DateTime.Now;
                 tr1.CreatorId = loginid;
+                tr1.Remark = "转班：原报名号:" + a.ID + " 原班级号：" + a.ClassID + " 转至班级：" + b.ClassID;
                 db.Insert(tr1);
-                db.Update(j);
+                db.Update(a);//扣除课时
 
 
         
@@ -329,8 +337,15 @@ namespace DataProvider.Data
                 tr2.TypeID = 1;//转让产生的
                 tr2.CreateTime = DateTime.Now;
                 tr2.CreatorId = loginid;
+                tr2.Remark = "转班：来自报名号:" + a.ID + " 来自班级号：" + a.ClassID + " 转至班级：" + b.ClassID;
+
                 db.Insert(tr2);
                 db.Insert(b);
+
+                rb.StateID = 2;
+                rb.ApprovedBy = loginid;
+                rb.ApprovedTime = DateTime.Now;
+                db.Update(rb);
 
                 ret = true;
                 db.Commit();

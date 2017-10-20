@@ -711,9 +711,9 @@
                     var upgradedata = [];//需要提交升班学员数据
                     $("#Enroll_listup tbody").find("tr").each(function (ai, am) {//遍历需要升班的学员列表
 
-                        var enid = $(this).parent().parent().parent().parent().parent().find("td").eq(0).text();//取到的报名ID
-                        var newclasshour = $(this).parent().parent().parent().parent().parent().find("td").eq(6).children('input').val();;//用户填写的转换后的课时
-                        var upprice = $(this).parent().parent().parent().parent().parent().find("td").eq(7).children('input').val();;//用户填写的差价
+                        var enid = $(this).find("td").eq(0).text();//取到的报名ID
+                        var newclasshour = $(this).find("td").eq(6).children('input').val();;//用户填写的转换后的课时
+                        var upprice = $(this).find("td").eq(7).children('input').val();;//用户填写的差价
                         upgradedata.push({
                             "enid": enid,
                             "newclasshour": newclasshour,

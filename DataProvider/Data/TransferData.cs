@@ -23,7 +23,7 @@ namespace DataProvider.Data
             string table = string.Empty, fields = string.Empty, orderby = string.Empty, where = string.Empty;//定义结构
             fields = @"  * ";//输出字段
             table = @" vw_Transfer ";//表或者视图
-            orderby = "ID";//排序信息
+            orderby = "ID desc";//排序信息
             StringBuilder sb = new StringBuilder();//构建where条件
             sb.Append(" 1=1 ");
             if (!string.IsNullOrWhiteSpace(search.JName))//甲方

@@ -17,6 +17,11 @@ namespace IOT1._0.Controllers.Finance
         //
         // GET: /Transfer/
 
+        /// <summary>
+        /// 转让列表
+        /// </summary>
+        /// <param name="search"></param>
+        /// <returns></returns>
         public ActionResult TransferAgreementList(TransferListSearchModel search)
         {
 

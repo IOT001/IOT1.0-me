@@ -106,5 +106,13 @@ namespace DataProvider.Entities
         /// 升班产生的差价
         /// </summary>
         public decimal UpPrice { get; set; }
+        /// <summary>
+        /// 如果是由转让协议生成的报名记录则这里记录转让协议ID
+        /// </summary>
+        public int Transferid { get; set; }
+        /// <summary>
+        /// 升班时用，表示从哪个报名升级过来的
+        /// </summary>
+        public string FromEnid { get; set; }
     }
 }
