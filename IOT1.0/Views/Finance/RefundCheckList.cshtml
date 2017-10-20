@@ -73,6 +73,10 @@
                                 <th>申请退额</th>
                                 <th>退款备注</th>
                                 <th>财务支付</th>
+                                   <th>收款单据号</th>
+                                   <th>开户行</th>
+                                   <th>账号</th>
+                                
                                 <th>操作</th>
                             </tr>
                         </thead>
@@ -94,6 +98,9 @@
                                         <td>@m.ApplyPrice</td>
                                         <td>@m.ApplyRemark</td>
                                         <td>@m.CheckPrice</td>
+                                         <td>@m.ReceiptNum</td>
+                                         <td>@m.DepositBank</td>
+                                         <td>@m.AccountNumber</td>
                                         @if (string.IsNullOrEmpty(m.AuditingID))//如果没审核
                                         { 
                                              <td><a href="javascript:apply('@Newtonsoft.Json.JsonConvert.SerializeObject(m)')" class="btn btn-primary btn-xs" type="button"><i class="fa fa-edit"></i>审核</a></td>
@@ -149,7 +156,30 @@
                                         <div class="col-sm-8">
                                             <input type="text" placeholder="学员姓名" class="form-control" id="applyname" disabled="disabled">
                                         </div>
-                                    </div> 
+                                    </div>
+                                    
+                                         <div class="form-group">
+                                        <label class="col-sm-3 control-label">收款单据号：</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" placeholder="收款单据号" class="form-control" id="ReceiptNum" disabled="disabled">
+                                        </div>
+                                    </div>
+
+                                         <div class="form-group">
+                                        <label class="col-sm-3 control-label">开户行：</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" placeholder="开户行" class="form-control" id="DepositBank" disabled="disabled">
+                                        </div>
+                                    </div>
+
+                                         <div class="form-group">
+                                        <label class="col-sm-3 control-label">账号：</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" placeholder="账号" class="form-control" id="AccountNumber" disabled="disabled">
+                                        </div>
+                                    </div>
+                                    
+                                     
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">申请退款金额：</label>
                                         <div class="col-sm-8">
@@ -221,6 +251,9 @@
                                 $("#ApplyPrice").val(obj.ApplyPrice);
                                 $("#ApplyRemark").val(obj.ApplyRemark);
                                 $("#CheckPrice").val(obj.ApplyPrice);
+                                $("#ReceiptNum").val(obj.ReceiptNum);
+                                $("#DepositBank").val(obj.DepositBank);
+                                $("#AccountNumber").val(obj.AccountNumber);
                                 layer.open({
                                     type: 1,
                                     title: "<h3 class='ibox-title'>申请退款</h3>",

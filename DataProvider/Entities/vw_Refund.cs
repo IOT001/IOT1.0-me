@@ -93,7 +93,18 @@ namespace DataProvider.Entities
        /// </summary>
         public decimal Paid { get; set; }
 
-       
+        /// <summary>
+        /// 收款单据号
+        /// </summary>				
+        public string ReceiptNum { get; set; }
+        /// <summary>
+        /// 开户行
+        /// </summary>				
+        public string DepositBank { get; set; }
+        /// <summary>
+        /// 账号
+        /// </summary>				
+        public string AccountNumber { get; set; }
 
     }
 }
