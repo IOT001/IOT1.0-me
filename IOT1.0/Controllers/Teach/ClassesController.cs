@@ -55,6 +55,15 @@ namespace IOT1._0.Controllers.Teach
             List<CommonEntity> UpgradeClassesIL = CommonData.GetClassesItemList();
             model.UpgradeClassesIL = CommonData.Instance.GetBropDownListData(UpgradeClassesIL);
 
+
+
+
+
+            //分校下拉项
+            List<CommonEntity> ComCodeIL = CommonData.Get_SYS_Company_List();//分校
+            model.ComCodeIL = CommonData.Instance.GetBropDownListData(ComCodeIL);
+            model.search.ComCodeIL = CommonData.Instance.GetBropDownListData(ComCodeIL);
+
             model.Classeslist = ClassesData.GeClassesList(search);//填充页面模型数据
             return View(model);//返回页面模型
         }

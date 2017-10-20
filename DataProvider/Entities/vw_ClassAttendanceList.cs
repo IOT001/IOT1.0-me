@@ -134,6 +134,16 @@ namespace DataProvider.Entities
             get;
             set;
         }
+
+        public string CompName
+        {
+            get;
+            set;
+        }
+        /// <summary>
+        /// 所属分校ID
+        /// </summary>
+        public string ComCode { get; set; }
     }
     /// <summary>
     /// 

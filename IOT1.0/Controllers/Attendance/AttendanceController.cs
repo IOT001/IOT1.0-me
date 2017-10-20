@@ -24,6 +24,13 @@ namespace IOT1._0.Controllers.Attendance
             model.search = search;//页面的搜索模型
             model.search.PageSize = 15;//每页显示
             model.search.CurrentPage = Convert.ToInt32(Request["pageindex"]) <= 0 ? 1 : Convert.ToInt32(Request["pageindex"]);//当前页
+
+
+            //分校下拉项
+            List<CommonEntity> ComCodeIL = CommonData.Get_SYS_Company_List();//分校
+            model.ComCodeIL = CommonData.Instance.GetBropDownListData(ComCodeIL);
+            model.search.ComCodeIL = CommonData.Instance.GetBropDownListData(ComCodeIL);
+
             model.buttonlist = AttendaceData.GetButtonList(search);
             return View(model);
         }

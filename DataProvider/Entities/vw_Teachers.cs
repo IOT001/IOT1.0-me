@@ -157,9 +157,20 @@ namespace DataProvider.Entities
         {
             get; 
             set; 
-        }   
-		   
-        
+        }
+
+        /// <summary>
+        /// 所属校区
+        /// </summary>
+        public string CompName
+        {
+            get;
+            set;
+        }
+        /// <summary>
+        /// 所属分校ID
+        /// </summary>
+        public string ComCode { get; set; }
 
 	}
 

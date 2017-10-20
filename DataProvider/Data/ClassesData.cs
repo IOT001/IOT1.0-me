@@ -27,6 +27,11 @@ namespace DataProvider.Data
             orderby = "ID desc";//排序信息
             StringBuilder sb = new StringBuilder();//构建where条件
             sb.Append(" 1=1 ");
+
+
+            if (!string.IsNullOrWhiteSpace(search.ComCode))//校区
+                sb.AppendFormat(" and [ComCode] = '{0}' ", search.ComCode);
+
             if (!string.IsNullOrWhiteSpace(search.ClassName))//班级名称
                 sb.AppendFormat(" and ClassName like '%{0}%' ", search.ClassName);
             if (!string.IsNullOrWhiteSpace(search.CourseID))//课程名称

@@ -46,5 +46,14 @@ namespace DataProvider.Entities
         /// 授课方式中文
         /// </summary>
         public string TeachTypeIDname { get; set; }
+        /// <summary>
+        /// 所属分校
+        /// </summary>
+        public string CompName { get; set; }
+        /// <summary>
+        /// 所属分校ID
+        /// </summary>
+        public string ComCode { get; set; }
+        
     }
 }

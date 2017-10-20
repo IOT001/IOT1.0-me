@@ -81,6 +81,10 @@ namespace DataProvider.Entities
         /// 报名费用
         /// </summary>
         public decimal Expenses { get; set; }
+        /// <summary>
+        /// 所属分校
+        /// </summary>
+        public string ComCode { get; set; }
 
     }
 }

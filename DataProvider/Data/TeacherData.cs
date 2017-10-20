@@ -148,6 +148,10 @@ namespace DataProvider.Data
             StringBuilder sb = new StringBuilder();//构建where条件
             sb.Append(" 1=1 ");
 
+            if (!string.IsNullOrWhiteSpace(search.ComCode))//校区
+                sb.AppendFormat(" and [ComCode] = '{0}' ", search.ComCode);
+
+
             if (search.LeaveDate == 1)//离职
             {
                 sb.AppendFormat(" and LeaveDate is null ", search.LeaveDate);

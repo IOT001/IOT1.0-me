@@ -41,6 +41,10 @@ namespace IOT1._0.Controllers.Teach
             List<CommonEntity> ComCodeIL = CommonData.Get_SYS_Company_List();//分校
             model.ComCodeIL = CommonData.Instance.GetBropDownListData(ComCodeIL);
 
+            //分校下拉项
+            List<CommonEntity> ComCodeIL1 = CommonData.Get_SYS_Company_List();//分校
+            model.ComCodeIL = CommonData.Instance.GetBropDownListData(ComCodeIL);
+            model.search.ComCodeIL1 = CommonData.Instance.GetBropDownListData(ComCodeIL);
 
             //多沟选框
             List<DataProvider.Data.CommonData.SYS_Role> SourceIL = CommonData.GetSYS_SystemRoleList(3);

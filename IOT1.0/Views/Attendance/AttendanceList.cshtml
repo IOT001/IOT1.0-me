@@ -43,8 +43,15 @@
                             </div> 
                         </div>
 
-                      
+                      <div class="form-group">
+                                <div class="col-sm-2">
+                                <label class="control-label">校区：</label>
+                            </div>
 
+                            <div class="col-sm-3">
+                                @Html.DropDownListFor(t => t.search.ComCode,Model.search.ComCodeIL, new { @class = "input-sm form-control" ,@style = "width:100%;height:100%;", @tabindex = "4 "})
+                            </div>
+                        </div>
                                    
                         <div class="form-group">
                             <div class="col-sm-11 project-actions">
@@ -57,6 +64,7 @@
                         <thead>
                             <tr>
                                 <th rowspan="2">班级</th>
+                                 <th rowspan="2">所属分校</th> 
                                 <th rowspan="2">课程日期</th>
                                 <th rowspan="2">星期</th>
                                 <th rowspan="2">时段</th>
@@ -82,6 +90,7 @@
                                 {
                                     <tr>
                                         <td class="jz">@m.ClassName</td>
+                                          <td>@m.CompName</td>
                                         <td>@DateTime.Parse(m.ClassDate + "").ToString("yyyy-MM-dd")</td> @*按钮名称*@
                                         <td>@System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.GetDayName(DateTime.Parse(m.ClassDate + "").DayOfWeek)</td>
                                         <td>@m.TimePeriodValue</td>

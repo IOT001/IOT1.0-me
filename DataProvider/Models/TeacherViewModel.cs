@@ -52,6 +52,16 @@ namespace DataProvider.Models
         /// 分校下拉框的选中值
         /// </summary>
         public string ComCode { set; get; }
+
+
+        /// <summary>
+        /// 所属分校下拉
+        /// </summary>
+        public List<SelectListItem> ComCodeIL1 { get; set; }
+
+         
+
+
         
     }
 }

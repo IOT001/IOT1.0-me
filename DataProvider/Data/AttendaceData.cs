@@ -26,7 +26,11 @@ namespace DataProvider.Data
             orderby = "ClassDate";//排序信息
             StringBuilder sb = new StringBuilder();//构建where条件
             sb.Append(" 1=1 ");
-           
+
+
+
+            if (!string.IsNullOrWhiteSpace(search.ComCode))//校区
+                sb.AppendFormat(" and [ComCode] = '{0}' ", search.ComCode);
 
             if (!string.IsNullOrWhiteSpace(search.className))//按钮中文名称
                 sb.AppendFormat(" and ClassName like '%{0}%' ", search.className);

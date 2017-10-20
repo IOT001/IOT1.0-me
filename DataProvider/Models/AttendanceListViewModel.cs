@@ -23,7 +23,10 @@ namespace DataProvider.Models
         /// </summary>
         public PagedList<vw_ClassAttendanceList> buttonlist { get; set; }
 
-        
+        /// <summary>
+        /// 所属分校下拉
+        /// </summary>
+        public List<SelectListItem> ComCodeIL { get; set; }
     }
     public class AttendanceSearchModel : CommonPageEntity
     {
@@ -47,7 +50,15 @@ namespace DataProvider.Models
         /// 课程索引
         /// </summary>
         public string classIndex { set; get; }
-      
- 
+
+        /// <summary>
+        /// 所属分校下拉
+        /// </summary>
+        public List<SelectListItem> ComCodeIL { get; set; }
+
+        /// <summary>
+        /// 所属分校的选中值
+        /// </summary>
+        public string ComCode { get; set; }
     }
 }

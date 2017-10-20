@@ -55,7 +55,16 @@ namespace DataProvider.Models
         /// <summary>
         /// 升班所选择的班级ID
         /// </summary>
-        public int UpgradeClassID { get; set; } 
+        public int UpgradeClassID { get; set; }
+
+
+
+
+        /// <summary>
+        /// 所属分校下拉
+        /// </summary>
+        public List<SelectListItem> ComCodeIL { get; set; }
+
     }
 
     /// <summary>
@@ -145,6 +154,18 @@ namespace DataProvider.Models
         /// 是否查询试听
         /// </summary>
         public string islisten { set; get; }
+
+
+        /// <summary>
+        /// 所属分校下拉
+        /// </summary>
+        public List<SelectListItem> ComCodeIL { get; set; }
+
+        /// <summary>
+        /// 所属分校的选中值
+        /// </summary>
+        public string ComCode { get; set; }
+
 
     }
 
