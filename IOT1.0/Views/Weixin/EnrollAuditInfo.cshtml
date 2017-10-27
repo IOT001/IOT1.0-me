@@ -45,7 +45,7 @@
         </div>
     }
     
-    <div class="col-sm-9 project-actions">
+    <div class="" style="text-align:center">
            <button type="button" class="btn btn-w-m btn-primary btn-sm" onclick="Audited()">审核通过</button>
            <button type="button" class="btn btn-w-m btn-primary btn-sm" onclick="AuditNotThrough()">审核不通过</button>
     
@@ -77,6 +77,8 @@
 
 
     function Audited() {
+        layer.confirm('您确定要进行此审核么?', { icon: 3, title: '提示' }, function (index) {
+            
         var APID;
           APID = GetQueryString("APID");
         var action = '@Url.Action("Audited", "WeiXin")'
@@ -84,7 +86,7 @@
             "APID": APID//序列化对象
         }, function (json) {
             if (json.status == 200) {//成功
-
+                layer.close(index);
                 layer.open({
                     content: json.msg,
                     time: 2 //2秒后自动关闭 
@@ -103,6 +105,7 @@
               
             }
         }, 'json');
+        });
     }
     
 
