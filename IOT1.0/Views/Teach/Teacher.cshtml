@@ -597,12 +597,12 @@
         <form class="form-horizontal">
 
             <div class="form-group ">
-                <label class="col-sm-6 control-label">请选择权限</label>
+                <label class="col-sm-6 control-label">请选择权限:</label>
 
             </div>
 
         <div class="form-group ">
-                <label class="col-sm-3 control-label">发送部门：</label>
+                <label class="col-sm-3 control-label"> </label>
                 @*<div class="checkbox i-checks col-sm-8"> *@
     @Html.CheckBoxListFor(model => model.School, model => model.School, SYS_Role, f => f.id, f => f.name, false, new Dictionary<string, object> { {"class", "check-inline "} })   
                @* </div>*@

@@ -210,7 +210,20 @@ namespace DataProvider.Data
         }
 
 
-
+        /// <summary>
+        /// 获取字典列表
+        /// </summary>
+        /// <param name="dicTypeID"></param>
+        /// <returns>用于下拉框权限的绑定</returns>
+        public static List<SYS_Role> GetSYS_SystemRole_IS(int ROLE_IsSuspended)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append("SELECT ROLE_Id as id,ROLE_Name as name FROM SYS_SystemRole");
+            sb.Append(" WHERE ROLE_IsSuspended = @ROLE_IsSuspended");
+            var parameters = new DynamicParameters();
+            parameters.Add("@ROLE_IsSuspended", ROLE_IsSuspended);
+            return MsSqlMapperHepler.SqlWithParams<SYS_Role>(sb.ToString(), parameters, DBKeys.PRX);
+        }
 
         /// <summary>
         /// 获取字典列表

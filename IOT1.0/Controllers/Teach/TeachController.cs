@@ -47,7 +47,7 @@ namespace IOT1._0.Controllers.Teach
             model.search.ComCodeIL1 = CommonData.Instance.GetBropDownListData(ComCodeIL);
 
             //多沟选框
-            List<DataProvider.Data.CommonData.SYS_Role> SourceIL = CommonData.GetSYS_SystemRoleList(3);
+            List<DataProvider.Data.CommonData.SYS_Role> SourceIL = CommonData.GetSYS_SystemRole_IS(0);
             ViewData["SYS_Role"] = SourceIL;
 
             model.Teacherslist = TeacherData.GetTeachersList(search);//填充页面模型数据
