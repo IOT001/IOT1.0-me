@@ -1,7 +1,7 @@
 ﻿var CurrentAccount = CurrentAccount || null;//登陆信息
 var TreeMenuId = -1;
 var SiteRoot = "http://localhost:40315/"; //CCSH.AccountRights网站根目录，用于WEBAPI，本地测试
-//var SiteRoot = "http://192.168.1.248/iot/"; //CCSH.AccountRights网站根目录，用于WEBAPI，发布到服务器用地址,正式库
+//var SiteRoot = "http://106.14.166.8/iot/"; //CCSH.AccountRights网站根目录，用于WEBAPI，发布到服务器用地址,正式库
 
 ////从URL获取参数信息
 //var loading;

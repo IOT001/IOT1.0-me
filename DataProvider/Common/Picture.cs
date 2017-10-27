@@ -36,7 +36,7 @@ namespace DataProvider.Data
                 var thumbnailImage = this.FolderBase + Category + ThumbnailImagePath + Path.GetFileName(result);//缩略图
                 d.Add("result", "上传成功");
                 d.Add("filename", filename);
-                d.Add("thumbnailImage", thumbnailImage);
+                d.Add("thumbnailImage","../" + thumbnailImage);//目录跳转到上一级
 
             }
             else

@@ -11,11 +11,12 @@ namespace DataProvider.Data
    public class MenuData
     {
        public static string preurl = Common.GetAppConfig<string>("preurlconfig", "");
-       public static List<vw_Menu> GetMenuList()
+       public static List<vw_Menu> GetMenuList(string loginid)
        {
            StringBuilder sb = new StringBuilder();
            sb.AppendFormat("SELECT *,'{0}' + URL as logurl ", preurl);
            sb.AppendFormat(" FROM [vw_StaffMenu] a WITH(NOLOCK)");
+           sb.AppendFormat(" where ACC_Account = '{0}'", loginid);
            sb.AppendFormat(" ORDER BY ParentId,OrderIndex");
            return MsSqlMapperHepler.SqlWithParams<vw_Menu>(sb.ToString(), null, DBKeys.PRX);
        }

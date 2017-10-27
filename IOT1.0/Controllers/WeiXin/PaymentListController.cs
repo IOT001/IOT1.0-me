@@ -27,7 +27,10 @@ namespace IOT1._0.Controllers.WeiXin
             model.search.PageSize = 100;//每页显示100条数据
             model.search.CurrentPage = model.search.CurrentPage <= 0 ? 1 : model.search.CurrentPage;//获取当前页
             Students s = StudentData.GetStudentByAccountID(UserSessionWX.userid);//获取学员
-            search.Enroll_StudentID = s.ID;//获取学号
+            if (s != null)
+            {
+                search.Enroll_StudentID = s.ID;//获取学号
+            }
             search.islesson = "0";
             PagedList<vw_Enroll> vw_Enroll = EnrollData.GeEnrollList(search);//查询报名记录
             model.StudentEnrollList = vw_Enroll;

@@ -367,7 +367,9 @@
                     window.location.reload(); //刷新
                 }, 3000);
             }
-        }, "json");
+        }, "json").error(function (msg) {
+            alert("请重新登录系统" + msg)
+        });
     }
 
     $(document).ready(function () {

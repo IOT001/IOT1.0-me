@@ -776,7 +776,7 @@
                         var oks = $(this).parent().parent().parent().find("td").eq(5).text()//总课时数
                         var realbm = $(this).parent().parent().parent().find("td").eq(6).children('input').val();//实际报名课时，取input填写值
                         var _DiscountRate = $(this).data("discountrate");//折扣率
-                        var yhje = (realbm / oks) * (1 - _DiscountRate) * och//算出优惠金额
+                        var yhje = (realbm / oks) * (1 - _DiscountRate).toFixed(10) * och//算出优惠金额
                         var bcff = (realbm / oks) * och - yhje;//算本次最终报名费用
                         $(this).parent().parent().parent().find("td").eq(8).children('input').val(yhje);//赋值优惠金额
                         $(this).parent().parent().parent().find("td").eq(10).val(bcff);//赋值报名费用

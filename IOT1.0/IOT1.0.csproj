@@ -219,7 +219,7 @@
     <Content Include="CSS\perCenter.css" />
     <Content Include="CSS\quotation.css" />
     <Content Include="CSS\sco.message.css" />
-    <Content Include="Images\backgrounds\wx_20170527160338.jpg" />
+    <Content Include="Images\backgrounds\topimg.jpg" />
     <Content Include="Images\collapse.png" />
     <Content Include="Images\comimg\arrowBottom.png" />
     <Content Include="Images\comimg\backTop.png" />

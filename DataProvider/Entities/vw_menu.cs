@@ -66,5 +66,9 @@ namespace DataProvider.Entities
             }
             set { childs = value; }
         }
+        /// <summary>
+        /// 登录账号
+        /// </summary>
+        public string ACC_Account { get; set; }
     }
 }
