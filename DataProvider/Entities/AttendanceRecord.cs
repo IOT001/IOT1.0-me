@@ -50,7 +50,7 @@ namespace DataProvider
         /// </summary>
         public string Evaluate { get; set; }
         /// <summary>
-        /// 缺勤原因-字典表
+        /// 缺勤原因-字典表类型18，1缺勤，2请假，3其他
         /// </summary>
         public int OutStatus { get; set; }
         /// <summary>
