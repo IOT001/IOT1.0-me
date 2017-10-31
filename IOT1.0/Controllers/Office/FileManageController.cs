@@ -26,7 +26,7 @@ namespace IOT1._0.Controllers.Office
             model.search.CurrentPage = Convert.ToInt32(Request["pageindex"]) <= 0 ? 1 : Convert.ToInt32(Request["pageindex"]);//当前页 
 
             //多沟选框
-            List<DataProvider.Data.CommonData.SYS_Role> SourceIL = CommonData.GetSYS_SystemRoleList(3);
+            List<DataProvider.Data.CommonData.SYS_Role> SourceIL = CommonData.GetSYS_SystemRole_IS(0);
             ViewData["SYS_Role"] = SourceIL;
 
             List<string> roles = UserSession.roles;//取账号角色
