@@ -688,7 +688,7 @@
             success: function (json) {
                 if (json.status == 200) {//成功
 
-
+                    $("#ComCode").val(json.data.ComCode);
                     $("#ClassName").val(json.data.ClassName);
                     $("#TeachTypeID").val(json.data.TeachTypeID);
                     $("#CourseIDS").val(json.data.CourseID);
