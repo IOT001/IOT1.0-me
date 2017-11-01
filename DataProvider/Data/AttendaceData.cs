@@ -344,7 +344,7 @@ namespace DataProvider.Data
                         }
                         else//如果之前有考勤记录了，且未打卡则更新打卡
                         {
-                            if (btnto.ClockTime != null)//已打卡，不允许改成请假
+                            if (btnto.ClockTime == null)//已打卡，不允许改成请假
                             {
                                 btnto.OutStatus = value.OutStatus;
 
@@ -354,7 +354,9 @@ namespace DataProvider.Data
                                 }
                                 else
                                 {
-                                    btnto.AttendanceTypeID = 3;//缺勤
+                                    btnto.AttendanceTypeID = 3;//缺勤,扣课时
+                                    enroll.UsedHour = enroll.UsedHour + 1;
+                                    db.Update(enroll);
                                 }
                                 btnto.UpdateTime = DateTime.Now;
                                 btnto.UpdatorId = userid;
