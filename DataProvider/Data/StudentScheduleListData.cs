@@ -102,7 +102,7 @@ namespace DataProvider.Data
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("select distinct cl.id+','+CAST(cll.ClassIndex as nvarchar(10)) as id,cl.ClassName+'('+convert(varchar(100), cll.ClassDate ,23)+')' as Name");
-            sb.Append(" from Classes cl left join ClassList cll");
+            sb.Append(" from Classes cl inner join ClassList cll");
             sb.Append(" on	cl.ID=cll.ClassID ");
             sb.Append(" where  cl.StateID <> 4 and 	cl.CourseID = @CourseID");
             var parameters = new DynamicParameters();
