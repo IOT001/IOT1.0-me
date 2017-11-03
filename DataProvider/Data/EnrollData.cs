@@ -207,6 +207,20 @@ namespace DataProvider.Data
             return MsSqlMapperHepler.SqlWithParams<vw_Enroll>(sql, dynamic, DBKeys.PRX);  
         }
        /// <summary>
+       /// 获取获取试听，判断是否有重复试听记录
+       /// </summary>
+       /// <param name="apid"></param>
+       /// <returns></returns>
+        public static List<vw_Enroll> GetEnrollPrintByApidAndClassid(string apid,string classid)
+        {
+            String sql = "select * from vw_Enroll where APID = @APID  and ClassID = @ClassID";
+            var dynamic = new DynamicParameters();
+            dynamic.Add("@APID", apid);
+            dynamic.Add("@ClassID", classid);
+
+            return MsSqlMapperHepler.SqlWithParams<vw_Enroll>(sql, dynamic, DBKeys.PRX);
+        }
+       /// <summary>
        /// 获取单据配置信息
        /// </summary>
        /// <returns></returns>

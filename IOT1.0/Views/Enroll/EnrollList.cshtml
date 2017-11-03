@@ -74,6 +74,7 @@
                                 <th>状态</th>
                                 <th>是否会员</th>
                                 <th>备注</th>
+                                <th>创建时间</th>
                                 <th>操作</th>
                             </tr>
                         </thead>
@@ -92,6 +93,7 @@
                                         <td>@m.StateName</td>
                                         <td>@m.IsJoin</td>
                                         <td>@m.APRemark</td>
+                                        <td>@m.CreateTime</td>
                                         <td>
                                             <a href="javascript:modify('@m.ID')" class="btn btn-primary btn-xs" type="button"><i class="fa fa-edit"></i> 修改</a>
                                             <a href="javascript:follow('@m.ID')" class="btn btn-primary btn-xs" type="button"><i class="fa fa-edit"></i> 跟进</a>
@@ -536,20 +538,32 @@
     //#region 注册试听事件
 
     window.operateEvents = {
-        'click .RoleOfA': function (e, value, row, index) {
+        'click .RoleOfA': function (e, value, row, index) {//点击试听按钮
+            if ($(this).hasClass('disabled'))
+            {
+                return false;
+            }
+            $(this).addClass('disabled');//禁用防止多次点击
+
             $.post('@Url.Action("AddST", "Enroll")', {
                 "apid": _apid,//序列化对象
                 "classid": row.ID
             }, function (json) {
                 if (json.status == 200) {//成功
-
+                    $(this).removeClass('disabled');
                     layer.msg(json.msg);//弹出服务器返回的消息
                     setTimeout(function () {//操作
                         layer.closeAll();//关闭所有层
                         window.location.reload(); //刷新
                     }, 3000);
                 }
-            }, 'json');
+                else {
+                    layer.msg(json.msg);//弹出服务器错误信息
+                    $(this).removeClass('disabled');
+                }
+            }, 'json').error(function () {
+                $(this).removeClass('disabled');
+            });
 
         }
     };
@@ -1006,6 +1020,7 @@
 
     //试听
     function shiting(APID) {
+
         cleanData("shiting");//清空数据
         layer.open({
             type: 1,
