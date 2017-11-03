@@ -36,6 +36,11 @@ namespace DataProvider.Data
             if (!string.IsNullOrWhiteSpace(search.CreateTime_end))//结束时间
                 sb.AppendFormat(" and CreateTime <= '{0}' ", search.CreateTime_end);
 
+            if (!string.IsNullOrWhiteSpace(search.ComCode))//校区
+                sb.AppendFormat(" and [ComCode] = '{0}' ", search.ComCode);
+
+            if (!string.IsNullOrWhiteSpace(search.CreatorId))//创建人
+                sb.AppendFormat(" and CreatorId = '{0}' ", search.CreatorId);
 
             where = sb.ToString();
             int allcount = 0;

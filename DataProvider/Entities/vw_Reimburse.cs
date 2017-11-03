@@ -127,9 +127,24 @@ namespace DataProvider.Entities
         {
             get;
             set;
-        }   
-		   
+        }
 
+        /// <summary>
+        /// 校区名称
+        /// </summary>
+        public string CompName
+        {
+            get;
+            set;
+        }
+        /// <summary>
+        /// 校区CODe
+        /// </summary>
+        public string ComCode
+        {
+            get;
+            set;
+        }
         
 
 	}

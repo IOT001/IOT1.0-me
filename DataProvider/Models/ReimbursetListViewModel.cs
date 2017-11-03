@@ -33,7 +33,10 @@ namespace DataProvider.Models
         /// </summary>
         public List<SelectListItem> TeacherIDIL { get; set; }
 
-
+        /// <summary>
+        /// 分校下拉框
+        /// </summary>
+        public List<SelectListItem> ComCodeIL { get; set; } 
 
     }
 
@@ -67,6 +70,22 @@ namespace DataProvider.Models
         /// 状态下拉框按钮的选中值
         /// </summary>
         public string TeacherID { set; get; }
+
+        /// <summary>
+        /// 所属分校下拉
+        /// </summary>
+        public List<SelectListItem> ComCodeIL { get; set; }
+        /// <summary>
+        /// 所属分校的选中值
+        /// </summary>
+        public string ComCode { get; set; }
+
+
+        /// <summary>
+        /// 登录人CODE
+        /// </summary>
+        public string CreatorId { get; set; }
+        
 
     }
 

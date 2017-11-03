@@ -33,19 +33,26 @@ namespace IOT1._0.Controllers.Office
             List<CommonEntity> TeacherIDIL = CommonData.GetTeachersList();//1是字典类型值,仅供测试参考
             model.TeacherIDIL = CommonData.Instance.GetBropDownListData(TeacherIDIL);
 
+            //分校下拉项
+            List<CommonEntity> ComCodeIL = CommonData.Get_SYS_Company_List();//分校
+            model.ComCodeIL = CommonData.Instance.GetBropDownListData(ComCodeIL);
+            model.search.ComCodeIL = CommonData.Instance.GetBropDownListData(ComCodeIL);
 
             string SYS_Role = "0";
             List<string> roles = UserSession.roles;//取账号角色 
             for (int i = 0; i < roles.Count; i++)
             {
-                if (roles[i] == "1" || roles[i] == "4")
+                if (roles[i] == "1" || roles[i] == "4" || roles[i] == "8")//如果不是 （1：管理员）（4：校长）（8：财务）
                 {
                     SYS_Role = "1";
                 }
             }
 
             ViewData["SYS_Role"] = SYS_Role;
-
+            if (SYS_Role != "1")//如果不是 （1：管理员）（4：校长）（8：财务），那就获取当前登录人，只查询当前登录人的信息
+            {
+                search.CreatorId = UserSession.userid;
+            }
 
             model.Reimbursetlist = ReimburseData.GetReimburseList(search);//填充页面模型数据
             return View(model);//返回页面模型
