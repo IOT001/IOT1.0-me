@@ -40,7 +40,7 @@
                             </div>
 
                             <div class="col-sm-3">
-                                @Html.DropDownListFor(t => t.search.ComCode,Model.search.ComCodeIL, new { @class = "input-sm form-control" ,@style = "width:100%;height:100%;", @tabindex = "4 "})
+                                @Html.DropDownListFor(t => t.search.ComCode,Model.search.ComCodeIL, new { @class = "input-md form-control" ,@style = "width:100%;height:100%;", @tabindex = "4 "})
                             </div>
                             <label class="col-sm-2 control-label">创建日期：</label>
                             <div class="col-sm-3">
@@ -1078,10 +1078,12 @@
             content: $('#baoming'),
             btn: ['结算', '取消'],
             yes: function () {
+
                 if ($("#classes2 tbody input[type='checkbox']:checked").length <= 0) {
                     layer.msg("至少选择一条记录进行报名！")
                     return;
                 }
+                var loadindex = layer.load();//启动遮罩放在重复提交
                 var did = "";   //选中班级List，用分行分开
                 var Enrolldata = [];//需要提交报名数据
                 $("#classes2 tbody input[type='checkbox']:checked").each(function (ai, am) {//循环选中的班级列表
@@ -1109,14 +1111,18 @@
                 $.post('@Url.Action("AddEnroll", "Enroll")', {
                     _did: JSON.stringify(Enrolldata)
                 },
-    function (json) {
-        setTimeout(function () {
-            window.location.reload(); //刷新
-        }, 3000);
-
-        layer.closeAll();
-        layer.msg(json.msg);
-    }, 'json');
+                function (json) {
+                    if (json.status == 200) {
+                        setTimeout(function () {
+                            window.location.reload(); //刷新
+                        }, 3000);
+                        layer.closeAll();
+                    }
+                    else {
+                        layer.close(loadindex);//关闭遮罩
+                        layer.msg(json.msg);
+                    }
+                }, 'json');
 
             },
             cancel: function (index) {
