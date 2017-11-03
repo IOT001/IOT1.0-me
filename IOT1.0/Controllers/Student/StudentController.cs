@@ -43,8 +43,8 @@ namespace IOT1._0.Controllers.Teach
 
 
             //默认选择获取 的值。。
-            string ComCode = TeacherData.GetTeachers_ComCode(UserSession.userid);
-            ViewData["ComCode"] = ComCodeIL.AsEnumerable();
+            //string ComCode = TeacherData.GetTeachers_ComCode(UserSession.userid);
+            //ViewData["ComCode"] = ComCodeIL.AsEnumerable();
              
 
 

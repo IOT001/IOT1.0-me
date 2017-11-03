@@ -98,6 +98,12 @@ namespace DataProvider.Entities
         /// 分校CODE
         /// </summary>				
         public string ComCode { get; set; }
+
+        public string CompName
+        {
+            get;
+            set;
+        }
     }
    /// <summary>
    /// Deploy：实体对象映射关系

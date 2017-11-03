@@ -27,7 +27,7 @@ namespace DataProvider.Data
            StringBuilder sb = new StringBuilder();//构建where条件
            sb.Append(" 1=1 ");
            if (!string.IsNullOrWhiteSpace(search.Name))//姓名
-               sb.AppendFormat(" and Name like '%{0}%' or  BindPhone like '%{0}%' ", search.Name);
+               sb.AppendFormat(" and (Name like '%{0}%' or  BindPhone like '%{0}%' )", search.Name);
            //if (search.CreateTime_end != null && search.CreateTime_start !=null)//时间
            //    sb.AppendFormat(" and CreateTime between '{0}'  and  '{1}'", search.CreateTime_start,search.CreateTime_end);
 
