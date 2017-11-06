@@ -121,7 +121,7 @@ namespace IOT1._0.Controllers.Teach
             sys.ACC_CreatedBy = UserSession.userid;
             sys.ACC_CreatedOn = DateTime.Now;
             sys.ACC_Password = operate.CreateMD5Hash("123");
-
+            sys.ACC_ComCode = teacher.ComCode;
             if (!string.IsNullOrEmpty(TeacherData.AddTeachers(teacher, sys)))//注意时间类型，而且需要在前台把所有的值
             {
                 ajax.msg = "新增成功！";
