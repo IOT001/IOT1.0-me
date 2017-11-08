@@ -192,7 +192,11 @@
 
                                 @Html.Pager(Model.Classeslist, new PagerOptions(), "", new RouteValueDictionary {
                                    { "pageindex",  Model.search.CurrentPage },
-                                   { "pagesize", ViewBag.PageSize }
+                                   { "pagesize", ViewBag.PageSize },
+                                   { "ClassName",  Model.search.ClassName },
+                                   { "CourseID",  Model.search.CourseID },
+                                   { "TeacherID",  Model.search.TeacherID },
+                                   { "ComCode",  Model.search.ComCode }
                                }, null)
                             </div>
 
@@ -901,29 +905,36 @@
             layer.msg("开始时间不能大于结束时间");
             return false;
         }
-
+        var canpass = 0;//没有选中星期
         if ($("#Monday").is(':checked')) {//判断停用按钮是否选中
             obj.Monday = 1; //星期一
+            canpass = 1;
         }
         if ($("#Tuesday").is(':checked')) {//判断停用按钮是否选中
             obj.Tuesday = 2;
+            canpass = 1;
         }
         if ($("#Wednesday").is(':checked')) {//判断停用按钮是否选中
             obj.Wednesday = 3;
+            canpass = 1;
         }
         if ($("#Thursday").is(':checked')) {//判断停用按钮是否选中
             obj.Thursday = 4;
+            canpass = 1;
         }
         if ($("#Friday").is(':checked')) {//判断停用按钮是否选中
             obj.Friday = 5;
+            canpass = 1;
         }
         if ($("#Saturday").is(':checked')) {//判断停用按钮是否选中
             obj.Saturday = 6;
+            canpass = 1;
         }
         if ($("#Sunday").is(':checked')) {//判断停用按钮是否选中
             obj.Sunday = 0; //因为c#后台获取到星期天是0
+            canpass = 1;
         }
-        if (!(obj.Monday || obj.Tuesday || obj.Wednesday || obj.Thursday || obj.Friday || obj.Saturday || obj.Sunday)) {
+        if (canpass == 0) {
             layer.msg("请至少沟选一个星期！");
             return false;
         }

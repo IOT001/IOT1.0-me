@@ -98,15 +98,16 @@ namespace DataProvider.Data
         /// </summary>
         /// <param name="dicTypeID"></param>
         /// <returns>班级用于下拉的绑定项目</returns>
-        public static List<CommonEntity> GetClassesList(int CourseID)
+        public static List<CommonEntity> GetClassesList(int CourseID, string ClassID)
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("select distinct cl.id+','+CAST(cll.ClassIndex as nvarchar(10)) as id,cl.ClassName+'('+convert(varchar(100), cll.ClassDate ,23)+')' as Name");
             sb.Append(" from Classes cl inner join ClassList cll");
             sb.Append(" on	cl.ID=cll.ClassID ");
-            sb.Append(" where  cl.StateID <> 4 and 	cl.CourseID = @CourseID");
+            sb.Append(" where  cl.StateID <> 4 and 	cl.CourseID = @CourseID and cl.id <> @ClassID");
             var parameters = new DynamicParameters();
             parameters.Add("@CourseID", CourseID);
+            parameters.Add("@ClassID", ClassID);
             return MsSqlMapperHepler.SqlWithParams<CommonEntity>(sb.ToString(), parameters, DBKeys.PRX);
         }
         #endregion

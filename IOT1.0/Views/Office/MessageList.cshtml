@@ -88,7 +88,8 @@
 
                                 @Html.Pager(Model.Messagelist, new PagerOptions(), "", new RouteValueDictionary {
                                    { "pageindex",  Model.search.CurrentPage },
-                                   { "pagesize", ViewBag.PageSize }
+                                   { "pagesize", ViewBag.PageSize },
+                                   { "Title",  Model.search.Title }
                                }, null)
                             </div>
 

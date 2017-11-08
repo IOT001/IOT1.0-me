@@ -30,14 +30,15 @@ namespace IOT1._0.Controllers.Teach
         }
 
         /// <summary>
-        /// 获取课程相同的班级
+        /// 获取课程相同的班级,用于调班
         /// </summary>
         /// <returns></returns>
         public JsonResult GetClassesItems()
         {
            int CourseID1= int.Parse(Request["CourseID"]);//预约单
+           string ClassID = Request["ClassID"].ToString();//班级ID
             //根据课程ID获取值
-           List<CommonEntity> ClassesList = StudentScheduleListData.GetClassesList(CourseID1); 
+           List<CommonEntity> ClassesList = StudentScheduleListData.GetClassesList(CourseID1, ClassID); 
             return Json(ClassesList);
         }
 

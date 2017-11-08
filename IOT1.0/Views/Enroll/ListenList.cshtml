@@ -105,7 +105,11 @@
 
                                 @Html.Pager(Model.ListenList, new PagerOptions(), "", new RouteValueDictionary {
                                    { "pageindex",  Model.search.CurrentPage },
-                                   { "pagesize", ViewBag.PageSize }
+                                   { "pagesize", ViewBag.PageSize },
+                                   { "ApName",  Model.search.ApName },
+                                   { "ApTel",  Model.search.ApTel },
+                                   { "timeStart",  Model.search.timeStart },
+                                   { "timeEnd",  Model.search.timeEnd }
                                }, null)
                             </div>
 

@@ -157,7 +157,12 @@
 
                                 @Html.Pager(Model.Reimbursetlist, new PagerOptions(), "", new RouteValueDictionary {
                                    { "pageindex",  Model.search.CurrentPage },
-                                   { "pagesize", ViewBag.PageSize }
+                                   { "pagesize", ViewBag.PageSize },
+                                   { "TeacherID",  Model.search.TeacherID },
+                                   { "CreateTime_start",  Model.search.CreateTime_start },
+                                   { "CreateTime_end",  Model.search.CreateTime_end },
+                                   { "StateID",  Model.search.StateID },
+                                   { "ComCode",  Model.search.ComCode }
                                }, null)
                             </div>
 

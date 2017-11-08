@@ -216,7 +216,7 @@ namespace IOT1._0.Controllers.Enroll
             {
                 return Json(ajax);
             }
-            if (EnrollData.GetEnrollPrintByApidAndClassid(apid, classid).Count() >= 0)
+            if (EnrollData.GetEnrollPrintByApidAndClassid(apid, classid).Count() > 0)
             {
                 ajax.msg = "此资源记录已经预约试听过了，不允许重复报名！";
                 return Json(ajax);

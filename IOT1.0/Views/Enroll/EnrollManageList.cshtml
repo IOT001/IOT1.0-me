@@ -118,9 +118,14 @@
                                     <div class="col-sm-6">
 
                                         @Html.Pager(Model.EnrollManagelist, new PagerOptions(), "", new RouteValueDictionary {
-                                   { "pageindex",  Model.search.CurrentPage },
-                                   { "pagesize", ViewBag.PageSize }
-                               }, null)
+                                           { "pageindex",  Model.search.CurrentPage },
+                                           { "pagesize", ViewBag.PageSize },
+                                           { "Name",  Model.search.Name },
+                                           { "BindPhone",  Model.search.BindPhone },
+                                           { "ComCode",  Model.search.ComCode },
+                                           { "timeStart",  Model.search.timeStart },
+                                           { "timeEnd",  Model.search.timeEnd }
+                                       }, null)
                                     </div>
 
                                 </div>

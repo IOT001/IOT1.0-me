@@ -74,9 +74,9 @@
                                 <th rowspan="2">操作</th>
                             </tr>
                             <tr>
-                                <th>应到</th> 
-                                <th>已到</th>
-                                <th>未到</th> 
+                                <th>应到人数</th> 
+                                <th>已到人数</th>
+                                <th>未到人数</th> 
                                 <th>已评价</th> 
                             </tr>
                         </thead>
@@ -133,7 +133,11 @@
 
                                 @Html.Pager(Model.buttonlist, new PagerOptions(), "", new RouteValueDictionary {
                                    { "pageindex",  Model.search.CurrentPage },
-                                   { "pagesize", ViewBag.PageSize }
+                                   { "pagesize", ViewBag.PageSize },
+                                   {"className",Model.search.className},
+                                   {"timeStart",Model.search.timeStart},
+                                   {"timeEnd",Model.search.timeEnd},
+                                   {"ComCode",Model.search.ComCode}
                                }, null)
                             </div>
 

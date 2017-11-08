@@ -148,7 +148,11 @@
 
                                 @Html.Pager(Model.Studentlist, new PagerOptions(), "", new RouteValueDictionary {
                                    { "pageindex",  Model.search.CurrentPage },
-                                   { "pagesize", ViewBag.PageSize }
+                                   { "pagesize", ViewBag.PageSize },
+                                   { "Name",  Model.search.Name },
+                                   { "CreateTime_start",  Model.search.CreateTime_start },
+                                   { "CreateTime_end",  Model.search.CreateTime_end },
+                                   { "ComCode",  Model.search.ComCode }
                                }, null)
                             </div>
 

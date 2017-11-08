@@ -97,7 +97,8 @@
 
                                     @Html.Pager(Model.buttonlist, new PagerOptions(), "", new RouteValueDictionary {
                                    { "pageindex",  Model.search.CurrentPage },
-                                   { "pagesize", ViewBag.PageSize }
+                                   { "pagesize", ViewBag.PageSize },
+                                   { "CourseName",  Model.search.CourseName }
                                }, null)
                                 </div>
                                 

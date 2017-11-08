@@ -144,7 +144,11 @@
 
                                 @Html.Pager(Model.Teacherslist, new PagerOptions(), "", new RouteValueDictionary {
                                    { "pageindex",  Model.search.CurrentPage },
-                                   { "pagesize", ViewBag.PageSize }
+                                   { "pagesize", ViewBag.PageSize },
+                                   { "TeacherName",  Model.search.TeacherName },
+                                   { "LeaveDate",  Model.search.LeaveDate },
+                                   { "ComCode",  Model.search.ComCode },
+                                   { "MobilePhone",  Model.search.MobilePhone }
                                }, null)
                             </div>
 

@@ -98,7 +98,9 @@
 
                                 @Html.Pager(Model.Fileslist, new PagerOptions(), "", new RouteValueDictionary {
                                    { "pageindex",  Model.search.CurrentPage },
-                                   { "pagesize", ViewBag.PageSize }
+                                   { "pagesize", ViewBag.PageSize },
+                                   { "FileName",  Model.search.FileName },
+                                   { "FileTitle",  Model.search.FileTitle }
                                }, null)
                             </div>
 

@@ -123,7 +123,13 @@
 
                                 @Html.Pager(Model.AppointmentList, new PagerOptions(), "", new RouteValueDictionary {
                                    { "pageindex",  Model.search.CurrentPage },
-                                   { "pagesize", ViewBag.PageSize }
+                                   { "pagesize", ViewBag.PageSize },
+                                   { "pageindex",  Model.search.CurrentPage },
+                                   { "ApName",  Model.search.ApName },
+                                   { "ApTel",  Model.search.ApTel },
+                                   { "ComCode",  Model.search.ComCode },
+                                   { "timeStart",  Model.search.timeStart },
+                                   { "timeEnd",  Model.search.timeEnd }
                                }, null)
                             </div>
 
@@ -1113,10 +1119,11 @@
                 },
                 function (json) {
                     if (json.status == 200) {
+                        layer.msg(json.msg);
                         setTimeout(function () {
                             window.location.reload(); //刷新
                         }, 3000);
-                        layer.closeAll();
+                        layer.close(loadindex);//关闭遮罩
                     }
                     else {
                         layer.close(loadindex);//关闭遮罩

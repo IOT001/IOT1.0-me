@@ -107,7 +107,11 @@
 
                                 @Html.Pager(Model.FollowList, new PagerOptions(), "", new RouteValueDictionary {
                                    { "pageindex",  Model.search.CurrentPage },
-                                   { "pagesize", ViewBag.PageSize }
+                                   { "pagesize", ViewBag.PageSize },
+                                   { "Name",  Model.search.Name },
+                                    { "BindPhone",  Model.search.BindPhone },
+                                    { "timeStart",  Model.search.timeStart },
+                                    { "timeEnd",  Model.search.timeEnd }
                                }, null)
                             </div>
 
