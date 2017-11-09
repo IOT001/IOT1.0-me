@@ -20,7 +20,7 @@ namespace IOT1._0.Controllers.WeiXin
         public ActionResult MessageBrowse()
         {
             WX_MessageBrowseModel model = new WX_MessageBrowseModel();
-            List<string> roles = UserSession.roles;
+            List<string> roles = UserSessionWX.roles;
             model.MessageList = MessageBrowseData.GetMessageList(roles);
 
             return View(model);

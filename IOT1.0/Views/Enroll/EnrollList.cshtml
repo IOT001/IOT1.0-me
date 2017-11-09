@@ -124,7 +124,6 @@
                                 @Html.Pager(Model.AppointmentList, new PagerOptions(), "", new RouteValueDictionary {
                                    { "pageindex",  Model.search.CurrentPage },
                                    { "pagesize", ViewBag.PageSize },
-                                   { "pageindex",  Model.search.CurrentPage },
                                    { "ApName",  Model.search.ApName },
                                    { "ApTel",  Model.search.ApTel },
                                    { "ComCode",  Model.search.ComCode },
@@ -708,13 +707,13 @@
             align: 'center',
             valign: 'middle'
         }, {
-            field: 'Enroll',
+            field: '',
             title: '报名课时',
             align: 'center',
             valign: 'middle',
             formatter: editCol
         }, {
-            field: 'Enroll',
+            field: '',
             title: '选择优惠',
             align: 'center',
             valign: 'middle',
@@ -736,6 +735,7 @@
             align: 'center',
             valign: 'middle'
         }, {
+            field: '',
             title: '操作',
             align: 'center',
             formatter: checkCol
@@ -783,6 +783,11 @@
             $(this).parent().parent().find("td").eq(10).text(bcff);//赋值报名费用
 
         })
+        //如果勾选，弹出金额明细
+        $("#classes2 tbody input[type='checkbox']").on('ifChecked', function (event) {
+            var trindex = $(this).parent().parent().parent().parent().parent().data("index");//取到行索引
+            opencollection(trindex);
+        });
         var dataHTML = '';
         $.post('@Url.Action("GetDiscountItems", "Enroll")', {}, function (json) {
             //注册优惠下拉框change事件，选择自定义时允许自己输入优惠金额,要放在回调的这个地方，不然无效，
@@ -859,7 +864,7 @@
     //编辑项，填写报名课时
     function editCol(value, row, index, key) {
         return [
-             '<input type="text" value=' + row.TotalLesson + ' class="input-sm form-control" style="width:50px" name="txtks">'
+             '<input type="text" value="" class="input-sm form-control" style="width:50px" name="txtks">'
         ].join('');
 
     }
@@ -1072,11 +1077,7 @@
             return;
         }
         // $("#classes2 tbody input[type='checkbox']").iCheck('uncheck');//取消全选
-        //如果勾选，弹出金额明细
-        $("#classes2 tbody input[type='checkbox']").on('ifChecked', function (event) {
-            var trindex = $(this).parent().parent().parent().parent().parent().data("index");//取到行索引
-            opencollection(trindex);
-        });
+
         layer.open({
             type: 1,
             title: "<h3 class='ibox-title'>报名</h3>",

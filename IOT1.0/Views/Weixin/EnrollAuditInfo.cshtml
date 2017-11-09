@@ -22,6 +22,10 @@
         <div class="ibox-content">
             <form class="form-horizontal">
                 <div class="form-group ">
+                    <label class="col-xs-4 control-label">学员姓名：</label>
+                    <label class="col-xs-8 form-control-static">@m.ApName </label>
+                </div>
+                <div class="form-group ">
                     <label class="col-xs-4 control-label">班级：</label>
                     <label class="col-xs-8 form-control-static">@m.ClassName </label>
                 </div>
@@ -31,25 +35,30 @@
                 </div>
                 <div class="form-group ">
                     <label class="col-xs-4 control-label">原费用：</label>
-                    <label class="col-xs-8 form-control-static">@m.Price</label>
+                    <label class="col-xs-8 form-control-static">@m.Expenses</label>
                 </div>
                 <div class="form-group ">
                     <label class="col-xs-4 control-label">申请优惠：</label>
                     <label class="col-xs-8 form-control-static">@m.DiscountPrice</label>
                 </div>
                 <div class="form-group ">
+                    <label class="col-xs-4 control-label">本次付款：</label>
+                    <label class="col-xs-8 form-control-static">@m.Price</label>
+                </div>
+                <div class="form-group ">
                     <label class="col-xs-4 control-label">备注：</label>
                     <label class="col-xs-8 form-control-static">@m.Remark</label>
                 </div>
             </form>
+            <div class="" style="text-align:center">
+                <button type="button" class="btn btn-w-m btn-primary btn-sm" onclick="Audited()">审核通过</button>
+                <button type="button" class="btn btn-w-m btn-primary btn-sm" onclick="AuditNotThrough()">审核不通过</button>
+
+            </div>
         </div>
     }
     
-    <div class="" style="text-align:center">
-           <button type="button" class="btn btn-w-m btn-primary btn-sm" onclick="Audited()">审核通过</button>
-           <button type="button" class="btn btn-w-m btn-primary btn-sm" onclick="AuditNotThrough()">审核不通过</button>
-    
-       </div>
+
         
     }
 
@@ -81,16 +90,19 @@
             
         var APID;
           APID = GetQueryString("APID");
-        var action = '@Url.Action("Audited", "WeiXin")'
+          var action = '@Url.Action("Audited", "WeiXin")'
+            var loadindex = layer.load();//启动遮罩放在重复提交
         $.post(action, {
             "APID": APID//序列化对象
         }, function (json) {
             if (json.status == 200) {//成功
                 layer.close(index);
+                layer.close(loadindex);//关闭遮罩
                 layer.open({
                     content: json.msg,
-                    time: 2 //2秒后自动关闭 
-                });//弹出服务器返回的消息
+                    time: 2000 //2秒后自动关闭 
+                });
+                //弹出服务器返回的消息
                 setTimeout(function () {//操作
                    // layer.closeAll();//关闭所有层
                   //  window.location.reload(); //刷新
@@ -98,13 +110,20 @@
                 }, 3000);
             }
             else {
+                layer.close(loadindex);//关闭遮罩
                 layer.open({
                     content: json.msg,
                     time: 2 //2秒后自动关闭 
                 });//弹出服务器返回的消息
               
             }
-        }, 'json');
+        }, 'json').error(function () {
+            layer.close(loadindex);//关闭遮罩
+            layer.open({
+                content: "系统错误！",
+                time: 2000 //2秒后自动关闭 
+            });
+        });
         });
     }
     

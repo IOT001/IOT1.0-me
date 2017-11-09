@@ -53,7 +53,7 @@ namespace IOT1._0.Controllers.WeiXin
 
             eran.APID = APID;
             eran.UpdateTime = DateTime.Now;
-            eran.UpdatorId = UserSession.userid;
+            eran.UpdatorId = UserSessionWX.userid;
 
 
             eran.StateID = 3;//审核通过状态

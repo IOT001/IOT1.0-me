@@ -36,7 +36,7 @@ namespace DataProvider.Entities
         /// </summary>				
         public decimal UsedHour { get; set; }
         /// <summary>
-        /// Price
+        /// 本次付款
         /// </summary>				
         public decimal Price { get; set; }
         /// <summary>
@@ -125,5 +125,9 @@ namespace DataProvider.Entities
         /// ApTel
         /// </summary>				
         public string ApTel { get; set; }
+       /// <summary>
+       /// 原班级报名费用
+       /// </summary>
+        public decimal Expenses { get; set; }
     }
 }
