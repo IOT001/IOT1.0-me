@@ -160,7 +160,13 @@ namespace IOT1._0.Controllers.Teach
             Stu.CreateTime = DateTime.Now;
             Stu.CreatorId = UserSession.userid;
 
-            Students query = StudentData.GetStudentsList();//获取创建时间最新的一条数据
+
+
+            var year = DateTime.Now.ToString().Substring(2, 2);//获取年份
+            var month = DateTime.Now.ToString().Substring(5, 2);//获取月份
+            var Mosaic = year + month;
+
+            Students query = StudentData.GetStudentsOne(Mosaic);//获取创建时间最新的一条数据
             string MAX_ID;
             if (query != null)
             {
@@ -170,16 +176,14 @@ namespace IOT1._0.Controllers.Teach
             {
                 MAX_ID = null;
             }
-
-            var year = DateTime.Now.ToString().Substring(2, 2);
-
+ 
             if (!string.IsNullOrEmpty(MAX_ID))
             {
-                Stu.ID = year + (Convert.ToInt32(MAX_ID.Substring(2)) + 1).ToString().PadLeft(4, '0');
+                Stu.ID = Mosaic + (Convert.ToInt32(MAX_ID.Substring(4)) + 1).ToString().PadLeft(2, '0');
             }
             else
             {
-                Stu.ID = year + "0001";
+                Stu.ID = Mosaic + "01";
             }
             SYSAccount sys = new SYSAccount();//用户信息
             SYSAccountRole sysR = new SYSAccountRole();//用户角色

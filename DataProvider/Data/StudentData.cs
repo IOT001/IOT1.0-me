@@ -167,11 +167,12 @@ namespace DataProvider.Data
         /// </summary>
         /// <param name="Stockid"></param>
         /// <returns></returns>
-        public static Students GetStudentsList()
+        public static Students GetStudentsOne(string Mosaic)
         {
 
-            string strsql = "select *from Students  order by CreateTime desc     ";
-            var parameters = new DynamicParameters(); 
+            string strsql = "select top 1 * from Students  WHERE ID like  @Mosaic + '%'   order by CreateTime desc ";
+            var parameters = new DynamicParameters();
+            parameters.Add("@Mosaic", Mosaic);
             return MsSqlMapperHepler.SqlWithParamsSingle<Students>(strsql.ToString(), parameters, DBKeys.PRX);
              
 
