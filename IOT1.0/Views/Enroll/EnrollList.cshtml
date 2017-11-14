@@ -778,7 +778,7 @@
 
             var yhje = $(this).parent().parent().find("td").eq(8).children('input').val()//取出优惠金额
             var bcff = (realbm / oks) * och - yhje;//算本次最终报名费用
-
+            bcff = parseInt(bcff);//舍弃小数取整
 
             $(this).parent().parent().find("td").eq(10).text(bcff);//赋值报名费用
 
@@ -803,6 +803,7 @@
                         var _DiscountRate = $(this).data("discountrate");//折扣率
                         var yhje = (realbm / oks) * (1 - _DiscountRate).toFixed(10) * och//算出优惠金额
                         var bcff = (realbm / oks) * och - yhje;//算本次最终报名费用
+                        bcff = parseInt(bcff);//舍弃小数取整
                         $(this).parent().parent().parent().find("td").eq(8).children('input').val(yhje);//赋值优惠金额
                         $(this).parent().parent().parent().find("td").eq(10).val(bcff);//赋值报名费用
                         $(this).parent().parent().parent().find("td").eq(10).text(bcff);//赋值报名费用
@@ -816,6 +817,7 @@
                         var _ReduceAmount = $(this).data("reduceamount");//减免的金额
                         var yhje = _ReduceAmount//算出优惠金额,优惠的金额就是减免的金额
                         var bcff = (realbm / oks) * och - yhje;//算本次最终报名费用
+                        bcff = parseInt(bcff);//舍弃小数取整
                         $(this).parent().parent().parent().find("td").eq(8).children('input').val(yhje);//赋值优惠金额
                         $(this).parent().parent().parent().find("td").eq(10).val(bcff);//赋值报名费用
                         $(this).parent().parent().parent().find("td").eq(10).text(bcff);//赋值报名费用
@@ -826,6 +828,7 @@
                         var oks = $(this).parent().parent().parent().find("td").eq(5).text()//总课时数
                         var realbm = $(this).parent().parent().parent().find("td").eq(6).children('input').val();//实际报名课时，取input填写值
                         var bcff = (realbm / oks) * och;//算本次最终报名费用
+                        bcff = parseInt(bcff);//舍弃小数取整
                         $(this).parent().parent().parent().find("td").eq(8).children('input').val(0);//赋值优惠金额
                         $(this).parent().parent().parent().find("td").eq(10).val(bcff);//赋值报名费用
                         $(this).parent().parent().parent().find("td").eq(10).text(bcff);//赋值报名费用
