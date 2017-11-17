@@ -86,5 +86,10 @@ namespace DataProvider.Entities
         /// </summary>
         public string ComCode { get; set; }
 
+        /// <summary>
+        /// ½²Ê¦2
+        /// </summary>	
+        public string Teacher2ID { get; set; }
+
     }
 }

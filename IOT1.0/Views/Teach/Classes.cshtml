@@ -96,7 +96,7 @@
                             </div>
                             <div class="col-sm-3">
 
-                                @Html.DropDownListFor(t => t.search.TeacherID, Model.SourceIL2, new { @class = "form-control input-sm chosen-select", @style = "width:100%;height:100%;", @tabindex = "4" })
+                                @Html.DropDownListFor(t => t.search.TeacherID, Model.SourceIL2, new { @class = "form-control input-sm chosen-selects", @style = "width:100%;height:100%;", @tabindex = "4" })
 
                             </div>
                           <div class="col-sm-2">
@@ -257,7 +257,14 @@
             <div class="form-group ">
                 <label class="col-sm-3 control-label">当前讲师：</label>
                 <div class="col-sm-8">
-                    @Html.DropDownListFor(t => t.search.TeacherID, Model.SourceIL2, new { @class = "form-control input-sm chosen-select", @style = "width:100%;height:100%;", @tabindex = "4", @id = "TeacherID" })
+                    @Html.DropDownListFor(t => t.search.TeacherID, Model.SourceIL2, new { @class = "form-control input-sm chosen-selects", @style = "width:100%;height:100%;", @tabindex = "4", @id = "TeacherID" })
+                </div>
+            </div>
+
+             <div class="form-group ">
+                <label class="col-sm-3 control-label">当前讲师2：</label>
+                <div class="col-sm-8">
+                    @Html.DropDownListFor(t => t.search.Teacher2ID, Model.SourceIL2, new { @class = "form-control input-sm chosen-selects", @style = "width:100%;height:100%;", @tabindex = "4", @id = "Teacher2ID" })
                 </div>
             </div>
 
@@ -593,7 +600,12 @@
             forceParse: false,
             autoclose: true
         });
-
+        //配置下拉控件chosen
+        $(".chosen-selects").chosen({
+            no_results_text: "未找到此选项!",
+            search_contains: true,
+            width: '100%'
+        });
 
     }
 
@@ -699,6 +711,7 @@
                     $("#TeachTypeID").val(json.data.TeachTypeID);
                     $("#CourseIDS").val(json.data.CourseID);
                     $("#TeacherID").val(json.data.TeacherID);
+                    $("#Teacher2ID").val(json.data.Teacher2ID);
                     $("#RoomID_Classes").val(json.data.RoomID);
                     $("#StartTime").val(ChangeDateFormat(json.data.StartTime));
                     $("#EndTime").val(ChangeDateFormat(json.data.EndTime));
@@ -801,7 +814,7 @@
         //    layer.msg("请选择当前讲师！");
         //    return false;
         //}
-
+        obj.Teacher2ID = $("#Teacher2ID").val().trim();
         obj.RoomID = $("#RoomID_Classes").val().trim();
         //if (!obj.RoomID) {
         //    layer.msg("请选择当前教室！");

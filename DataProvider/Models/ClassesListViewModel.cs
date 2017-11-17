@@ -120,8 +120,13 @@ namespace DataProvider.Models
         public string TeacherID
         { set; get; }
 
-
-
+        
+        /// <summary>
+        /// 当前讲师2
+        /// </summary>
+        public string Teacher2ID
+        { set; get; }
+        
 
          
          /// <summary>
