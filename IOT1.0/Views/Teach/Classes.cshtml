@@ -178,7 +178,7 @@
                             else
                             {
                                 <tr>
-                                    <td colspan="10" style="text-align: center; color: red;">未查询到数据,请更换查询条件试试!</td>
+                                    <td colspan="11" style="text-align: center; color: red;">未查询到数据,请更换查询条件试试!</td>
                                 </tr>
                             }
                         </tbody>
@@ -589,6 +589,14 @@
             }
         });
 
+        //配置下拉控件chosen
+        //$(".chosen-selects").chosen({
+        //    no_results_text: "未找到此选项!",
+        //    search_contains: true,
+        //    width: '100%'
+        //});
+
+
         if (id) {//提供存着ID就是修改，则加载数据，不然打开空页面
             var loadindex = layer.load();
             loaddetail(id, loadindex)
@@ -600,13 +608,7 @@
             forceParse: false,
             autoclose: true
         });
-        //配置下拉控件chosen
-        $(".chosen-selects").chosen({
-            no_results_text: "未找到此选项!",
-            search_contains: true,
-            width: '100%'
-        });
-
+      
     }
 
 
