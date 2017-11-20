@@ -2,8 +2,9 @@
 @{
     ViewBag.Title = "学员入学协议";
 }
+
 @model EnrollProtocolViewModel
- 
+
     <div id="convertThisPageButtonDiv" style="position: absolute; left: 0;">
         <button class="btn btn-primary" id="Print"><i class="fa fa-print"></i> 打印</button>
     </div>
@@ -36,9 +37,6 @@
                 <p>1. 学员在读期间内因病住院（15天以上），必须在二级以上医院有效证明原件办理课程冻结（具体须知见告知书第四项第A条）或转班；如需办理退费，需扣除咨询费用（学费总金额的10%）及以上课时费。</p>
                 <p>2. 学员因出国申请退费，必须持本人护照原件、国外有效签证原件和近期出境机票办理退费，必须扣除询费用（学费总金额的10%）及以上课时费，同时须再扣除剩余学费的15%。</p>
                 <p>3. 学校若由于不可预见的因素导致班级被取消，学员可申请退费（扣除已上课程费用，但不扣除咨询费用）。</p>
-                <div class="footer">1/2</div>
-            </div>
-            <div class="page page2">
                 <p>B. 为保证学员家长权益，退费需提交的材料：入学协议原件（即：红联、学员本人或直接亲属的银行账号（退费入账账号名必须与入学协议红联中的学员家长姓名一致），退费周期为填写退费申请单起的一个月内。</p>
                 <p>C. 学员如未能提供入学协议原件（即：红联）以及相关证明，学习一律不予办理退费</p>
 
@@ -50,9 +48,84 @@
                 <p><span>启联教育投诉监督电话： 021-59738995</span><span>启联教育网站：http://www.unique.com</span></p>
                 <p><span>启联教育培训中心</span></p>
                 <p>请仔细阅读以上内容，并签字确认。以上条款至学员家长签字确认后生效。以上条款如因任何其他原因而被确认无效，都不影响其他宽阔的效力。</p>
+                <div class="footer">1/2</div>
+            </div>
+            <div class="page page2">
+                <div class="header">
+                    <div class="logo"><img src="~/Images/qllogo.jpg" style="width:130px" /></div>
+                    <h1>学员入学协议</h1>
+                </div>
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="ibox-content p-xl">
+                            <table class="table infotable">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <strong>学员姓名：</strong>
+                                        </td>
+                                        <td>张三丰</td>
+
+                                        <td>
+                                            <strong>学号：</strong>
+                                        </td>
+                                        <td>170001</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <strong>出生日期：</strong>
+                                        </td>
+                                        <td>1997-02-01</td>
+
+                                        <td>
+                                            <strong>性别：</strong>
+                                        </td>
+                                        <td>男</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <strong>学校：</strong>
+                                        </td>
+                                        <td>吾悦分校</td>
+                                        <td>
+                                            <strong>途径：</strong>
+                                        </td>
+                                        <td>网络</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <strong>父亲姓名：</strong>
+                                        </td>
+                                        <td>张大风</td>
+                                        <td>
+                                            <strong>联系方式：</strong>
+                                        </td>
+                                        <td>136015224852</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <strong>母亲姓名：</strong>
+                                        </td>
+                                        <td>张大风</td>
+                                        <td>
+                                            <strong>联系方式：</strong>
+                                        </td>
+                                        <td>136015224852</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <strong>家庭联系方式：</strong>
+                                        </td>
+                                        <td colspan="3">蓬莱山庄18号楼301室</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <strong>备注</strong>
+                                        </td>
+                                        <td colspan="3">测试测试测试测试测试测试测试测试测试测试测试测试</td>
+                                    </tr>
+                                </tbody>
+                            </table>
                             <div class="table-responsive m-t">
                                 <table class="table invoice-table">
                                     <thead>
@@ -151,15 +224,15 @@
         }
 
         .page {
-            padding: 25mm 18mm;
+            padding: 0mm 10mm 20mm 18mm;
             /*width: 174mm;*/
-            height: 247mm;
+            height: 252mm;
             margin-bottom: 0px;
             background: #fff;
             overflow: hidden;
             font-family: "Microsoft YaHei";
             color: #000;
-            font-size: 12pt;
+            font-size: 10.5pt;
             position: relative;
         }
 
@@ -178,14 +251,13 @@
             }
 
             .page h3, .page p {
-                line-height: 1.5em;
+                line-height: 1.3em;
                 margin: .3em 0;
                 text-indent: 2em;
-                font-size: 10.5pt;
+                font-size: 8pt;
             }
 
         .page1 h3, .page1 p {
-            line-height: 1.5em;
             margin: .5em 0;
             text-indent: 2em;
             text-align: justify;
@@ -209,7 +281,7 @@
         }
 
         .header {
-            position: absolute;
+            /*position: absolute;*/
             top: 2mm;
             left: 19mm;
             width: 174mm;
@@ -252,6 +324,9 @@
             padding-top: 20px;
         }
 
+        .infotable, tr, td {
+            border-top: 0px !important;
+        }
     </style>
 }
 @section scripts
