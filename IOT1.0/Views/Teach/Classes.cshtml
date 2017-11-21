@@ -715,11 +715,9 @@
                     $("#PlanEnroll").val(json.data.PlanEnroll);
                     $("#Expenses").val(json.data.Expenses);
                     layer.close(loadindex);//关闭加载层
-<<<<<<< HEAD
+
                     $(".chosen-selects").trigger("chosen:updated");//刷新chosen控件
-=======
-                    $(".chosen-selects").trigger("chosen:updated");
->>>>>>> 3d382bf00b359f24c8b2c5a3e2fcf2ec603b7d34
+
                 }
             },
             error: function (xmLHttpRequest, textStatus, errorThrown) {
