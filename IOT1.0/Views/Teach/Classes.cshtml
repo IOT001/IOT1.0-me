@@ -590,11 +590,11 @@
         });
 
         //配置下拉控件chosen
-        //$(".chosen-selects").chosen({
-        //    no_results_text: "未找到此选项!",
-        //    search_contains: true,
-        //    width: '100%'
-        //});
+        $(".chosen-selects").chosen({
+            no_results_text: "未找到此选项!",
+            search_contains: true,
+            width: '100%'
+        });
 
 
         if (id) {//提供存着ID就是修改，则加载数据，不然打开空页面
@@ -721,6 +721,7 @@
                     $("#PlanEnroll").val(json.data.PlanEnroll);
                     $("#Expenses").val(json.data.Expenses);
                     layer.close(loadindex);//关闭加载层
+                    $(".chosen-selects").trigger("chosen:updated");
                 }
             },
             error: function (xmLHttpRequest, textStatus, errorThrown) {
