@@ -70,5 +70,9 @@ namespace DataProvider.Entities
         /// 登录账号
         /// </summary>
         public string ACC_Account { get; set; }
+        /// <summary>
+        /// 标记数
+        /// </summary>
+        public string badgeNum { get; set; }
     }
 }

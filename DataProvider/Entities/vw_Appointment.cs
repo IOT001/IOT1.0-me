@@ -108,7 +108,37 @@ namespace DataProvider.Entities
         /// 查询是否有审核数据
         /// </summary>
         public int EnrollAudit_count { get; set; }
-       
-
+        /// <summary>
+        /// 来源渠道
+        /// </summary>
+        public string OriginName { get; set; }
+        /// <summary>
+        /// 父亲姓名
+        /// </summary>
+        public string FatherName { get; set; }
+       /// <summary>
+       /// 父亲联系方式
+       /// </summary>
+        public string FatherContract { get; set; }
+       /// <summary>
+       /// 母亲姓名
+       /// </summary>
+        public string MotherName { get; set; }
+       /// <summary>
+       /// 母亲联系方式
+       /// </summary>
+        public string MotherContract { get; set; }
+       /// <summary>
+       /// 家庭联系方式
+       /// </summary>
+        public string Address { get; set; }
+       /// <summary>
+       /// 生日
+       /// </summary>
+        public string Birthday { get; set; }
+       /// <summary>
+       /// 性别中文
+       /// </summary>
+        public string SexName { get; set; }
     }
 }

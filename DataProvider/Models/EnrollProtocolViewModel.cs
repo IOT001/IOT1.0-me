@@ -22,8 +22,16 @@ namespace DataProvider.Models
         /// </summary>
         public BillConfig bill { set; get; }
         /// <summary>
-        /// 签名对象
+        /// 学员家长签名对象
         /// </summary>
         public SignImage si { set; get; }
+        /// <summary>
+        /// 经办人签名对象
+        /// </summary>
+        public SignImage si_jbr { set; get; }
+        /// <summary>
+        /// 基本信息
+        /// </summary>
+        public vw_Appointment ap { set; get; }
     }
 }

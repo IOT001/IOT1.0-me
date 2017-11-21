@@ -6,7 +6,6 @@
 @model  WXIndexViewModel
 @section style{
 <link rel="stylesheet" type="text/css" href="@Url.Content("~/Scripts/Mobile/content/css/index.css")" />
-<link href="~/Scripts/assets/css/style.css" rel="stylesheet" />
 <style>
     .widget a {
         color: #ffffff;
@@ -34,7 +33,12 @@
                 <a href="@m.logurl">
                     <div class="m-b-md">
                         <i class="@m.IconPic"></i>
-                        <h2 class="font-bold">@m.Name</h2>
+                        <h2 class="font-bold">@m.Name
+                        @if (!string.IsNullOrEmpty(m.badgeNum))
+                        {
+                            <span class="badge badge-warning" style="margin-left:5px;vertical-align:middle;">@m.badgeNum</span>
+                        }
+                        </h2>
                         <small>@m.FT_Desc</small>
                     </div>
                 </a>

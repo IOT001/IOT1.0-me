@@ -36,8 +36,15 @@ namespace DataProvider.Data
             orderby: orderby, pageindex: search.CurrentPage, pagesize: search.PageSize, connect: DBKeys.PRX);
             return new PagedList<vw_Appointment>(list, search.CurrentPage, search.PageSize, allcount);
         }
-       
-
+        /// <summary>
+        /// 获取待审的记录条数
+        /// </summary>
+        /// <returns></returns>
+        public static int GetEnrollAuditListCount()
+        {
+            string strsql = "select count(*) from EnrollAudit where StateID = 2";
+            return MsSqlMapperHepler.SqlWithParamsSingle<int>(strsql,null,DBKeys.PRX);
+        }
 
 
     }

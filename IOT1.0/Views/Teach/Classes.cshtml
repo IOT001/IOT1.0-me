@@ -565,13 +565,7 @@
 <script src="~/Scripts/assets/js/plugins/clockpicker/clockpicker.js"></script>
 <script type="text/javascript">
 
-    //判断页面是否有回车操作
-    window.document.onkeydown = function (e) {
-        e = e || window.event;
-        if (e.keyCode == 13 || e.keyCode == 108) {
-            document.getElementById('frmQuery').submit();
-        }
-    }
+
     //点击列表的编辑按钮，编辑操作
     function modify(id) {
         cleanData("buttoninfo");
@@ -590,11 +584,11 @@
         });
 
         //配置下拉控件chosen
-        //$(".chosen-selects").chosen({
-        //    no_results_text: "未找到此选项!",
-        //    search_contains: true,
-        //    width: '100%'
-        //});
+        $(".chosen-selects").chosen({
+            no_results_text: "未找到此选项!",
+            search_contains: true,
+            width: '100%'
+        });
 
 
         if (id) {//提供存着ID就是修改，则加载数据，不然打开空页面
@@ -721,6 +715,7 @@
                     $("#PlanEnroll").val(json.data.PlanEnroll);
                     $("#Expenses").val(json.data.Expenses);
                     layer.close(loadindex);//关闭加载层
+                    $(".chosen-selects").trigger("chosen:updated");//刷新chosen控件
                 }
             },
             error: function (xmLHttpRequest, textStatus, errorThrown) {

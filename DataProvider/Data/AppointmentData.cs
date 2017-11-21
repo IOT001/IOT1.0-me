@@ -138,5 +138,15 @@ namespace DataProvider.Data
             sb.Append(" ORDER BY CreateTime desc");
             return MsSqlMapperHepler.SqlWithParams<Discount>(sb.ToString(), null, DBKeys.PRX);
         }
+
+        /// <summary>
+        /// 根据主键获取一条预约视图信息
+        /// </summary>
+        /// <param name="ID"></param>
+        /// <returns></returns>
+        public static vw_Appointment GetOnevw_AppointmentByID(string APID)
+        {
+            return MsSqlMapperHepler.GetOne<vw_Appointment>(APID, DBKeys.PRX);
+        }
     }
 }

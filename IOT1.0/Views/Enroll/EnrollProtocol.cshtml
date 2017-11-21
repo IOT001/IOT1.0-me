@@ -64,65 +64,65 @@
                                         <td>
                                             <strong>学员姓名：</strong>
                                         </td>
-                                        <td>张三丰</td>
+                                        <td>@Model.ap.ApName</td>
 
                                         <td>
                                             <strong>学号：</strong>
                                         </td>
-                                        <td>170001</td>
+                                        <td>@Model.ap.ApStudentID</td>
                                     </tr>
                                     <tr>
                                         <td>
                                             <strong>出生日期：</strong>
                                         </td>
-                                        <td>1997-02-01</td>
+                                        <td>@Model.ap.Birthday</td>
 
                                         <td>
                                             <strong>性别：</strong>
                                         </td>
-                                        <td>男</td>
+                                        <td>@Model.ap.SexName</td>
                                     </tr>
                                     <tr>
                                         <td>
                                             <strong>学校：</strong>
                                         </td>
-                                        <td>吾悦分校</td>
+                                        <td>@Model.ap.CompName</td>
                                         <td>
                                             <strong>途径：</strong>
                                         </td>
-                                        <td>网络</td>
+                                        <td>@Model.ap.OriginName</td>
                                     </tr>
                                     <tr>
                                         <td>
                                             <strong>父亲姓名：</strong>
                                         </td>
-                                        <td>张大风</td>
+                                        <td>@Model.ap.FatherName</td>
                                         <td>
                                             <strong>联系方式：</strong>
                                         </td>
-                                        <td>136015224852</td>
+                                        <td>@Model.ap.FatherContract</td>
                                     </tr>
                                     <tr>
                                         <td>
                                             <strong>母亲姓名：</strong>
                                         </td>
-                                        <td>张大风</td>
+                                        <td>@Model.ap.MotherName</td>
                                         <td>
                                             <strong>联系方式：</strong>
                                         </td>
-                                        <td>136015224852</td>
+                                        <td>@Model.ap.MotherContract</td>
                                     </tr>
                                     <tr>
                                         <td>
                                             <strong>家庭联系方式：</strong>
                                         </td>
-                                        <td colspan="3">蓬莱山庄18号楼301室</td>
+                                        <td colspan="3">@Model.ap.Address</td>
                                     </tr>
                                     <tr>
                                         <td>
                                             <strong>备注</strong>
                                         </td>
-                                        <td colspan="3">测试测试测试测试测试测试测试测试测试测试测试测试</td>
+                                        <td colspan="3">@Model.ap.APRemark</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -131,8 +131,12 @@
                                     <thead>
                                         <tr>
                                             <th>班级</th>
+                                            <th>开班日期</th>
                                             <th>课时</th>
-                                            <th>金额</th>
+                                            <th>课程形式</th>
+                                            <th>课程费用</th>
+                                            <th>优惠金额</th>
+                                            <th>本次实付</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -143,17 +147,37 @@
                                                 <tr>
                                                     <td>
                                                         <div>
-                                                            <strong>@m.ClassName</strong>
+                                                           @m.ClassName
                                                         </div>
                                                     </td>
                                                     <td>
                                                         <div>
-                                                            <strong>@m.ClassHour</strong>
+                                                           @m.ClassStartTime.Value.ToString("yyyy-MM-dd")
                                                         </div>
                                                     </td>
                                                     <td>
                                                         <div>
-                                                            <strong>&yen;@m.Paid</strong>
+                                                            @m.ClassHour
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div>
+                                                            @m.TeachTypeName
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div>
+                                                           &yen;@m.Price
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div>
+                                                            &yen;@m.DiscountPrice
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div>
+                                                           &yen;@m.Paid
                                                         </div>
                                                     </td>
                                                 </tr>
@@ -196,13 +220,20 @@
                 </div>
                 @if (Model.si != null)
                 {
-                    <div class="sign">签字：<img style="width:300px;width:150px" src="@Model.si.ImageData"></div>
+                    <div class="sign" style="width:45%;float:left">学员家长签字：<img style="width:300px;width:150px" src="@Model.si.ImageData"></div>
                 }
                 else
                 {
-                  <div class="sign">签字：<span onclick="signname()">___________________</span></div>
+                    <div class="sign" style="width:45%;float:left">学员家长签字：<span onclick="signname(0)">___________________</span></div>
                 }
-
+                @if (Model.si_jbr != null)
+                {
+                    <div class="sign" style="width:45%;float:left">校区经办人签字：<img style="width:300px;width:150px" src="@Model.si_jbr.ImageData"></div>
+                }
+                else
+                {
+                    <div class="sign" style="width:45%;float:left">校区经办人签字：<span onclick="signname(1)">___________________</span></div>
+                }
                 <div class="footer">2/2</div>
             </div>
         </div>
@@ -327,13 +358,23 @@
         .infotable, tr, td {
             border-top: 0px !important;
         }
+        .m-t {
+            margin-left:-50px;
+        }
+                 /*调整票据打印页面*/
+        .invoice-total > tbody > tr > td:last-child {
+            border-bottom: 1px solid #DDDDDD;
+            text-align: right;
+            width: 25%;
+        }
+
     </style>
 }
 @section scripts
 {
     <script type="text/javascript">
     //调用签名窗口
-    function signname() {
+    function signname(typeid) {
         layer.open({
             type: 2,
             title: "<h3 class='ibox-title'>在线签名</h3>",
@@ -348,7 +389,7 @@
                     var aa = iframeWin.save();
                     $.post('@Url.Action("SaveStringKeySign", "Common")', {
                         "id": '@Model.apid',//序列化对象
-                        "typeid": "1",
+                        "typeid": typeid,
                         "imagedata": aa
                     }, function (json) {
                         if (json.status == 200) {//成功

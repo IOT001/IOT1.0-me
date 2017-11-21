@@ -105,6 +105,10 @@ namespace DataProvider
         /// 剩余课时
         /// </summary>
         public decimal RemainClassHour { get; set; }
+        /// <summary>
+        /// 授课方式中文
+        /// </summary>
+        public string TeachTypeName { get; set; }
         
     }
 }
