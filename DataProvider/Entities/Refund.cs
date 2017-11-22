@@ -71,6 +71,56 @@ namespace DataProvider.Entities
         /// 账号
         /// </summary>				
         public string AccountNumber { get; set; }
+
+        /// <summary>
+        /// 优惠情况
+        /// </summary>				
+        public string DiscountText { get; set; }
+
+        /// <summary>
+        /// 优惠合计
+        /// </summary>				
+        public decimal? DiscountPrice { get; set; }
+
+        /// <summary>
+        /// 已学课程
+        /// </summary>				
+        public string UsedCourseText { get; set; }
+
+        /// <summary>
+        /// 已学课程合计
+        /// </summary>				
+        public decimal? UsedCoursePrice { get; set; }
+
+        /// <summary>
+        /// 发票税
+        /// </summary>				
+        public string InvoiceTaxText { get; set; }
+
+        /// <summary>
+        /// 发票税合计
+        /// </summary>				
+        public decimal? InvoiceTaxPrice { get; set; }
+
+        /// <summary>
+        /// pos机
+        /// </summary>				
+        public string POSText { get; set; }
+
+        /// <summary>
+        /// POS合计
+        /// </summary>				
+        public decimal? POSPrice { get; set; }
+
+        /// <summary>
+        /// 违约金百分比%
+        /// </summary>				
+        public int penalty { get; set; }
+
+        /// <summary>
+        /// 退款方式
+        /// </summary>				
+        public string RefundType { get; set; }
     }
 
     /// <summary>
