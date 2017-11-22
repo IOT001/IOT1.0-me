@@ -874,7 +874,7 @@
     //编辑项，当自定义优惠时允许修改优惠金额
     function editDiscount(value, row, index, key) {
         return [
-             '<input name="discountText" type="text" value="0" class="input-sm form-control" style="width:50px" disabled="disabled">'
+             '<input name="discountText" type="text" value="0" class="input-sm form-control" style="width:80px" disabled="disabled">'
         ].join('');
 
     }
@@ -1084,7 +1084,7 @@
         layer.open({
             type: 1,
             title: "<h3 class='ibox-title'>报名</h3>",
-            area: ['1000px', '550px'],
+            area: ['1200px', '550px'],
             content: $('#baoming'),
             btn: ['结算', '取消'],
             yes: function () {
