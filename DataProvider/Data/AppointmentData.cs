@@ -37,6 +37,8 @@ namespace DataProvider.Data
                 sb.AppendFormat(" and CreateTime > = '{0}' ", search.timeStart);
             if (!string.IsNullOrWhiteSpace(search.timeEnd))//结束时间
                 sb.AppendFormat(" and CreateTime <= '{0}' ", search.timeEnd);
+            if (search.ApStateID != null)//状态
+                sb.AppendFormat(" and [ApStateID] = {0} ", search.ApStateID.Value);
             where = sb.ToString();
             int allcount = 0;
             var list = CommonPage<vw_Appointment>.GetPageList(

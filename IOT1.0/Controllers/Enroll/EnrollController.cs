@@ -41,6 +41,11 @@ namespace IOT1._0.Controllers.Enroll
             model.ComCodeIL = CommonData.Instance.GetBropDownListData(ComCodeIL);
             model.search.ComCodeIL = CommonData.Instance.GetBropDownListData(ComCodeIL);
 
+            //资源表状态
+            List<CommonEntity> ApStateIL = CommonData.GetDictionaryList(12);//状态
+            model.search.ApStateIL = CommonData.Instance.GetBropDownListData(ApStateIL);
+
+
             model.AppointmentList = AppointmentData.GetAPList(search); //填充页面模型数据
             return View(model);//返回页面模型
         }
