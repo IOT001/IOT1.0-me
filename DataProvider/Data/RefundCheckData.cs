@@ -31,6 +31,9 @@ namespace DataProvider.Data
             orderby = "ID desc";//排序信息
             StringBuilder sb = new StringBuilder();//构建where条件
             sb.Append(" 1=1 ");
+            if (!string.IsNullOrWhiteSpace(search.ID))//主键
+                sb.AppendFormat(" and EnrollID = '{0}' ", search.ID);
+
             if (!string.IsNullOrWhiteSpace(search.SutdentName))//姓名
                 sb.AppendFormat(" and SutdentName like '%{0}%' ", search.SutdentName);
             if (!string.IsNullOrWhiteSpace(search.BindPhone))//学号

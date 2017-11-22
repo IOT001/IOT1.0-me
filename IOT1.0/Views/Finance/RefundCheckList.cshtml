@@ -102,8 +102,12 @@
                                          <td>@m.DepositBank</td>
                                          <td>@m.AccountNumber</td>
                                         @if (string.IsNullOrEmpty(m.AuditingID))//如果没审核
-                                        { 
-                                             <td><a href="javascript:apply('@Newtonsoft.Json.JsonConvert.SerializeObject(m)')" class="btn btn-primary btn-xs" type="button"><i class="fa fa-edit"></i>审核</a></td>
+                                        {  
+                                            <td>
+                                             <a href="@Url.Action("RefundInfo", "Enroll", new { id = @m.EnrollID,typeID=2 })" target="view_window" class="btn btn-primary btn-xs " type="button" ><i class="fa fa-edit"></i>申请退款</a>
+
+                                         </td> 
+
                                         }
                                        else
                                        {
@@ -145,102 +149,7 @@
 
 
 
-
-
-  @*弹出层，申请退款*@
-                        <div class="ibox float-e-margins" id="refund" style="display:none">
-                            <div class="ibox-content">
-                                <form class="form-horizontal">
-                                    <div class="form-group">
-                                        <label class="col-sm-3 control-label">学员姓名：</label>
-                                        <div class="col-sm-8">
-                                            <input type="text" placeholder="学员姓名" class="form-control" id="applyname" disabled="disabled">
-                                        </div>
-                                    </div>
-                                    
-                                         <div class="form-group">
-                                        <label class="col-sm-3 control-label">收款单据号：</label>
-                                        <div class="col-sm-8">
-                                            <input type="text" placeholder="收款单据号" class="form-control" id="ReceiptNum" disabled="disabled">
-                                        </div>
-                                    </div>
-
-                                         <div class="form-group">
-                                        <label class="col-sm-3 control-label">开户行：</label>
-                                        <div class="col-sm-8">
-                                            <input type="text" placeholder="开户行" class="form-control" id="DepositBank" disabled="disabled">
-                                        </div>
-                                    </div>
-
-                                         <div class="form-group">
-                                        <label class="col-sm-3 control-label">账号：</label>
-                                        <div class="col-sm-8">
-                                            <input type="text" placeholder="账号" class="form-control" id="AccountNumber" disabled="disabled">
-                                        </div>
-                                    </div>
-                                    
-                                     
-                                    <div class="form-group">
-                                        <label class="col-sm-3 control-label">申请退款金额：</label>
-                                        <div class="col-sm-8">
-                                            <input type="text" placeholder="申请退款金额" class="form-control" id="ApplyPrice" disabled="disabled">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-sm-3 control-label">申请理由：</label>
-                                        <div class="col-sm-8">
-                                            <textarea placeholder="申请理由" class="form-control" id="ApplyRemark" disabled="disabled"></textarea>
-                                        </div>
-                                    </div>
-
-                                    
-            <div class="form-group  ">
-                <label class="col-xs-3 control-label">审核是否通过：</label>
-
-                <div class="col-xs-4">
-                    <div class="radio i-checks" >
-                        <label class="">
-                        <input type="radio"  id="apply1"  checked="checked"  value="2"   name="radio-choice-h-2"  style="position: absolute; opacity: 0;"  > 审核通过
-                        </label>
  
-                    
- 
-                    </div>
-                </div>
- 
-                <div class="col-xs-4">
-                       
-                      <div class="radio i-checks">
-                       <label class="">
- <input type="radio"  id="apply2"   name="radio-choice-h-2"  value="3" style="position: absolute;" > 审核不通过
- 
- 
-                        </label>
-                </div>
-                </div>
-            </div>
-
-                         <div class="form-group" id="CheckPrice_hidden">
-                                        <label class="col-sm-3 control-label">审核金额：</label>
-                                        <div class="col-sm-8">
-                                            <input type="text" placeholder="审核金额" class="form-control" id="CheckPrice">
-                                        </div>
-                        </div>
-
-                                         <div class="form-group" id="AuditingRemark_hidden" >
-                                        <label class="col-sm-3 control-label">审核备注：</label>
-                                        <div class="col-sm-8">
-                                            <textarea placeholder="审核备注" class="form-control" id="AuditingRemark" ></textarea>
-                                        </div>
-                                    </div>
-
-
- 
-
-                                    
-                                </form>
-                            </div>
-                        </div>
                         <script type="text/javascript">
                             //点击申请退款按钮
                             function apply(data) {

@@ -1,6 +1,10 @@
-﻿@{
+﻿@using DataProvider.Models
+@using DataProvider.Paging
+@{
     ViewBag.Title = "退款详情";
 }
+@model RefundCheckListModel
+
 <div class="wrapper wrapper-content animated fadeInRight">
     <div class="row">
         <div class="col-sm-12">
@@ -8,93 +12,190 @@
                 <div class="ibox-title">
                     <h5>退款详情清单（单位：元）</h5>
                 </div>
+
+                  @if (Model != null && Model.RefundlList.Count() > 0)
+                  {
+                      foreach (var m in Model.RefundlList)
+                      {
+
                 <div class="ibox-content">
                     <form class="form-horizontal">
                         <div class="form-group">
                             <label class="col-sm-2 control-label">学员姓名：</label>
                             <div class="col-sm-3">
-                                <input type="text" placeholder="学员姓名" class="form-control" id="applyname" disabled="disabled">
+                                <input type="text" placeholder="学员姓名" class="form-control" id="SutdentName" value="@m.SutdentName" disabled="disabled">
                             </div>
                             <label class="col-sm-2 control-label">出生日期：</label>
                             <div class="col-sm-3">
-                                <input type="text" placeholder="出生日期" class="form-control" disabled="disabled">
+                                <input type="text" placeholder="出生日期" class="form-control" id="Birthday"  value="@m.Birthday" disabled="disabled">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-2 control-label">报名日期：</label>
                             <div class="col-sm-3">
-                                <input type="text" placeholder="报名日期" class="form-control" disabled="disabled">
+                                <input type="text" placeholder="报名日期" class="form-control" id="Enroll_CreateTime"  value="@m.Enroll_CreateTime" disabled="disabled">
                             </div>
                             <label class="col-sm-2 control-label">报名金额：</label>
                             <div class="col-sm-3">
-                                <input type="text" placeholder="报名金额" class="form-control" disabled="disabled">
+                                <input type="text" placeholder="报名金额" class="form-control" id="Paid" value="@m.Paid" disabled="disabled">
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="col-sm-2 control-label">课程内容：</label>
                             <div class="col-sm-3">
-                                <input type="text" placeholder="课程内容" class="form-control" disabled="disabled">
+                                <input type="text" placeholder="课程内容" class="form-control" id="ClassName" value="@m.ClassName"  disabled="disabled">
                             </div>
                             <label class="col-sm-2 control-label">备注：</label>
                             <div class="col-sm-3">
-                                <input type="text" placeholder="备注" class="form-control" disabled="disabled">
+                                <input type="text" placeholder="备注" class="form-control" id="Remark" value="@m.Remark" disabled="disabled">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-2 control-label">优惠情况：</label>
                             <div class="col-sm-3">
-                                <input type="text" placeholder="优惠情况" class="form-control">
+                                <input type="text" placeholder="优惠情况" class="form-control" id="DiscountText">
                             </div>
                             <label class="col-sm-2 control-label">优惠合计：</label>
                             <div class="col-sm-3">
-                                <input type="text" placeholder="优惠合计" class="form-control">
+                                <input type="text" placeholder="优惠合计" id="DiscountPrice" class="form-control">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-2 control-label">已学课时：</label>
                             <div class="col-sm-3">
-                                <input type="text" placeholder="已学课时" class="form-control">
+                                <input type="text" placeholder="已学课时" class="form-control" id="UsedCourseText">
                             </div>
                             <label class="col-sm-2 control-label">课时合计：</label>
                             <div class="col-sm-3">
-                                <input type="text" placeholder="课时合计" class="form-control">
+                                <input type="text" placeholder="课时合计" class="form-control" id="UsedCoursePrice">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-2 control-label">发票税：</label>
                             <div class="col-sm-3">
-                                <input type="text" placeholder="发票税" class="form-control">
+                                <input type="text" placeholder="发票税" class="form-control" id="InvoiceTaxText">
                             </div>
                             <label class="col-sm-2 control-label">合计：</label>
                             <div class="col-sm-3">
-                                <input type="text" placeholder="发票税合计" class="form-control">
+                                <input type="text" placeholder="发票税合计" class="form-control" id="InvoiceTaxPrice">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-2 control-label">pos机：</label>
                             <div class="col-sm-3">
-                                <input type="text" placeholder="pos机" class="form-control">
+                                <input type="text" placeholder="pos机" class="form-control" id="POSText">
                             </div>
                             <label class="col-sm-2 control-label">合计：</label>
                             <div class="col-sm-3">
-                                <input type="text" placeholder="pos机合计" class="form-control">
+                                <input type="text" placeholder="pos机合计" class="form-control" id="POSPrice">
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="col-sm-2 control-label">违约金比例：</label>
                             <div class="col-sm-3">
-                                <input type="text" placeholder="请输入1-100比例" class="form-control">
+                                <input type="text" placeholder="请输入1-100比例" class="form-control" id="penalty">
                             </div>
                             <label class="col-sm-2 control-label">退款方式：</label>
                             <div class="col-sm-3">
-                                <input type="text" placeholder="退款方式" class="form-control">
+                                <input type="text" placeholder="退款方式" class="form-control" id="RefundType">
                             </div>
                         </div>
+                          
+                          @if (Model.search.typeID==2)//如果审核页面跳转过来就显示。1是非审核页面跳转过来，2是审核页面跳转过来
+                          { 
+                         
+                         
+
+                              <div class="form-group  ">
+                <label class="col-sm-2 control-label">审核是否通过：</label>
+
+                <div class="col-xs-4">
+                    <div class="radio i-checks" >
+                        <label class="">
+                        <input type="radio"  id="apply1"  checked="checked"  value="2"   name="radio-choice-h-2"  style="position: absolute; opacity: 0;"  > 审核通过
+                        </label>
+ 
+                    
+ 
+                    </div>
+                </div>
+ 
+                <div class="col-xs-4">
+                       
+                      <div class="radio i-checks">
+                       <label class="">
+ <input type="radio"  id="apply2"   name="radio-choice-h-2"  value="3" style="position: absolute;" > 审核不通过
+ 
+ 
+                        </label>
+                </div>
+                </div>
+            </div>
+
+                         <div class="form-group" id="CheckPrice_hidden">
+                                        <label class="col-sm-2 control-label">审核金额：</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" placeholder="审核金额" class="form-control" id="CheckPrice">
+                                        </div>
+                             </div>
+
+                              <div class="form-group" id="AuditingRemark_hidden" >
+                                        <label class="col-sm-2 control-label">审核备注：</label>
+                                        <div class="col-sm-8">
+                                            <textarea placeholder="审核备注" class="form-control" id="AuditingRemark" ></textarea>
+                                        </div>
+                                    </div>
+
+
+                          }
+
                     </form>
                 </div>
+                      
+                      
+                      }
+                  }
             </div>
         </div>
     </div>
 </div>
+
+
+<script type="text/javascript">
+
+    $('#apply2').on('ifChecked', function (event) { //ifCreated 事件应该在插件初始化之前绑定 
+        Audi_Judgment();
+    });
+
+    $('#apply1').on('ifChecked', function (event) { //ifCreated 事件应该在插件初始化之前绑定 
+        Audi_Judgment();
+    });
+
+
+    function Audi_Judgment() {
+
+        var apply;
+        if ($("#apply1").is(':checked')) {//判断停用按钮是否选中 
+            apply = $("#apply1").val().trim();
+        }
+        else {
+            apply = $("#apply2").val().trim();
+
+        }
+
+        if (apply == 2) { //选择审核通过时
+            $("#CheckPrice_hidden").show();
+            $("#AuditingRemark_hidden").show();
+        }
+        else {
+            $("#AuditingRemark").val('');
+            $("#CheckPrice").val('');
+            $("#CheckPrice_hidden").hide();
+            $("#AuditingRemark_hidden").hide();
+        }
+
+    }
+
+</script>

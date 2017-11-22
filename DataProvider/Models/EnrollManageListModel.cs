@@ -22,7 +22,17 @@ namespace DataProvider.Models
      
 
     public class RefundCheckListSearchModel : CommonPageEntity
+    
     {
+         /// <summary>
+        /// 页面类型
+        /// </summary>
+        public int typeID { set; get; }
+
+        /// <summary>
+        /// ID
+        /// </summary>
+        public string ID { set; get; }
         /// <summary>
         /// 学员姓名
         /// </summary>
