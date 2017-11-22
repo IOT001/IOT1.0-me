@@ -49,6 +49,8 @@ namespace DataProvider.Models
        /// 资源主体
        /// </summary>
        public Appointment ap { get; set; }
+
+
     }
 
    public class EnrollListSearchModel : CommonPageEntity
@@ -112,7 +114,14 @@ namespace DataProvider.Models
        /// 所属分校的选中值
        /// </summary>
        public string ComCode { get; set; }
-
+       /// <summary>
+       /// 状态ID，对应字典表,12,1未跟进，2已跟进，3已报名，4已作废,5待审核，6审核通过，7审核不通过
+       /// </summary>
+       public List<SelectListItem> ApStateIL { get; set; }
+       /// <summary>
+       /// 资源表状态值
+       /// </summary>
+       public int? ApStateID { get; set; }
    }
 
 }
