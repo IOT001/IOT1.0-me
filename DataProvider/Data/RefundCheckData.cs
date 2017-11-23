@@ -31,8 +31,8 @@ namespace DataProvider.Data
             orderby = "ID desc";//排序信息
             StringBuilder sb = new StringBuilder();//构建where条件
             sb.Append(" 1=1 ");
-            if (!string.IsNullOrWhiteSpace(search.ID))//主键
-                sb.AppendFormat(" and EnrollID = '{0}' ", search.ID);
+     
+
 
             if (!string.IsNullOrWhiteSpace(search.SutdentName))//姓名
                 sb.AppendFormat(" and SutdentName like '%{0}%' ", search.SutdentName);
@@ -59,30 +59,9 @@ namespace DataProvider.Data
             return new PagedList<vw_Refund>(list, search.CurrentPage, search.PageSize, allcount);
 
         }
+ 
 
-        /// <summary>
-        /// 获取单条数据
-        /// </summary>
-        /// <param name="ID"></param>
-        /// <returns></returns>
-        public static Refund GetRefundByID(int ID)
-        {
-            return MsSqlMapperHepler.GetOne<Refund>(ID, DBKeys.PRX);
-        }
-
-        /// <summary>
-        /// 保存
-        /// </summary>
-        /// <param name="btn"></param>
-        /// <returns></returns>
-        public static bool UpdateRefund(Refund re)
-        {
-            Refund Ref = RefundCheckData.GetRefundByID(re.ID);//获取对象
-            Cloner<Refund, Refund>.CopyTo(re, Ref);//代码克隆，把前台或者的值也就是变更内容复制到目标对象，不做变更的数据不变
-            return MsSqlMapperHepler.Update(Ref, DBKeys.PRX);
-
-        }
-
+      
         /// <summary>
         /// 导出到Excel表格
         /// </summary>

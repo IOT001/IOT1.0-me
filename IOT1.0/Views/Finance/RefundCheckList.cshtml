@@ -70,12 +70,12 @@
                                 <th>报名班级</th>
                                 <th>申请状态</th>
                                 <th>报名费用</th>
-                                <th>申请退额</th>
-                                <th>退款备注</th>
-                                <th>财务支付</th>
+                                <th>审核金额</th>
+                                <th>审核备注</th>
+                               @*  <th>财务支付</th>
                                    <th>收款单据号</th>
                                    <th>开户行</th>
-                                   <th>账号</th>
+                                   <th>账号</th>*@
                                 
                                 <th>操作</th>
                             </tr>
@@ -95,23 +95,24 @@
                                         <td>@m.ClassName</td>
                                         <td>@m.StateName</td>
                                         <td>@m.Paid</td>
-                                        <td>@m.ApplyPrice</td>
-                                        <td>@m.ApplyRemark</td>
+                                        <td>@m.AuditingRemark</td>
                                         <td>@m.CheckPrice</td>
+                                       @* <td>@m.ApplyPrice</td>
+                                        <td>@m.ApplyRemark</td>
                                          <td>@m.ReceiptNum</td>
                                          <td>@m.DepositBank</td>
-                                         <td>@m.AccountNumber</td>
+                                         <td>@m.AccountNumber</td>*@
                                         @if (string.IsNullOrEmpty(m.AuditingID))//如果没审核
                                         {  
                                             <td>
-                                             <a href="@Url.Action("RefundInfo", "Enroll", new { id = @m.EnrollID,typeID=2 })" target="view_window" class="btn btn-primary btn-xs " type="button" ><i class="fa fa-edit"></i>审核</a>
+                                             <a href="@Url.Action("RefundInfo", "Enroll", new { id = @m.ID,typeID=2 })" target="view_window" class="btn btn-primary btn-xs " type="button" ><i class="fa fa-edit"></i>审核</a>
 
                                          </td> 
 
                                         }
                                        else
                                        {
-                                             <td>--</td>
+                                             <td>已经审核,不能再审核!</td>
                                         }
 
                                     </tr>
@@ -150,112 +151,10 @@
 
 
  
-                        <script type="text/javascript">
-                            //点击申请退款按钮
-                            function apply(data) {
-                                cleanData("refund");
-                                var obj = JSON.parse(data);
-                               
-                                $("#applyname").val(obj.SutdentName);
-                                $("#ApplyPrice").val(obj.ApplyPrice);
-                                $("#ApplyRemark").val(obj.ApplyRemark);
-                                $("#CheckPrice").val(obj.ApplyPrice);
-                                $("#ReceiptNum").val(obj.ReceiptNum);
-                                $("#DepositBank").val(obj.DepositBank);
-                                $("#AccountNumber").val(obj.AccountNumber);
-                                layer.open({
-                                    type: 1,
-                                    title: "<h3 class=''>申请退款</h3>",
-                                    area: ['680px', '570px'],
-                                    content: $('#refund'),
-                                    btn: ['保存', '取消'],
-                                    yes: function () {
-                                        save(obj);
-                                    },
-                                    cancel: function (index) {
-                                        layer.close(index);
-                                    }
-                                });
-                            }
+          <script type="text/javascript">             
 
 
-
-                            function save(Refund) {
-                                var obj = new Object;
-
-                                obj.CheckPrice = $("#CheckPrice").val().trim() ? $("#CheckPrice").val().trim() : 0;
-                                if ($("#apply2").is(':checked')) {//判断停用按钮是否选中 
-                                    obj.StateID = $("#apply2").val().trim();
-                                }
-                                else {
-                                    obj.StateID = $("#apply1").val().trim();
-
-                                }
-
-                                if (obj.StateID == 2) {
-                                if (!obj.CheckPrice) {
-                                    layer.msg("请输入审核金额！");
-                                    return false;
-                                }
-                            }
-                                obj.AuditingRemark = $("#AuditingRemark").val().trim();//赋值必须和数据库字段对应
-                                obj.ID = Refund.ID;
-
-                             
-
-
-                                var action = '@Url.Action("SaveRefund", "Finance")';
-                                $.post(action, {
-                                    "data": JSON.stringify(obj)//序列化对象
-                                }, function (json) {
-                                    if (json.status == 200) {//成功
-
-                                        layer.msg(json.msg);//弹出服务器返回的消息
-                                        setTimeout(function () {//操作
-                                            layer.closeAll();//关闭所有层
-                                            window.location.reload(); //刷新
-                                        }, 3000);
-                                    }
-                                }, 'json');
-                            }
-
-                          
-                            function Audi_Judgment(){
-
-                                var apply;
-                                if ($("#apply1").is(':checked')) {//判断停用按钮是否选中 
-                                    apply = $("#apply1").val().trim();
-                                }
-                                else {
-                                    apply = $("#apply2").val().trim();
-
-                                }
-
-                                if (apply==2) { //选择审核通过时
-                                    $("#CheckPrice_hidden").show();
-                                    $("#AuditingRemark_hidden").show();
-                                }
-                                else {
-                                    $("#AuditingRemark").val('');
-                                    $("#CheckPrice").val('');
-                                    $("#CheckPrice_hidden").hide();
-                                    $("#AuditingRemark_hidden").hide();
-                                }
-
-                            }
- 
- 
- 
-                            $('#apply2').on('ifChecked', function (event) { //ifCreated 事件应该在插件初始化之前绑定 
-                                Audi_Judgment();
-                            });
-
-                            $('#apply1').on('ifChecked', function (event) { //ifCreated 事件应该在插件初始化之前绑定 
-                                Audi_Judgment();
-                            });
-
-                     
-
+               
 
                             function ExportToExcel() {
 
