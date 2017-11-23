@@ -95,8 +95,8 @@
                                         <td>@m.ClassName</td>
                                         <td>@m.StateName</td>
                                         <td>@m.Paid</td>
-                                        <td>@m.AuditingRemark</td>
                                         <td>@m.CheckPrice</td>
+                                        <td>@m.AuditingRemark</td>
                                        @* <td>@m.ApplyPrice</td>
                                         <td>@m.ApplyRemark</td>
                                          <td>@m.ReceiptNum</td>
@@ -112,8 +112,14 @@
                                         }
                                        else
                                        {
-                                             <td>已经审核,不能再审核!</td>
-                                        }
+                                             <td>
+                                                 已经审核,不能再审核!
+                                                  <a href="@Url.Action("RefundInfo_Print", "Finance", new { id = @m.ID })" target="view_window" class="btn btn-primary btn-xs " type="button" ><i class="fa fa-edit"></i>打印</a> 
+                                           
+                                             </td>
+                                             
+                                            
+                                       }
 
                                     </tr>
                                 }
