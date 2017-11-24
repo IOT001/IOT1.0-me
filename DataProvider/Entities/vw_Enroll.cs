@@ -70,6 +70,10 @@ namespace DataProvider
         /// </summary>
         public string Name { get; set; }
         /// <summary>
+        /// 学员出生日期
+        /// </summary>
+        public Nullable<System.DateTime> Birthday { get; set; }
+        /// <summary>
         /// 学员绑定手机号
         /// </summary>
         public string BindPhone { get; set; }

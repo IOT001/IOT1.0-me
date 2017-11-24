@@ -1,0 +1,203 @@
+﻿@using DataProvider.Models
+@{
+    ViewBag.Title = "退款详细清单(单位:元)";
+}
+
+@model RefundInfoModel
+
+    <div id="convertThisPageButtonDiv" style="position: absolute; left: 0;">
+        <button class="btn btn-primary" id="Print"><i class="fa fa-print"></i> 打印</button>
+    </div>
+
+    <fieldset disabled>
+        <div class="wrap">
+            <div style="text-align:center;color:black;height:15mm;font-size:10mm;">退款详细清单(单位:元)</div>
+    
+            <table border="1">
+                <tr >
+                    <td>学生姓名</td>
+                     <td>@Model.RefundList.SutdentName</td>
+                     <td>出生日期</td>
+                     <td>@Model.RefundList.Birthday</td>
+                </tr>
+
+               <tr >
+                    <td colspan="4">报名情况</td> 
+                </tr>
+
+                 <tr >
+                    <td>报名日期</td>
+                     <td>金额</td>
+                     <td>课程内容</td>
+                     <td>备注</td>
+                </tr>
+
+                 <tr >
+                    <td>@Model.RefundList.Enroll_CreateTime</td>
+                     <td>@Model.RefundList.Paid</td>
+                     <td>@Model.RefundList.ClassName</td>
+                     <td>@Model.RefundList.Remark</td>
+                </tr>
+
+                <tr >
+                    <td colspan="4">已学课程及其它费用明细</td> 
+                </tr>
+
+                
+                 <tr >
+                    <td>优惠情况</td>
+                     <td>@Model.RefundList.DiscountText</td>
+                     <td>合计</td>
+                     <td>@Model.RefundList.DiscountPrice</td>
+                </tr>
+
+                 <tr >
+                    <td>已学课时</td>
+                     <td>@Model.RefundList.UsedCourseText</td>
+                     <td>合计</td>
+                     <td>@Model.RefundList.UsedCoursePrice</td>
+                </tr>
+
+                 <tr >
+                    <td>发票税</td>
+                     <td>@Model.RefundList.InvoiceTaxText</td>
+                     <td>合计</td>
+                     <td>@Model.RefundList.InvoiceTaxPrice</td>
+                </tr>
+
+                 <tr >
+                    <td>pos机</td>
+                     <td>@Model.RefundList.POSText</td>
+                     <td>合计</td>
+                     <td>@Model.RefundList.POSPrice</td>
+                </tr>
+
+                 <tr >
+                     <td>累计金额</td>
+                    <td colspan="3">@Model.RefundList.Accumulated_Sum</td> 
+                </tr>
+
+                  <tr >
+                    <td colspan="4">违约金</td> 
+                </tr>
+
+                  <tr >
+                     <td  rowspan="2">违约金</td> 
+                     <td colspan="2">(报名金额-已学课时及其它费用)*违约百分比)</td>
+                      <td rowspan="2">@Model.RefundList.Liquidated   </td> 
+                  </tr>
+
+                 <tr >
+                      
+                       <td colspan="2">(@Model.RefundList.Paid  - @Model.RefundList.Accumulated_Sum) * @Model.RefundList.penalty</td>
+                </tr>
+
+                <tr > 
+                     <td colspan="4">注:违约金按照<<学员入学协议>>三一A条款执行</td> 
+                  </tr>
+
+                   <tr > 
+                     <td colspan="4">退费明细</td> 
+                  </tr>
+
+                
+                   <tr > 
+                     <td colspan="4">报名金额-已学课时及其它费用-违约金=退费金额</td> 
+                  </tr>
+               
+                 <tr > 
+                     <td colspan="4"> 
+                         <span style="border:1mm solid #808080;">@Model.RefundList.Paid </span>-
+                         <span style="border:1mm solid #808080;">@Model.RefundList.Accumulated_Sum </span>-
+                         <span style="border:1mm solid #808080;">@Model.RefundList.Liquidated </span>=
+                         <span style="border:1mm solid #808080;">@Model.RefundList.refund </span>
+                     </td> 
+                  </tr>
+                 @{
+                     string allcount = @Model.RefundList.refund.ToString();
+                     string dx = new DataProvider.MoneyConvertChinese().MoneyToChinese(allcount);
+                   <tr > 
+                     <td colspan="4">实际退费(大写):@dx</td> 
+                  </tr>
+                 }
+                 <tr > 
+                         <td >退费方式</td> 
+                         <td >@Model.RefundList.RefundType</td> 
+                         <td >日期</td> 
+                         <td >@Model.RefundList.AuditingTime </td> 
+                  </tr>
+
+                     <tr > 
+                         <td  colspan="4">财务签名:__________________ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;主管签名:__________________ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  收费人签名:________________</td> 
+                    
+                  </tr>
+
+            </table>
+
+        </div>
+
+    </fieldset>
+ 
+
+@section styles{
+    <link href="http://www.525j.com.cn/Theme/zhuanti/head/css/common.css" rel="stylesheet" type="text/css">
+    <style type="text/css">
+        body {
+            background: #ddd;
+        }
+      
+        table {
+        width:210mm;
+        
+        }
+        td {
+        width:20%;
+        height:10mm;
+        text-align:center;
+        }
+        .wrap {
+            width: 210mm;
+            margin: 0 auto;
+            background: #fff;
+        }
+
+        
+
+        .wrap .page2, .wrap .page3 {
+            padding-top: 20px;
+        }
+
+        .infotable, tr, td {
+            border-top: 0px !important;
+        }
+        .m-t {
+            margin-left:-50px;
+        }
+                 /*调整票据打印页面*/
+        .invoice-total > tbody > tr > td:last-child {
+            border-bottom: 1px solid #DDDDDD;
+            text-align: right;
+            width: 25%;
+        }
+
+    </style>
+}
+@section scripts
+{
+    <script type="text/javascript">
+   
+
+
+
+        $('#Print').click(function () {
+            $('#Print').hide();
+           
+            window.print();
+            $('#Print').show();
+           
+
+        });
+
+
+    </script>
+}

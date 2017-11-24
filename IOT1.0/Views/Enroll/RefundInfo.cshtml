@@ -3,7 +3,7 @@
 @{
     ViewBag.Title = "退款详情";
 }
-@model RefundCheckListModel
+@model RefundInfoModel
 
 <div class="wrapper wrapper-content animated fadeInRight">
     <div class="row">
@@ -13,44 +13,152 @@
                     <h5>退款详情清单（单位：元）</h5>
                 </div>
 
-                  @if (Model != null && Model.RefundlList.Count() > 0)
-                  {
-                      foreach (var m in Model.RefundlList)
-                      {
-
+                  
+              
+                
                 <div class="ibox-content">
                     <form class="form-horizontal">
+
+                          @if (@Model.typeID == 1)
+                            { 
+
+
                         <div class="form-group">
                             <label class="col-sm-2 control-label">学员姓名：</label>
                             <div class="col-sm-3">
-                                <input type="text" placeholder="学员姓名" class="form-control" id="SutdentName" value="@m.SutdentName" disabled="disabled">
+                                <input type="text" placeholder="学员姓名" class="form-control" id="SutdentName" value="@Model.vw_EnrollList.Name" disabled="disabled" >
+
+                                <input type="text" placeholder="学员学号" class="form-control" id="StudentID" value="@Model.vw_EnrollList.StudentID" disabled="disabled"  style="display:none" >
+                                <input type="text" placeholder="报名单号" class="form-control" id="Enroll_ID" value="@Model.vw_EnrollList.ID" disabled="disabled"  style="display:none">
+                                <input type="text" placeholder="跳转页面类型" class="form-control" id="typeID" value="@Model.typeID" disabled="disabled" style="display:none" > 
+                                
                             </div>
                             <label class="col-sm-2 control-label">出生日期：</label>
                             <div class="col-sm-3">
-                                <input type="text" placeholder="出生日期" class="form-control" id="Birthday"  value="@m.Birthday" disabled="disabled">
+                                <input type="text" placeholder="出生日期" class="form-control" id="Birthday"  value="@Model.vw_EnrollList.Birthday" disabled="disabled">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-2 control-label">报名日期：</label>
                             <div class="col-sm-3">
-                                <input type="text" placeholder="报名日期" class="form-control" id="Enroll_CreateTime"  value="@m.Enroll_CreateTime" disabled="disabled">
+                                <input type="text" placeholder="报名日期" class="form-control" id="Enroll_CreateTime"  value="@Model.vw_EnrollList.CreateTime" disabled="disabled">
                             </div>
                             <label class="col-sm-2 control-label">报名金额：</label>
                             <div class="col-sm-3">
-                                <input type="text" placeholder="报名金额" class="form-control" id="Paid" value="@m.Paid" disabled="disabled">
+                                <input type="text" placeholder="报名金额" class="form-control" id="Paid" value="@Model.vw_EnrollList.Paid" disabled="disabled">
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="col-sm-2 control-label">课程内容：</label>
                             <div class="col-sm-3">
-                                <input type="text" placeholder="课程内容" class="form-control" id="ClassName" value="@m.ClassName"  disabled="disabled">
+                                <input type="text" placeholder="课程内容" class="form-control" id="ClassName" value="@Model.vw_EnrollList.ClassName"  disabled="disabled">
                             </div>
                             <label class="col-sm-2 control-label">备注：</label>
                             <div class="col-sm-3">
-                                <input type="text" placeholder="备注" class="form-control" id="Remark" value="@m.Remark" disabled="disabled">
+                                <input type="text" placeholder="备注" class="form-control" id="Remark" value="@Model.vw_EnrollList.Remark" disabled="disabled">
                             </div>
                         </div>
+                          }
+                        else { 
+                              
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">学员姓名：</label>
+                            <div class="col-sm-3">
+                                <input type="text" placeholder="学员姓名" class="form-control" id="SutdentName" value="@Model.RefundList.SutdentName" disabled="disabled" >
+
+                                <input type="text" placeholder="学员学号" class="form-control" id="StudentID" value="@Model.RefundList.StudentID" disabled="disabled"  style="display:none" >
+                                <input type="text" placeholder="报名单号" class="form-control" id="Refund_ID" value="@Model.RefundList.ID" disabled="disabled"   style="display:none">
+                                <input type="text" placeholder="跳转页面类型" class="form-control" id="typeID" value="@Model.typeID" disabled="disabled" style="display:none"> 
+                                
+                            </div>
+                            <label class="col-sm-2 control-label">出生日期：</label>
+                            <div class="col-sm-3">
+                                <input type="text" placeholder="出生日期" class="form-control" id="Birthday"  value="@Model.RefundList.Birthday" disabled="disabled">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">报名日期：</label>
+                            <div class="col-sm-3">
+                                <input type="text" placeholder="报名日期" class="form-control" id="Enroll_CreateTime"  value="@Model.RefundList.Enroll_CreateTime" disabled="disabled">
+                            </div>
+                            <label class="col-sm-2 control-label">报名金额：</label>
+                            <div class="col-sm-3">
+                                <input type="text" placeholder="报名金额" class="form-control" id="Paid" value="@Model.RefundList.Paid" disabled="disabled">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">课程内容：</label>
+                            <div class="col-sm-3">
+                                <input type="text" placeholder="课程内容" class="form-control" id="ClassName" value="@Model.RefundList.ClassName"  disabled="disabled">
+                            </div>
+                            <label class="col-sm-2 control-label">备注：</label>
+                            <div class="col-sm-3">
+                                <input type="text" placeholder="备注" class="form-control" id="Remark" value="@Model.RefundList.Remark" disabled="disabled">
+                            </div>
+                        </div>
+                          }      
+
+
+                       @if (@Model.typeID == 2)
+                       {
+                            
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">优惠情况：</label>
+                            <div class="col-sm-3">
+                                <input type="text" placeholder="优惠情况" class="form-control" id="DiscountText" value="@Model.RefundList.DiscountText" disabled="disabled">
+                            </div>
+                            <label class="col-sm-2 control-label">优惠合计：</label>
+                            <div class="col-sm-3">
+                                <input type="number" placeholder="优惠合计" id="DiscountPrice" class="form-control" value="@Model.RefundList.DiscountPrice" disabled="disabled">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">已学课时：</label>
+                            <div class="col-sm-3">
+                                <input type="text" placeholder="已学课时" class="form-control" id="UsedCourseText" value="@Model.RefundList.UsedCourseText" disabled="disabled">
+                            </div>
+                            <label class="col-sm-2 control-label">课时合计：</label>
+                            <div class="col-sm-3">
+                                <input type="number" placeholder="课时合计" class="form-control" id="UsedCoursePrice" value="@Model.RefundList.UsedCoursePrice" disabled="disabled">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">发票税：</label>
+                            <div class="col-sm-3">
+                                <input type="text" placeholder="发票税" class="form-control" id="InvoiceTaxText" value="@Model.RefundList.InvoiceTaxText" disabled="disabled">
+                            </div>
+                            <label class="col-sm-2 control-label">合计：</label>
+                            <div class="col-sm-3">
+                                <input type="number" placeholder="发票税合计" class="form-control" id="InvoiceTaxPrice" value="@Model.RefundList.InvoiceTaxPrice" disabled="disabled">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">pos机：</label>
+                            <div class="col-sm-3">
+                                <input type="text" placeholder="pos机" class="form-control" id="POSText" value="@Model.RefundList.POSText" disabled="disabled">
+                            </div>
+                            <label class="col-sm-2 control-label">合计：</label>
+                            <div class="col-sm-3">
+                                <input type="number" placeholder="pos机合计" class="form-control" id="POSPrice" value="@Model.RefundList.POSPrice" disabled="disabled">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">违约金比例：</label>
+                            <div class="col-sm-3">
+                                <input type="number" placeholder="请输入1-100比例" class="form-control" id="penalty" value="@Model.RefundList.penalty" disabled="disabled">
+                            </div>
+                            <label class="col-sm-2 control-label">退款方式：</label>
+                            <div class="col-sm-3">
+                                <input type="text" placeholder="退款方式" class="form-control" id="RefundType" value="@Model.RefundList.RefundType" disabled="disabled">
+                            </div>
+                        </div>
+                       }
+                       else
+                       {
+                           
                         <div class="form-group">
                             <label class="col-sm-2 control-label">优惠情况：</label>
                             <div class="col-sm-3">
@@ -58,7 +166,7 @@
                             </div>
                             <label class="col-sm-2 control-label">优惠合计：</label>
                             <div class="col-sm-3">
-                                <input type="text" placeholder="优惠合计" id="DiscountPrice" class="form-control">
+                                <input type="number" placeholder="优惠合计" id="DiscountPrice" class="form-control">
                             </div>
                         </div>
                         <div class="form-group">
@@ -68,7 +176,7 @@
                             </div>
                             <label class="col-sm-2 control-label">课时合计：</label>
                             <div class="col-sm-3">
-                                <input type="text" placeholder="课时合计" class="form-control" id="UsedCoursePrice">
+                                <input type="number" placeholder="课时合计" class="form-control" id="UsedCoursePrice">
                             </div>
                         </div>
                         <div class="form-group">
@@ -78,7 +186,7 @@
                             </div>
                             <label class="col-sm-2 control-label">合计：</label>
                             <div class="col-sm-3">
-                                <input type="text" placeholder="发票税合计" class="form-control" id="InvoiceTaxPrice">
+                                <input type="number" placeholder="发票税合计" class="form-control" id="InvoiceTaxPrice">
                             </div>
                         </div>
                         <div class="form-group">
@@ -88,24 +196,24 @@
                             </div>
                             <label class="col-sm-2 control-label">合计：</label>
                             <div class="col-sm-3">
-                                <input type="text" placeholder="pos机合计" class="form-control" id="POSPrice">
+                                <input type="number" placeholder="pos机合计" class="form-control" id="POSPrice">
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="col-sm-2 control-label">违约金比例：</label>
                             <div class="col-sm-3">
-                                <input type="text" placeholder="请输入1-100比例" class="form-control" id="penalty">
+                                <input type="number" placeholder="请输入1-100比例" class="form-control" id="penalty">
                             </div>
                             <label class="col-sm-2 control-label">退款方式：</label>
                             <div class="col-sm-3">
                                 <input type="text" placeholder="退款方式" class="form-control" id="RefundType">
                             </div>
                         </div>
-                          
-                          @if (Model.search.typeID==2)//如果审核页面跳转过来就显示。1是非审核页面跳转过来，2是审核页面跳转过来
-                          { 
-                         
+                           
+                       }
+                          @if (@Model.typeID == 2)//如果审核页面跳转过来就显示。1是非审核页面跳转过来，2是审核页面跳转过来
+                          {  
                          
 
                               <div class="form-group  ">
@@ -137,7 +245,7 @@
                          <div class="form-group" id="CheckPrice_hidden">
                                         <label class="col-sm-2 control-label">审核金额：</label>
                                         <div class="col-sm-8">
-                                            <input type="text" placeholder="审核金额" class="form-control" id="CheckPrice">
+                                            <input type="number" placeholder="审核金额" class="form-control" id="CheckPrice">
                                         </div>
                              </div>
 
@@ -150,13 +258,16 @@
 
 
                           }
+                           <div class="form-group"  >
+                                   <div class="col-sm-6 project-actions">
+                         <button type="button" class="btn btn-w-m btn-primary btn-sm" onclick="save()">保&nbsp;&nbsp;&nbsp;&nbsp;存</button>                                   </div>
+                             </div>
 
                     </form>
                 </div>
                       
                       
-                      }
-                  }
+                  
             </div>
         </div>
     </div>
@@ -197,5 +308,94 @@
         }
 
     }
+
+           
+
+    function save() {
+        var obj = new Object;
+
+        obj.DiscountText = $("#DiscountText").val().trim();//优惠情况
+
+        obj.DiscountPrice = $("#DiscountPrice").val().trim() ? $("#DiscountPrice").val().trim() : 0;//优惠合计
+
+        obj.UsedCourseText = $("#UsedCourseText").val().trim();//已学课时
+
+        obj.UsedCoursePrice = $("#UsedCoursePrice").val().trim() ? $("#UsedCoursePrice").val().trim() : 0;//课时合计
+
+        obj.InvoiceTaxText = $("#InvoiceTaxText").val().trim();//发票税
+        obj.InvoiceTaxPrice = $("#InvoiceTaxPrice").val().trim() ? $("#InvoiceTaxPrice").val().trim() : 0;//发票税合计
+        obj.POSText = $("#POSText").val().trim();//pos机
+
+        obj.POSPrice = $("#POSPrice").val().trim() ? $("#POSPrice").val().trim() : 0;//pos机合计
+        obj.penalty = $("#penalty").val().trim() ? $("#penalty").val().trim() : 0;//违约金比例
+
+        obj.RefundType = $("#RefundType").val().trim();//退款方式
+
+
+
+
+        if ($("#typeID").val() == 2) { //跳转页面类型,1为非审核,2是审核
+
+            obj.ID = $("#Refund_ID").val().trim();
+            obj.CheckPrice = $("#CheckPrice").val().trim() ? $("#CheckPrice").val().trim() : 0;
+            if ($("#apply2").is(':checked')) {//判断停用按钮是否选中 
+                obj.StateID = $("#apply2").val().trim();
+            }
+            else {
+                obj.StateID = $("#apply1").val().trim();
+
+            }
+
+            if (obj.StateID == 2) {
+                if (!obj.CheckPrice) {
+                    layer.msg("请输入审核金额！");
+                    return false;
+                }
+            }
+            obj.AuditingRemark = $("#AuditingRemark").val().trim();//审核备注
+
+            var action = '@Url.Action("SaveRefund", "Enroll")';
+            $.post(action, {
+                "data": JSON.stringify(obj)//序列化对象
+            }, function (json) {
+                if (json.status == 200) {//成功
+
+                    layer.msg(json.msg);//弹出服务器返回的消息
+                    setTimeout(function () {//操作
+                        layer.closeAll();//关闭所有层
+                        window.location.reload(); //刷新
+                    }, 3000);
+                }
+            }, 'json');
+
+
+        }
+        else { 
+
+        obj.StudentID = $("#StudentID").val().trim();//学生学号
+        obj.EnrollID = $("#Enroll_ID").val().trim();//报名单号
+        obj.StateID = 1; //状态
+
+
+        var action = '@Url.Action("SaveRefundInfo", "Enroll")';
+        $.post(action, {
+            "data": JSON.stringify(obj)//序列化对象
+        }, function (json) {
+            if (json.status == 200) {//成功
+
+                layer.msg(json.msg);//弹出服务器返回的消息
+                setTimeout(function () {//操作
+                    layer.closeAll();//关闭所有层
+                    window.location.reload(); //刷新
+                }, 3000);
+            }
+        }, 'json');
+             
+
+        }
+
+
+    }
+  
 
 </script>

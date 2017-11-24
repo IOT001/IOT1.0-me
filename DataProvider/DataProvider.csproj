@@ -139,6 +139,7 @@
     <Compile Include="Data\AttendanceOriginalData.cs" />
     <Compile Include="Data\Accounts_UpdateData.cs" />
     <Compile Include="Data\ClasshourDetailedlistData.cs" />
+    <Compile Include="Data\RefundInfoData.cs" />
     <Compile Include="DPBase.cs" />
     <Compile Include="Entities\Appointment.cs" />
     <Compile Include="Entities\AttendanceOriginal.cs" />
@@ -194,7 +195,7 @@
     <Compile Include="Models\AttendanceListViewModel.cs" />
     <Compile Include="Models\ButtonListViewModel.cs" />
     <Compile Include="Models\EnrollListViewModel.cs" />
-    <Compile Include="Models\EnrollManageListModel.cs" />
+    <Compile Include="Models\RefundCheckListModel.cs" />
     <Compile Include="Models\EnrollProtocolViewModel.cs" />
     <Compile Include="Models\ListenListViewModel.cs" />
     <Compile Include="Models\ReservationModel.cs" />
@@ -213,7 +214,7 @@
     <Compile Include="Models\WX_UserProgressListModel.cs" />
     <Compile Include="Models\DailyReportListViewModel.cs" />
     <Compile Include="Models\FollowListListViewModel.cs" />
-    <Compile Include="Models\RefundCheckListModel.cs" />
+    <Compile Include="Models\EnrollManageListModel.cs" />
     <Compile Include="Models\MessageListViewModel.cs" />
     <Compile Include="Models\EnrollAuditListViewModel.cs" />
     <Compile Include="Models\EnrollAuditInfoViewModel.cs" />
@@ -223,6 +224,7 @@
     <Compile Include="Models\AttendanceOriginalListViewModel.cs" />
     <Compile Include="Models\Accounts_UpdateViewModel.cs" />
     <Compile Include="Models\WX_ClasshourDetailedlistModel.cs" />
+    <Compile Include="Models\RefundInfoModel.cs" />
     <Compile Include="NERP.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

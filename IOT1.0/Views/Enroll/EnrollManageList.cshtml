@@ -98,11 +98,20 @@
                                         <td>@m.UsedHour</td>
                                         <td>@m.Paid</td>
                                
+                                        
+            
+                                        @if (@m.UsedHour < @m.ClassHour)
+                                        {
                                          <td>
-                                             <a href="@Url.Action("RefundInfo", "Enroll", new { id = @m.ID,typeID=1 })" target="view_window" class="btn btn-primary btn-xs " type="button" ><i class="fa fa-edit"></i>申请退款</a>
+
+                               <a href="@Url.Action("RefundInfo", "Enroll", new { id =@m.ID,typeID=1 })" target="view_window" class="btn btn-primary btn-xs " type="button" ><i class="fa fa-edit"></i>申请退款</a>
 
                                          </td> 
- 
+                                        }
+                                        else
+                                        {
+                                         <td>已消耗完所有课时,不能申请退款</td> 
+                                        }
 
                                     </tr>
                                         }
@@ -142,137 +151,5 @@
             </div>
         </div>
 
-                        @*弹出层，申请退款*@
-                        <div class="ibox float-e-margins" id="refund" style="display:none">
-                            <div class="ibox-content">
-                                <form class="form-horizontal">
-                                    <div class="form-group">
-                                        <label class="col-sm-3 control-label">学员姓名：</label>
-                                        <div class="col-sm-8">
-                                            <input type="text" placeholder="学员姓名" class="form-control" id="applyname" disabled="disabled">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-sm-3 control-label">联系电话：</label>
-                                        <div class="col-sm-8">
-                                            <input type="text" placeholder="联系电话" class="form-control" id="applyphone" disabled="disabled">
-                                        </div>
-                                    </div>
-
-                                      <div class="form-group">
-                                        <label class="col-sm-3 control-label">校区名称：</label>
-                                        <div class="col-sm-8">
-                                            <input type="text" placeholder="校区名称" class="form-control" id="CompName" disabled="disabled">
-                                        </div>
-                                    </div>
-                                            <div class="form-group">
-                                        <label class="col-sm-3 control-label">收款单据号：</label>
-                                        <div class="col-sm-8">
-                                            <input type="text" placeholder="收款单据号" class="form-control" id="ReceiptNum">
-                                        </div>
-                                    </div>
-                                            <div class="form-group">
-                                        <label class="col-sm-3 control-label">开户行：</label>
-                                        <div class="col-sm-8">
-                                            <input type="text" placeholder="开户行" class="form-control" id="DepositBank">
-                                        </div>
-                                    </div>
-                                            <div class="form-group">
-                                        <label class="col-sm-3 control-label">账号：</label>
-                                        <div class="col-sm-8">
-                                            <input type="text" placeholder="账号" class="form-control" id="AccountNumber">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-sm-3 control-label">申请退款金额：</label>
-                                        <div class="col-sm-8">
-                                            <input type="text" placeholder="申请退款金额" class="form-control" id="ApplyPrice">
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label class="col-sm-3 control-label">备注：</label>
-                                        <div class="col-sm-8">
-                                            <textarea placeholder="备注" class="form-control" id="ApplyRemark"></textarea>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                        <script type="text/javascript">
-                            //点击申请退款按钮
-                            function apply(data) {
-                                cleanData("refund");
-                                var obj = JSON.parse(data);
-                                if (obj.UsedHour >= obj.ClassHour) {
-                                    layer.msg("课程已完成不允许退款！");
-                                    return false;
-                                }
-                                $("#applyname").val(obj.Name);
-                                $("#applyphone").val(obj.BindPhone);
-                                $("#CompName").val(obj.CompName);
-                                layer.open({
-                                    type: 1,
-                                    title: "<h3 class='ibox-title'>申请退款</h3>",
-                                    area: ['680px', '560px'],
-                                    content: $('#refund'),
-                                    btn: ['保存', '取消'],
-                                    yes: function () {
-                                        save(obj);
-                                    },
-                                    cancel: function (index) {
-                                        layer.close(index);
-                                    }
-                                });
-                            }
-
-
-
-                            function save(Enroll) {
-                                var obj = new Object;
-                           
-                                obj.ReceiptNum = $("#ReceiptNum").val().trim();
-                                if (!obj.ReceiptNum) {
-                                    layer.msg("请输入收款单据号！");
-                                    return false;
-                                }
-                                obj.DepositBank = $("#DepositBank").val().trim();
-                                if (!obj.DepositBank) {
-                                    layer.msg("请输入开户行！");
-                                    return false;
-                                }
-                                obj.AccountNumber = $("#AccountNumber").val().trim();
-                                if (!obj.AccountNumber) {
-                                    layer.msg("请输入账号！");
-                                    return false;
-                                }
-                                obj.ApplyPrice = $("#ApplyPrice").val().trim();
-                                if (!obj.ApplyPrice) {
-                                    layer.msg("请输入申请退款金额！");
-                                    return false;
-                                }
-
-                                obj.ApplyRemark = $("#ApplyRemark").val().trim();//赋值必须和数据库字段对应
-                                obj.StudentID = Enroll.StudentID;
-                                obj.EnrollID = Enroll.ID;
-                                obj.StateID = 1;
-                               
-                             
-                                var action = '@Url.Action("SaveEnrollManageList", "Enroll")'; 
-                                            $.post(action, {
-                                                "data": JSON.stringify(obj)//序列化对象
-                                            }, function (json) {
-                                                if (json.status == 200) {//成功
-
-                                                    layer.msg(json.msg);//弹出服务器返回的消息
-                                                    setTimeout(function () {//操作
-                                                        layer.closeAll();//关闭所有层
-                                                        window.location.reload(); //刷新
-                                                    }, 3000);
-                                                }
-                                            }, 'json');
-                                        }
-
-
-
-                        </script>
+                        
+                      

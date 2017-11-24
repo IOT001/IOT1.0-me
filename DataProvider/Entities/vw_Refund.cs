@@ -108,7 +108,7 @@ namespace DataProvider.Entities
         /// <summary>
         /// 出生日期
         /// </summary>				
-        public DateTime Birthday { get; set; }
+        public DateTime ?   Birthday { get; set; }
         
         /// <summary>
         /// 报名日期
@@ -170,6 +170,20 @@ namespace DataProvider.Entities
         /// 退款方式
         /// </summary>				
         public string RefundType { get; set; }
+       
+        /// <summary>
+        /// 累计金额
+        /// </summary>				
+        public decimal? Accumulated_Sum { get; set; }
+        /// <summary>
+        /// 违约金
+        /// </summary>				
+        public decimal? Liquidated { get; set; }
+
+        /// <summary>
+        /// 退费金额 
+        /// </summary>				
+        public decimal? refund { get; set; }
  
 
     }
