@@ -26,8 +26,10 @@ namespace IOT1._0.Controllers.WeiXin
             model.search.PageSize = 15;//每页显示15条数据
             model.search.CurrentPage = model.search.CurrentPage <= 0 ? 1 : model.search.CurrentPage;//获取当前页
             Students s =StudentData.GetStudentByAccountID(UserSessionWX.userid);//获取学员
-            search.AttendanceRecord_StudentID = s.ID;//获取学号
-
+            if (s != null)
+            {
+                search.AttendanceRecord_StudentID = s.ID;//获取学号
+            }
             //if (search.timeStart == null && search.timeEnd == null)
             //{
             
