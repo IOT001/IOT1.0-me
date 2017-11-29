@@ -55,11 +55,15 @@ namespace DataProvider.Entities
         /// </summary>				
         public string Wechart { get; set; }
         /// <summary>
-        /// 来源渠道
+        /// 来源渠道中文名称 
         /// </summary>				
-        public string SourceID { get; set; }
+        public string SourceIDName { get; set; }
         /// <summary>
-        /// 状态
+        /// 状态中文名称 
+        /// </summary>				
+        public string StateIDName { get; set; }
+        /// <summary>
+        /// 状态 
         /// </summary>				
         public string StateID { get; set; }
         /// <summary>

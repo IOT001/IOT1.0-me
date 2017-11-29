@@ -251,6 +251,57 @@ namespace IOT1._0.Controllers.Teach
 
 
 
+        /// <summary>
+        /// 恢复
+        /// </summary>
+        /// <param name="json"></param>
+        /// <returns></returns>
+        public JsonResult Recovery()
+        {
+            AjaxStatusModel ajax = new AjaxStatusModel();//功能操作类的返回类型都是AjaxStatusModel，数据放到AjaxStatusModel.data中，前台获取json后加载
+            ajax.status = EnumAjaxStatus.Error;//默认失败
+
+            ajax.msg = "恢复成功！";//前台获取，用于显示提示信息
+            var data = Request["data"];//获取前台传递的数据，主要序列化
+           
+            Students Stu = (Students)(JsonConvert.DeserializeObject(data.ToString(), typeof(Students)));  
+            Stu.UpdateTime = DateTime.Now;
+            Stu.UpdatorId = UserSession.userid; 
+
+            if (StudentData.UpdateStudent(Stu))//注意时间类型，而且需要在前台把所有的值
+            {
+                ajax.msg = "恢复成功！";
+                ajax.status = EnumAjaxStatus.Success;
+            }
+            return Json(ajax);
+        }
+
+        /// <summary>
+        /// 冻结
+        /// </summary>
+        /// <param name="json"></param>
+        /// <returns></returns>
+        public JsonResult Frozen()
+        {
+            AjaxStatusModel ajax = new AjaxStatusModel();//功能操作类的返回类型都是AjaxStatusModel，数据放到AjaxStatusModel.data中，前台获取json后加载
+            ajax.status = EnumAjaxStatus.Error;//默认失败
+
+            ajax.msg = "冻结失败！";//前台获取，用于显示提示信息
+            var data = Request["data"];//获取前台传递的数据，主要序列化
+
+            Students Stu = (Students)(JsonConvert.DeserializeObject(data.ToString(), typeof(Students)));
+            Stu.UpdateTime = DateTime.Now;
+            Stu.UpdatorId = UserSession.userid; 
+            if (StudentData.UpdateStudent(Stu))//注意时间类型，而且需要在前台把所有的值
+            {
+                ajax.msg = "冻结成功！";
+                ajax.status = EnumAjaxStatus.Success;
+            }
+            return Json(ajax);
+        }
+
+
+
 
 
     }
