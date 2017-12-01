@@ -1,0 +1,87 @@
+﻿@using DataProvider.Models
+@using DataProvider.Paging
+@{
+    ViewBag.Title = "教师考勤";
+    Layout = "~/Views/Shared/_Layoutwx.cshtml";//设置模板文件
+}
+@model WX_TeacherClassListViewModel
+<div class="ibox float-e-margins w640">
+    <div class="ibox-title">
+
+        <h2>
+            <a href="@Url.Action("Index")" class="pull-left m-r-md">
+                <i class="fa fa-chevron-left"></i>
+            </a>教师考勤
+        </h2>
+    </div>
+    <div class="ibox-title">
+
+        @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "frmQuery", @class = "form-horizontal" }))
+        {
+            <div class="form-group" style="display:none">
+
+                <div class="col-xs-5">
+                    <div class="input-daterange input-group" id="datepicker">
+
+                        @Html.TextBoxFor(t => t.search.timeStart, new { @class = "input-sm form-control", @value = DateTime.Now })
+                    </div>
+                </div>
+
+
+                <div class="col-xs-5">
+                    @Html.TextBoxFor(t => t.search.timeEnd, new { @class = "input-sm form-control", @value = DateTime.Now })
+
+                </div>
+
+
+            </div>
+
+
+            <div class="">
+                <div class="btn-group">
+                    <button class="btn btn-primary" type="submit" id="This_Week" onclick="This_Week">本&nbsp;&nbsp;&nbsp;&nbsp;周</button>
+                    <button class="btn btn-primary" type="submit" id="Next_Week" onclick="Next_Week">下一周</button>
+                </div>
+            </div>
+
+        }
+
+
+    </div>
+
+    <div id="mydiv"></div>
+    <div class="ibox-content">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>日期</th>
+                    <th>星期</th>
+                    <th>班级</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @if (Model != null && Model.TeacherClassList.Count() > 0)
+                {
+                    foreach (var m in Model.TeacherClassList)
+                    {
+                        <tr>
+                            <td>@DateTime.Parse(@m.ClassDate + "").ToString("yyyy-MM-dd")</td>
+                            <td>@m.ClassDate.DayOfWeek.ToString()</td>
+                            <td>@m.ClassName</td>
+
+                            <td><a href="@Url.Action("FSConnectionInfo", "Weixin", new { })" class=" btn-block"><i class="fa fa-arrow-circle-right fa-2x"></i></a></td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="5" style="text-align:center; color:red;">未查询到数据,请更换查询条件试试!</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

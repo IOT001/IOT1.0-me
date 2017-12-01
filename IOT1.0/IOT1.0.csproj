@@ -182,6 +182,7 @@
     <Compile Include="Controllers\WeiXin\MessageListController.cs" />
     <Compile Include="Controllers\WeiXin\PaymentListController.cs" />
     <Compile Include="Controllers\WeiXin\ReservationController.cs" />
+    <Compile Include="Controllers\WeiXin\TeacherClassController.cs" />
     <Compile Include="Controllers\WeiXin\WeixinController.cs" />
     <Compile Include="Controllers\Finance\DiscountListController.cs" />
     <Compile Include="Controllers\Finance\FinanceController.cs" />
@@ -4828,6 +4829,7 @@
     <Content Include="Views\Weixin\ClasshourDetailedlist.cshtml" />
     <Content Include="Views\Enroll\RefundInfo.cshtml" />
     <Content Include="Views\Finance\RefundInfo_Print.cshtml" />
+    <Content Include="Views\Weixin\TeacherClassList.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

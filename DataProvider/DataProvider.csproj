@@ -121,6 +121,7 @@
     <Compile Include="Data\MenuData.cs" />
     <Compile Include="Data\MessageBrowseData.cs" />
     <Compile Include="Data\StudentData.cs" />
+    <Compile Include="Data\TeacherClassData.cs" />
     <Compile Include="Data\TeacherData.cs" />
     <Compile Include="Data\ClassesData.cs" />
     <Compile Include="Data\ClassListData.cs" />
@@ -199,6 +200,7 @@
     <Compile Include="Models\EnrollProtocolViewModel.cs" />
     <Compile Include="Models\ListenListViewModel.cs" />
     <Compile Include="Models\ReservationModel.cs" />
+    <Compile Include="Models\WX_TeacherClassListViewModel.cs" />
     <Compile Include="Models\WX_MessageBrowseModel.cs" />
     <Compile Include="Models\StudentListViewModel.cs" />
     <Compile Include="Models\CurriculumViewModel.cs" />
