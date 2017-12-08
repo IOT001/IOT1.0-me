@@ -43,7 +43,9 @@
                     <button class="btn btn-primary" type="submit" id="Next_Week" onclick="Next_Week">下一周</button>
                 </div>
             </div>
-
+    <!--Ajax分页数据信息-->
+    <input type="hidden" id="PageSize" name="totalrows" value="@Model.search.PageSize" />
+    <input type="hidden" id="CurrentPage" name="totalpages" value="@Model.search.CurrentPage" />
         }
 
 
@@ -62,7 +64,7 @@
             </thead>
 
             <tbody>
-                @if (Model != null && Model.TeacherClassList.Count() > 0)
+                @if (Model != null && Model.TeacherClassList.Count() > 0 && Model.search.CurrentPage < Model.search.TotalPageCount)
                 {
                     foreach (var m in Model.TeacherClassList)
                     {
@@ -74,17 +76,23 @@
                             <td><a href="@Url.Action("TeacherClassInfo", "Weixin", new { classid = m.ClassID, classindex = m.ClassIndex})" class=" btn-block"><i class="fa fa-arrow-circle-right fa-2x"></i></a></td>
                         </tr>
                     }
+                    <tr>
+                        <td colspan="5">
+                        <button class="btn btn-primary btn-block m-t" onclick="loadmore()"><i class="fa fa-arrow-down"></i> 加载跟多</button></td>
+                    </tr>
                 }
                 else
                 {
                     <tr>
-                        <td colspan="5" style="text-align:center; color:red;">未查询到数据,请更换查询条件试试!</td>
+                        <td colspan="5">
+                        <button class="btn btn-primary btn-block m-t"><i class="fa fa-arrow-down"></i> 已全部加载</button></td>
                     </tr>
                 }
             </tbody>
         </table>
-        <!--Ajax分页数据信息-->
-        <input type="hidden" id="totalrows" name="totalrows" value="@Model.search.PageSize" />
-        <input type="hidden" id="totalpages" name="totalpages" value="@Model.search.CurrentPage" />
+
     </div>
 </div>
+<script type="text/javascript">
+   
+</script>

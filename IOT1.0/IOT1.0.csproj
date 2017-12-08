@@ -4774,6 +4774,7 @@
     <Content Include="Images\orderedList8.png" />
     <Content Include="Images\orderedList9.png" />
     <Content Include="Scripts\_references.js" />
+    <Content Include="Upload\AttendanceList\201707272046255454.jpg" />
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
@@ -4833,6 +4834,9 @@
     <Content Include="Views\Finance\RefundInfo_Print.cshtml" />
     <Content Include="Views\Weixin\TeacherClassList.cshtml" />
     <Content Include="Views\Weixin\TeacherClassInfo.cshtml" />
+    <Content Include="Upload\AttendanceList\201708032219260081.docx" />
+    <Content Include="Upload\AttendanceList\201708071132051909.docx" />
+    <Content Include="Upload\AttendanceList\aaabbccc.docx" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

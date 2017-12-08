@@ -25,13 +25,18 @@ namespace IOT1._0.Controllers.WeiXin
         {
             WX_TeacherClassListViewModel model = new WX_TeacherClassListViewModel();
             model.search = search;
-            model.search.PageSize = 9999;//每页显示1000条数据
+            model.search.PageSize = 15;
             model.search.CurrentPage = model.search.CurrentPage <= 0 ? 1 : model.search.CurrentPage;//获取当前页
+
+            search.PageSize = model.search.PageSize * model.search.CurrentPage;//微信端显示数量
+            search.CurrentPage = 1;
+            
             Teachers s = TeacherData.GetTeachByID(UserSessionWX.userid);//获取当前教师
             if (s != null)
             {
                 model.search.teacherID = s.ID;
                 model.TeacherClassList = TeacherClassData.GetAttendanceRecordList(search);
+                model.search.TotalPageCount = model.TeacherClassList.TotalPageCount;
             }
             return View(model);
         }
