@@ -83,5 +83,8 @@
                 }
             </tbody>
         </table>
+        <!--Ajax分页数据信息-->
+        <input type="hidden" id="totalrows" name="totalrows" value="@Model.search.PageSize" />
+        <input type="hidden" id="totalpages" name="totalpages" value="@Model.search.CurrentPage" />
     </div>
 </div>
