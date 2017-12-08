@@ -3,6 +3,8 @@ using DataProvider.Data;
 using DataProvider.Entities;
 using DataProvider.Models;
 using IOT1._0.Models;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -95,5 +97,116 @@ namespace IOT1._0.Controllers.WeiXin
             }
             return Json(ajax);
         }
+
+
+
+
+
+
+
+
+        /// <summary>
+        /// 保存作业内容
+        /// </summary>
+        /// <returns></returns>
+        public JsonResult savClassList()
+        {
+            AjaxStatusModel ajax = new AjaxStatusModel();//功能操作类的返回类型都是AjaxStatusModel，数据放到AjaxStatusModel.data中，前台获取json后加载
+            ajax.status = EnumAjaxStatus.Error;//默认失败
+            ajax.msg = "保存失败！";//前台获取，用于显示提示信息
+            var data = Request["data"];//获取前台传递的数据，主要序列化
+            if (string.IsNullOrEmpty(data))
+            {
+                return Json(ajax);
+            }
+            ClassList cla = (ClassList)(JsonConvert.DeserializeObject(data.ToString(), typeof(ClassList)));
+            int obj = TeacherClassData.UpdateClassList(cla);
+            if (obj > 0)
+            {
+                ajax.status = EnumAjaxStatus.Success;
+                ajax.msg = "保存成功";
+                ajax.data = ajax.msg;
+            }
+
+            return Json(ajax);
+        }
+
+
+
+        /// <summary>
+        /// 上传文件
+        /// </summary>
+        /// <param name="json"></param>
+        /// <returns></returns> 
+        public JsonResult Upload()
+        {
+
+            AjaxStatusModel ajax = new AjaxStatusModel();//功能操作类的返回类型都是AjaxStatusModel，数据放到AjaxStatusModel.data中，前台获取json后加载
+            ajax.status = EnumAjaxStatus.Error;//默认失败
+            ajax.msg = "新增失败！";//前台获取，用于显示提示信息
+            var data = Request["data"];//获取前台传递的数据，主要序列化 
+            if (string.IsNullOrEmpty(data))
+            {
+                return Json(ajax);
+            }
+            JObject jsonObj = JObject.Parse(data);
+            Picture Picture = new Picture();
+            var ret = Picture.DPUpLoadFile(jsonObj);
+
+            ClassListJob cla = new ClassListJob();
+            cla.Classid = jsonObj["Classid"].ToString();
+            cla.Classindex = int.Parse(jsonObj["Classindex"].ToString());
+            cla.CreatorId = UserSession.userid;
+            cla.CreateTime = DateTime.Now;
+            cla.FileName = ret["filename"];//文件名称
+            cla.ContentType = ret["ContentType"];
+            if (TeacherClassData.AddClassListJob(cla) > 0)//
+            {
+                ajax.msg = "上传成功！";
+                ajax.status = EnumAjaxStatus.Success;
+                ajax.data = ret;
+            }
+
+
+            return Json(ajax);
+
+        }
+
+
+
+
+        /// <summary>
+        /// 下载图片
+        /// </summary>
+        /// <returns></returns>
+        public JsonResult ClassListJob_Teacher()
+        {
+            AjaxStatusModel ajax = new AjaxStatusModel();//功能操作类的返回类型都是AjaxStatusModel，数据放到AjaxStatusModel.data中，前台获取json后加载
+            ajax.status = EnumAjaxStatus.Error;//默认失败
+            ajax.msg = "获取失败！";//前台获取，用于显示提示信息
+            var data = Request["data"];//获取前台传递的数据，主要序列化
+            if (string.IsNullOrEmpty(data))
+            {
+                return Json(ajax);
+            }
+            ClassListJob cls = (ClassListJob)(JsonConvert.DeserializeObject(data.ToString(), typeof(ClassListJob)));
+            List<vw_ClassListJob> btn = TeacherClassData.ClassListJob(cls.Classid, cls.Classindex);//业务层获取底层方法，返回数据
+            if (btn != null)
+            {
+                ajax.data = btn;//放入数据
+                ajax.status = EnumAjaxStatus.Success;
+                ajax.msg = "获取成功！";
+            }
+            return Json(ajax);
+
+        }
+
+
+
+
+
+
+
+
     }
 }

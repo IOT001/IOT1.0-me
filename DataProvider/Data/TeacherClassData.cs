@@ -69,5 +69,73 @@ namespace DataProvider.Data
            ret = MsSqlMapperHepler.SqlWithParamsSingle<vw_ClassAttendanceList>(strsql, null, DBKeys.PRX);
            return ret;
        }
+
+
+
+
+
+
+
+       /// <summary>
+       /// 获取文件路径
+       /// </summary>
+       /// <param name="classId"></param>
+       /// <param name="classIndex"></param>
+       /// <returns></returns>
+       public static List<vw_ClassListJob> ClassListJob(string classid, int classindex)
+       {
+           string table = string.Empty, fields = string.Empty, orderby = string.Empty, where = string.Empty;//定义结构
+           fields = @"  * ";//输出字段
+           table = @" vw_ClassListJob ";//表或者视图
+           orderby = "id";//排序信息
+           StringBuilder sb = new StringBuilder();//构建where条件
+           sb.Append("select * from vw_ClassListJob where ");
+           sb.Append(" 1=1 ");
+
+
+           if (!string.IsNullOrWhiteSpace(classid))//班级ID
+               sb.Append(" and classid = @ClassID");
+           if (classindex != 0)//班级行号
+               sb.Append(" and classindex = @ClassIndex  ");
+           sb.Append(" order by id ");
+
+
+           var parameters = new DynamicParameters();
+           parameters.Add("@classid", classid);
+           parameters.Add("@classindex", classindex);
+           return MsSqlMapperHepler.SqlWithParams<vw_ClassListJob>(sb.ToString(), parameters, DBKeys.PRX);
+
+       }
+
+
+       public static int UpdateClassList(ClassList cls)
+       {
+
+           StringBuilder sb = new StringBuilder();
+           sb.Append(" update ClassList set JobTitle=@JobTitle  ");
+           sb.Append(" , JobContent=@JobContent  ");
+           sb.Append(" where ClassID=@ClassID ");
+           sb.Append(" AND ClassIndex=@ClassIndex ");
+           var parameters = new DynamicParameters();
+           parameters.Add("@JobTitle", cls.JobTitle);
+           parameters.Add("@JobContent", cls.JobContent);
+           parameters.Add("@ClassID", cls.ClassID);
+           parameters.Add("@ClassIndex", cls.ClassIndex);
+           return MsSqlMapperHepler.InsertUpdateOrDeleteSql(sb.ToString(), parameters, DBKeys.PRX);
+       }
+
+
+       /// <summary>
+       /// 新增,返回的是主键
+       /// </summary>
+       /// <param name="btn"></param>
+       /// <returns></returns>
+       public static int AddClassListJob(ClassListJob Clas)
+       {
+           return MsSqlMapperHepler.Insert<ClassListJob>(Clas, DBKeys.PRX);
+       }
+
+
+
     }
 }
