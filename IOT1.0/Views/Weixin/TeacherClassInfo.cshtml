@@ -22,10 +22,19 @@
                 <label class="col-xs-4 control-label">上课日期：</label>
                 <label class="col-xs-8 form-control-static">@Model.acl.ClassDate.ToShortDateString() </label>
             </div>
+
+
+             <div class="form-group ">
+     
+            <input type="text" placeholder="班级ID"   style="display:none"  value="@Model.acl.ClassID" id="Classid">
+                 <input type="text" placeholder="行号"  style="display:none"  value="@Model.acl.ClassIndex" id="Classindex">   
+             </div>
+
+
             <div class="form-group ">
                 <label class="col-xs-4 control-label">操作：</label>
                 <div class="col-xs-8 form-control-static">
-                    <button type="button" class="btn btn-primary btn-sm" onclick=''>
+                    <button type="button" class="btn btn-primary btn-sm" onclick="publishJob()">
                         <i class="fa fa-file-text"></i>&nbsp;布置作业
                     </button>
                 </div>
@@ -89,6 +98,83 @@
         <input type="text" name="Evaluate" id="Evaluate" class="input-sm form-control" placeholder="请填写评价内容" />
     </div>
 </div>
+
+
+
+
+@*弹出层，发布作业*@
+<div class="ibox float-e-margins" id="job" style="display:none">
+    <div class="ibox-content">
+        <form class="form-horizontal">
+         
+
+
+               
+
+            <div class="form-group">
+                <label class="col-xs-3 control-label">作业名称：</label>
+                <div class="col-xs-8">
+                    <input type="text" placeholder="作业标题" class="form-control" id="JobTitle">
+                
+                </div>
+            </div>
+           
+
+            <div class="form-group">
+                <label class="col-xs-3 control-label">作业内容：</label>
+                <div class="col-xs-8">
+                    <textarea placeholder="作业内容" class="form-control" rows="3"  id="JobContent"></textarea>
+                
+                 <button type="button"  class=" btn btn-primary" onclick="SAVA()">&nbsp&nbsp保&nbsp&nbsp存&nbsp&nbsp</button>
+
+                </div>
+            </div>
+
+
+
+            <div class="form-group">
+                <label class="col-xs-3 control-label">文件上传：</label>
+                <div class="col-xs-8">
+                @*    <input class="form-control" type="text" id="Picurl" />
+                    <input type="file" id="uploadFile" />
+                    <button type="button" class=" btn btn-primary" onclick="UploadPic()">&nbsp&nbsp上&nbsp&nbsp传&nbsp&nbsp</button>*@
+
+
+                         <input class="form-control" type="text" id ="Picurl"   />
+                  <button type="button" class="btn btn-w-m btn-primary " onclick="OpenUploadWindow()">选择文件</button>
+                  <button onclick="UploadPic()" class="btn btn-primary" type="button">上传</button>
+             
+                     <input id="uploadFile" type="file" class="hidden"   />
+
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-xs-12">上传记录：</label>
+                 <div class="table-responsive">
+            
+                    <table class="table" id="ClassListJob">
+                        <thead>
+                            <tr>
+                                <th>上传日期</th>
+                                <th>作业名称</th>
+                                <th>作业内容</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                       
+                    </table>
+                </div>
+            </div>
+        </form>
+
+    </div>
+</div>
+
+
+
+
+
 
 <script type="text/javascript">
     //报存考勤数据，AttendanceTypeID：通过哪个按钮触发，正常2，缺勤3，请假4
@@ -155,4 +241,229 @@
         });
         
     }
+
+
+
+
+
+    // 发布作业
+    function publishJob() {
+       
+        layer.open({
+            type: 1,
+            title: "<h3>发布作业</h3>",
+            area: ['680px', '500px'],
+            content: $('#job'),
+            
+            yes: function () {
+
+            },
+            cancel: function (index) {
+                layer.close(index);
+            }
+        });
+        ClassListJob();
+        $("#file-1").fileinput({
+            uploadUrl: '#', // you must set a valid URL here else you will get an error
+            allowedFileExtensions: ['jpg', 'png', 'gif'],//接收的文件后缀
+            //overwriteInitial: false,
+            maxFileSize: 1000,
+            maxFilesNum: 10,
+            allowedFileTypes: ['image'],
+            msgFilesTooMany: "选择上传的文件数量({n}) 超过允许的最大数值{m}！",
+            slugCallback: function (filename) {
+                return filename.replace('(', '_').replace(']', '_');
+            }
+        });
+    }
+
+   
+
+
+    function OpenUploadWindow() {
+        $("#uploadFile").click().change(
+            function () {
+                var file = document.getElementById("uploadFile").value;
+                $("#Picurl").val(file);
+                document.getElementById("Picurl").value = file;
+            }
+            );
+
+    }
+
+
+
+
+    //上传文件
+    function UploadPic() {
+        //var extensionName = /.JPG|.JPEG|.jpg|.png|.gif|.jpeg/;
+        var file = $("#uploadFile")[0].files[0];
+
+        if (!file) {
+            layer.msg("未找到相关文件！");
+            return false;
+        }
+
+        //如果文件大于5M
+        if (file.size > 1048576 * 5) {
+            layer.msg("您上传的文件太大了，最多允许5MB，请重新选择文件！");
+            return false;
+        }
+
+        //if (extensionName.test(file.name)) {
+        if (window.FileReader) {
+            var reader = new FileReader();
+            reader.onload = function (evt) {
+                if (evt.target.readyState === FileReader.DONE) {
+                    var offset = evt.target.result.indexOf(";base64,");
+                    var fileTemp = null;
+                    if (offset > 0) {
+                        //前八个字节是数据流的头所以要去除。
+                        fileTemp = evt.target.result.substr(offset + 8);
+                    }
+                    //取得文件的扩展名
+                    var fileExt = file.name.replace(/.+\./, "");
+                    //将分离出来的二进制文件流放到参数里
+
+
+
+                    var obj = new Object;
+                    obj.fileTemp = fileTemp;
+                    obj.fileExt = fileExt;
+
+                    obj.Classid = $("#Classid").val();
+                    obj.Classindex = $("#Classindex").val();
+                    var action = '@Url.Action("Upload", "Weixin")'
+                        $.post(action, {
+                            "data": JSON.stringify(obj) //序列化对象
+                        }, function (json) {
+                            if (json.status == 200) {//成功
+
+                                ClassListJob();
+                                // $("#img").attr("src", json.data.thumbnailImage);
+                                $("#Picurl").val(json.data.filename);//弹出服务器返回的消息
+                                layer.msg(json.msg);//弹出服务器返回的消息 
+                            }
+                        }, 'json');
+
+
+
+                    }
+                }
+
+                reader.onerror = function () {
+                    layer.msg("文件读取时发生错误！");
+                    return false;
+                }
+                reader.readAsDataURL(file);    // 将文件读取成一段以 data:开头的字符串
+            }
+       
+
+
+    }
+
+
+
+
+
+
+    function SAVA() {
+
+        var cls = new Object;
+        cls.JobTitle = $("#JobTitle").val();
+        cls.JobContent = $("#JobContent").val();
+
+        if (!cls.JobTitle) {
+            layer.msg("作业标题不能为空！");
+            return false;
+        }
+        if (!cls.JobContent) {
+            layer.msg("作业内容不能为空！");
+            return false;
+        }
+
+        cls.Classid = $("#Classid").val();
+        cls.Classindex = $("#Classindex").val();
+
+
+        var action = '@Url.Action("savClassList", "Weixin")'
+        $.post(action, {
+            "data": JSON.stringify(cls)//序列化对象
+        }, function (json) {
+            if (json.status == 200) {//成功
+
+                ClassListJob();
+                // $("#img").attr("src", json.data.thumbnailImage);
+                $("#Picurl").val(json.data.filename);//弹出服务器返回的消息
+                layer.msg(json.msg);//弹出服务器返回的消息 
+            }
+        }, 'json');
+
+
+
+    }
+
+
+
+ 
+    //加载下载路径
+    function ClassListJob() {
+        var loadindex = layer.load();
+        var cls = new Object;
+        cls.Classid = $("#Classid").val();
+        cls.Classindex = $("#Classindex").val();
+        var _data = JSON.stringify(cls);
+        $.post('@Url.Action("ClassListJob", "Attendance")', {
+            "data": _data
+        },//序列化对象
+            function (json) {
+                if (json.status == 200 && json.data.length > 0) {//成功,且有上传资料
+                    var row = "";
+                    $.each(json.data, function (index, value) {
+                        var evalute = value.Evaluate;
+                        if (!evalute) {
+                            evalute = '';
+                        }
+                        row += "<tr><td>" + ChangeDateFormat(value.CreateTime) + "</td><td  >" + value.JobTitle + "</td><td>" + value.JobContent + "</td>  <td> <a  target='blank' href='" + value.FileRoute + "'><i class='fa fa-edit'></i> 下载</a>     <a href='javascript:DELETE(" + value.ID + ");' class='' type='button'><i class='fa fa-edit'></i> 删除</a> </td>   </tr>"
+                        //<a  target="_blank" href="/Upload/AttendanceList/201707201530541035.doc"><i class="fa fa-edit"></i> 下载</a>
+                    })
+                    row = "<tbody>" + row + "</tbody>";
+                    $('#ClassListJob > tbody').remove()
+                    $('#ClassListJob').append(row);
+                    $("#JobTitle").val(json.data[0].JobTitle);
+                    $("#JobContent").val(json.data[0].JobContent);
+                }
+
+                layer.close(loadindex);//关闭加载层
+            }
+        ).error(function () {
+            layer.close(loadindex);//关闭加载层
+        });
+    }
+     
+
+    //点击列表的编辑按钮，编辑操作
+    function DELETE(id) {
+        if (confirm("你确定要删除？")) {
+
+             
+            var   action = '@Url.Action("DELETE", "Attendance")'; 
+            $.post(action, {
+                "ID": id
+            }, function (json) {
+                if (json.status == 200) {//成功 
+                    layer.msg(json.msg);//弹出服务器返回的消息
+                    setTimeout(function () {//操作 
+                        window.location.reload(); //刷新
+                    }, 3000);
+                }
+            }, 'json');
+
+        }
+
+
+
+    }
+
+
 </script>
