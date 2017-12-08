@@ -23,7 +23,7 @@ namespace DataProvider.Data
             string table = string.Empty, fields = string.Empty, orderby = string.Empty, where = string.Empty;//定义结构
             fields = @"  * ";//输出字段
             table = @" vw_ClassAttendanceList ";//表或者视图
-            orderby = "ID";//排序信息
+            orderby = "ClassIndex";//排序信息
             StringBuilder sb = new StringBuilder();//构建where条件
             sb.Append(" 1=1 ");
 
@@ -44,5 +44,30 @@ namespace DataProvider.Data
             return new PagedList<vw_ClassAttendanceList>(list, search.CurrentPage, search.PageSize, allcount);
         }
 
+       /// <summary>
+       /// 根据班级ID获取学员考勤信息
+       /// </summary>
+       /// <param name="classid"></param>
+       /// <returns></returns>
+       public static List<vw_AttendanceRecord> GetAttendanceRecordByClassID(string classid, int ClassIndex)
+       {
+           string strsql = "select * from vw_AttendanceRecord where ClassID = '" + classid + "' and ClassIndex = " + ClassIndex;
+           List<vw_AttendanceRecord> ret = new List<vw_AttendanceRecord>();
+           ret = MsSqlMapperHepler.SqlWithParams<vw_AttendanceRecord>(strsql, null, DBKeys.PRX);
+           return ret;
+       }
+       /// <summary>
+       /// 获取本次上课信息
+       /// </summary>
+       /// <param name="classid"></param>
+       /// <param name="classindex"></param>
+       /// <returns></returns>
+       public static vw_ClassAttendanceList GetOneClassAttendanceList(string classid, int classindex)
+       {
+           string strsql = "select * from vw_ClassAttendanceList where ClassID = '" + classid + "' and ClassIndex = " + classindex;
+           vw_ClassAttendanceList ret = new vw_ClassAttendanceList();
+           ret = MsSqlMapperHepler.SqlWithParamsSingle<vw_ClassAttendanceList>(strsql, null, DBKeys.PRX);
+           return ret;
+       }
     }
 }

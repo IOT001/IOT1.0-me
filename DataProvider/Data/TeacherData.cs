@@ -113,25 +113,15 @@ namespace DataProvider.Data
         }
 
         /// <summary>
-        /// 根据ID获取教师信息
+        /// 根据登录ID获取教师信息
         /// </summary>
         /// <param name="ID"></param>
         /// <returns></returns>
-        public static Teachers GetTeachByID(String ID)
+        public static Teachers GetTeachByID(String loginid)
         {
-            return MsSqlMapperHepler.GetOne<Teachers>(ID, DBKeys.PRX);
+            string strsql = "select * from Teachers where MobilePhone = '" + loginid + "'";
+            return MsSqlMapperHepler.SqlWithParamsSingle<Teachers>(strsql, null, DBKeys.PRX);
         }
-
-
-
-
-
-
-
-
-
-
-
 
 
         /// <summary>

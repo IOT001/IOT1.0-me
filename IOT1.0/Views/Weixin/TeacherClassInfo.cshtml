@@ -1,0 +1,158 @@
+﻿@using DataProvider.Models
+@using DataProvider.Paging
+@{
+    ViewBag.Title = "教师考勤详细页";
+    Layout = "~/Views/Shared/_Layoutwx.cshtml";//设置模板文件
+}
+@model WX_TeacherClassInfoViewModel
+<div class="ibox float-e-margins w640" >
+    <div class="ibox-title">
+        <a href="@Url.Action("TeacherClassList")" class="pull-left m-r-md">
+            <i class="fa fa-chevron-left"></i>
+        </a>
+        <h5> 教师考勤详细页</h5>
+    </div>
+    <div class="ibox-content full-height-scroll">
+        <form class="form-horizontal">
+            <div class="form-group ">
+                <label class="col-xs-4 control-label">班级信息：</label>
+                <label class="col-xs-8 form-control-static">@Model.acl.ClassName </label>
+            </div>
+            <div class="form-group ">
+                <label class="col-xs-4 control-label">上课日期：</label>
+                <label class="col-xs-8 form-control-static">@Model.acl.ClassDate.ToShortDateString() </label>
+            </div>
+            <div class="form-group ">
+                <label class="col-xs-4 control-label">操作：</label>
+                <div class="col-xs-8 form-control-static">
+                    <button type="button" class="btn btn-primary btn-sm" onclick=''>
+                        <i class="fa fa-file-text"></i>&nbsp;布置作业
+                    </button>
+                </div>
+            </div>
+        </form>
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>学员姓名</th>
+                        <th>考勤结果</th>
+                        <th >考勤</th>
+                        <th >评价</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null && Model.arlist.Count() > 0)
+                    {
+                        foreach (var m in Model.arlist)
+                        {
+                            <tr>
+                                <td>@m.Name</td>
+                                <td>@m.AttendanceTypeIDName</td>
+                                <td>
+                                    @if(m.AttendanceTypeID.Value == 1 )//未考勤状态下才允许考勤
+                                    { 
+                                        <button class="btn btn-primary btn-sm" onclick='onSaveKaoqin("2","@m.StudentID")'>
+                                            <i class="fa fa-check"></i>&nbsp;正常
+                                        </button>
+                                        <button class="btn btn-warning btn-sm" onclick='onSaveKaoqin("3","@m.StudentID")'>
+                                            <i class="fa fa-warning"></i> <span class="bold">缺勤</span>
+                                        </button>
+                                        <button class="btn btn-info btn-sm" onclick='onSaveKaoqin("4","@m.StudentID")'>
+                                            <i class="fa fa-paste"></i> 请假
+                                        </button>
+                                    }
+                                </td>
+                                <td>
+                                    <button class="btn btn-info btn-sm" onclick='appraise("@m.StudentID")'>
+                                        <i class="fa fa-comments"></i> 评价
+                                    </button>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="4" style="text-align:center; color:red;">未查询到数据,请更换查询条件试试!</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@*弹出层，评价*@
+<div class="ibox float-e-margins" id="appraise" style="display:none">
+    <div class="ibox-content">
+        <input type="text" name="Evaluate" id="Evaluate" class="input-sm form-control" placeholder="请填写评价内容" />
+    </div>
+</div>
+
+<script type="text/javascript">
+    //报存考勤数据，AttendanceTypeID：通过哪个按钮触发，正常2，缺勤3，请假4
+    function onSaveKaoqin(AttendanceTypeID, StudentID) {
+        var ClassID = "@Model.acl.ClassID";//班级号
+        var ClassIndex = "@Model.acl.ClassIndex";//班级序号
+        var loadindex = layer.load();
+        $.post('@Url.Action("SaveStudentAttendance_WX", "Weixin")', {
+            "StudentID": StudentID,
+            "ClassID": ClassID,
+            "ClassIndex": ClassIndex,
+            "AttendanceTypeID": AttendanceTypeID
+        }, function (json) {
+            layer.close(loadIndex);//关闭加载层
+            if (json.status == 200) {//成功
+                layer.msg(json.msg);//弹出服务器返回的消息
+                setTimeout(function () {//操作
+                    layer.closeAll();//关闭所有层
+                    window.location.reload(); //刷新
+                }, 3000);
+            }
+            layer.close(loadIndex);//关闭加载层
+        }).error(function () {
+            layer.close(loadIndex);//关闭加载层
+        });
+    }
+
+    //学员评价
+    function appraise(StudentID) {
+        var ClassID = "@Model.acl.ClassID";//班级号
+        var ClassIndex = "@Model.acl.ClassIndex";//班级序号
+
+        layer.open({
+            type: 1,
+            title: "评价学生",
+            content: $('#appraise'),
+            btn: ['保存', '取消'],
+            yes: function () {
+                var loadindex = layer.load();
+                $.post('@Url.Action("SaveStudentEvalute_WX", "Weixin")', {
+                    "StudentID": StudentID,
+                    "ClassID": ClassID,
+                    "ClassIndex": ClassIndex,
+                    "Evaluate": $("#Evaluate").val()
+                }, function (json) {
+                   
+                    if (json.status == 200) {//成功
+                        layer.closeAll();
+                        layer.msg(json.msg);//弹出服务器返回的消息
+                        setTimeout(function () {//操作
+                            layer.closeAll();//关闭所有层
+                            window.location.reload(); //刷新
+                        }, 3000);
+                    }
+         
+                }).error(function () {
+                    layer.msg("系统错误！")
+                    layer.closeAll();
+                });
+            },
+            cancel: function (index) {
+                layer.closeAll();
+            }
+        });
+        
+    }
+</script>

@@ -28,10 +28,72 @@ namespace IOT1._0.Controllers.WeiXin
             Teachers s = TeacherData.GetTeachByID(UserSessionWX.userid);//获取当前教师
             if (s != null)
             {
+                model.search.teacherID = s.ID;
                 model.TeacherClassList = TeacherClassData.GetAttendanceRecordList(search);
             }
-            return View();
+            return View(model);
         }
 
+        /// <summary>
+        /// 教师考勤详细页
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult TeacherClassInfo()
+        {
+            string classid = Request["classid"];
+            int ClassIndex = int.Parse(Request["classindex"].ToString());
+            WX_TeacherClassInfoViewModel model = new WX_TeacherClassInfoViewModel();
+            model.arlist = TeacherClassData.GetAttendanceRecordByClassID(classid,ClassIndex);
+            model.acl = TeacherClassData.GetOneClassAttendanceList(classid, ClassIndex);
+            return View(model);
+        }
+        /// <summary>
+        /// 微信端学员考勤
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult SaveStudentAttendance_WX()
+        {
+            AjaxStatusModel ajax = new AjaxStatusModel();
+            ajax.status = EnumAjaxStatus.Error;//默认失败
+            ajax.msg = "保存考勤失败！";//前台获取，用于显示提示信息
+            AttendanceRecord ar = new AttendanceRecord();
+            ar.StudentID = Request["StudentID"].ToString();//学员号
+            ar.ClassID = Request["ClassID"].ToString();//班级号
+            ar.ClassIndex = int.Parse(Request["ClassIndex"].ToString());//班级索引
+            ar.ClockTime = DateTime.Now;//考勤时间
+            ar.AttendanceTypeID = int.Parse(Request["AttendanceTypeID"].ToString());//通过哪个按钮触发，正常2，缺勤3，请假4
+            List<AttendanceRecord> cls = new List<AttendanceRecord>();
+            cls.Add(ar);
+            if (AttendaceData.saveStudentAttendance(cls, UserSession.userid))
+            {
+                ajax.status = EnumAjaxStatus.Success;
+                ajax.msg = "保存考勤成功";
+
+            }
+            return Json(ajax);
+        }
+        /// <summary>
+        /// 保存学员评价
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult SaveStudentEvalute_WX()
+        {
+            AjaxStatusModel ajax = new AjaxStatusModel();
+            ajax.status = EnumAjaxStatus.Error;//默认失败
+            ajax.msg = "保存考勤失败！";//前台获取，用于显示提示信息
+            AttendanceRecord ar = new AttendanceRecord();
+            ar.StudentID = Request["StudentID"].ToString();//学员号
+            ar.ClassID = Request["ClassID"].ToString();//班级号
+            ar.ClassIndex = int.Parse(Request["ClassIndex"].ToString());//班级索引
+            ar.Evaluate = Request["Evaluate"].ToString();//评价内容
+            ar.UpdateTime = DateTime.Now;
+            ar.UpdatorId = UserSessionWX.userid;
+            if (AttendaceData.SaveStudentEvalute_WX(ar))
+            {
+                ajax.status = EnumAjaxStatus.Success;
+                ajax.msg = "保存考勤成功";
+            }
+            return Json(ajax);
+        }
     }
 }

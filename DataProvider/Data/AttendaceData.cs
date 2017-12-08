@@ -18,7 +18,7 @@ namespace DataProvider.Data
         /// </summary>
         /// <param name="search"></param>
         /// <returns></returns>
-        public static PagedList<vw_ClassAttendanceList> GetButtonList(AttendanceSearchModel search)
+        public static PagedList<vw_ClassAttendanceList> GetClassAttendanceList(AttendanceSearchModel search)
         {
             string table = string.Empty, fields = string.Empty, orderby = string.Empty, where = string.Empty;//定义结构
             fields = @"  * ";//输出字段
@@ -505,8 +505,34 @@ namespace DataProvider.Data
             parameters.Add("@ID", ID); 
             return MsSqlMapperHepler.InsertUpdateOrDeleteSql(sb.ToString(), parameters, DBKeys.PRX);
         }
-
-
+        /// <summary>
+        /// 保存学员评价
+        /// </summary>
+        /// <param name="ar"></param>
+        /// <returns></returns>
+        public static bool SaveStudentEvalute_WX(AttendanceRecord ar)
+        {
+            bool ret = false;
+            StringBuilder sb = new StringBuilder();
+            sb.Append(" update AttendanceRecord set Evaluate=@Evaluate  ");
+            sb.Append(" , UpdateTime=@UpdateTime  ");
+            sb.Append(" , UpdatorId=@UpdatorId  "); 
+            sb.Append(" where ClassID=@ClassID ");
+            sb.Append(" AND ClassIndex=@ClassIndex ");
+            sb.Append(" AND StudentID=@StudentID ");
+            var parameters = new DynamicParameters();
+            parameters.Add("@StudentID", ar.StudentID);
+            parameters.Add("@Evaluate", ar.Evaluate);
+            parameters.Add("@ClassID", ar.ClassID);
+            parameters.Add("@ClassIndex", ar.ClassIndex);
+            parameters.Add("@UpdateTime", ar.UpdateTime);
+            parameters.Add("@UpdatorId", ar.UpdatorId);
+            if (MsSqlMapperHepler.InsertUpdateOrDeleteSql(sb.ToString(), parameters, DBKeys.PRX) > 0)
+            {
+                ret = true;
+            }
+            return ret;
+        }
 
     }
 

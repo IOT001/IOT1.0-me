@@ -200,6 +200,7 @@
     <Compile Include="Models\EnrollProtocolViewModel.cs" />
     <Compile Include="Models\ListenListViewModel.cs" />
     <Compile Include="Models\ReservationModel.cs" />
+    <Compile Include="Models\WX_TeacherClassInfoViewModel.cs" />
     <Compile Include="Models\WX_TeacherClassListViewModel.cs" />
     <Compile Include="Models\WX_MessageBrowseModel.cs" />
     <Compile Include="Models\StudentListViewModel.cs" />

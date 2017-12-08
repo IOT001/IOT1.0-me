@@ -4536,6 +4536,8 @@
     <Content Include="Scripts\knockout\knockout-2.2.0.js" />
     <Content Include="Scripts\knockout\knockout-3.0.0.js" />
     <Content Include="Scripts\knockout\knockout.mapping.js" />
+    <Content Include="Scripts\layer_mobile\layer.js" />
+    <Content Include="Scripts\layer_mobile\need\layer.css" />
     <Content Include="Scripts\main.js" />
     <Content Include="Scripts\minify.json.js" />
     <Content Include="Scripts\Mobile\content\css\change.css" />
@@ -4830,6 +4832,7 @@
     <Content Include="Views\Enroll\RefundInfo.cshtml" />
     <Content Include="Views\Finance\RefundInfo_Print.cshtml" />
     <Content Include="Views\Weixin\TeacherClassList.cshtml" />
+    <Content Include="Views\Weixin\TeacherClassInfo.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -31,7 +31,7 @@ namespace IOT1._0.Controllers.Attendance
             model.ComCodeIL = CommonData.Instance.GetBropDownListData(ComCodeIL);
             model.search.ComCodeIL = CommonData.Instance.GetBropDownListData(ComCodeIL);
 
-            model.buttonlist = AttendaceData.GetButtonList(search);
+            model.buttonlist = AttendaceData.GetClassAttendanceList(search);
             return View(model);
         }
 
@@ -56,6 +56,10 @@ namespace IOT1._0.Controllers.Attendance
             return Json(ajax);
 
         }
+        /// <summary>
+        /// 保存学员评价信息
+        /// </summary>
+        /// <returns></returns>
         public JsonResult saveStudentEvaluate()
         {
             AjaxStatusModel ajax = new AjaxStatusModel();//功能操作类的返回类型都是AjaxStatusModel，数据放到AjaxStatusModel.data中，前台获取json后加载
