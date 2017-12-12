@@ -26,7 +26,7 @@ namespace IOT1._0.Controllers.WeiXin
             WX_TeacherClassListViewModel model = new WX_TeacherClassListViewModel();
             model.search = search;
             model.search.PageSize = 15;
-            model.search.CurrentPage = model.search.CurrentPage <= 0 ? 1 : model.search.CurrentPage;//获取当前页
+            model.search.CurrentPage = Convert.ToInt32(Request["CurrentPage"]) <= 0 ? 1 : Convert.ToInt32(Request["CurrentPage"]);//获取当前页
 
             search.PageSize = model.search.PageSize * model.search.CurrentPage;//微信端显示数量
             search.CurrentPage = 1;
@@ -205,13 +205,6 @@ namespace IOT1._0.Controllers.WeiXin
             return Json(ajax);
 
         }
-
-
-
-
-
-
-
 
     }
 }

@@ -43,9 +43,9 @@
                     <button class="btn btn-primary" type="submit" id="Next_Week" onclick="Next_Week">下一周</button>
                 </div>
             </div>
-    <!--Ajax分页数据信息-->
-    <input type="hidden" id="PageSize" name="totalrows" value="@Model.search.PageSize" />
-    <input type="hidden" id="CurrentPage" name="totalpages" value="@Model.search.CurrentPage" />
+            <!--Ajax分页数据信息-->
+            <input type="hidden" id="PageSize" name="PageSize" value="@Model.search.PageSize" />
+            <input type="hidden" id="CurrentPage" name="CurrentPage" value="@Model.search.CurrentPage" />
         }
 
 
@@ -94,5 +94,9 @@
     </div>
 </div>
 <script type="text/javascript">
-   
+    function loadmore() {
+        var CurrentPage = parseInt($("#CurrentPage").val());
+        $("#CurrentPage").val(CurrentPage + 1);
+        $("form").submit();
+    }
 </script>
