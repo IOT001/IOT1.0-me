@@ -415,7 +415,7 @@
         cls.Classid = $("#Classid").val();
         cls.Classindex = $("#Classindex").val();
         var _data = JSON.stringify(cls);
-        $.post('@Url.Action("ClassListJob", "Attendance")', {
+        $.post('@Url.Action("ClassListJob_Teacher", "Weixin")', {
             "data": _data
         },//序列化对象
             function (json) {
@@ -426,8 +426,14 @@
                         if (!evalute) {
                             evalute = '';
                         }
-                        row += "<tr><td>" + ChangeDateFormat(value.CreateTime) + "</td><td  >" + value.JobTitle + "</td><td>" + value.JobContent + "</td>  <td> <a  target='blank' href='" + value.FileRoute + "'><i class='fa fa-edit'></i> 下载</a>     <a href='javascript:DELETE(" + value.ID + ");' class='' type='button'><i class='fa fa-edit'></i> 删除</a> </td>   </tr>"
-                        //<a  target="_blank" href="/Upload/AttendanceList/201707201530541035.doc"><i class="fa fa-edit"></i> 下载</a>
+                        if (value.ID != 0) {
+                            row += "<tr><td>" + ChangeDateFormat(value.CreateTime) + "</td><td  >" + value.JobTitle + "</td><td>" + value.JobContent + "</td>  <td> <a  target='blank' href='" + value.FileRoute + "'><i class='fa fa-edit'></i> 下载</a>     <a href='javascript:DELETE(" + value.ID + ");' class='' type='button'><i class='fa fa-edit'></i> 删除</a> </td>   </tr>"
+                        }
+                        else {
+                            row += "<tr><td>" + ChangeDateFormat(value.CreateTime) + "</td><td  >" + value.JobTitle + "</td><td>" + value.JobContent + "</td>   <td>  </td>   </tr>"
+                        }
+
+
                     })
                     row = "<tbody>" + row + "</tbody>";
                     $('#ClassListJob > tbody').remove()
