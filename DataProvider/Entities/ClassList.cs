@@ -41,6 +41,10 @@ namespace DataProvider
         /// </summary>	
         public string TeacherID { get; set; }
         /// <summary>
+        /// 讲师ID2
+        /// </summary>	
+        public string Teacher2ID { get; set; }
+        /// <summary>
         /// 教师ID，取字典表
         /// </summary>	
         public Nullable<int> RoomID { get; set; } 

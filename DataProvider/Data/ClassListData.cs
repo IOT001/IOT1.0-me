@@ -86,6 +86,7 @@ namespace DataProvider.Data
                                CL.TimePeriod = Clas.TimePeriod;
                                CL.StateID = 1;
                                CL.TeacherID = Clas.TeacherID;
+                               CL.Teacher2ID = Clas.Teacher2ID;
                                CL.RoomID = Clas.RoomID;
                                CL.CreateTIme = DateTime.Now;
                                CL.CreatorId = Clas.CreatorId;
@@ -368,6 +369,7 @@ namespace DataProvider.Data
             sb.Append(" update ClassList set ClassDate=@ClassDate  ");
             sb.Append(" , TimePeriod=@TimePeriod  ");
             sb.Append(" , TeacherID=@TeacherID  ");
+            sb.Append(" , Teacher2ID=@Teacher2ID  ");
             sb.Append(" , RoomID=@RoomID  ");
             sb.Append(" where ClassID=@ClassID ");
             sb.Append(" AND ClassIndex=@ClassIndex ");
@@ -375,6 +377,7 @@ namespace DataProvider.Data
             parameters.Add("@ClassDate", cls.ClassDate);
             parameters.Add("@ClassID", cls.ClassID);
             parameters.Add("@TeacherID", cls.TeacherID);
+            parameters.Add("@Teacher2ID", cls.Teacher2ID);
             parameters.Add("@RoomID", cls.RoomID);
             parameters.Add("@ClassIndex", cls.ClassIndex);
             parameters.Add("@TimePeriod", cls.TimePeriod);

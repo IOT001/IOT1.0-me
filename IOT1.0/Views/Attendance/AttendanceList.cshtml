@@ -192,10 +192,15 @@
             // loaddetail(id, loadindex)
             loadModifyOptions(data, loadindex);
         }
-        $(".chosen-select").chosen({
+
+        //配置下拉控件chosen
+        $(".chosen-selects").chosen({
             no_results_text: "未找到此选项!",
-            search_contains: true
+            search_contains: true,
+            width: '100%'
         });
+
+        
         //激活日期控件
         $('.DateS').datepicker({
             keyboardNavigation: false,
@@ -211,6 +216,7 @@
         jsonModify.ClassIndex=data.ClassIndex;
         jsonModify.ClassDate = $("#modify_date").val();
         jsonModify.TeacherID = $("#modify_teachers").val();
+        jsonModify.Teacher2ID = $("#modify_teachers2").val();
         jsonModify.TimePeriod = $("#modify_period").val();
         jsonModify.RoomID = $("#modify_room").val();
         if (!jsonModify.RoomID) {
@@ -230,7 +236,12 @@
         }
        
         if (!jsonModify.TeacherID) {
-            layer.msg("请选择老师")
+            layer.msg("请选择当前讲师")
+            layer.close(loadIndex);//关闭加载层
+            return;
+        }
+        if (!jsonModify.Teacher2ID) {
+            layer.msg("请选择当前讲师2")
             layer.close(loadIndex);//关闭加载层
             return;
         }
@@ -261,9 +272,11 @@
                     $("#modify_room").empty();
                     $("#modify_period").empty();
                     $("#modify_teachers").empty();
+                    $("#modify_teachers2").empty();
                     var option_room = "<option value=''>请选择</option>";
                     var option_period = "<option value=''>请选择</option>";
                     var option_teachers = "<option value=''>请选择</option>";
+                    var option_teachers2 = "<option value=''>请选择</option>";
                   
                     $.each(json.data[0], function (index, value) {
                         option_room += "<option value='" + value.id + "'>" + value.name + "</option>";
@@ -274,12 +287,18 @@
                     $.each(json.data[2], function (index, value) {
                         option_teachers += "<option value='" + value.ID + "'>" + value.name + "</option>";
                     });
+                    $.each(json.data[2], function (index, value) {
+                        option_teachers2 += "<option value='" + value.ID + "'>" + value.name + "</option>";
+                    });
                     $("#modify_room").append(option_room)
                     $("#modify_period").append(option_period)
                     $("#modify_teachers").append(option_teachers)
+                    $("#modify_teachers2").append(option_teachers2)
                     $("#modify_room").val(data.RoomID)
                     $("#modify_period").val(data.TimePeriod)
                     $("#modify_teachers").val(data.TeacherID)
+                    $("#modify_teachers2").val(data.Teacher2ID)
+                    $(".chosen-selects").trigger("chosen:updated");//刷新chosen控件
                 }
                 layer.close(loadIndex);//关闭加载层
             },
@@ -873,11 +892,20 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-3 control-label">老师：</label>
+                <label class="col-sm-3 control-label">当前讲师：</label>
                 <div class="col-sm-8">
-                    <select data-placeholder="选择教师..." class=" form-control input-sm" style="width:100%;height:100%;" id="modify_teachers"></select>
+                    <select data-placeholder="选择教师..." class=" form-control input-sm chosen-selects" style="width:100%;height:100%;" id="modify_teachers"></select>
                 </div>
             </div>
+
+               <div class="form-group">
+                <label class="col-sm-3 control-label">当前讲师2：</label>
+                <div class="col-sm-8">
+                    <select data-placeholder="选择教师..." class=" form-control input-sm chosen-selects" style="width:100%;height:100%;" id="modify_teachers2"></select>
+                </div>
+            </div>
+ 
+
             @*<div class="form-group">
                 <label class="col-sm-3 control-label">是否停用：</label>
                 <div class="checkbox i-checks col-sm-8">
@@ -886,6 +914,7 @@
                     </label>
                 </div>
             </div>*@
+
         </form>
     </div>
 </div>

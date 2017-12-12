@@ -25,7 +25,9 @@ namespace DataProvider.Entities
         public int StateID { get; set; }
         public int RoomID { get; set; } 
         public string RoomIDname { get; set; }
+        
         public string TeacherID { get; set; }
+        public string Teacher2ID { get; set; }
         public string name { get; set; } 
         public string CreatorId { get; set; }
         public System.DateTime CreateTime { get; set; }

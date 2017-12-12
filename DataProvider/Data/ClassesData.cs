@@ -51,7 +51,7 @@ namespace DataProvider.Data
 
 
             if (!string.IsNullOrWhiteSpace(search.TeacherID))//当前讲师
-                sb.AppendFormat(" and TeacherID = '{0}' ", search.TeacherID);
+                sb.AppendFormat(" and TeacherID = '{0}' or   Teacher2ID = '{0}'", search.TeacherID);
 
             if (search.islisten == "1")//如果是试听班
             {

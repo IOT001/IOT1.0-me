@@ -73,6 +73,15 @@ namespace DataProvider.Entities
             get;
             set;
         }
+
+        /// <summary>
+        /// TeacherID
+        /// </summary>
+        public string Teacher2ID
+        {
+            get;
+            set;
+        }
         /// <summary>
         /// RoomID
         /// </summary>

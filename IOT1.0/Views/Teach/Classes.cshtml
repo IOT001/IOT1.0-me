@@ -355,7 +355,13 @@
             <div class="form-group ">
                 <label class="col-sm-3 control-label">当前讲师：</label>
                 <div class="col-sm-5">
-                    @Html.DropDownListFor(t => t.search.TeacherID, Model.SourceIL2, new { @class = "form-control input-sm chosen-select", @style = "width:100%;height:100%;", @tabindex = "4", @id = "TeacherID_ClassList" })
+                    @Html.DropDownListFor(t => t.search.TeacherID, Model.SourceIL2, new { @class = "form-control input-sm chosen-selects", @style = "width:100%;height:100%;", @tabindex = "4", @id = "TeacherID_ClassList" })
+                </div>
+            </div>
+            <div class="form-group ">
+                <label class="col-sm-3 control-label">当前讲师2：</label>
+                <div class="col-sm-5">
+                    @Html.DropDownListFor(t => t.search.Teacher2ID, Model.SourceIL2, new { @class = "form-control input-sm chosen-selects", @style = "width:100%;height:100%;", @tabindex = "4", @id = "TeacherID_ClassList2" })
                 </div>
             </div>
 
@@ -634,6 +640,14 @@
                 layer.close(index);
             }
         });
+
+
+        //配置下拉控件chosen
+        $(".chosen-selects").chosen({
+            no_results_text: "未找到此选项!",
+            search_contains: true,
+            width: '100%'
+        });
         //激活日期控件
         $('.DateS').datepicker({
             keyboardNavigation: false,
@@ -891,6 +905,11 @@
         obj.TeacherID = $("#TeacherID_ClassList").val().trim();
         if (!obj.TeacherID) {
             layer.msg("请选择当前讲师！");
+            return false;
+        }
+        obj.Teacher2ID = $("#TeacherID_ClassList2").val().trim();
+        if (!obj.Teacher2ID) {
+            layer.msg("请选择当前讲师2！");
             return false;
         }
 
