@@ -201,6 +201,7 @@
     <Compile Include="Controllers\WeiXin\UserProgressController.cs" />
     <Compile Include="Controllers\WeiXin\EnrollAuditInfoController.cs" />
     <Compile Include="Controllers\WeiXin\ClasshourDetailedlistController.cs" />
+    <Compile Include="Controllers\WeiXin\TeacherClassListController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
