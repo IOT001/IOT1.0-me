@@ -99,4 +99,60 @@
         $("#CurrentPage").val(CurrentPage + 1);
         $("form").submit();
     }
+
+    $('#This_Week').click(function This_Week() {
+        var now = new Date();
+        var nowTime = now.getTime();
+        var day = now.getDay();
+        var oneDayLong = 24 * 60 * 60 * 1000;
+        // var date = new Date(now.getTime() - 7 * 24 * 3600 * 1000).Format("yyyy-MM-dd");
+
+        var MondayTime = new Date(nowTime - (day - 1) * oneDayLong);
+        var SundayTime = new Date(nowTime + (7 - day) * oneDayLong);
+
+        var MondayTimeText = document.getElementById('search_timeStart');
+
+
+        MondayTimeText.value = new Date(MondayTime.setDate(0)).Format("yyyy-MM-dd");
+
+        var SundayTimeText = document.getElementById('search_timeEnd');
+        SundayTimeText.value = new Date(SundayTime.setDate(6)).Format("yyyy-MM-dd");
+    })
+
+
+    $('#Next_Week').click(function Next_Week() {
+
+        var oneDayLong = 24 * 60 * 60 * 1000;
+        var MondayTimeText = document.getElementById('search_timeStart');
+        var SundayTimeText = document.getElementById('search_timeEnd');
+        if (MondayTimeText.value == null || MondayTimeText.value == "") {
+            This_Week_1();
+        }
+        else {
+            MondayTimeText.value = new Date(new Date(MondayTimeText.value).getTime() + (oneDayLong * 7)).Format("yyyy-MM-dd");
+            SundayTimeText.value = new Date(new Date(SundayTimeText.value).getTime() + (oneDayLong * 7)).Format("yyyy-MM-dd");
+        }
+
+    })
+    function This_Week_1() {
+        var now = new Date();
+        var nowTime = now.getTime();
+        var day = now.getDay();
+        var oneDayLong = 24 * 60 * 60 * 1000;
+        // var date = new Date(now.getTime() - 7 * 24 * 3600 * 1000).Format("yyyy-MM-dd");
+
+        var MondayTime = new Date(nowTime - (day - 1) * oneDayLong);
+        var SundayTime = new Date(nowTime + (7 - day) * oneDayLong);
+
+        var MondayTimeText = document.getElementById('search_timeStart');
+
+
+        MondayTimeText.value = new Date(MondayTime.setDate(0)).Format("yyyy-MM-dd");
+
+        var SundayTimeText = document.getElementById('search_timeEnd');
+        SundayTimeText.value = new Date(SundayTime.setDate(6)).Format("yyyy-MM-dd");
+    }
+
+
+
 </script>
