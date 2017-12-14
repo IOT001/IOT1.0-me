@@ -5,12 +5,7 @@
     Layout = "~/Views/Shared/_Layoutwx.cshtml";//设置模板文件
 }
 @model WX_UserProgressListModel
-
-
-
-
-<div class="wrapper wrapper-content animated fadeInRight w640">
-    <div class="ibox">
+    <div class="ibox float-e-margins w640">
         <div class="ibox-title">
 
             <h2>
@@ -63,13 +58,12 @@
                         <div class="col-sm-12">
                             <span class="font-bold ">已用课时：</span>
                             @m.UsedHour
-                             <a href="@Url.Action("ClasshourDetailedlist", "Weixin", new { StudentID=@m.StudentID ,ClassID = @m.ClassID})" class="confirm">明细</a> 
+                            <a href="@Url.Action("ClasshourDetailedlist", "Weixin", new { StudentID=@m.StudentID ,ClassID = @m.ClassID})" class="confirm">明细</a>
                         </div>
-                      
+
                     </div>
                 </div>
 
             }
         }
     </div>
-</div>

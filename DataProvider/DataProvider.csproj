@@ -121,6 +121,7 @@
     <Compile Include="Data\MenuData.cs" />
     <Compile Include="Data\MessageBrowseData.cs" />
     <Compile Include="Data\StudentData.cs" />
+    <Compile Include="Data\SYSRoleData.cs" />
     <Compile Include="Data\TeacherClassData.cs" />
     <Compile Include="Data\TeacherData.cs" />
     <Compile Include="Data\ClassesData.cs" />
@@ -163,6 +164,7 @@
     <Compile Include="Entities\SYSButton.cs" />
     <Compile Include="Entities\SYSAccount.cs" />
     <Compile Include="Entities\SYSAccountRole.cs" />
+    <Compile Include="Entities\SYSRole.cs" />
     <Compile Include="Entities\Teachers.cs" />
     <Compile Include="Entities\Transfer.cs" />
     <Compile Include="Entities\TransferRecord.cs" />
@@ -214,6 +216,7 @@
     <Compile Include="Models\WXIndexViewModel.cs" />
     <Compile Include="Models\WX_PaymentListModel.cs" />
     <Compile Include="Models\WX_FSConnectionlistModel.cs" />
+    <Compile Include="Models\WX_UserCenterViewModel.cs" />
     <Compile Include="Models\WX_UserProgressListModel.cs" />
     <Compile Include="Models\DailyReportListViewModel.cs" />
     <Compile Include="Models\FollowListListViewModel.cs" />

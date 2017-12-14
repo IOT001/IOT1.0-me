@@ -107,11 +107,26 @@ namespace IOT1._0.Models
                 return HttpContext.Current.Session["ValidateCode"].ToString();
             }
         }
-
+        /// <summary>
+        /// roleid，逗号隔开
+        /// </summary>
+        public static string roleids
+        {
+            set
+            {
+                HttpContext.Current.Session["roleids"] = value;
+            }
+            get
+            {
+                return HttpContext.Current.Session["roleids"].ToString();
+            }
+        }
         public static List<string> roles
         {
-            set;
-            get;
+            get {
+                string[] strArray = roleids.Split(','); //字符串转数组
+                return new List<string>(strArray);
+            }
         }
         ////模拟错误
         //public static string _userid

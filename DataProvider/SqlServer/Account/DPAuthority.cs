@@ -93,14 +93,15 @@ namespace DataProvider.SqlServer
             return menus;
         }
         /// <summary>
-        /// 获取角色id集合
+        /// 获取角色id集合,逗号隔开
         /// </summary>
         /// <param name="userid"></param>
         /// <returns></returns>
-        public static List<string> GetUserRoles(string userid)
+        public static string GetUserRoles(string userid)
         {
                 List<string> aa = MsSqlMapperHepler.SqlWithParams<string>("select ROLE_Id from vw_AccountRole where staffid ='" + userid + "'", null, DBKeys.PRX);
-                return aa;
+
+                return string.Join(",", aa.ToArray()); ;
         }
          
     }

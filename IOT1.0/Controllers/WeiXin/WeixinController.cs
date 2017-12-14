@@ -1,4 +1,10 @@
-﻿using System;
+﻿using DataProvider;
+using DataProvider.Data;
+using DataProvider.Entities;
+using DataProvider.Models;
+using DataProvider.Paging;
+using IOT1._0.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -24,7 +30,17 @@ namespace IOT1._0.Controllers.WeiXin
         /// <returns></returns>
         public ActionResult UserCenter()
         {
-            return View();
+            WX_UserCenterViewModel model = new WX_UserCenterViewModel();
+            string UserRoleNames = "";
+            if (UserSessionWX.roles != null)
+            {
+                foreach (string roleid in UserSessionWX.roles)
+                {
+                    UserRoleNames += SYSRoleData.GetRoleByid(int.Parse(roleid)).ROLE_Name + ",";
+                }
+            }
+            model.UserRoleName = UserRoleNames.TrimEnd(',');
+            return View(model);
         }
 
 
