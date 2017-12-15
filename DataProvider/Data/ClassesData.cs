@@ -159,38 +159,6 @@ namespace DataProvider.Data
 
         }
 
-
-
-
-        //有问题
-
-
-        /// <summary>
-        /// 根据ClassID或者姓名获取报名表数据
-        /// </summary>
-        /// <param name="apid"></param>
-        /// <returns></returns>
-        public static List<FollowRecord> GetClassesByClassID(string StudentID, string name)
-        {
-            string sql = @" select * from FollowRecord where 1=1 and StudentID = @StudentID and name=@name";
-            var parameters = new DynamicParameters();
-            if (!string.IsNullOrWhiteSpace(StudentID))//班级名称
-                parameters.Add("@StudentID", StudentID);
-
-            if (!string.IsNullOrWhiteSpace(name))//班级名称
-                parameters.Add("@name", name);
-
-            return MsSqlMapperHepler.SqlWithParams<FollowRecord>(sql, parameters, DBKeys.PRX);
-        }
-
-
-
-
-
-
-
-
-
         /// <summary>
         /// 保存
         /// </summary>

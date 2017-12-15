@@ -54,7 +54,8 @@ namespace IOT1._0.Controllers.WeiXin
             eran.APID = APID;
             eran.UpdateTime = DateTime.Now;
             eran.UpdatorId = UserSessionWX.userid;
-
+            eran.ApprovedTime = DateTime.Now;
+            eran.ApprovedBy = UserSessionWX.userid;
 
             eran.StateID = 3;//审核通过状态
             if (EnrollAuditInfoData.Audited(eran)>0)//注意时间类型，而且需要在前台把所有的值

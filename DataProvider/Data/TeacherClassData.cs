@@ -35,7 +35,7 @@ namespace DataProvider.Data
 
 
             if (!string.IsNullOrWhiteSpace(search.teacherID))//vw_AttendanceRecord ID
-                sb.AppendFormat(" and  TeacherID ='{0}' ", search.teacherID);
+                sb.AppendFormat(" and  (TeacherID ='{0}' or Teacher2ID = ='{0}') ", search.teacherID);
             where = sb.ToString();
             int allcount = 0;
             var list = CommonPage<vw_ClassAttendanceList>.GetPageList(
