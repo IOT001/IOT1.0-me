@@ -409,5 +409,52 @@ namespace DataProvider.Data
             ret =" " + MsSqlMapperHepler.SqlWithParamsSingle<string>(strsql, null, DBKeys.PRX).Substring(0, 5);
             return ret;
         }
+        /// <summary>
+        /// 刷新排课记录，主要用于补漏
+        /// </summary>
+        public static bool RefreshClassList(string classid, string loginid)
+        {
+            bool ret = false;
+            DBRepository db = new DBRepository(DBKeys.PRX);
+            string strsql = "SELECT * FROM dbo.Enroll WHERE StudentID NOT IN (SELECT StudentID FROM dbo.AttendanceRecord) AND ClassID IN (SELECT ID FROM dbo.Classes WHERE StateID =2 ) and ClassID = '" + classid + "'";
+            List<Enroll> enlist = MsSqlMapperHepler.SqlWithParams<Enroll>(strsql, null, DBKeys.PRX);//找到未报名记录
+            Classes cl = db.GetById<Classes>(classid);
+            db.BeginTransaction();//事务开始
+            try
+            {
+                
+                foreach (var en in enlist)
+                {
+                    if (cl.StateID.Value == 2 || cl.StateID.Value == 3)//如果班级状态是已排课，或已上课，生成课程表AttendanceRecord
+                    {
+                        List<vw_ClassAttendanceList> clist = new List<vw_ClassAttendanceList>();
+                        clist = db.Query<vw_ClassAttendanceList>("select * from vw_ClassAttendanceList where ClassID = '" + cl.ID + "'", null).ToList();
+                        int aa = Convert.ToInt32(en.ClassHour) < clist.Count() ? Convert.ToInt32(en.ClassHour) : clist.Count();//取较小数做循环
+                        for (int i = 0; i < aa; i++)
+                        {
+                            AttendanceRecord attend = new AttendanceRecord();
+                            attend.CreateTime = DateTime.Now;  //创建时间
+                            attend.CreatorId = loginid; //创建人
+                            attend.ClassID = en.ClassID;//班级编号
+                            attend.ClassIndex = i + 1;//班次序号，也就是班级生成的集体上课记录 
+                            attend.AttendanceTypeID = 1;//上课状态,默认为1，未考勤
+                            attend.StudentID = en.StudentID;//学员号
+                            db.Insert<AttendanceRecord>(attend);//增加上课记录表数据
+                        }
+                    }
+
+                }
+                db.Commit();
+                db.Dispose();
+                ret = true;
+            }
+            catch (Exception ex)
+            {
+                db.Rollback();
+                db.Dispose();
+                throw new Exception(ex.Message);
+            }
+            return ret;
+        }
     }
 }

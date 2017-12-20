@@ -138,7 +138,7 @@ namespace IOT1._0.Controllers.Enroll
             ajax.status = EnumAjaxStatus.Error;//默认失败
             List<FollowRecord> FollowList = AppointmentData.GetFollowListByAPID(apid);
             ajax.data = FollowList;
-            return Json(new { total = 1, rows = FollowList, state = true, msg = "加载成功" }, JsonRequestBehavior.AllowGet);
+            return Json(new { total = FollowList.Count(), rows = FollowList, state = true, msg = "加载成功" }, JsonRequestBehavior.AllowGet);
         }
         /// <summary>
         /// 新增跟进记录

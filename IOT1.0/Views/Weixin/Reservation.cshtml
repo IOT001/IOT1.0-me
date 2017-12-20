@@ -2,7 +2,7 @@
 @using DataProvider.Paging
 @model ReservationModel
 @{
-    ViewBag.Title = "资源录入";
+    ViewBag.Title = "信息登记";
     Layout = "~/Views/Shared/_Layoutwx.cshtml";//设置模板文件
 }
 <link href="~/CSS/common.css" rel="stylesheet" />
@@ -76,7 +76,7 @@
         <div class="baojia">
             <div class="messages">
                 <div class="inner">
-                    最新的<span>暑期班</span>已经开始报名了，赶紧来加入吧！
+                    最新的<span>圣诞活动</span>已经开始报名了，赶紧来加入吧！
                 </div>
             </div>
             <div class="calculatecon">
@@ -90,6 +90,12 @@
                     <div class="l_box clearfloat">
                         <label>学员手机</label>
                         <input  type="tel" id="ApTel">
+                    </div>
+                </div>
+                <div class="line">
+                    <div class="l_box clearfloat">
+                        <label>学校</label>
+                        <input id="APSchool">
                     </div>
                 </div>
                 <div class="line">
@@ -120,7 +126,7 @@
                     </div>
                 </div>
             </div>
-            <button class="getBtn" id="submit">马上预约/咨询</button>
+            <button class="getBtn" id="submit">马上预约/咨询/签到</button>
         </div>
 
         <div class="shadow"></div>
@@ -353,6 +359,8 @@
         }
         obj.ApName = $("#ApName").val().trim();//赋值必须和数据库字段对应
         obj.ApTel = $("#ApTel").val().trim();
+        obj.APSchool = $("#APSchool").val().trim();
+        obj.APGrade = $("#APGrade").val().trim();
 
         obj.APRemark = $("#APRemark").val().trim();
         obj.SourceID = 2;//市场收集

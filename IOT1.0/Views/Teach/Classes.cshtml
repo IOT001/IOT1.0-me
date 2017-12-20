@@ -30,7 +30,7 @@
 
                         <div class="form-group">
                             <div class="col-sm-2">
-                                <label class="control-label">班级名称:</label>
+                                <label class="control-label">班级名称/ID:</label>
                             </div>
                             <div class="col-sm-3">
                                 @Html.TextBoxFor(t => t.search.ClassName, new { @class = "form-control input-sm", @type = "text", @placeholder = "请输入课程名称" })
@@ -131,8 +131,9 @@
                     <table class="table table-striped table-bordered table-hover dataTables-example">
                         <thead>
                             <tr>
+                                <th>班级ID</th>
                                 <th>班级名称</th>
-                                 <th>所属分校</th>
+                                <th>所属分校</th>
                                 
                                 <th>所属课程</th> 
                                 <th>已上/总课时</th>
@@ -153,8 +154,9 @@
                                 foreach (var m in Model.Classeslist)
                                 {
                                     <tr>
-                                        <td class="jz">@m.ClassName</td>
-                                          <td>@m.CompName</td>
+                                        <td>@m.ID</td>
+                                        <td>@m.ClassName</td>
+                                        <td>@m.CompName</td>
                                           
                                         <td>@m.CourseName</td>
                                         <td>@m.Lesson</td>
@@ -616,45 +618,62 @@
     //排课弹窗
     function ClassList(id, ClassName, Enroll, StateID, TeachTypeID, TotalLesson) {
         if (StateID != 1) {
-            layer.msg("已排课,不能重复排课！");
-            return false;
-        }
-        if (TeachTypeID == 1) {
-            layer.msg("试听班,不能排课！");
-            return false;
-        }
-        cleanData("ClassList");
-        $("#ClassName_generate").html(ClassName);
-        $("#Enroll_generate").html(Enroll);
-        $("#TotalLesson_ClassList").val(TotalLesson);
-        layer.open({
-            type: 1,
-            title: "<h3>排课</h3>",
-            area: ['800px', '500px'],
-            content: $('#ClassList'),
-            btn: ['保存', '取消'],
-            yes: function () {
-                ClassListSave(id);
-            },
-            cancel: function (index) {
-                layer.close(index);
+            if (StateID == 2 || StateID == 3)//已排课，已上课则刷新排课
+            {
+                $.post('@Url.Action("ClassListRefresh", "Teach")', {
+                    classid: id
+                },
+                    function (json) {
+                        setTimeout(function () {
+                            window.location.reload(); //刷新
+                        }, 3000);
+
+                        layer.closeAll();
+                        layer.msg(json.msg);
+                    }, 'json');
             }
-        });
+            else {
+                layer.msg("不允许再排课了！");
+                return false;
+            }
+        }
+        else {
+            if (TeachTypeID == 1) {
+                layer.msg("试听班,不能排课！");
+                return false;
+            }
+            cleanData("ClassList");
+            $("#ClassName_generate").html(ClassName);
+            $("#Enroll_generate").html(Enroll);
+            $("#TotalLesson_ClassList").val(TotalLesson);
+            layer.open({
+                type: 1,
+                title: "<h3>排课</h3>",
+                area: ['800px', '500px'],
+                content: $('#ClassList'),
+                btn: ['保存', '取消'],
+                yes: function () {
+                    ClassListSave(id);
+                },
+                cancel: function (index) {
+                    layer.close(index);
+                }
+            });
 
 
-        //配置下拉控件chosen
-        $(".chosen-selects").chosen({
-            no_results_text: "未找到此选项!",
-            search_contains: true,
-            width: '100%'
-        });
-        //激活日期控件
-        $('.DateS').datepicker({
-            keyboardNavigation: false,
-            forceParse: false,
-            autoclose: true
-        });
-
+            //配置下拉控件chosen
+            $(".chosen-selects").chosen({
+                no_results_text: "未找到此选项!",
+                search_contains: true,
+                width: '100%'
+            });
+            //激活日期控件
+            $('.DateS').datepicker({
+                keyboardNavigation: false,
+                forceParse: false,
+                autoclose: true
+            });
+        }
     }
 
     //加时段弹窗

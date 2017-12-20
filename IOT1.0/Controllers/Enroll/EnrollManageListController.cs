@@ -36,9 +36,43 @@ namespace IOT1._0.Controllers.Enroll
             return View(model);//返回页面模型
         }
 
+        /// <summary>
+        /// 调整剩余课时
+        /// </summary>
+        /// <returns></returns>
 
-       
+        public ActionResult AdjustLeftHour()
+        {
+            AjaxStatusModel ajax = new AjaxStatusModel();
+            ajax.status = EnumAjaxStatus.Error;//默认失败
+            ajax.msg = "调整课时失败，请联系管理员！";//前台获取，用于显示提示信息
+            string ENID = Request["ENID"];//报名ID
+            int AdjustNum = int.Parse(Request["AdjustNum"].ToString());//调整数
+            if (string.IsNullOrEmpty(ENID))
+            {
+                return Json(ajax);
+            }
 
+            if (EnrollData.AdjustLeftHour(ENID, AdjustNum, UserSession.userid))
+            {
+                ajax.msg = "调整课时成功！";
+                ajax.status = EnumAjaxStatus.Success;
+            }
+            return Json(ajax);
+        }
 
+        /// <summary>
+        /// 根据报名ID返回课时消耗记录
+        /// </summary>
+        /// <param name="enid"></param>
+        /// <returns></returns>
+        public JsonResult GetHoursLogByENID(string enid)
+        {
+            AjaxStatusModel ajax = new AjaxStatusModel();//功能操作类的返回类型都是AjaxStatusModel，数据放到AjaxStatusModel.data中，前台获取json后加载
+            ajax.status = EnumAjaxStatus.Error;//默认失败
+            List<TransferRecord> loglist = EnrollData.GetHoursLogByENID(enid);
+            ajax.data = loglist;
+            return Json(new { total = loglist.Count(), rows = loglist, state = true, msg = "加载成功" }, JsonRequestBehavior.AllowGet);
+        }
     }
 }

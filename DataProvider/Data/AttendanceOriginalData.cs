@@ -95,6 +95,19 @@ namespace DataProvider.Data
                             }
                             else//扣掉学时
                             {
+                                //-----添加课时变化日志记录 begin
+                                TransferRecord tr = new TransferRecord();//添加课时变化日志记录
+                                tr.StudentID = en.StudentID;
+                                tr.BeforeHours = en.ClassHour - en.UsedHour;
+                                tr.AfterHours = en.ClassHour - en.UsedHour - 1;
+                                tr.TypeID = 4;//考勤机自动识别
+                                tr.CreateTime = DateTime.Now;
+                                tr.CreatorId = operatorid;
+                                tr.ENID = en.ID;
+                                tr.ClassID = en.ClassID;
+                                db.Insert(tr);
+                                //-----添加课时变化日志记录 end
+
                                 en.UsedHour = en.UsedHour + 1;
                                 en.UpdateTime = DateTime.Now;
                                 en.UpdatorId = operatorid;
@@ -137,6 +150,19 @@ namespace DataProvider.Data
                                 }
                                 else//扣掉学时
                                 {
+                                    //-----添加课时变化日志记录 begin
+                                    TransferRecord tr = new TransferRecord();//添加课时变化日志记录
+                                    tr.StudentID = en.StudentID;
+                                    tr.BeforeHours = en.ClassHour - en.UsedHour;
+                                    tr.AfterHours = en.ClassHour - en.UsedHour - 1;
+                                    tr.TypeID = 4;//考勤机自动识别
+                                    tr.CreateTime = DateTime.Now;
+                                    tr.CreatorId = operatorid;
+                                    tr.ENID = en.ID;
+                                    tr.ClassID = en.ClassID;
+                                    db.Insert(tr);
+                                    //-----添加课时变化日志记录 end
+
                                     en.UsedHour = en.UsedHour + 1;
                                     en.UpdateTime = DateTime.Now;
                                     en.UpdatorId = operatorid;

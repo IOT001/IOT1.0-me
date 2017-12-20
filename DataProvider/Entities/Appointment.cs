@@ -115,6 +115,10 @@ namespace DataProvider.Entities
         /// 来源方式：字典表22,1系统录入，2市场收集，3用户扫码
         /// </summary>
         public int? SourceID { get; set; }
+        /// <summary>
+        /// 孩子在读学校
+        /// </summary>
+        public string APSchool { get; set; }
        
     }
    /// <summary>

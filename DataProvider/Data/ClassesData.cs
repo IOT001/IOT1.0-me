@@ -32,8 +32,8 @@ namespace DataProvider.Data
             if (!string.IsNullOrWhiteSpace(search.ComCode))//校区
                 sb.AppendFormat(" and [ComCode] = '{0}' ", search.ComCode);
 
-            if (!string.IsNullOrWhiteSpace(search.ClassName))//班级名称
-                sb.AppendFormat(" and ClassName like '%{0}%' ", search.ClassName);
+            if (!string.IsNullOrWhiteSpace(search.ClassName))//班级名称或ID
+                sb.AppendFormat(" and (ClassName like '%{0}%' OR  ID LIKE '%{0}%')", search.ClassName);
             if (!string.IsNullOrWhiteSpace(search.CourseID))//课程名称
                 sb.AppendFormat(" and CourseID like '%{0}%' ", search.CourseID);
    
@@ -60,7 +60,7 @@ namespace DataProvider.Data
             }
             else if (search.islisten == "0")//不是试听班，报名班为了保证有学员课程表，只取未排班数据，以后根据实际情况改
             {
-                sb.AppendFormat(" and TeachTypeID > 1 and StateID = 1");
+                sb.AppendFormat(" and TeachTypeID > 1 ");
             }
             else
             {

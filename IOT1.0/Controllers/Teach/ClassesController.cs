@@ -265,7 +265,28 @@ namespace IOT1._0.Controllers.Teach
             return Json(ajax);
         }
 
+        /// <summary>
+        /// 刷新排课记录，用于补漏
+        /// </summary>
+        /// <returns></returns>
+        public JsonResult ClassListRefresh()
+        {
+            AjaxStatusModel ajax = new AjaxStatusModel();//功能操作类的返回类型都是AjaxStatusModel，数据放到AjaxStatusModel.data中，前台获取json后加载
+            ajax.status = EnumAjaxStatus.Error;//默认失败
+            ajax.msg = "刷新排课失败！";//前台获取，用于显示提示信息
+            string classid = Request["classid"];//班级ID
+            if (string.IsNullOrEmpty(classid))
+            {
+                return Json(ajax);
+            }
 
+            if (ClassListData.RefreshClassList(classid,UserSession.userid))
+            {
+                ajax.msg = "刷新排课成功！";
+                ajax.status = EnumAjaxStatus.Success;
+            }
+            return Json(ajax);
+        }
 
         /// <summary>
         ///  根据班级信息获取学员的报名信息

@@ -249,8 +249,25 @@ namespace DataProvider.Data
                         Enroll enroll= EnrollData.getEnrollByStudentClass(value.StudentID, value.ClassID);
                         if (enroll != null)
                         {
+                            //-----添加课时变化日志记录 begin
+                            TransferRecord tr = new TransferRecord();//添加课时变化日志记录
+                            tr.StudentID = enroll.StudentID;
+                            tr.BeforeHours = enroll.ClassHour - enroll.UsedHour;
+                            tr.AfterHours = enroll.ClassHour - enroll.UsedHour - 1;
+                            tr.TypeID = 5;//ERP考勤操作
+                            tr.CreateTime = DateTime.Now;
+                            tr.CreatorId = userid;
+                            tr.ENID = enroll.ID;
+                            tr.ClassID = enroll.ClassID;
+                            db.Insert(tr);
+                            //-----添加课时变化日志记录 end
+
+
                             enroll.UsedHour = enroll.UsedHour + 1;
                             db.Update(enroll);
+
+                            
+
                             Students s = StudentData.GetStudentsByID(value.StudentID);//获取学员
                             if (s.StateID != null && (s.StateID.Value == 1 || s.StateID.Value == 3))//冻结和未读状态下
                             {
@@ -311,6 +328,19 @@ namespace DataProvider.Data
                         Enroll enroll = EnrollData.getEnrollByStudentClass(value.StudentID, value.ClassID);
                         if (enroll != null && btnto.AttendanceTypeID == 3)//缺勤状态还是要扣课时
                         {
+                            //-----添加课时变化日志记录 begin
+                            TransferRecord tr = new TransferRecord();//添加课时变化日志记录
+                            tr.StudentID = enroll.StudentID;
+                            tr.BeforeHours = enroll.ClassHour - enroll.UsedHour;
+                            tr.AfterHours = enroll.ClassHour - enroll.UsedHour - 1;
+                            tr.TypeID = 5;//ERP考勤操作
+                            tr.CreateTime = DateTime.Now;
+                            tr.CreatorId = userid;
+                            tr.ENID = enroll.ID;
+                            tr.ClassID = enroll.ClassID;
+                            db.Insert(tr);
+                            //-----添加课时变化日志记录 end
+
                             enroll.UsedHour = enroll.UsedHour + 1;
                             db.Update(enroll);
 
@@ -354,6 +384,19 @@ namespace DataProvider.Data
                                 }
                                 else
                                 {
+                                    //-----添加课时变化日志记录 begin
+                                    TransferRecord tr = new TransferRecord();//添加课时变化日志记录
+                                    tr.StudentID = enroll.StudentID;
+                                    tr.BeforeHours = enroll.ClassHour - enroll.UsedHour;
+                                    tr.AfterHours = enroll.ClassHour - enroll.UsedHour - 1;
+                                    tr.TypeID = 5;//ERP考勤操作
+                                    tr.CreateTime = DateTime.Now;
+                                    tr.CreatorId = userid;
+                                    tr.ENID = enroll.ID;
+                                    tr.ClassID = enroll.ClassID;
+                                    db.Insert(tr);
+                                    //-----添加课时变化日志记录 end
+
                                     btnto.AttendanceTypeID = 3;//缺勤,扣课时
                                     enroll.UsedHour = enroll.UsedHour + 1;
                                     db.Update(enroll);
