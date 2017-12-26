@@ -7,5 +7,5 @@ section{ max-width: 640px;min-width: 320px;width: 100%;margin: 0 auto;overflow-x
 .myBox li .fl{font-size: 0.875rem;color:#383838;}
 .myBox li .fl i{display: block;float:left;height:100%;width:1.5625rem;background: url(../images/perCenter/tip01.png) no-repeat center left;background-size: 0.84375rem 1rem;}
 .myBox li .fr{color:#7a8086; font-size: 0.875rem;}
-
+.changePass{display: block;margin: 0.625rem auto;width: 18.75rem;height:2.5rem;line-height: 2.5rem;text-align: center;background: #fc7862;font-size: 0.875rem;color:#fff;border-radius: 0.15625rem;}
 .signOut{display: block;margin: 0.625rem auto;width: 18.75rem;height:2.5rem;line-height: 2.5rem;text-align: center;background: #c64833;font-size: 0.875rem;color:#fff;border-radius: 0.15625rem;}
