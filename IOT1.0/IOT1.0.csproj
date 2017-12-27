@@ -4837,6 +4837,7 @@
     <Content Include="Upload\AttendanceList\201708032219260081.docx" />
     <Content Include="Upload\AttendanceList\201708071132051909.docx" />
     <Content Include="Upload\AttendanceList\aaabbccc.docx" />
+    <Content Include="Views\Weixin\Password_Update.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
