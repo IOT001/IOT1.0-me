@@ -416,7 +416,7 @@ namespace DataProvider.Data
         {
             bool ret = false;
             DBRepository db = new DBRepository(DBKeys.PRX);
-            string strsql = "SELECT * FROM dbo.Enroll WHERE StudentID NOT IN (SELECT StudentID FROM dbo.AttendanceRecord) AND ClassID IN (SELECT ID FROM dbo.Classes WHERE StateID =2 ) and ClassID = '" + classid + "'";
+            string strsql = "SELECT * FROM dbo.Enroll WHERE ClassID = '" + classid + "'";
             List<Enroll> enlist = MsSqlMapperHepler.SqlWithParams<Enroll>(strsql, null, DBKeys.PRX);//找到未报名记录
             Classes cl = db.GetById<Classes>(classid);
             db.BeginTransaction();//事务开始
@@ -432,6 +432,7 @@ namespace DataProvider.Data
                         int aa = Convert.ToInt32(en.ClassHour) < clist.Count() ? Convert.ToInt32(en.ClassHour) : clist.Count();//取较小数做循环
                         for (int i = 0; i < aa; i++)
                         {
+                            AttendanceRecord attendold = db.Query<AttendanceRecord>("select * from AttendanceRecord where  StudentID = '" + en.StudentID + "' and ClassID = '" + en.ClassID + "' and ClassIndex = " + (i + 1), null).FirstOrDefault();
                             AttendanceRecord attend = new AttendanceRecord();
                             attend.CreateTime = DateTime.Now;  //创建时间
                             attend.CreatorId = loginid; //创建人
@@ -439,6 +440,7 @@ namespace DataProvider.Data
                             attend.ClassIndex = i + 1;//班次序号，也就是班级生成的集体上课记录 
                             attend.AttendanceTypeID = 1;//上课状态,默认为1，未考勤
                             attend.StudentID = en.StudentID;//学员号
+                            if (attendold == null)
                             db.Insert<AttendanceRecord>(attend);//增加上课记录表数据
                         }
                     }
