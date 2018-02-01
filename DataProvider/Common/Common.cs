@@ -105,6 +105,14 @@ namespace DataProvider
         /// 每页显示几条记录
         /// </summary>
         public int PageSize { get; set; }
+        /// <summary>
+        /// 总记录数
+        /// </summary>
+        public int TotalItemCount { get; set; }
+        /// <summary>
+        /// 总页数
+        /// </summary>
+        public int TotalPageCount { get; set; }
     }
 
     public class CommonPage<T>

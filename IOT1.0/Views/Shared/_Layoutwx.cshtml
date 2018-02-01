@@ -10,14 +10,18 @@
     <link href="~/Scripts/bootStrap/css/bootstrap.min.css" rel="stylesheet" />
     <link href="~/Scripts/assets/css/font-awesome.min.css" rel="stylesheet" />
     <link href="~/Scripts/assets/css/animate.css" rel="stylesheet" />
+    <link href="~/Scripts/assets/css/style.css" rel="stylesheet" />
     <link href="~/Scripts/layer/skin/layer.css" rel="stylesheet" />
     <link href="~/Scripts/layer/skin/layer.ext.css" rel="stylesheet" />
-    <link href="~/Scripts/assets/css/style.css" rel="stylesheet" />
     @*<link rel="stylesheet" type="text/css" href="@Url.Content("~/Scripts/Mobile/content/css/common.css")" />*@
     <script type="text/javascript" src="@Url.Content("~/Scripts/assets/js/jquery.min.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Scripts/Mobile/content/js/resize.js")"></script>
     <script src="~/Scripts/bootStrap/js/bootstrap.min.js"></script>
     <script src="~/Scripts/assets/js/content.js"></script>
+
+     <script src="~/Scripts/assets/js/plugins/chosen/chosen.jquery.js"></script>
+    <script src="~/Scripts/fileinput/js/fileinput.min.js"></script>
+
     <script src="~/Scripts/layer/layer.js"></script>
     <style>
         .w640 {
@@ -134,6 +138,29 @@
                 if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
             return fmt;
         }
+
+        //反序列化日期格式
+        function ChangeDateFormat(jsondate) {
+            //console.log(jsondate);
+            if (!jsondate) {
+                return "";
+            }
+            jsondate = jsondate.replace("/Date(", "").replace(")/", "");
+            if (jsondate.indexOf("+") > 0) {
+                jsondate = jsondate.substring(0, jsondate.indexOf("+"));
+            }
+            else if (jsondate.indexOf("-") > 0) {
+                jsondate = jsondate.substring(0, jsondate.indexOf("-"));
+            }
+
+            var date = new Date(parseInt(jsondate, 10));
+            var month = date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1;
+            var currentDate = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
+            // console.log(date.getFullYear() + "-" + month + "-" + currentDate);
+            return date.getFullYear() + "-" + month + "-" + currentDate;
+        }
+
+
     </script>
 </head>
 <body class="gray-bg">

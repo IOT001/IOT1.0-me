@@ -79,7 +79,9 @@
                                 <th>姓名</th>
                                 <th>联系人</th>
                                 <th>联系电话</th>
-                                <th>校区</th>
+                                <th>孩子学校</th>
+                                <th>年级</th>
+                                <th>所属校区</th>
                                 <th>来源</th>
                                 <th>状态</th>
                                 <th>是否会员</th>
@@ -98,6 +100,8 @@
                                         <td>@m.ApName</td>
                                         <td>@m.APLinkMan</td>
                                         <td>@m.ApTel</td>
+                                        <td>@m.APSchool</td>
+                                        <td>@m.APGrade</td>
                                         <td>@m.CompName</td>
                                         <td>@m.SourceName</td>
                                         <td>@m.StateName</td>
@@ -1094,7 +1098,11 @@
         layer.open({
             type: 1,
             title: "<h3 class=''>报名</h3>",
+<<<<<<< HEAD
             area: ['1000px', '550px'],
+=======
+            area: ['1300px', '550px'],
+>>>>>>> 71afe51809dbd797aeed878bb5ba8ef080d8edab
             content: $('#baoming'),
             btn: ['结算', '取消'],
             yes: function () {

@@ -107,27 +107,45 @@ namespace IOT1._0.Models
                 return HttpContext.Current.Session["ValidateCode"].ToString();
             }
         }
-
+        /// <summary>
+        /// roleid，逗号隔开
+        /// </summary>
+        public static string roleids
+        {
+            set
+            {
+                HttpContext.Current.Session["roleids"] = value;
+            }
+            get
+            {
+                return HttpContext.Current.Session["roleids"].ToString();
+            }
+        }
         public static List<string> roles
         {
-            set;
-            get;
+            get {
+                string[] strArray = roleids.Split(','); //字符串转数组
+                return new List<string>(strArray);
+            }
         }
-        ////模拟错误
-        //public static string _userid
-        //{
-        //    set
-        //    {
 
-        //        HttpContext.Current.Session["userid"] = value;
-        //    }
-        //    get
-        //    {
+        //是否成功登陆
+        public static bool islogin
+        {
 
-        //            //HttpContext.Current.Response.Redirect("~/login.html", true);
-        //            throw new Exception("登录超时，请重新登录！");
+            get
+            {
+                if (HttpContext.Current.Session["userid"] == null || HttpContext.Current.Session["userid"].ToString().Trim() == "")
+                {
+                    return false;
+                }
+                else
+                {
+                      return true;
+                }
+              
 
-        //    }
-        //}
+            }
+        }
     }
 }

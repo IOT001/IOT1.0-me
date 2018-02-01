@@ -86,7 +86,8 @@ namespace DataProvider.Data
                     er.UpdateTime = en.UpdateTime;
                     er.UpdatorId = en.UpdatorId;
                     er.UsedHour = en.UsedHour;
-                   // er.CollectionRec = en.CollectionRec;
+                    
+                    er.CollectionRec = en.CollectionRec;
                     
                     db.Insert<Enroll>(er);  //复制 EnrollAudit表数据到报名表
 
@@ -97,6 +98,27 @@ namespace DataProvider.Data
                     fl.CreateTime = DateTime.Now;
                     fl.CreatorId = er.CreatorId;
                     db.Insert(fl);
+
+                    //如果所报名的班级意见排课了，需要重新生成排课记录
+                    Classes cl = db.GetById<Classes>(er.ClassID);
+                    if (cl.StateID.Value == 2 || cl.StateID.Value == 3)//如果班级状态是已排课，或已上课，生成课程表AttendanceRecord
+                    {
+                        List<vw_ClassAttendanceList> clist = new List<vw_ClassAttendanceList>();
+                        clist = db.Query<vw_ClassAttendanceList>("select * from vw_ClassAttendanceList where ClassID = '" + cl.ID + "'", null).ToList();
+                        int aa = Convert.ToInt32(er.ClassHour) < clist.Count() ? Convert.ToInt32(er.ClassHour) : clist.Count();//取较小数做循环
+                        for (int i = 0; i < aa; i++)
+                        {
+                            AttendanceRecord attend = new AttendanceRecord();
+                            attend.CreateTime = DateTime.Now;  //创建时间
+                            attend.CreatorId =en.UpdatorId; //创建人
+                            attend.ClassID = en.ClassID;//班级编号
+                            attend.ClassIndex = i + 1;//班次序号，也就是班级生成的集体上课记录 
+                            attend.AttendanceTypeID = 1;//上课状态,默认为1，未考勤
+                            attend.StudentID = en.StudentID;//学员号
+                            db.Insert<AttendanceRecord>(attend);//增加上课记录表数据
+                        }
+                    }
+
                 }
                 ret = UpdateAppointment(erau.APID, erau.StateID, erau.UpdateTime, erau.UpdatorId, db);  //最后修改Appointment状态为3，3为已报名
 

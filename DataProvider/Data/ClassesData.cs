@@ -32,8 +32,8 @@ namespace DataProvider.Data
             if (!string.IsNullOrWhiteSpace(search.ComCode))//校区
                 sb.AppendFormat(" and [ComCode] = '{0}' ", search.ComCode);
 
-            if (!string.IsNullOrWhiteSpace(search.ClassName))//班级名称
-                sb.AppendFormat(" and ClassName like '%{0}%' ", search.ClassName);
+            if (!string.IsNullOrWhiteSpace(search.ClassName))//班级名称或ID
+                sb.AppendFormat(" and (ClassName like '%{0}%' OR  ID LIKE '%{0}%')", search.ClassName);
             if (!string.IsNullOrWhiteSpace(search.CourseID))//课程名称
                 sb.AppendFormat(" and CourseID like '%{0}%' ", search.CourseID);
    
@@ -51,7 +51,7 @@ namespace DataProvider.Data
 
 
             if (!string.IsNullOrWhiteSpace(search.TeacherID))//当前讲师
-                sb.AppendFormat(" and TeacherID = '{0}' ", search.TeacherID);
+                sb.AppendFormat(" and TeacherID = '{0}' or   Teacher2ID = '{0}'", search.TeacherID);
 
             if (search.islisten == "1")//如果是试听班
             {
@@ -60,7 +60,7 @@ namespace DataProvider.Data
             }
             else if (search.islisten == "0")//不是试听班，报名班为了保证有学员课程表，只取未排班数据，以后根据实际情况改
             {
-                sb.AppendFormat(" and TeachTypeID > 1 and StateID = 1");
+                sb.AppendFormat(" and TeachTypeID > 1 ");
             }
             else
             {
@@ -158,38 +158,6 @@ namespace DataProvider.Data
 
 
         }
-
-
-
-
-        //有问题
-
-
-        /// <summary>
-        /// 根据ClassID或者姓名获取报名表数据
-        /// </summary>
-        /// <param name="apid"></param>
-        /// <returns></returns>
-        public static List<FollowRecord> GetClassesByClassID(string StudentID, string name)
-        {
-            string sql = @" select * from FollowRecord where 1=1 and StudentID = @StudentID and name=@name";
-            var parameters = new DynamicParameters();
-            if (!string.IsNullOrWhiteSpace(StudentID))//班级名称
-                parameters.Add("@StudentID", StudentID);
-
-            if (!string.IsNullOrWhiteSpace(name))//班级名称
-                parameters.Add("@name", name);
-
-            return MsSqlMapperHepler.SqlWithParams<FollowRecord>(sql, parameters, DBKeys.PRX);
-        }
-
-
-
-
-
-
-
-
 
         /// <summary>
         /// 保存

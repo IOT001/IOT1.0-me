@@ -18,7 +18,7 @@ namespace DataProvider.Data
         /// </summary>
         /// <param name="search"></param>
         /// <returns></returns>
-        public static PagedList<vw_ClassAttendanceList> GetButtonList(AttendanceSearchModel search)
+        public static PagedList<vw_ClassAttendanceList> GetClassAttendanceList(AttendanceSearchModel search)
         {
             string table = string.Empty, fields = string.Empty, orderby = string.Empty, where = string.Empty;//定义结构
             fields = @"  * ";//输出字段
@@ -249,8 +249,25 @@ namespace DataProvider.Data
                         Enroll enroll= EnrollData.getEnrollByStudentClass(value.StudentID, value.ClassID);
                         if (enroll != null)
                         {
+                            //-----添加课时变化日志记录 begin
+                            TransferRecord tr = new TransferRecord();//添加课时变化日志记录
+                            tr.StudentID = enroll.StudentID;
+                            tr.BeforeHours = enroll.ClassHour - enroll.UsedHour;
+                            tr.AfterHours = enroll.ClassHour - enroll.UsedHour - 1;
+                            tr.TypeID = 5;//ERP考勤操作
+                            tr.CreateTime = DateTime.Now;
+                            tr.CreatorId = userid;
+                            tr.ENID = enroll.ID;
+                            tr.ClassID = enroll.ClassID;
+                            db.Insert(tr);
+                            //-----添加课时变化日志记录 end
+
+
                             enroll.UsedHour = enroll.UsedHour + 1;
                             db.Update(enroll);
+
+                            
+
                             Students s = StudentData.GetStudentsByID(value.StudentID);//获取学员
                             if (s.StateID != null && (s.StateID.Value == 1 || s.StateID.Value == 3))//冻结和未读状态下
                             {
@@ -306,11 +323,24 @@ namespace DataProvider.Data
                         }
 
                     }
-                    if (value.OutStatus > 0)//未打卡
+                    if (value.ClockTime == null)//未打卡
                     {
                         Enroll enroll = EnrollData.getEnrollByStudentClass(value.StudentID, value.ClassID);
                         if (enroll != null && btnto.AttendanceTypeID == 3)//缺勤状态还是要扣课时
                         {
+                            //-----添加课时变化日志记录 begin
+                            TransferRecord tr = new TransferRecord();//添加课时变化日志记录
+                            tr.StudentID = enroll.StudentID;
+                            tr.BeforeHours = enroll.ClassHour - enroll.UsedHour;
+                            tr.AfterHours = enroll.ClassHour - enroll.UsedHour - 1;
+                            tr.TypeID = 5;//ERP考勤操作
+                            tr.CreateTime = DateTime.Now;
+                            tr.CreatorId = userid;
+                            tr.ENID = enroll.ID;
+                            tr.ClassID = enroll.ClassID;
+                            db.Insert(tr);
+                            //-----添加课时变化日志记录 end
+
                             enroll.UsedHour = enroll.UsedHour + 1;
                             db.Update(enroll);
 
@@ -324,7 +354,7 @@ namespace DataProvider.Data
                         {
                             btnto = new AttendanceRecord();
                             btnto.OutStatus = value.OutStatus;
-                            btnto.ClockTime = value.ClockTime;
+                
                             if (value.OutStatus == 2)//正常请假不扣课时
                             {
                                 btnto.AttendanceTypeID = 4;//请假
@@ -354,6 +384,19 @@ namespace DataProvider.Data
                                 }
                                 else
                                 {
+                                    //-----添加课时变化日志记录 begin
+                                    TransferRecord tr = new TransferRecord();//添加课时变化日志记录
+                                    tr.StudentID = enroll.StudentID;
+                                    tr.BeforeHours = enroll.ClassHour - enroll.UsedHour;
+                                    tr.AfterHours = enroll.ClassHour - enroll.UsedHour - 1;
+                                    tr.TypeID = 5;//ERP考勤操作
+                                    tr.CreateTime = DateTime.Now;
+                                    tr.CreatorId = userid;
+                                    tr.ENID = enroll.ID;
+                                    tr.ClassID = enroll.ClassID;
+                                    db.Insert(tr);
+                                    //-----添加课时变化日志记录 end
+
                                     btnto.AttendanceTypeID = 3;//缺勤,扣课时
                                     enroll.UsedHour = enroll.UsedHour + 1;
                                     db.Update(enroll);
@@ -505,8 +548,34 @@ namespace DataProvider.Data
             parameters.Add("@ID", ID); 
             return MsSqlMapperHepler.InsertUpdateOrDeleteSql(sb.ToString(), parameters, DBKeys.PRX);
         }
-
-
+        /// <summary>
+        /// 保存学员评价
+        /// </summary>
+        /// <param name="ar"></param>
+        /// <returns></returns>
+        public static bool SaveStudentEvalute_WX(AttendanceRecord ar)
+        {
+            bool ret = false;
+            StringBuilder sb = new StringBuilder();
+            sb.Append(" update AttendanceRecord set Evaluate=@Evaluate  ");
+            sb.Append(" , UpdateTime=@UpdateTime  ");
+            sb.Append(" , UpdatorId=@UpdatorId  "); 
+            sb.Append(" where ClassID=@ClassID ");
+            sb.Append(" AND ClassIndex=@ClassIndex ");
+            sb.Append(" AND StudentID=@StudentID ");
+            var parameters = new DynamicParameters();
+            parameters.Add("@StudentID", ar.StudentID);
+            parameters.Add("@Evaluate", ar.Evaluate);
+            parameters.Add("@ClassID", ar.ClassID);
+            parameters.Add("@ClassIndex", ar.ClassIndex);
+            parameters.Add("@UpdateTime", ar.UpdateTime);
+            parameters.Add("@UpdatorId", ar.UpdatorId);
+            if (MsSqlMapperHepler.InsertUpdateOrDeleteSql(sb.ToString(), parameters, DBKeys.PRX) > 0)
+            {
+                ret = true;
+            }
+            return ret;
+        }
 
     }
 

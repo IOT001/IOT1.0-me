@@ -140,5 +140,9 @@ namespace DataProvider.Entities
        /// 性别中文
        /// </summary>
         public string SexName { get; set; }
+       /// <summary>
+       /// 孩子学校
+       /// </summary>
+        public string APSchool { get; set; }
     }
 }

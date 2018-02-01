@@ -123,11 +123,21 @@
                                          <td>@m.CreateTime</td>
                                          <td>@m.BindPhone</td>
                                          <td>@m.Wechart</td>
-                                         <td>@m.SourceID</td>
-                                         <td>@m.StateID</td>
+                                         <td>@m.SourceIDName</td>
+                                         <td>@m.StateIDName</td>
                                         
                                         <td>
                                             <a href="javascript:modify(@m.ID);" class="btn btn-primary btn-xs" type="button"><i class="fa fa-edit"></i> 编辑</a>
+                                            @if (@m.StateID == "3" )
+                                            {
+                                                <a href="javascript:Recovery(@m.ID);" class="btn btn-primary btn-xs" type="button"><i class="fa fa-edit"></i> 恢复</a>
+                                            }
+
+                                             @if (@m.StateID == "1"  || @m.StateID == "2")
+                                            {
+                                               <a href="javascript:Frozen(@m.ID);" class="btn btn-primary btn-xs" type="button"><i class="fa fa-edit"></i> 冻结</a>
+                                             }
+                                             
 
                                         </td>
                                     </tr>
@@ -183,7 +193,7 @@
         cleanData("buttoninfo");
         layer.open({
             type: 1,
-            title: "<h5 class='ibox-title'>编辑</h3>",
+            title: "<h3 class=''>编辑</h3>",
             area: ['660px', '610px'],
             content: $('#buttoninfo'),
             btn: ['保存', '取消'],
@@ -447,6 +457,58 @@
             );
 
     }
+
+
+    //点击恢复，状态变成 未读，按钮名称变成冻结。点击冻结，状态变成冻结，按钮名称变成恢复
+    //学员状态ID,字典表3,1,未读，2在读，3冻结，4结束
+
+    function Recovery(ID) {//恢复
+        var obj = new Object; 
+        obj.ID = ID;
+        obj.StateID = 1;
+        var action = '@Url.Action("Recovery", "Student")'  
+        $.post(action, {
+            "data": JSON.stringify(obj)//序列化对象
+        }, function (json) {
+            if (json.status == 200) {//成功
+
+                layer.msg(json.msg);//弹出服务器返回的消息
+                setTimeout(function () {//操作
+                    layer.closeAll();//关闭所有层
+                    window.location.reload(); //刷新
+                }, 3000);
+            }
+            else {
+                layer.msg(json.msg);//弹出服务器返回的消息
+            }
+        }, 'json');
+    }
+    //点击恢复，状态变成 未读，按钮名称变成冻结。点击冻结，状态变成冻结，按钮名称变成恢复
+    //学员状态ID,字典表3,1,未读，2在读，3冻结，4结束
+
+    function Frozen(ID) {//冻结
+        var obj = new Object; 
+        obj.ID = ID;
+        obj.StateID = 3;
+        var action = '@Url.Action("Frozen", "Student")'  
+        $.post(action, {
+            "data": JSON.stringify(obj)//序列化对象
+        }, function (json) {
+            if (json.status == 200) {//成功
+
+                layer.msg(json.msg);//弹出服务器返回的消息
+                setTimeout(function () {//操作
+                    layer.closeAll();//关闭所有层
+                    window.location.reload(); //刷新
+                }, 3000);
+            }
+            else {
+                layer.msg(json.msg);//弹出服务器返回的消息
+            }
+        }, 'json');
+    }
+
+
 
 </script>
 @*弹出层，新增报名*@

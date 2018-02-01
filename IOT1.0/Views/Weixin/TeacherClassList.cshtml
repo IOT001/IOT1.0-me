@@ -1,0 +1,168 @@
+﻿@using DataProvider.Models
+@using DataProvider.Paging
+@{
+    ViewBag.Title = "教师考勤";
+    Layout = "~/Views/Shared/_Layoutwx.cshtml";//设置模板文件
+}
+@model WX_TeacherClassListViewModel
+<div class="ibox float-e-margins w640">
+    <div class="ibox-title">
+
+        <h2>
+            <a href="@Url.Action("Index")" class="pull-left m-r-md">
+                <i class="fa fa-chevron-left"></i>
+            </a>教师考勤
+        </h2>
+    </div>
+    <div class="ibox-title">
+
+        @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "frmQuery", @class = "form-horizontal" }))
+        {
+            <div class="form-group" style="display:none">
+
+                <div class="col-xs-5">
+                    <div class="input-daterange input-group" id="datepicker">
+
+                        @Html.TextBoxFor(t => t.search.timeStart, new { @class = "input-sm form-control", @value = DateTime.Now })
+                    </div>
+                </div>
+
+
+                <div class="col-xs-5">
+                    @Html.TextBoxFor(t => t.search.timeEnd, new { @class = "input-sm form-control", @value = DateTime.Now })
+
+                </div>
+
+
+            </div>
+
+
+            <div class="">
+                <div class="btn-group">
+                    <button class="btn btn-primary" type="submit" id="This_Week" onclick="This_Week">本&nbsp;&nbsp;&nbsp;&nbsp;周</button>
+                    <button class="btn btn-primary" type="submit" id="Next_Week" onclick="Next_Week">下一周</button>
+                </div>
+            </div>
+            <!--Ajax分页数据信息-->
+            <input type="hidden" id="PageSize" name="PageSize" value="@Model.search.PageSize" />
+            <input type="hidden" id="CurrentPage" name="CurrentPage" value="@Model.search.CurrentPage" />
+        }
+
+
+    </div>
+
+    <div id="mydiv"></div>
+    <div class="ibox-content">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>日期</th>
+                    <th>星期</th>
+                    <th>班级</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @if (Model.TeacherClassList != null && Model.TeacherClassList.Count() > 0 && Model.search.CurrentPage < Model.search.TotalPageCount)
+                {
+                    foreach (var m in Model.TeacherClassList)
+                    {
+                        <tr>
+                            <td>@DateTime.Parse(@m.ClassDate + "").ToString("yyyy-MM-dd")</td>
+                            <td>@m.ClassDate.DayOfWeek.ToString()</td>
+                            <td>@m.ClassName</td>
+
+                            <td><a href="@Url.Action("TeacherClassInfo", "Weixin", new { classid = m.ClassID, classindex = m.ClassIndex})" class=" btn-block"><i class="fa fa-arrow-circle-right fa-2x"></i></a></td>
+                        </tr>
+                    }
+                    <tr>
+                        <td colspan="5">
+                        <button class="btn btn-primary btn-block m-t" onclick="loadmore()"><i class="fa fa-arrow-down"></i> 加载跟多</button></td>
+                    </tr>
+                }
+                else
+                {
+                    foreach (var m in Model.TeacherClassList)
+                    {
+                        <tr>
+                            <td>@DateTime.Parse(@m.ClassDate + "").ToString("yyyy-MM-dd")</td>
+                            <td>@m.ClassDate.DayOfWeek.ToString()</td>
+                            <td>@m.ClassName</td>
+
+                            <td><a href="@Url.Action("TeacherClassInfo", "Weixin", new { classid = m.ClassID, classindex = m.ClassIndex})" class=" btn-block"><i class="fa fa-arrow-circle-right fa-2x"></i></a></td>
+                        </tr>
+                    }
+                    <tr>
+                        <td colspan="5">
+                        <button class="btn btn-primary btn-block m-t"><i class="fa fa-arrow-down"></i> 已全部加载</button></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    </div>
+</div>
+<script type="text/javascript">
+    function loadmore() {
+        var CurrentPage = parseInt($("#CurrentPage").val());
+        $("#CurrentPage").val(CurrentPage + 1);
+        $("form").submit();
+    }
+
+    $('#This_Week').click(function This_Week() {
+        var now = new Date();
+        var nowTime = now.getTime();
+        var day = now.getDay();
+        var oneDayLong = 24 * 60 * 60 * 1000;
+        // var date = new Date(now.getTime() - 7 * 24 * 3600 * 1000).Format("yyyy-MM-dd");
+
+        var MondayTime = new Date(nowTime - (day - 1) * oneDayLong);
+        var SundayTime = new Date(nowTime + (7 - day) * oneDayLong);
+
+        var MondayTimeText = document.getElementById('search_timeStart');
+
+
+        MondayTimeText.value = new Date(MondayTime.setDate(0)).Format("yyyy-MM-dd");
+
+        var SundayTimeText = document.getElementById('search_timeEnd');
+        SundayTimeText.value = new Date(SundayTime.setDate(6)).Format("yyyy-MM-dd");
+    })
+
+
+    $('#Next_Week').click(function Next_Week() {
+
+        var oneDayLong = 24 * 60 * 60 * 1000;
+        var MondayTimeText = document.getElementById('search_timeStart');
+        var SundayTimeText = document.getElementById('search_timeEnd');
+        if (MondayTimeText.value == null || MondayTimeText.value == "") {
+            This_Week_1();
+        }
+        else {
+            MondayTimeText.value = new Date(new Date(MondayTimeText.value).getTime() + (oneDayLong * 7)).Format("yyyy-MM-dd");
+            SundayTimeText.value = new Date(new Date(SundayTimeText.value).getTime() + (oneDayLong * 7)).Format("yyyy-MM-dd");
+        }
+
+    })
+    function This_Week_1() {
+        var now = new Date();
+        var nowTime = now.getTime();
+        var day = now.getDay();
+        var oneDayLong = 24 * 60 * 60 * 1000;
+        // var date = new Date(now.getTime() - 7 * 24 * 3600 * 1000).Format("yyyy-MM-dd");
+
+        var MondayTime = new Date(nowTime - (day - 1) * oneDayLong);
+        var SundayTime = new Date(nowTime + (7 - day) * oneDayLong);
+
+        var MondayTimeText = document.getElementById('search_timeStart');
+
+
+        MondayTimeText.value = new Date(MondayTime.setDate(0)).Format("yyyy-MM-dd");
+
+        var SundayTimeText = document.getElementById('search_timeEnd');
+        SundayTimeText.value = new Date(SundayTime.setDate(6)).Format("yyyy-MM-dd");
+    }
+
+
+
+</script>

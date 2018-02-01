@@ -30,7 +30,7 @@
 
                         <div class="form-group">
                             <div class="col-sm-2">
-                                <label class="control-label">班级名称:</label>
+                                <label class="control-label">班级名称/ID:</label>
                             </div>
                             <div class="col-sm-3">
                                 @Html.TextBoxFor(t => t.search.ClassName, new { @class = "form-control input-sm", @type = "text", @placeholder = "请输入课程名称" })
@@ -131,12 +131,13 @@
                     <table class="table table-striped table-bordered table-hover dataTables-example">
                         <thead>
                             <tr>
+                                <th>班级ID</th>
                                 <th>班级名称</th>
-                                 <th>所属分校</th>
+                                <th>所属分校</th>
                                 
                                 <th>所属课程</th> 
-                                <th>已上/总课时</th>
-                                <th>已报/预招人数</th>
+                                <th>已上/课时</th>
+                                <th>已报/预招</th>
                                 <th>授课方式</th>
                                 <th>报名费用</th>
                                 <th>开班时间</th>
@@ -153,16 +154,17 @@
                                 foreach (var m in Model.Classeslist)
                                 {
                                     <tr>
-                                        <td class="jz">@m.ClassName</td>
-                                          <td>@m.CompName</td>
+                                        <td>@m.ID</td>
+                                        <td>@m.ClassName</td>
+                                        <td>@m.CompName</td>
                                           
                                         <td>@m.CourseName</td>
                                         <td>@m.Lesson</td>
                                         <td>@m.Enroll</td>
                                         <td>@m.TeachTypeIDname</td>
                                         <td>@m.Expenses</td>
-                                        <td>@m.StartTime</td>
-                                        <td>@m.EndTime</td>
+                                        <td>@m.StartTime.Value.ToString("yy-MM-dd")</td>
+                                        <td>@m.EndTime.Value.ToString("yy-MM-dd")</td>
                                         <td>@m.StateIDname</td>
                                         <td>
                                             <a href="javascript:modify('@m.ID');" class="btn btn-primary btn-xs" type="button"><i class="fa fa-edit"></i>编辑</a>
@@ -355,7 +357,13 @@
             <div class="form-group ">
                 <label class="col-sm-3 control-label">当前讲师：</label>
                 <div class="col-sm-5">
-                    @Html.DropDownListFor(t => t.search.TeacherID, Model.SourceIL2, new { @class = "form-control input-sm chosen-select", @style = "width:100%;height:100%;", @tabindex = "4", @id = "TeacherID_ClassList" })
+                    @Html.DropDownListFor(t => t.search.TeacherID, Model.SourceIL2, new { @class = "form-control input-sm chosen-selects", @style = "width:100%;height:100%;", @tabindex = "4", @id = "TeacherID_ClassList" })
+                </div>
+            </div>
+            <div class="form-group ">
+                <label class="col-sm-3 control-label">当前讲师2：</label>
+                <div class="col-sm-5">
+                    @Html.DropDownListFor(t => t.search.Teacher2ID, Model.SourceIL2, new { @class = "form-control input-sm chosen-selects", @style = "width:100%;height:100%;", @tabindex = "4", @id = "TeacherID_ClassList2" })
                 </div>
             </div>
 
@@ -571,7 +579,7 @@
         cleanData("buttoninfo");
         layer.open({
             type: 1,
-            title: "<h5 class='ibox-title'>编辑</h3>",
+            title: "<h3>编辑</h3>",
             area: ['680px', '490px'],
             content: $('#buttoninfo'),
             btn: ['保存', '取消'],
@@ -610,37 +618,62 @@
     //排课弹窗
     function ClassList(id, ClassName, Enroll, StateID, TeachTypeID, TotalLesson) {
         if (StateID != 1) {
-            layer.msg("已排课,不能重复排课！");
-            return false;
-        }
-        if (TeachTypeID == 1) {
-            layer.msg("试听班,不能排课！");
-            return false;
-        }
-        cleanData("ClassList");
-        $("#ClassName_generate").html(ClassName);
-        $("#Enroll_generate").html(Enroll);
-        $("#TotalLesson_ClassList").val(TotalLesson);
-        layer.open({
-            type: 1,
-            title: "<h5 class='ibox-title'>排课</h3>",
-            area: ['800px', '500px'],
-            content: $('#ClassList'),
-            btn: ['保存', '取消'],
-            yes: function () {
-                ClassListSave(id);
-            },
-            cancel: function (index) {
-                layer.close(index);
-            }
-        });
-        //激活日期控件
-        $('.DateS').datepicker({
-            keyboardNavigation: false,
-            forceParse: false,
-            autoclose: true
-        });
+            if (StateID == 2 || StateID == 3)//已排课，已上课则刷新排课
+            {
+                $.post('@Url.Action("ClassListRefresh", "Teach")', {
+                    classid: id
+                },
+                    function (json) {
+                        setTimeout(function () {
+                            window.location.reload(); //刷新
+                        }, 3000);
 
+                        layer.closeAll();
+                        layer.msg(json.msg);
+                    }, 'json');
+            }
+            else {
+                layer.msg("不允许再排课了！");
+                return false;
+            }
+        }
+        else {
+            if (TeachTypeID == 1) {
+                layer.msg("试听班,不能排课！");
+                return false;
+            }
+            cleanData("ClassList");
+            $("#ClassName_generate").html(ClassName);
+            $("#Enroll_generate").html(Enroll);
+            $("#TotalLesson_ClassList").val(TotalLesson);
+            layer.open({
+                type: 1,
+                title: "<h3>排课</h3>",
+                area: ['800px', '500px'],
+                content: $('#ClassList'),
+                btn: ['保存', '取消'],
+                yes: function () {
+                    ClassListSave(id);
+                },
+                cancel: function (index) {
+                    layer.close(index);
+                }
+            });
+
+
+            //配置下拉控件chosen
+            $(".chosen-selects").chosen({
+                no_results_text: "未找到此选项!",
+                search_contains: true,
+                width: '100%'
+            });
+            //激活日期控件
+            $('.DateS').datepicker({
+                keyboardNavigation: false,
+                forceParse: false,
+                autoclose: true
+            });
+        }
     }
 
     //加时段弹窗
@@ -648,7 +681,7 @@
         cleanData("addtime");//清空数据
         layer.open({
             type: 1,
-            title: "<h5 class='ibox-title'>添加时段</h3>",
+            title: "<h3>添加时段</h3>",
             area: ['400px', '200px'],
             content: $('#addtime'),
             btn: ['保存', '取消'],
@@ -891,6 +924,11 @@
         obj.TeacherID = $("#TeacherID_ClassList").val().trim();
         if (!obj.TeacherID) {
             layer.msg("请选择当前讲师！");
+            return false;
+        }
+        obj.Teacher2ID = $("#TeacherID_ClassList2").val().trim();
+        if (!obj.Teacher2ID) {
+            layer.msg("请选择当前讲师2！");
             return false;
         }
 

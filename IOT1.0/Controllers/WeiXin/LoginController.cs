@@ -50,7 +50,7 @@ namespace IOT1._0.Controllers.WeiXin
                     UserSessionWX.username = d.ACC_Account;
                     UserSessionWX.comcode = d.ACC_ComCode;
                     UserSessionWX.UserLoginTime = DateTime.Now.ToString();
-                    UserSessionWX.roles = DPAuthority.GetUserRoles(d.ACC_Account);
+                    UserSessionWX.roleids = DPAuthority.GetUserRoles(d.ACC_Account);
                 }
                 ajax.msg = "登录成功！";
                 ajax.status = EnumAjaxStatus.Success;

@@ -159,9 +159,9 @@ namespace DataProvider.Data
             {
                 sb.AppendFormat(" and TeachTypeID = '{0}' ", search.TeachTypeID);
             }
-            if (!string.IsNullOrWhiteSpace(search.Name))//正式学员的姓名
+            if (!string.IsNullOrWhiteSpace(search.Name))//正式学员的姓名或学号
             {
-                sb.AppendFormat(" and Name like '%{0}%' ", search.Name);
+                sb.AppendFormat(" and (Name like '%{0}%' or studentid like '%{0}%')", search.Name);
             }
             if (!string.IsNullOrWhiteSpace(search.BindPhone))//正式学员的姓名
             {
@@ -371,6 +371,61 @@ namespace DataProvider.Data
                 throw new Exception(ex.Message);
             }
             return ret;
+        }
+        /// <summary>
+        /// 手动调整剩余课时
+        /// </summary>
+        /// <param name="ENID"></param>
+        /// <param name="AdjustNum"></param>
+        /// <returns></returns>
+        public static bool AdjustLeftHour(string ENID, int AdjustNum,string loginid)
+        {
+            bool ret = false;
+            DBRepository db = new DBRepository(DBKeys.PRX);
+            try
+            {
+                db.BeginTransaction();
+                Enroll en = db.GetById<Enroll>(ENID);
+
+                TransferRecord tr = new TransferRecord();//添加日志记录
+                tr.StudentID = en.StudentID;
+                tr.BeforeHours = en.ClassHour - en.UsedHour;
+                tr.AfterHours = en.ClassHour - en.UsedHour + +decimal.Parse(AdjustNum.ToString());
+                tr.TypeID = 3;//自定义调整课时
+                tr.CreateTime = DateTime.Now;
+                tr.CreatorId = loginid;
+                tr.ENID = en.ID;
+                tr.ClassID = en.ClassID;
+                db.Insert(tr);
+
+                en.UsedHour = en.UsedHour + decimal.Parse(AdjustNum.ToString());
+                en.UpdateTime = DateTime.Now;
+                en.UpdatorId = loginid;
+                db.Update(en);
+
+                db.Commit();
+                db.Dispose();
+                ret = true;
+
+            }
+            catch (Exception ex)
+            {
+                db.Rollback();
+                db.Dispose();
+                throw new Exception(ex.Message);
+            }
+            return ret;
+        }
+
+        /// <summary>
+        /// 根据报名号，返回课时消耗记录
+        /// </summary>
+        /// <param name="enid"></param>
+        /// <returns></returns>
+        public static List<TransferRecord> GetHoursLogByENID(string enid)
+        {
+            string strsql = "select a.*,dbo.getDicNameByID(23,a.TypeID) AS TypeName from [TransferRecord] a where a.ENID = '" + enid + "'";
+            return MsSqlMapperHepler.SqlWithParams<TransferRecord>(strsql, null, DBKeys.PRX);
         }
     }
 }

@@ -182,6 +182,7 @@
     <Compile Include="Controllers\WeiXin\MessageListController.cs" />
     <Compile Include="Controllers\WeiXin\PaymentListController.cs" />
     <Compile Include="Controllers\WeiXin\ReservationController.cs" />
+    <Compile Include="Controllers\WeiXin\TeacherClassController.cs" />
     <Compile Include="Controllers\WeiXin\WeixinController.cs" />
     <Compile Include="Controllers\Finance\DiscountListController.cs" />
     <Compile Include="Controllers\Finance\FinanceController.cs" />
@@ -4535,6 +4536,8 @@
     <Content Include="Scripts\knockout\knockout-2.2.0.js" />
     <Content Include="Scripts\knockout\knockout-3.0.0.js" />
     <Content Include="Scripts\knockout\knockout.mapping.js" />
+    <Content Include="Scripts\layer_mobile\layer.js" />
+    <Content Include="Scripts\layer_mobile\need\layer.css" />
     <Content Include="Scripts\main.js" />
     <Content Include="Scripts\minify.json.js" />
     <Content Include="Scripts\Mobile\content\css\change.css" />
@@ -4771,6 +4774,7 @@
     <Content Include="Images\orderedList8.png" />
     <Content Include="Images\orderedList9.png" />
     <Content Include="Scripts\_references.js" />
+    <Content Include="Upload\AttendanceList\201707272046255454.jpg" />
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
@@ -4828,6 +4832,12 @@
     <Content Include="Views\Weixin\ClasshourDetailedlist.cshtml" />
     <Content Include="Views\Enroll\RefundInfo.cshtml" />
     <Content Include="Views\Finance\RefundInfo_Print.cshtml" />
+    <Content Include="Views\Weixin\TeacherClassList.cshtml" />
+    <Content Include="Views\Weixin\TeacherClassInfo.cshtml" />
+    <Content Include="Upload\AttendanceList\201708032219260081.docx" />
+    <Content Include="Upload\AttendanceList\201708071132051909.docx" />
+    <Content Include="Upload\AttendanceList\aaabbccc.docx" />
+    <Content Include="Views\Weixin\Password_Update.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

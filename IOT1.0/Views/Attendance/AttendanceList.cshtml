@@ -8,7 +8,9 @@
     .layui-layer-page .layui-layer-content {
         overflow:visible
     }
-
+    .table {
+        margin-bottom:0px;
+    }
 
 </style>
 <div class="wrapper wrapper-content  animated fadeInRight">
@@ -170,7 +172,7 @@
         cleanData("buttoninfo");
         layer.open({
             type: 1,
-            title: "<h5 class='ibox-title'>调课</h3>",
+            title: "<h3>调课</h3>",
             area: ['680px', '420px'],
             content: $('#buttoninfo'),
             btn: ['保存', '取消'],
@@ -192,10 +194,15 @@
             // loaddetail(id, loadindex)
             loadModifyOptions(data, loadindex);
         }
-        $(".chosen-select").chosen({
+
+        //配置下拉控件chosen
+        $(".chosen-selects").chosen({
             no_results_text: "未找到此选项!",
-            search_contains: true
+            search_contains: true,
+            width: '100%'
         });
+
+        
         //激活日期控件
         $('.DateS').datepicker({
             keyboardNavigation: false,
@@ -211,6 +218,7 @@
         jsonModify.ClassIndex=data.ClassIndex;
         jsonModify.ClassDate = $("#modify_date").val();
         jsonModify.TeacherID = $("#modify_teachers").val();
+        jsonModify.Teacher2ID = $("#modify_teachers2").val();
         jsonModify.TimePeriod = $("#modify_period").val();
         jsonModify.RoomID = $("#modify_room").val();
         if (!jsonModify.RoomID) {
@@ -230,7 +238,12 @@
         }
        
         if (!jsonModify.TeacherID) {
-            layer.msg("请选择老师")
+            layer.msg("请选择当前讲师")
+            layer.close(loadIndex);//关闭加载层
+            return;
+        }
+        if (!jsonModify.Teacher2ID) {
+            layer.msg("请选择当前讲师2")
             layer.close(loadIndex);//关闭加载层
             return;
         }
@@ -261,9 +274,11 @@
                     $("#modify_room").empty();
                     $("#modify_period").empty();
                     $("#modify_teachers").empty();
+                    $("#modify_teachers2").empty();
                     var option_room = "<option value=''>请选择</option>";
                     var option_period = "<option value=''>请选择</option>";
                     var option_teachers = "<option value=''>请选择</option>";
+                    var option_teachers2 = "<option value=''>请选择</option>";
                   
                     $.each(json.data[0], function (index, value) {
                         option_room += "<option value='" + value.id + "'>" + value.name + "</option>";
@@ -274,12 +289,18 @@
                     $.each(json.data[2], function (index, value) {
                         option_teachers += "<option value='" + value.ID + "'>" + value.name + "</option>";
                     });
+                    $.each(json.data[2], function (index, value) {
+                        option_teachers2 += "<option value='" + value.ID + "'>" + value.name + "</option>";
+                    });
                     $("#modify_room").append(option_room)
                     $("#modify_period").append(option_period)
                     $("#modify_teachers").append(option_teachers)
+                    $("#modify_teachers2").append(option_teachers2)
                     $("#modify_room").val(data.RoomID)
                     $("#modify_period").val(data.TimePeriod)
                     $("#modify_teachers").val(data.TeacherID)
+                    $("#modify_teachers2").val(data.Teacher2ID)
+                    $(".chosen-selects").trigger("chosen:updated");//刷新chosen控件
                 }
                 layer.close(loadIndex);//关闭加载层
             },
@@ -296,7 +317,7 @@
         $("#Classindex").val(Classindex)
         layer.open({
             type: 1,
-            title: "<h5 class='ibox-title'>发布作业</h3>",
+            title: "<h3>发布作业</h3>",
             area: ['680px', '400px'],
             content: $('#job'),
             btn: ['保存', '取消'],
@@ -329,7 +350,7 @@
         cleanData("appraise");//清空数据
         layer.open({
             type: 1,
-            title: "<h5 class='ibox-title'>评价学生</h3>",
+            title: "<h3>评价学生</h3>",
             area: ['780px', '400px'],
             content: $('#appraise'),
             btn: ['保存', '取消'],
@@ -591,6 +612,7 @@
                     //checked="checked"
                     //var options = option.replace("value=''", '');
                     tbody += "<tr>"
+                        + "<td>" + (index +1) + "</td>"
                         + '<td hidden name="hidden_ID">' + value.StudentID + '</td>'
                         + "<td>" + value.Name + "</td>"
                         + "<td>" + value.Phone + "</td>"
@@ -788,9 +810,15 @@
                         var evalute = value.Evaluate;
                         if (!evalute) {
                             evalute = '';
+                        } 
+                        if (value.ID != 0) { 
+                            row += "<tr><td>" + ChangeDateFormat(value.CreateTime) + "</td><td  >" + value.JobTitle + "</td><td>" + value.JobContent + "</td>  <td> <a  target='blank' href='" + value.FileRoute + "'><i class='fa fa-edit'></i> 下载</a>     <a href='javascript:DELETE(" + value.ID + ");' class='' type='button'><i class='fa fa-edit'></i> 删除</a> </td>   </tr>"
                         }
-                        row += "<tr><td>" + ChangeDateFormat(value.CreateTime) + "</td><td  >" + value.JobTitle + "</td><td>" + value.JobContent + "</td>  <td> <a  target='blank' href='" + value.FileRoute + "'><i class='fa fa-edit'></i> 下载</a>     <a href='javascript:DELETE(" + value.ID + ");' class='' type='button'><i class='fa fa-edit'></i> 删除</a> </td>   </tr>"
-                        //<a  target="_blank" href="/Upload/AttendanceList/201707201530541035.doc"><i class="fa fa-edit"></i> 下载</a>
+                        else {
+                            row += "<tr><td> </td><td  > </td><td> </td>   <td>  </td>   </tr>"
+                        }
+
+
                     })
                     row = "<tbody>" + row + "</tbody>";
                     $('#ClassListJob > tbody').remove()
@@ -867,11 +895,20 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-3 control-label">老师：</label>
+                <label class="col-sm-3 control-label">当前讲师：</label>
                 <div class="col-sm-8">
-                    <select data-placeholder="选择教师..." class=" form-control input-sm" style="width:100%;height:100%;" id="modify_teachers"></select>
+                    <select data-placeholder="选择教师..." class=" form-control input-sm chosen-selects" style="width:100%;height:100%;" id="modify_teachers"></select>
                 </div>
             </div>
+
+               <div class="form-group">
+                <label class="col-sm-3 control-label">当前讲师2：</label>
+                <div class="col-sm-8">
+                    <select data-placeholder="选择教师..." class=" form-control input-sm chosen-selects" style="width:100%;height:100%;" id="modify_teachers2"></select>
+                </div>
+            </div>
+ 
+
             @*<div class="form-group">
                 <label class="col-sm-3 control-label">是否停用：</label>
                 <div class="checkbox i-checks col-sm-8">
@@ -880,6 +917,7 @@
                     </label>
                 </div>
             </div>*@
+
         </form>
     </div>
 </div>
@@ -893,10 +931,11 @@
                 
                 </table>
            
-                <div class="row pre-scrollable">
+                <div class="pre-scrollable">
                     <table class="table table-striped table-bordered table-hover dataTables-example" id="kaoqin_student">
                         <thead>
                          <tr>
+                                <th>序号</th>
                                 <th>学员姓名</th>
                                 <th>学员电话</th>
                                 <th>出勤 <input type="checkbox" class="checkbox i-checks" value="" id="btn_all_student" ></th>
@@ -959,10 +998,8 @@
                     </table>
                 </div>
 
-
-
-</form>
-    </div>
+       </form>
+   </div>
 </div>
 
 @*弹出层，评价*@

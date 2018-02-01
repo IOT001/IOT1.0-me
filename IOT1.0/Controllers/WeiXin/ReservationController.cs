@@ -40,12 +40,25 @@ namespace IOT1._0.Controllers.WeiXin
             Appointment obj = (Appointment)(JsonConvert.DeserializeObject(data.ToString(), typeof(Appointment)));
             obj.ID = CommonData.DPGetTableMaxId("AP", "ID", "Appointment", 8);
             obj.CreateTime = DateTime.Now;
-            obj.CreatorId = UserSessionWX.userid;
+            if (UserSessionWX.islogin)
+            {
+                obj.CreatorId = UserSessionWX.userid;
+            }
+            else
+            {
+                obj.CreatorId = "";
+            }
             obj.ApStateID = 1;//默认未跟进
             if (string.IsNullOrEmpty(obj.ComCode))
             {
-
-               obj.ComCode = UserSessionWX.comcode;
+                if (UserSessionWX.islogin)
+                {
+                    obj.ComCode = UserSessionWX.comcode;
+                }
+                else
+                {
+                    obj.ComCode = "1";
+                }
             }
             if (AppointmentData.Add(obj))//注意时间类型
             {
