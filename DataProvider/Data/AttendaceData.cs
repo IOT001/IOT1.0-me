@@ -239,8 +239,6 @@ namespace DataProvider.Data
                 foreach (AttendanceRecord value in ar)
                 {
                     if (value == null) continue;
-                    if (value.ClockTime == null && value.OutStatus < 1) continue;
-                   
                     AttendanceRecord btnto = AttendaceData.GetAttendanceRecordByStudentClass( value.StudentID,value.ClassID, value.ClassIndex);//获取对象
 
                     if (value.ClockTime != null)//正常打卡扣除课时
@@ -326,7 +324,7 @@ namespace DataProvider.Data
                     if (value.ClockTime == null)//未打卡
                     {
                         Enroll enroll = EnrollData.getEnrollByStudentClass(value.StudentID, value.ClassID);
-                        if (enroll != null && btnto.AttendanceTypeID == 3)//缺勤状态还是要扣课时
+                        if (enroll != null && value.AttendanceTypeID == 3)//缺勤状态还是要扣课时，同时更新报名记录的小号课时
                         {
                             //-----添加课时变化日志记录 begin
                             TransferRecord tr = new TransferRecord();//添加课时变化日志记录
@@ -353,16 +351,9 @@ namespace DataProvider.Data
                         if (btnto == null)
                         {
                             btnto = new AttendanceRecord();
-                            btnto.OutStatus = value.OutStatus;
+                            btnto.AttendanceTypeID = value.AttendanceTypeID;
                 
-                            if (value.OutStatus == 2)//正常请假不扣课时
-                            {
-                                btnto.AttendanceTypeID = 4;//请假
-                            }
-                            else
-                            {
-                                btnto.AttendanceTypeID = 3;//缺勤
-                            }
+                 
                             btnto.CreateTime = DateTime.Now;
                             btnto.CreatorId = userid;
                             btnto.AttendanceWayID = 3;//工作人员操作
@@ -376,31 +367,8 @@ namespace DataProvider.Data
                         {
                             if (btnto.ClockTime == null)//已打卡，不允许改成请假
                             {
-                                btnto.OutStatus = value.OutStatus;
+                                btnto.AttendanceTypeID = value.AttendanceTypeID;
 
-                                if (value.OutStatus == 2)//正常请假不扣课时
-                                {
-                                    btnto.AttendanceTypeID = 4;//请假
-                                }
-                                else
-                                {
-                                    //-----添加课时变化日志记录 begin
-                                    TransferRecord tr = new TransferRecord();//添加课时变化日志记录
-                                    tr.StudentID = enroll.StudentID;
-                                    tr.BeforeHours = enroll.ClassHour - enroll.UsedHour;
-                                    tr.AfterHours = enroll.ClassHour - enroll.UsedHour - 1;
-                                    tr.TypeID = 5;//ERP考勤操作
-                                    tr.CreateTime = DateTime.Now;
-                                    tr.CreatorId = userid;
-                                    tr.ENID = enroll.ID;
-                                    tr.ClassID = enroll.ClassID;
-                                    db.Insert(tr);
-                                    //-----添加课时变化日志记录 end
-
-                                    btnto.AttendanceTypeID = 3;//缺勤,扣课时
-                                    enroll.UsedHour = enroll.UsedHour + 1;
-                                    db.Update(enroll);
-                                }
                                 btnto.UpdateTime = DateTime.Now;
                                 btnto.UpdatorId = userid;
                                 btnto.AttendanceWayID = 3;//工作人员操作

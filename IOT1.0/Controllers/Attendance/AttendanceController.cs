@@ -152,7 +152,7 @@ namespace IOT1._0.Controllers.Attendance
             {
                 ajax.status = EnumAjaxStatus.Success;
                 ajax.msg = "获取信息成功";
-                ajax.data = new Object[]{btn,CommonData.GetDictionaryList(18)};
+                ajax.data = new Object[]{btn,CommonData.GetDictionaryList(9).Where(t => t.id != "2" && t.id != "1")};
             }
 
             return Json(ajax);
