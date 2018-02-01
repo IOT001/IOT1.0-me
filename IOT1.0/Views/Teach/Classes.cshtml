@@ -136,8 +136,8 @@
                                 <th>所属分校</th>
                                 
                                 <th>所属课程</th> 
-                                <th>已上/总课时</th>
-                                <th>已报/预招人数</th>
+                                <th>已上/课时</th>
+                                <th>已报/预招</th>
                                 <th>授课方式</th>
                                 <th>报名费用</th>
                                 <th>开班时间</th>
@@ -163,8 +163,8 @@
                                         <td>@m.Enroll</td>
                                         <td>@m.TeachTypeIDname</td>
                                         <td>@m.Expenses</td>
-                                        <td>@m.StartTime</td>
-                                        <td>@m.EndTime</td>
+                                        <td>@m.StartTime.Value.ToString("yy-MM-dd")</td>
+                                        <td>@m.EndTime.Value.ToString("yy-MM-dd")</td>
                                         <td>@m.StateIDname</td>
                                         <td>
                                             <a href="javascript:modify('@m.ID');" class="btn btn-primary btn-xs" type="button"><i class="fa fa-edit"></i>编辑</a>

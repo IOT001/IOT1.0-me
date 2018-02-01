@@ -323,7 +323,7 @@ namespace DataProvider.Data
                         }
 
                     }
-                    if (value.OutStatus > 0)//未打卡
+                    if (value.ClockTime == null)//未打卡
                     {
                         Enroll enroll = EnrollData.getEnrollByStudentClass(value.StudentID, value.ClassID);
                         if (enroll != null && btnto.AttendanceTypeID == 3)//缺勤状态还是要扣课时
@@ -354,7 +354,7 @@ namespace DataProvider.Data
                         {
                             btnto = new AttendanceRecord();
                             btnto.OutStatus = value.OutStatus;
-                            btnto.ClockTime = value.ClockTime;
+                
                             if (value.OutStatus == 2)//正常请假不扣课时
                             {
                                 btnto.AttendanceTypeID = 4;//请假

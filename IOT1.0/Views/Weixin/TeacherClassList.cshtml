@@ -83,6 +83,16 @@
                 }
                 else
                 {
+                    foreach (var m in Model.TeacherClassList)
+                    {
+                        <tr>
+                            <td>@DateTime.Parse(@m.ClassDate + "").ToString("yyyy-MM-dd")</td>
+                            <td>@m.ClassDate.DayOfWeek.ToString()</td>
+                            <td>@m.ClassName</td>
+
+                            <td><a href="@Url.Action("TeacherClassInfo", "Weixin", new { classid = m.ClassID, classindex = m.ClassIndex})" class=" btn-block"><i class="fa fa-arrow-circle-right fa-2x"></i></a></td>
+                        </tr>
+                    }
                     <tr>
                         <td colspan="5">
                         <button class="btn btn-primary btn-block m-t"><i class="fa fa-arrow-down"></i> 已全部加载</button></td>
