@@ -69,8 +69,16 @@ namespace IOT1._0.Controllers.WeiXin
             ar.StudentID = Request["StudentID"].ToString();//学员号
             ar.ClassID = Request["ClassID"].ToString();//班级号
             ar.ClassIndex = int.Parse(Request["ClassIndex"].ToString());//班级索引
-            ar.ClockTime = DateTime.Now;//考勤时间
+            
             ar.AttendanceTypeID = int.Parse(Request["AttendanceTypeID"].ToString());//通过哪个按钮触发，正常2，缺勤3，请假4
+            if (ar.AttendanceTypeID == 2)//正常考勤才赋值时间
+            {
+                ar.ClockTime = DateTime.Now;//考勤时间
+            }
+            else
+            {
+                ar.ClockTime = null;
+            }
             List<AttendanceRecord> cls = new List<AttendanceRecord>();
             cls.Add(ar);
             if (AttendaceData.saveStudentAttendance(cls, UserSession.userid))
