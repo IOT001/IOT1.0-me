@@ -398,7 +398,7 @@ namespace DataProvider.Data
                 tr.ClassID = en.ClassID;
                 db.Insert(tr);
 
-                en.UsedHour = en.UsedHour + decimal.Parse(AdjustNum.ToString());
+                en.UsedHour = en.UsedHour - decimal.Parse(AdjustNum.ToString());//调整剩余课时
                 en.UpdateTime = DateTime.Now;
                 en.UpdatorId = loginid;
                 db.Update(en);
