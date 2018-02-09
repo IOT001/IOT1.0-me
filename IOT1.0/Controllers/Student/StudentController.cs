@@ -162,7 +162,7 @@ namespace IOT1._0.Controllers.Teach
 
 
 
-            var year = DateTime.Now.Year.ToString();//获取年份
+            var year = DateTime.Now.Year.ToString().Substring(2, 2);//获取年份
             var month = DateTime.Now.Month.ToString();//获取月份 
             if (month.ToString().Length == 1)
             {
