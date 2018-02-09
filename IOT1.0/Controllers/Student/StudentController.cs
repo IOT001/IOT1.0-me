@@ -162,9 +162,15 @@ namespace IOT1._0.Controllers.Teach
 
 
 
-            var year = DateTime.Now.ToString().Substring(2, 2);//获取年份
-            var month = DateTime.Now.ToString().Substring(5, 2);//获取月份
+            var year = DateTime.Now.Year.ToString();//获取年份
+            var month = DateTime.Now.Month.ToString();//获取月份 
+            if (month.ToString().Length == 1)
+            {
+                month = "0" + month.ToString();
+            } 
             var Mosaic = year + month;
+
+
 
             Students query = StudentData.GetStudentsOne(Mosaic);//获取创建时间最新的一条数据
             string MAX_ID;
