@@ -327,11 +327,17 @@ namespace IOT1._0.Controllers.Enroll
                     en.CollectionRec = ((JObject)item)["collectionrec"].ToString().TrimEnd(',');
                     ENList.Add(en);
                 }
-                if (EnrollData.AddList(ENList))
+                int EnrollRes = EnrollData.AddList(ENList);
+                if (EnrollRes == 1)
                 {
 
                     ajax.status = EnumAjaxStatus.Success;
                     ajax.msg = "结算成功，完成报名！";
+                }
+                else if (EnrollRes == -1)
+                {
+                    ajax.status = EnumAjaxStatus.Error;
+                    ajax.msg = "不允许重复报名！";
                 }
             }
             else//提交到审核

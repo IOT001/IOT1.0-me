@@ -40,15 +40,16 @@ namespace DataProvider.Data
        /// </summary>
        /// <param name="list"></param>
        /// <returns></returns>
-        public static bool AddList(List<Enroll> list)
+        public static int AddList(List<Enroll> list)
         {
-            bool ret = false;
+            int ret = 0;//初始
             foreach (var obj in list)
             {
                 int haveenroll = EnrollData.getEnrollByStuidCalssid(obj.StudentID, obj.ClassID);
                 if (haveenroll > 0)
                 {
-                    throw new Exception("该学员已报名，不允许重复报名！");
+                    ret = -1;//重复报名
+                    return ret;
                 }
             }
             DBRepository db = new DBRepository(DBKeys.PRX);
@@ -76,7 +77,7 @@ namespace DataProvider.Data
                     //ca.PresentEnroll = ca.PresentEnroll + 1;
                     //MsSqlMapperHepler.Update<Classes>(ca, DBKeys.PRX);//报名数加1
                 }
-                ret = true;
+                ret = 1;//成功
                 db.Commit();
             }          
             catch (Exception ex)
