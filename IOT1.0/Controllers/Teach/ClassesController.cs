@@ -308,10 +308,10 @@ namespace IOT1._0.Controllers.Teach
                 search.Enroll_StudentID = Enroll_StudentID;
 
             search.CurrentPage = 1;//当前页
-            search.PageSize = 15;//不想分页就设置成一个较大的值,比如99999
+            search.PageSize = 999;//不想分页就设置成一个较大的值,比如99999
             List<vw_Enroll> vw_Enroll = EnrollData.GeEnrollList(search);
-            ajax.data = vw_Enroll;
-            return Json(new { total = 1, rows = vw_Enroll, state = true, msg = "加载成功" }, JsonRequestBehavior.AllowGet);
+            ajax.data = vw_Enroll.Where(t=> t.StateID != 5 && t.StateID != 6);//剔除了报名状态是，5，6的数据，5，报名冻结，6报名完成
+            return Json(new { total = 1, rows = ajax.data, state = true, msg = "加载成功" }, JsonRequestBehavior.AllowGet);
         }
 
 

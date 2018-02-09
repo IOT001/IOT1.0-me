@@ -1125,6 +1125,12 @@
         columns: [
 
              {
+                 //field: 'Number',//可不加  
+                 title: '序号',//标题  可不加  
+                 formatter: function (value, row, index) {
+                     return index + 1;
+                 }
+             }, {
                  field: 'StudentID',
                  title: '学号',
                  align: 'center',
