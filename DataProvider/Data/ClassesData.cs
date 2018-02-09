@@ -160,7 +160,7 @@ namespace DataProvider.Data
         }
 
         /// <summary>
-        /// 保存
+        /// 保存转班记录
         /// </summary>
         /// <param name="btn"></param>
         /// <returns></returns>
@@ -174,11 +174,20 @@ namespace DataProvider.Data
                 
                 db.BeginTransaction();//事务开始
 
-                UpdateEnroll(en, db);
+                Enroll en_old = db.GetById<Enroll>(en.ID);
+                string oldclassid = en_old.ClassID;//原来的班级号
+                en_old.ClassID = en.ClassID;
+                en_old.UpdateTime = en.UpdateTime;
+                en_old.UpdatorId = en.UpdatorId;
+                db.Update(en_old);//把报名表中的classid改成新的
+                string strsql = "delete from AttendanceRecord where AttendanceTypeID = 1 and StudentID = '" + en_old.StudentID + "' and ClassID = '" + oldclassid + "'";
+                db.Execute(strsql);//删除未考勤多余的学员课程记录
                 if (AddClassesTrans(ct,db)>0)
                 {
+                    
                     db.Commit(); //事务提交
                     db.Dispose();  //资源释放
+                    ClassListData.RefreshClassList(en.ClassID, en.UpdatorId);//刷新排课
                     ret = true;//新增成功
                 } 
 
@@ -207,18 +216,18 @@ namespace DataProvider.Data
         {
             return db.Insert<ClassesTrans>(ct);
         }
-        /// <summary>
-        /// 保存
-        /// </summary>
-        /// <param name="btn"></param>
-        /// <returns></returns>
-        public static bool UpdateEnroll(Enroll en, DBRepository db)
-        {
-            Enroll Stuto = ClassesData.GetEnrollByID(en.ID);//获取对象
-            Cloner<Enroll, Enroll>.CopyTo(en, Stuto);//代码克隆，把前台或者的值也就是变更内容复制到目标对象，不做变更的数据不变
-            return db.Update(Stuto);
+        ///// <summary>
+        ///// 保存
+        ///// </summary>
+        ///// <param name="btn"></param>
+        ///// <returns></returns>
+        //public static bool UpdateEnroll(Enroll en, DBRepository db)
+        //{
+        //    Enroll Stuto = ClassesData.GetEnrollByID(en.ID);//获取对象
+        //    Cloner<Enroll, Enroll>.CopyTo(en, Stuto);//代码克隆，把前台或者的值也就是变更内容复制到目标对象，不做变更的数据不变
+        //    return db.Update(Stuto);
 
-        }
+        //}
 
         /// <summary>
         /// 获取单条数据

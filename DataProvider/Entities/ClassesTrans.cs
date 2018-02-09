@@ -21,5 +21,7 @@ namespace DataProvider
         public System.DateTime CreateTime { get; set; }
         public string CreatorId { get; set; }
         public string Remark { get; set; }
+
+        public string ENID { get; set; }
     }
 }

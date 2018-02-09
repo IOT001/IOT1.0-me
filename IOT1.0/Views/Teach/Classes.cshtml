@@ -507,7 +507,7 @@
     <div class="ibox-content">
         <form class=" form-inline">
             <div class="form-group">
-                <div class="col-sm-3">
+                <div class="col-sm-4">
                     <label class="control-label">班级名称:</label>
                 </div>
                 <div class="col-sm-6">
@@ -1083,6 +1083,7 @@
     //#endregion
     window.operateEvents_transfe = {
         'click .Class_transfe': function (e, value, row, index) {
+            var loadindex = layer.load();
             $.post('@Url.Action("SaveClass_transfe", "Teach")', {
                 "Classes_ID": row.ID,//序列化对象
                 "Enroll_ID": $('#transfe_Enroll_ID').val().trim(),
@@ -1090,6 +1091,7 @@
                 "Enroll_ClassID": $('#Enroll_ClassID').val().trim(),
 
             }, function (json) {
+                layer.close(loadindex);//关闭加载层
                 if (json.status == 200) {//成功
 
                     layer.msg(json.msg);//弹出服务器返回的消息
@@ -1103,7 +1105,10 @@
 
 
                 }
-            }, 'json');
+            }, 'json').error(function () {
+                layer.close(loadindex);//关闭加载层
+                layer.msg("服务器错误，请联系管理员！")
+            });
 
         }
     };
