@@ -36,6 +36,12 @@ namespace IOT1._0.Controllers.Teach
             model.SourceIL = CommonData.Instance.GetBropDownListData(SourceIL);
 
 
+            //学员状态下拉项
+            List<CommonEntity> StudentSourceIL = CommonData.GetDictionaryList(3);//1是字典类型值,仅供测试参考
+            model.StudentSourceIL = CommonData.Instance.GetBropDownListData(StudentSourceIL);
+
+
+
             //分校下拉项
             List<CommonEntity> ComCodeIL = CommonData.Get_SYS_Company_List();//分校
             model.ComCodeIL = CommonData.Instance.GetBropDownListData(ComCodeIL);
@@ -162,7 +168,7 @@ namespace IOT1._0.Controllers.Teach
 
 
 
-            var year = DateTime.Now.Year.ToString();//获取年份
+            var year = DateTime.Now.Year.ToString().Substring(2, 2);//获取年份
             var month = DateTime.Now.Month.ToString();//获取月份 
             if (month.ToString().Length == 1)
             {
@@ -307,6 +313,31 @@ namespace IOT1._0.Controllers.Teach
         }
 
 
+
+
+        /// <summary>
+        /// 删除
+        /// </summary>
+        /// <param name="json"></param>
+        /// <returns></returns>
+        public JsonResult DELETE()
+        {
+            AjaxStatusModel ajax = new AjaxStatusModel();//功能操作类的返回类型都是AjaxStatusModel，数据放到AjaxStatusModel.data中，前台获取json后加载
+            ajax.status = EnumAjaxStatus.Error;//默认失败
+
+            ajax.msg = "删除失败！";//前台获取，用于显示提示信息
+            var data = Request["data"];//获取前台传递的数据，主要序列化
+
+            Students Stu = (Students)(JsonConvert.DeserializeObject(data.ToString(), typeof(Students)));
+            Stu.DeleteTime = DateTime.Now;
+            Stu.DeletorId = UserSession.userid;
+            if (StudentData.UpdateStudent(Stu))//注意时间类型，而且需要在前台把所有的值
+            {
+                ajax.msg = "删除成功！";
+                ajax.status = EnumAjaxStatus.Success;
+            }
+            return Json(ajax);
+        }
 
 
 

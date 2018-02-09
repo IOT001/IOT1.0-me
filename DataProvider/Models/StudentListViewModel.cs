@@ -27,7 +27,12 @@ namespace DataProvider.Models
         /// </summary>
         public List<SelectListItem> SourceIL { get; set; }
 
-       
+
+        /// <summary>
+        ///学员状态下拉框  
+        /// </summary>
+        public List<SelectListItem> StudentSourceIL { get; set; }
+
         /// <summary>
         /// 分校下拉框
         /// </summary>
@@ -65,6 +70,13 @@ namespace DataProvider.Models
         /// 下拉框按钮的选中值
         /// </summary>
         public int DicItemID { set; get; }
+
+
+
+        /// <summary>
+        /// 学员下拉框按钮的选中值
+        /// </summary>
+        public string StudentDicItemID { set; get; }
 
 
         /// <summary>

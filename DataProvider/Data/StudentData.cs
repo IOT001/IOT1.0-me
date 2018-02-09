@@ -40,6 +40,10 @@ namespace DataProvider.Data
            if (!string.IsNullOrWhiteSpace(search.ComCode))//校区
                sb.AppendFormat(" and [ComCode] = '{0}' ", search.ComCode);
 
+
+           if (!string.IsNullOrWhiteSpace(search.StudentDicItemID))//学员状态
+               sb.AppendFormat(" and  StateID = '{0}' ", search.StudentDicItemID);
+
            where = sb.ToString();
            int allcount = 0;
            var list = CommonPage<vw_Students>.GetPageList(
