@@ -704,7 +704,7 @@
         layer.open({
             type: 1,
             title: "<h3 class=''>分配学员</h3>",
-            area: ['800px', '500px'],
+            area: ['1000px', '500px'],
             content: $('#adjust'),
             // btn: ['保存', '取消'],
             yes: function () {
@@ -1057,7 +1057,7 @@
         layer.open({
             type: 1,
             title: "<h3 class=''>分配学员</h3>",
-            area: ['750px', '500px'],
+            area: ['1000px', '500px'],
             content: $('#transfer'),
             btn: ['取消'],
             cancel: function (index) {
@@ -1223,6 +1223,12 @@
              {
                  field: 'ClassName',
                  title: '班级名称',
+                 align: 'center',
+                 valign: 'middle',
+                 sortable: true
+             }, {
+                 field: 'ID',
+                 title: '班级ID',
                  align: 'center',
                  valign: 'middle',
                  sortable: true
