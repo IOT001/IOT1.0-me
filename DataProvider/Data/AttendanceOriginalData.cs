@@ -64,12 +64,13 @@ namespace DataProvider.Data
                                     WHERE ABS(DATEDIFF(Hour,ClassDate,'{0}')) < 4 
                                     AND ClassID IN (SELECT ClassID FROM Enroll WHERE StudentID = {1}) 
                                     ORDER BY ABS(DATEDIFF(Hour,ClassDate,'{0}'))", ao.workDates, ao.UserID);
-                    ClassList cl = MsSqlMapperHepler.SqlWithParamsSingle<ClassList>(str.ToString(), null, DBKeys.PRX);//找到唯一班次
+                    ClassList cl = db.Query<ClassList>(str.ToString()).FirstOrDefault();//找到唯一班次
                     if (cl != null)//打卡正确，找到班次
                     {
                         //是否之前有考勤，有过考勤记录则不处理
                         string strar = "select top 1 * from AttendanceRecord where ClassID = '" + cl.ClassID + "' and ClassIndex = " + cl.ClassIndex + " and StudentID = '" + ao.UserID + "'";
-                        AttendanceRecord ar = MsSqlMapperHepler.SqlWithParamsSingle<AttendanceRecord>(strar, null, DBKeys.PRX);
+                        AttendanceRecord ar = db.Query<AttendanceRecord>(strar).FirstOrDefault();
+        
                         if (ar == null)//不存在就新增
                         {
                             ar = new AttendanceRecord();
@@ -84,7 +85,7 @@ namespace DataProvider.Data
                             
 
                             string stren = "select * from Enroll where StudentID = '" + ao.UserID + "' and ClassID = '" + cl.ClassID + "'";
-                            Enroll en = MsSqlMapperHepler.SqlWithParamsSingle<Enroll>(stren, null, DBKeys.PRX);// 找到报名记录
+                            Enroll en = db.Query<Enroll>(stren).FirstOrDefault();// 找到报名记录
                             if (en == null)
                             {
                                 ao.Recognise = "无效";
@@ -139,7 +140,7 @@ namespace DataProvider.Data
      
 
                                 string stren = "select * from Enroll where StudentID = '" + ao.UserID + "' and ClassID = '" + cl.ClassID + "'";
-                                Enroll en = MsSqlMapperHepler.SqlWithParamsSingle<Enroll>(stren, null, DBKeys.PRX);// 找到报名记录
+                                Enroll en = db.Query<Enroll>(stren).FirstOrDefault();// 找到报名记录
                                 if (en == null)
                                 {
                                     ao.Recognise = "无效";
