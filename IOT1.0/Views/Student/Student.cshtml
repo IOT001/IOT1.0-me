@@ -69,6 +69,16 @@
                                              
                             </div>
                 
+
+                                            <div class="col-sm-2">
+                                <label class="control-label">状态：</label>
+                            </div>
+                                    <div class="col-sm-3"> 
+                 
+                                            @Html.DropDownListFor(t => t.search.StudentDicItemID,Model.StudentSourceIL, new { @class = "form-control input-sm chosen-select", @style = "width:100%;height:100%;", @tabindex = "4 "}) 
+                                              
+                            </div>
+
                         </div>
                         
                         
@@ -136,8 +146,10 @@
                                              @if (@m.StateID == "1"  || @m.StateID == "2")
                                             {
                                                <a href="javascript:Frozen(@m.ID);" class="btn btn-primary btn-xs" type="button"><i class="fa fa-edit"></i> 冻结</a>
-                                             }
-                                             
+                                             } 
+                                            
+                                               <a href="javascript:DELETE(@m.ID);" class="btn btn-primary btn-xs" type="button"><i class="fa fa-edit"></i> 删除</a>
+                                           
 
                                         </td>
                                     </tr>
@@ -145,7 +157,7 @@
                             }
                             else
                             {
-                                <tr><td colspan="10" style="text-align:center; color:red;">未查询到数据,请更换查询条件试试!</td></tr>
+                                <tr><td colspan="11" style="text-align:center; color:red;">未查询到数据,请更换查询条件试试!</td></tr>
                             }
                         </tbody>
                       
@@ -487,6 +499,9 @@
     //学员状态ID,字典表3,1,未读，2在读，3冻结，4结束
 
     function Frozen(ID) {//冻结
+        if (!confirm("确定冻结么？")) {
+            return fal;
+        }
         var obj = new Object; 
         obj.ID = ID;
         obj.StateID = 3;
@@ -507,6 +522,35 @@
             }
         }, 'json');
     }
+
+
+
+
+    function DELETE(ID) {//删除 
+        if (!confirm("确定删除么？")) {
+            return fal;
+        }
+        var obj = new Object;
+        obj.ID = ID;
+        obj.StateID = 5;
+        var action = '@Url.Action("DELETE", "Student")'
+        $.post(action, {
+            "data": JSON.stringify(obj)//序列化对象
+        }, function (json) {
+            if (json.status == 200) {//成功
+
+                layer.msg(json.msg);//弹出服务器返回的消息
+                setTimeout(function () {//操作
+                    layer.closeAll();//关闭所有层
+                    window.location.reload(); //刷新
+                }, 3000);
+            }
+            else {
+                layer.msg(json.msg);//弹出服务器返回的消息
+            }
+        }, 'json');
+    }
+
 
 
 
