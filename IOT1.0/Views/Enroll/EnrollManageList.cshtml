@@ -339,9 +339,14 @@
 
 
     function Recovery(ID) {//恢复
-        if (!confirm("确定恢复么？")) {
-            return false;
-        }
+        
+          
+        layer.confirm('您确定恢复么？', {
+            btn: ['确定', '取消'] //按钮
+        }, function () {
+           
+
+
         var obj = new Object;
         obj.ID = ID;
         obj.StateID = 1;
@@ -361,14 +366,19 @@
                 layer.msg(json.msg);//弹出服务器返回的消息
             }
         }, 'json');
+        });
+
     }
     //点击恢复，状态变成 未读，按钮名称变成冻结。点击冻结，状态变成冻结，按钮名称变成恢复
     //学员状态ID,字典表3,1,未读，2在读，3冻结，4结束
 
     function Frozen(ID) {//冻结
-        if (!confirm("确定冻结么？")) {
-            return false;
-        }
+       
+
+        layer.confirm('您确定冻结么？', {
+            btn: ['确定', '取消'] //按钮
+        }, function () {
+
         var obj = new Object;
         obj.ID = ID;
         obj.StateID = 5;
@@ -388,6 +398,9 @@
                 layer.msg(json.msg);//弹出服务器返回的消息
             }
         }, 'json');
+    });
+
+
     }
 
 
