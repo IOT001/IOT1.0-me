@@ -475,6 +475,9 @@
     //学员状态ID,字典表3,1,未读，2在读，3冻结，4结束
 
     function Recovery(ID) {//恢复
+        if (!confirm("确定恢复么？")) {
+            return false;
+        }
         var obj = new Object; 
         obj.ID = ID;
         obj.StateID = 1;
@@ -500,7 +503,7 @@
 
     function Frozen(ID) {//冻结
         if (!confirm("确定冻结么？")) {
-            return fal;
+            return false;
         }
         var obj = new Object; 
         obj.ID = ID;
