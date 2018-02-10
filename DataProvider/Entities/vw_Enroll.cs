@@ -113,6 +113,9 @@ namespace DataProvider
         /// 授课方式中文
         /// </summary>
         public string TeachTypeName { get; set; }
-        
+        /// <summary>
+        /// 报名状态
+        /// </summary>
+        public string StateName { get; set; }
     }
 }

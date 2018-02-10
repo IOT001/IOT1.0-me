@@ -79,6 +79,7 @@
                                         <th>消耗课时</th>
                                         <th>剩余课时</th>
                                         <th>报名费用</th>
+                                        <th>状态</th>
                                         <th>操作</th>
                                     </tr>
                                 </thead>
@@ -100,7 +101,8 @@
                                         <td>@Convert.ToInt32(m.ClassHour)</td>
                                         <td>@Convert.ToInt32(m.UsedHour)</td>
                                         <td><a href="javascript:ShowHoursLog('@m.ID')">@Convert.ToInt32(m.ClassHour - m.UsedHour)</a></td>
-                                        <td>@m.Paid</td>     
+                                        <td>@m.Paid</td>
+                                        <td>@m.StateName</td>    
                                         @if (m.UsedHour < m.ClassHour)
                                         {
                                          <td>
