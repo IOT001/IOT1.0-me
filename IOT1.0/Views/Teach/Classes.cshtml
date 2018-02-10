@@ -13,6 +13,12 @@
         .chosen-select {
             /*padding:0px;*/
         }
+        .Enroll_freeze {
+            margin-left:5px;
+        }
+        .Enroll_end {
+            margin-left: 5px;
+        }
     </style>
 }
 <link href="~/Scripts/assets/css/plugins/clockpicker/clockpicker.css" rel="stylesheet" />
@@ -1076,12 +1082,21 @@
             $('#transfe_StudentID').val(row.StudentID);
             $('#Enroll_ClassID').val(row.ClassID);
             $('#Class_transfe').bootstrapTable('refresh');
+        },
+        //点击冻结
+        'click .Enroll_freeze': function (e, value, row, index) {
+
+        },
+        //点击完结
+        'click .Enroll_end': function (e, value, row, index) {
 
         }
 
     };
     //#endregion
+
     window.operateEvents_transfe = {
+        //点击转班
         'click .Class_transfe': function (e, value, row, index) {
             var loadindex = layer.load();
             $.post('@Url.Action("SaveClass_transfe", "Teach")', {
@@ -1101,15 +1116,11 @@
                     setTimeout(function () {
                         window.location.reload(); //刷新
                     }, 3000);
-
-
-
                 }
             }, 'json').error(function () {
                 layer.close(loadindex);//关闭加载层
                 layer.msg("服务器错误，请联系管理员！")
             });
-
         }
     };
 
@@ -1196,7 +1207,9 @@
     //按钮事件
     function operateFormatter(value, row, index) {
         return [
-            '<button type="button" class="RoleOfA btn btn-primary btn-xs"">转班</button>'
+            '<button type="button" class="RoleOfA btn btn-primary btn-xs">转班</button>',
+            '<button type="button" class="Enroll_freeze btn btn-primary btn-xs">冻结</button>',
+            '<button type="button" class="Enroll_end btn btn-primary btn-xs">完结</button>'
         ].join('');
     }
 
