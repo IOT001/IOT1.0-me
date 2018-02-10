@@ -118,7 +118,7 @@ namespace DataProvider.Data
         }
 
         /// <summary>
-        /// 更新 教师信息
+        /// 更新 Enroll信息
         /// </summary>
         /// <param name="btn"></param>
         /// <returns></returns>
@@ -431,7 +431,23 @@ namespace DataProvider.Data
 
 
 
-
+        /// <summary>
+        /// 修改enroll表的状态 
+        /// </summary>
+        /// <param name="btn"></param>
+        /// <returns></returns>
+        public static int UpdateEnroll_ed(Enroll enl)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append(" update enroll set StateID=@StateID,UpdatorId=@UpdatorId,UpdateTime=@UpdateTime  ");
+            sb.Append(" where ID=@ID ");
+            var parameters = new DynamicParameters();
+            parameters.Add("@UpdateTime", enl.UpdateTime);
+            parameters.Add("@UpdatorId", enl.UpdatorId);
+            parameters.Add("@StateID", enl.StateID);
+            parameters.Add("@ID", enl.ID); 
+            return MsSqlMapperHepler.InsertUpdateOrDeleteSql(sb.ToString(), parameters, DBKeys.PRX);
+        }
           
 
  

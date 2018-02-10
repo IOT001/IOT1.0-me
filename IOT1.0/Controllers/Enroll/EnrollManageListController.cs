@@ -97,7 +97,7 @@ namespace IOT1._0.Controllers.Enroll
             enl.UpdateTime = DateTime.Now;//添加修改时间
             enl.UpdatorId = UserSession.userid;//添加修改人
 
-            if (EnrollData.UpdateEnroll(enl))//注意时间类型，而且需要在前台把所有的值
+            if (EnrollData.UpdateEnroll_ed(enl)>0)//注意时间类型，而且需要在前台把所有的值
             {
                 ajax.msg = "恢复成功！";
                 ajax.status = EnumAjaxStatus.Success;
@@ -121,7 +121,7 @@ namespace IOT1._0.Controllers.Enroll
             DataProvider.Entities.Enroll enl = (DataProvider.Entities.Enroll)(JsonConvert.DeserializeObject(data.ToString(), typeof(DataProvider.Entities.Enroll)));
             enl.UpdateTime = DateTime.Now;  //添加修改时间
             enl.UpdatorId = UserSession.userid;//添加修改人
-            if (EnrollData.UpdateEnroll(enl))//注意时间类型，而且需要在前台把所有的值
+            if (EnrollData.UpdateEnroll_ed(enl) > 0)//注意时间类型，而且需要在前台把所有的值
             {
                 ajax.msg = "冻结成功！";
                 ajax.status = EnumAjaxStatus.Success;
