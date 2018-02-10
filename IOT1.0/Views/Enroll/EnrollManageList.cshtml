@@ -38,7 +38,7 @@
                             </div>
 
                             <div class="col-sm-3">
-                                @Html.DropDownListFor(t => t.search.ComCode,Model.search.ComCodeIL, new {  @class = "input-sm form-control" ,@style = "width:100%;height:100%;", @tabindex = "4 "})
+                                @Html.DropDownListFor(t => t.search.ComCode, Model.search.ComCodeIL, new { @class = "input-sm form-control", @style = "width:100%;height:100%;", @tabindex = "4 " })
                             </div>
                             <label class="col-sm-2 control-label">报名日期：</label>
                             <div class="col-sm-3">
@@ -103,20 +103,36 @@
                                         <td><a href="javascript:ShowHoursLog('@m.ID')">@Convert.ToInt32(m.ClassHour - m.UsedHour)</a></td>
                                         <td>@m.Paid</td>
                                         <td>@m.StateName</td>    
+                                         <td>
                                         @if (m.UsedHour < m.ClassHour)
                                         {
-                                         <td>
+                                        
 
-                                            <a href="@Url.Action("RefundInfo", "Enroll", new { id =@m.ID,typeID=1 })" target="view_window" class="btn btn-primary btn-xs " type="button" ><i class="fa fa-edit"></i>申请退款</a>
+                                            <a href="@Url.Action("RefundInfo", "Enroll", new { id = @m.ID, typeID = 1 })" target="view_window" class="btn btn-primary btn-xs " type="button" ><i class="fa fa-edit"></i>申请退款</a>
                                              <a href="javascript:tiaozheng('@m.ID','@m.Name','@(m.ClassHour - m.UsedHour)');" class="btn btn-primary btn-xs" type="button"><i class="fa fa-edit"></i>调整</a>
-                                         </td> 
+                                         
                                         }
                                         else
                                         {
-                                         <td><a href="javascript:tiaozheng('@m.ID','@m.Name','@(m.ClassHour - m.UsedHour)');" class="btn btn-primary btn-xs" type="button"><i class="fa fa-edit"></i>调整</a></td> 
+                                          <a href="javascript:tiaozheng('@m.ID','@m.Name','@(m.ClassHour - m.UsedHour)');" class="btn btn-primary btn-xs" type="button"><i class="fa fa-edit"></i>调整</a> 
                                         }
+
+
+                                          @if (@m.StateID == 5)
+                                          {
+                                                 <a href="javascript:Recovery('@m.ID');" class="btn btn-primary btn-xs" type="button"><i class="fa fa-edit"></i> 恢复</a> 
+                                          }
+
+                                             @if (@m.StateID == 0 || @m.StateID == 1 || @m.StateID == 3)
+                                             {
+                                             <a href="javascript:Frozen('@m.ID');" class="btn btn-primary btn-xs" type="button"><i class="fa fa-edit"></i> 冻结</a>
+                                             } 
+                                             </td> 
+
+
+
                                     </tr>
-                                        }
+                                        } 
                                     }
                                     else
                                     {
@@ -316,4 +332,65 @@
         //重新刷新
         $('#HoursLog').bootstrapTable('refresh', { url: url });
     }
+
+
+
+
+
+
+    function Recovery(ID) {//恢复
+        if (!confirm("确定恢复么？")) {
+            return false;
+        }
+        var obj = new Object;
+        obj.ID = ID;
+        obj.StateID = 1;
+        var action = '@Url.Action("Recovery", "Enroll")'
+        $.post(action, {
+            "data": JSON.stringify(obj)//序列化对象
+        }, function (json) {
+            if (json.status == 200) {//成功
+
+                layer.msg(json.msg);//弹出服务器返回的消息
+                setTimeout(function () {//操作
+                    layer.closeAll();//关闭所有层
+                    window.location.reload(); //刷新
+                }, 3000);
+            }
+            else {
+                layer.msg(json.msg);//弹出服务器返回的消息
+            }
+        }, 'json');
+    }
+    //点击恢复，状态变成 未读，按钮名称变成冻结。点击冻结，状态变成冻结，按钮名称变成恢复
+    //学员状态ID,字典表3,1,未读，2在读，3冻结，4结束
+
+    function Frozen(ID) {//冻结
+        if (!confirm("确定冻结么？")) {
+            return false;
+        }
+        var obj = new Object;
+        obj.ID = ID;
+        obj.StateID = 5;
+        var action = '@Url.Action("Frozen", "Enroll")'
+        $.post(action, {
+            "data": JSON.stringify(obj)//序列化对象
+        }, function (json) {
+            if (json.status == 200) {//成功
+
+                layer.msg(json.msg);//弹出服务器返回的消息
+                setTimeout(function () {//操作
+                    layer.closeAll();//关闭所有层
+                    window.location.reload(); //刷新
+                }, 3000);
+            }
+            else {
+                layer.msg(json.msg);//弹出服务器返回的消息
+            }
+        }, 'json');
+    }
+
+
+
+
 </script>

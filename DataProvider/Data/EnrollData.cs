@@ -428,5 +428,14 @@ namespace DataProvider.Data
             string strsql = "select a.*,dbo.getDicNameByID(23,a.TypeID) AS TypeName from [TransferRecord] a where a.ENID = '" + enid + "'";
             return MsSqlMapperHepler.SqlWithParams<TransferRecord>(strsql, null, DBKeys.PRX);
         }
+
+
+
+
+          
+
+ 
+
+
     }
 }
