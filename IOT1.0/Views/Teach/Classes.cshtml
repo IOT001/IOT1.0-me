@@ -1086,10 +1086,37 @@
         //点击冻结
         'click .Enroll_freeze': function (e, value, row, index) {
 
+
+            layer.confirm('您确定冻结么？', {
+                btn: ['确定', '取消'] //按钮
+            }, function () {
+
+                var obj = new Object;
+                obj.ID = row.ID;
+                obj.StateID = 5;
+                var action = '@Url.Action("Frozen", "Enroll")'
+        $.post(action, {
+            "data": JSON.stringify(obj)//序列化对象
+        }, function (json) {
+            if (json.status == 200) {//成功
+
+                layer.msg(json.msg);//弹出服务器返回的消息
+                setTimeout(function () {//操作
+                    layer.closeAll();//关闭所有层
+                    window.location.reload(); //刷新
+                }, 3000);
+            }
+            else {
+                layer.msg(json.msg);//弹出服务器返回的消息
+            }
+        }, 'json');
+        });
+             
+
         },
         //点击完结
         'click .Enroll_end': function (e, value, row, index) {
-
+            alert(row.ID);
         }
 
     };
