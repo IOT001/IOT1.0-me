@@ -458,5 +458,23 @@ namespace DataProvider.Data
             }
             return ret;
         }
+
+        /// <summary>
+        /// 停课一周
+        /// </summary>
+        /// <param name="classid"></param>
+        /// <param name="classindex"></param>
+        /// <returns></returns>
+        public static DateTime StopClass(string classid, int classindex)
+        {
+  
+            string strsql1 = "select max(ClassDate) from [ClassList] where [ClassID] = '" + classid + "'";
+            DateTime lastClassTime = MsSqlMapperHepler.SqlWithParamsSingle<DateTime>(strsql1, null, DBKeys.PRX);//获取最后一次课的时间
+            ClassList cl = GetOneByid(classid, classindex);
+            cl.ClassDate = lastClassTime.AddDays(7);//延后一周
+            MsSqlMapperHepler.Update(cl,DBKeys.PRX);
+
+            return cl.ClassDate;
+        }
     }
 }

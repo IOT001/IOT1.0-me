@@ -320,7 +320,36 @@ namespace IOT1._0.Controllers.Attendance
         }
 
 
+        /// <summary>
+        /// 停课操作
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult StopClass()
+        {
+            AjaxStatusModel ajax = new AjaxStatusModel();//功能操作类的返回类型都是AjaxStatusModel，数据放到AjaxStatusModel.data中，前台获取json后加载
+            ajax.status = EnumAjaxStatus.Error;//默认失败
+            ajax.msg = "保存失败！";//前台获取，用于显示提示信息
+            var classid = Request["classid"];//班级ID
+            var classindex = Request["classindex"];//班级序号
+            if (string.IsNullOrEmpty(classid))
+            {
+                return Json(ajax);
+            }
+            if (string.IsNullOrEmpty(classindex))
+            {
+                return Json(ajax);
+            }
+            DateTime newtime = ClassListData.StopClass(classid.ToString(), int.Parse(classindex));
 
+            if (newtime > DateTime.MinValue.AddYears(1))
+            {
+                ajax.status = EnumAjaxStatus.Success;
+                ajax.msg = "停课成功";
+                ajax.data = ajax.msg;
+            }
+
+            return Json(ajax);
+        }
 
 
 

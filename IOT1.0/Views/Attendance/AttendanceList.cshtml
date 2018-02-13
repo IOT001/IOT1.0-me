@@ -107,7 +107,8 @@
                                             <a href="javascript:" class="btn btn-primary btn-xs" type="button" onclick="javascript: appraise('@Newtonsoft.Json.JsonConvert.SerializeObject(m)');"><i class="fa fa-edit"></i> 评价</a>
                                             <a href="javascript:" class="btn btn-primary btn-xs" type="button" onclick="javascript: publishJob('@Newtonsoft.Json.JsonConvert.SerializeObject(m)','@m.ClassID','@m.ClassIndex');"><i class="fa fa-edit"></i> 作业</a>
                                             <a href="javascript:" class="btn btn-primary btn-xs" type="button" onclick="javascript: modify('@Newtonsoft.Json.JsonConvert.SerializeObject(m)');"><i class="fa fa-edit"></i> 调课</a>
-
+                                            <a href="javascript:" class="btn btn-primary btn-xs" type="button" onclick="javascript: StopClass('@m.ClassID','@m.ClassIndex');"><i class="fa fa-edit"></i> 停课</a>
+                                            <a href="javascript:" class="btn btn-primary btn-xs" type="button" onclick="javascript: AddClass('@m.ClassID'"><i class="fa fa-edit"></i> 加课</a>
                                         </td>
                                     </tr>
                                 }
@@ -851,14 +852,32 @@
                       }, 3000);
                   }
               }, 'json');
-
         }
-
-
-
     }
+    //点击停课按钮，当前课时转到末尾处
+    function StopClass(classid,classindex){
+        layer.confirm('停课后本周课时自动顺延，确认要进行停课么?', { icon: 3, title: '提示' }, function (index) {
+                   
 
+            layer.close(index);//关闭当前回话层
+            $.post('@Url.Action("StopClass", "Attendance")', {
+                classid: classid,
+                classindex: classindex
+            },
+            function (json) {
+                setTimeout(function () {
+                    window.location.reload(); //刷新
+                }, 3000);
 
+                layer.closeAll();
+                layer.msg(json.msg);
+            }, 'json').error(function () {
+                layer.closeAll();
+                layer.msg("系统错误，请联系管理员");
+                
+            });
+        });
+    }
 </script>
 @*弹出层，调课*@
 <div class="ibox float-e-margins" id="buttoninfo" style="display:none">
