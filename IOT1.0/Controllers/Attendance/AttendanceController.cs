@@ -339,8 +339,14 @@ namespace IOT1._0.Controllers.Attendance
             {
                 return Json(ajax);
             }
+            //找到对应的班次，如果状态是已上课，则不允许停课
+            ClassList cl_this = ClassListData.GetOneByid(classid.ToString(), int.Parse(classindex));
+            if (cl_this.StateID == 2)//本课次已上
+            {
+                ajax.msg = "本课次已上，不允许停课！";
+                return Json(ajax);
+            }
             DateTime newtime = ClassListData.StopClass(classid.ToString(), int.Parse(classindex));
-
             if (newtime > DateTime.MinValue.AddYears(1))
             {
                 ajax.status = EnumAjaxStatus.Success;

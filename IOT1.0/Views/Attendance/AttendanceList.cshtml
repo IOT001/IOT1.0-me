@@ -104,11 +104,29 @@
                                         <td>@m.EvaluateStudents</td>
                                         <td>
                                             <a href="javascript:" class="btn btn-primary btn-xs" type="button" onclick="javascript:attendance('@Newtonsoft.Json.JsonConvert.SerializeObject(m)');"><i class="fa fa-edit"></i> 考勤</a>
-                                            <a href="javascript:" class="btn btn-primary btn-xs" type="button" onclick="javascript: appraise('@Newtonsoft.Json.JsonConvert.SerializeObject(m)');"><i class="fa fa-edit"></i> 评价</a>
-                                            <a href="javascript:" class="btn btn-primary btn-xs" type="button" onclick="javascript: publishJob('@Newtonsoft.Json.JsonConvert.SerializeObject(m)','@m.ClassID','@m.ClassIndex');"><i class="fa fa-edit"></i> 作业</a>
-                                            <a href="javascript:" class="btn btn-primary btn-xs" type="button" onclick="javascript: modify('@Newtonsoft.Json.JsonConvert.SerializeObject(m)');"><i class="fa fa-edit"></i> 调课</a>
-                                            <a href="javascript:" class="btn btn-primary btn-xs" type="button" onclick="javascript: StopClass('@m.ClassID','@m.ClassIndex');"><i class="fa fa-edit"></i> 停课</a>
-                                            <a href="javascript:" class="btn btn-primary btn-xs" type="button" onclick="javascript: AddClass('@m.ClassID'"><i class="fa fa-edit"></i> 加课</a>
+                                                             
+                                            <div class="btn-group">
+                                                <button data-toggle="dropdown" class="btn btn-primary btn-xs dropdown-toggle" aria-expanded="false">
+                                                    其他 <span class="caret"></span>
+                                                </button>
+                                                <ul class="dropdown-menu">
+                                                    <li>
+                                                        <a href="javascript:" class="" type="button" onclick="javascript: appraise('@Newtonsoft.Json.JsonConvert.SerializeObject(m)');"><i class="fa fa-edit"></i> 评价</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="javascript:" class="" type="button" onclick="javascript: publishJob('@Newtonsoft.Json.JsonConvert.SerializeObject(m)','@m.ClassID','@m.ClassIndex');"><i class="fa fa-edit"></i> 作业</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="javascript:" class="" type="button" onclick="javascript: modify('@Newtonsoft.Json.JsonConvert.SerializeObject(m)');"><i class="fa fa-edit"></i> 调课</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="javascript:" class="" type="button" onclick="javascript: StopClass('@m.ClassID','@m.ClassIndex');"><i class="fa fa-edit"></i> 停课</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="javascript:" class="" type="button" onclick="javascript: AddClass('@m.ClassID'"><i class="fa fa-edit"></i> 加课</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
                                         </td>
                                     </tr>
                                 }
