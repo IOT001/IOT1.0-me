@@ -476,5 +476,120 @@ namespace DataProvider.Data
 
             return cl.ClassDate;
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+        /// <summary>
+        ///新增加课方法,返回的是主键 ClassList表
+        /// </summary>
+        /// <param name="btn"></param>
+        /// <returns></returns>
+        public static bool AddClassesSAVA(ClassList Clas)
+        {
+
+            bool ret = false;
+             
+            
+            try
+            {
+
+
+                
+                string  Week=Clas.ClassDate.DayOfWeek.ToString();//判断这是星期几,根据加课时间来判断的
+                int weekday = 0;//默认给个数
+                if (Week.Contains("Monday"))//判断有选择星期
+                {
+                    weekday = 2;
+                }
+                if (Week.Contains("Tuesday"))//判断有选择星期
+                {
+                    weekday = 3;
+                }
+                if (Week.Contains("Wednesday"))//判断有选择星期
+                {
+                    weekday = 4;
+                }
+                if (Week.Contains("Thursday"))//判断有选择星期
+                {
+                    weekday = 5;
+                }
+                if (Week.Contains("Friday"))//判断有选择星期
+                {
+                    weekday =6;
+                }
+                if (Week.Contains("Saturday"))//判断有选择星期
+                {
+                    weekday = 7;
+                }
+                if (Week.Contains("Sunday"))//判断有选择星期
+                {
+                    weekday = 1;
+                }
+              
+                
+
+              
+                               
+                
+                               ClassList CL = new ClassList();
+                               CL.ClassID = Clas.ClassID;
+                               CL.ClassIndex = Getnumber(Clas.ClassID)+1;//取行号
+                               CL.ClassDate = Clas.ClassDate;
+                               CL.TimePeriod = Clas.TimePeriod;
+                               CL.StateID = 1;
+                               CL.TeacherID = Clas.TeacherID;
+                               CL.Teacher2ID = Clas.Teacher2ID;
+                               CL.RoomID = Clas.RoomID;
+                               CL.CreateTIme = DateTime.Now;
+                               CL.CreatorId = Clas.CreatorId;
+                               CL.weekday = weekday;
+                               MsSqlMapperHepler.Insert<ClassList>(CL, DBKeys.PRX);
+                                ret = true;//新增成功
+                               
+                
+                              
+                       
+              
+            }
+            catch (Exception ex)
+            {
+                 
+                throw new Exception(ex.Message + "。" + ex.InnerException.Message);
+            }
+
+            return ret;
+        }
+
+
+        //<summary>
+        //获取ClassList表的加课是否有重复数据,如果有就不能新增了
+        //</summary>
+        //<param name="Stockid"></param>
+        //<returns></returns> 
+        public static int GetClassListnumber(string ClassID,DateTime ClassDate)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append("select count(ClassID) from ClassList  WITH(NOLOCK)  ");
+            sb.Append(" where ClassID=@ClassID AND ClassDate=@ClassDate ");
+            var parameters = new DynamicParameters();
+            parameters.Add("@ClassID", ClassID);
+            parameters.Add("@ClassDate", ClassDate);
+            return MsSqlMapperHepler.SqlWithParamsSingle<int>(sb.ToString(), parameters, DBKeys.PRX);
+        }
+
+      
+
+
     }
 }
