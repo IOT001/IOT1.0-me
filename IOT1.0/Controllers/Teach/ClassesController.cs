@@ -445,6 +445,7 @@ namespace IOT1._0.Controllers.Teach
             if (ClassListData.GetClassListnumber(Clas.ClassID, Clas.ClassDate) > 0)//根据班级ID和时间来判断是否已经存在数据,如果已经添加,那不能重复添加
             {
                 ajax.msg = "该班级这个时间段已经存在相应的课程,请您不要重复添加！";
+                ajax.data = 1;
                 ajax.status = EnumAjaxStatus.Success;
             }
             else

@@ -56,6 +56,10 @@ namespace DataProvider.Entities
         /// 所属分校ID
         /// </summary>
         public string ComCode { get; set; }
+          /// <summary>
+        /// 上课时段
+        /// </summary>
+        public string TimePeriodName { get; set; }
         
     }
 }

@@ -147,7 +147,7 @@
                                 <th>授课方式</th>
                                 <th>报名费用</th>
                                 <th>开班时间</th>
-                                <th>结班时间</th>
+                                <th>上课时段</th>
                                 <th>状态</th>
                                 <th>操作</th>
                             </tr>
@@ -170,7 +170,7 @@
                                         <td>@m.TeachTypeIDname</td>
                                         <td>@m.Expenses</td>
                                         <td>@m.StartTime.Value.ToString("yy-MM-dd")</td>
-                                        <td>@m.EndTime.Value.ToString("yy-MM-dd")</td>
+                                        <td>@m.TimePeriodName</td>
                                         <td>@m.StateIDname</td>
                                         <td>
                                             <a href="javascript:modify('@m.ID');" class="btn btn-primary btn-xs" type="button"><i class="fa fa-edit"></i>编辑</a>
@@ -304,6 +304,17 @@
                         <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                         <input type="text" class="form-control input-sm" id="EndTime">
                     </div>
+                </div>
+            </div>
+
+                <div class="form-group">
+                <label class="col-sm-3 control-label">时段：</label>
+                <div class="col-sm-5">
+                    @Html.DropDownListFor(t => t.search.TimePeriod, Model.SourceIL4, new { @class = "form-control input-sm chosen-select", @style = "width:100%;height:100%;", @tabindex = "4", @id = "TimePeriod_buttoninfo" })
+                </div>
+
+                <div class="col-sm-2">
+                    <a href="javascript:addTime()" class="btn btn-primary btn-sm" type="button"><i class="fa fa-adjust"></i>添加时段</a>
                 </div>
             </div>
             <div class="form-group ">
@@ -829,6 +840,7 @@
                     $("#RoomID_Classes").val(json.data.RoomID);
                     $("#StartTime").val(ChangeDateFormat(json.data.StartTime));
                     $("#EndTime").val(ChangeDateFormat(json.data.EndTime));
+                    $("#TimePeriod_buttoninfo").val(json.data.TimePeriod);
                     $("#TotalLesson").val(json.data.TotalLesson);
                     $("#PlanEnroll").val(json.data.PlanEnroll);
                     $("#Expenses").val(json.data.Expenses);
@@ -967,6 +979,15 @@
             layer.msg("报名费用必须是正整数！");
             return false;
         }
+
+
+        obj.TimePeriod = $("#TimePeriod_buttoninfo").val().trim();//上课时段
+        if (!obj.TimePeriod) {
+            layer.msg("请选择时段！");//上课时段
+            return false;
+        }
+         
+
         var action = '';
         if (id) {//有ID就是修改模式，没有就是新增模式
             action = '@Url.Action("SaveClasses", "Teach")';
@@ -1665,8 +1686,14 @@
 
                 layer.msg(json.msg);//弹出服务器返回的消息
                 setTimeout(function () {//操作
-                    layer.closeAll();//关闭所有层
-                    window.location.reload(); //刷新
+                    if (json.data == 1) {
+
+                    }
+                    else {
+                        layer.closeAll();//关闭所有层
+                        window.location.reload(); //刷新
+                    }
+                   
                 }, 3000);
             }
         }, 'json');
