@@ -415,5 +415,52 @@ namespace IOT1._0.Controllers.Teach
         }
 
 
+
+
+        /// <summary>
+        /// 新增加课功能 ClassList
+        /// </summary>
+        /// <returns></returns>
+        public JsonResult AddClassesSAVA()
+        {
+            AjaxStatusModel ajax = new AjaxStatusModel();//功能操作类的返回类型都是AjaxStatusModel，数据放到AjaxStatusModel.data中，前台获取json后加载
+            ajax.status = EnumAjaxStatus.Error;//默认失败
+            ajax.msg = "新增失败！";//前台获取，用于显示提示信息
+            //var TIme = Request["Date"];//获取前台传递的数据，主要序列化
+            var data = Request["data"];//获取前台传递的数据，主要序列化
+            if (string.IsNullOrEmpty(data))
+            {
+                return Json(ajax);
+            }
+              
+           
+            ClassList Clas = (ClassList)(JsonConvert.DeserializeObject(data.ToString(), typeof(ClassList)));//排课表 
+
+            Clas.StateID = 1;  //状态
+            Clas.CreateTIme = DateTime.Now; //创建时间
+            Clas.CreatorId = UserSession.userid; //创建人
+ 
+
+            Clas.ClassDate = DateTime.Parse(Clas.ClassDate.ToShortDateString() + ClassListData.GetStartTimePeriodByid(Clas.TimePeriod.Value));//因为这个开课时间是根据选择的时间和时段拼接成的,所有要处理一下
+            if (ClassListData.GetClassListnumber(Clas.ClassID, Clas.ClassDate) > 0)//根据班级ID和时间来判断是否已经存在数据,如果已经添加,那不能重复添加
+            {
+                ajax.msg = "该班级这个时间段已经存在相应的课程,请您不要重复添加！";
+                ajax.status = EnumAjaxStatus.Success;
+            }
+            else
+            {
+                if (ClassListData.AddClassesSAVA(Clas))//注意时间类型，而且需要在前台把所有的值
+                {
+                    ajax.msg = "新增成功！";
+                    ajax.status = EnumAjaxStatus.Success;
+                }
+            }
+
+          
+            return Json(ajax);
+        }
+
+        
+
     }
 }
