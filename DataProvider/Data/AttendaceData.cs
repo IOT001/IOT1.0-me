@@ -180,7 +180,7 @@ namespace DataProvider.Data
               (b.ClassHour-b.UsedHour) as LeftHour 
               FROM  Enroll b  
             INNER JOIN ClassList e ON b.ClassID =e.ClassID
-            left join AttendanceRecord a  on a.StudentID=b.StudentID  AND a.ClassID=b.ClassID  AND a.ClassIndex = e.ClassIndex
+            inner join AttendanceRecord a  on a.StudentID=b.StudentID  AND a.ClassID=b.ClassID  AND a.ClassIndex = e.ClassIndex
             LEFT join  Students c   on  b.StudentID = c.ID 
             WHERE 1=1 and b.StateID <> 6  and b.StateID <> 5 ");//去掉了冻结和完结的人数
 

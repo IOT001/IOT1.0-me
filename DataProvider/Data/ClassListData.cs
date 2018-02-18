@@ -444,8 +444,9 @@ namespace DataProvider.Data
                             db.Insert<AttendanceRecord>(attend);//增加上课记录表数据
                         }
                     }
-
+                    //string delstr = "delete from AttendanceRecord where "
                 }
+                
                 db.Commit();
                 db.Dispose();
                 ret = true;
