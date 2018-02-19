@@ -128,8 +128,25 @@ namespace IOT1._0.Controllers.Enroll
             }
             return Json(ajax);
         }
+        /// <summary>
+        /// 完结报名，会清空当前课时，记录课时变化日志
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult FinishEnroll()
+        {
+            AjaxStatusModel ajax = new AjaxStatusModel();
+            ajax.status = EnumAjaxStatus.Error;//默认失败
+            ajax.msg = "完结失败！";
+            string enid = Request["enid"];//报名记录的ID
 
-
+            bool ret = EnrollData.FinishEnroll(enid, UserSession.userid);
+            if (ret)
+            {
+                ajax.msg = "完结成功！剩余课时已被清零！";
+                ajax.status = EnumAjaxStatus.Success;
+            }
+            return Json(ajax);
+        }
 
 
     }

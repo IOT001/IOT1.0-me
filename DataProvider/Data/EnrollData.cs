@@ -122,12 +122,19 @@ namespace DataProvider.Data
         /// </summary>
         /// <param name="btn"></param>
         /// <returns></returns>
-        public static bool UpdateEnroll(Enroll btn)
+        public static bool Update(Enroll obj)
         {
-            Enroll btnto = EnrollData.GetEnrollByID(btn.ID);//获取对象
-            Cloner<Enroll, Enroll>.CopyTo(btn, btnto);
-            //Cloner<Teachers, Teachers>.CopyTo(btn, btnto);//代码克隆，把前台或者的值也就是变更内容复制到目标对象，不做变更的数据不变
-            return MsSqlMapperHepler.Update(btnto, DBKeys.PRX);
+            bool ret = false;
+            try
+            {
+                MsSqlMapperHepler.Update<Enroll>(obj, DBKeys.PRX);
+                ret = true;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return ret;
         }
 
 
@@ -448,9 +455,54 @@ namespace DataProvider.Data
             parameters.Add("@ID", enl.ID); 
             return MsSqlMapperHepler.InsertUpdateOrDeleteSql(sb.ToString(), parameters, DBKeys.PRX);
         }
-          
 
- 
+        /// <summary>
+        /// 完结报名，清空课时
+        /// </summary>
+        /// <param name="enid"></param>
+        /// <returns></returns>
+        public static bool FinishEnroll(string enid, string loginid)
+        {
+            if (string.IsNullOrEmpty(enid))
+            {
+                return false;
+            }
+            DBRepository db = new DBRepository(DBKeys.PRX);
+            try
+            {
+                db.BeginTransaction();
+                Enroll en = db.GetById<Enroll>(enid);
+                if (en == null)
+                {
+                    return false;
+                }
+                TransferRecord tr = new TransferRecord();//添加日志记录
+                tr.StudentID = en.StudentID;
+                tr.BeforeHours = en.ClassHour - en.UsedHour;
+                tr.AfterHours = 0;//清空剩余课时
+                tr.TypeID = 7;//ERP点完成按钮
+                tr.CreateTime = DateTime.Now;
+                tr.CreatorId = loginid;
+                tr.ENID = en.ID;
+                tr.ClassID = en.ClassID;
+                db.Insert(tr);
+
+                en.StateID = 6;//状态6是已完成报名，需要清空剩余课时
+                en.UsedHour = en.ClassHour;//清空课时
+                en.UpdateTime = DateTime.Now;
+                en.UpdatorId = loginid;
+                db.Update(en);
+                db.Commit();
+                db.Dispose();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                db.Rollback();
+                db.Dispose();
+                throw new Exception(ex.Message);
+            }
+        }
 
 
     }

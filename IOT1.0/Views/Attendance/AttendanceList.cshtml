@@ -122,9 +122,6 @@
                                                     <li>
                                                         <a href="javascript:" class="" type="button" onclick="javascript: StopClass('@m.ClassID','@m.ClassIndex');"><i class="fa fa-edit"></i> 停课</a>
                                                     </li>
-                                                    <li>
-                                                        <a href="javascript:" class="" type="button" onclick="javascript: AddClass('@m.ClassID'"><i class="fa fa-edit"></i> 加课</a>
-                                                    </li>
                                                 </ul>
                                             </div>
                                         </td>
@@ -533,7 +530,10 @@
                 tmp.ClassIndex = obj.ClassIndex;
                 tmp.ClockTime = checked ? new Date().Format("yyyy-MM-dd HH:mm:ss") : "";
                 tmp.AttendanceTypeID = checked ? "2" : options;//勾选正常，则AttendanceTypeID = 2，不然就读缺勤原因
-             
+                if (!tmp.AttendanceTypeID)
+                {
+                    tmp.AttendanceTypeID = 1;//如果未勾选正常，切未填写原因默认就是未考勤
+                }
                 data[index] = tmp;
              
 

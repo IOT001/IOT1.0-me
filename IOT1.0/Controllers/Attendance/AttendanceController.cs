@@ -175,14 +175,7 @@ namespace IOT1._0.Controllers.Attendance
             }
             List<AttendanceRecord> cls = (List<AttendanceRecord>)(JsonConvert.DeserializeObject(data.ToString(), typeof(List<AttendanceRecord>)));
 
-
-            foreach (AttendanceRecord value in cls)
-            {
-                DataProvider.Entities.Enroll enroll = EnrollData.getEnrollByStudentClass(value.StudentID, value.ClassID);
-
-            }
-
-
+            cls = cls.Where(t => t !=null && t.AttendanceTypeID != 1).ToList();
             if (AttendaceData.saveStudentAttendance(cls,UserSession.userid))
             {
                 ajax.status = EnumAjaxStatus.Success;

@@ -29,7 +29,7 @@ namespace DataProvider.Entities
         /// </summary>				
         public decimal AfterHours { get; set; }
         /// <summary>
-        /// 类型，1转让协议，2升班，3手动调整，4考勤机打卡识别成功，5ERP考勤，6微信端教师考勤
+        /// 类型，1转让协议，2升班，3手动调整，4考勤机打卡识别成功，5ERP考勤，6微信端教师考勤，7ERP点击完成按钮
         /// </summary>				
         public int TypeID { get; set; }
         /// <summary>

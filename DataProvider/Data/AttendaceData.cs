@@ -323,7 +323,8 @@ namespace DataProvider.Data
                     }
                     if (value.ClockTime == null)//未打卡
                     {
-                        Enroll enroll = EnrollData.getEnrollByStudentClass(value.StudentID, value.ClassID);
+                        Enroll enroll = db.Query<Enroll>("select * from Enroll where StudentID = '" + value.StudentID + "' and ClassID = '" + value.ClassID + "'").FirstOrDefault();
+             
                         if (enroll != null && value.AttendanceTypeID == 3)//缺勤状态还是要扣课时，同时更新报名记录的小号课时
                         {
                             //-----添加课时变化日志记录 begin
