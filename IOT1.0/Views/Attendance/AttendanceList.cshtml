@@ -317,6 +317,7 @@
                     $("#modify_teachers").val(data.TeacherID)
                     $("#modify_teachers2").val(data.Teacher2ID)
                     $(".chosen-selects").trigger("chosen:updated");//刷新chosen控件
+
                 }
                 layer.close(loadIndex);//关闭加载层
             },
@@ -472,11 +473,15 @@
                 $("#ClassName").text(name);
                 //考勤点名-选择所有学生
                 $("#btn_all_student").on("ifChecked", function (event) {
+                    
                     var check = $("#btn_all_student").is(":checked");
+                    alert(check);
                     if (check) {
-                        $("[name = chkItem]:checkbox").each(function () {
-                            $(this).iCheck("check");
-                            onKaoqinCheckBoxChange($(this));
+                        $("input[name='chkItem']").each(function () {
+                            if (!$(this).is(":disabled")) {
+                                $(this).iCheck("check");
+                                //onKaoqinCheckBoxChange($(this));
+                            }
                         });
                     }
                 });
@@ -572,17 +577,21 @@
     }
 
     //选择考勤原因触发事件
-    function onKaoqinOptionChange() {
-        $("[name = class-time]").each(function () {
-            var selectOption = $(this).val();
-            if (selectOption != "") {//1 :未考勤
-                var t2 = $(this).parent().parent();
+    function onKaoqinOptionChange(_this) {
+          
+        var selectOption = _this.value;
+            if (selectOption) {//取到值了
+                var t2 = $(_this).parent().parent();
                 var t3 = t2.find("input");
                 t3.iCheck("uncheck");
-                 
+                t3.iCheck('disable'); //将输入框的状态设置为 disabled 
             }
-         
-        });
+            else {
+                var t2 = $(_this).parent().parent();
+                var t3 = t2.find("input");
+                t3.iCheck('enable'); //将输入框的状态设置为可操作
+            }
+     
        
     }
 
@@ -646,7 +655,7 @@
                         + '</td>'
                         + '<td><select class="selectpicker  form-control" name="class-time" data-live-search="true"' 
                         +(isCheckAttendance ? 'disabled="true"' : '')
-                        +'onchange="javascript:onKaoqinOptionChange();">'
+                        +'onchange="javascript:onKaoqinOptionChange(this);">'
                         + option
                         + "</select></td>"
                     + "</tr>";
@@ -656,18 +665,23 @@
                 
                 }
             layer.close(loadindex);//关闭加载层
+            //重新激活选择框
+            $('tbody .i-checks').iCheck({
+                checkboxClass: 'icheckbox_square-green',
+                radioClass: 'iradio_square-green',
+            });
 
         }).error(function () {
             layer.close(loadindex);//关闭加载层
         }).complete(function () {
-            $("[name = chkItem]:checkbox").each(function () {
-                $(this).change(function () {
-                    var check = $(this).is(":checked");
-                    if (check) {
-                        onKaoqinCheckBoxChange($(this));
-                    }
-                })
-            });
+            //$("[name = chkItem]:checkbox").each(function () {
+            //    $(this).change(function () {
+            //        var check = $(this).is(":checked");
+            //        if (check) {
+            //            onKaoqinCheckBoxChange($(this));
+            //        }
+            //    })
+            //});
         });
     }
 
