@@ -243,8 +243,8 @@ namespace DataProvider.Data
 
                     if (value.ClockTime != null)//正常打卡扣除课时
                     {
-                       
-                        Enroll enroll= EnrollData.getEnrollByStudentClass(value.StudentID, value.ClassID);
+
+                        Enroll enroll = db.Query<Enroll>("select * from Enroll where StudentID = '" + value.StudentID + "' and ClassID = '" + value.ClassID + "'").FirstOrDefault();
                         if (enroll != null)
                         {
                             //-----添加课时变化日志记录 begin
@@ -272,7 +272,7 @@ namespace DataProvider.Data
                                 s.StateID = 2;//改成在读
                                 db.Update<Students>(s);
                             }
-                            ClassList cl = ClassListData.GetOneByid(value.ClassID, value.ClassIndex);
+                            ClassList cl = db.Query<ClassList>("select * from ClassList where ClassID = '" + value.ClassID + "' and ClassIndex = " + value.ClassIndex).FirstOrDefault();
                             cl.StateID = 2;//课时状态变成已上
                             db.Update<ClassList>(cl);
                         }
@@ -342,8 +342,7 @@ namespace DataProvider.Data
 
                             enroll.UsedHour = enroll.UsedHour + 1;
                             db.Update(enroll);
-
-                            ClassList cl = ClassListData.GetOneByid(value.ClassID, value.ClassIndex);
+                            ClassList cl = db.Query<ClassList>("select * from ClassList where ClassID = '" + value.ClassID + "' and ClassIndex = " + value.ClassIndex).FirstOrDefault();
                             cl.StateID = 2;//课时状态变成已上
                             db.Update<ClassList>(cl);
                         }
