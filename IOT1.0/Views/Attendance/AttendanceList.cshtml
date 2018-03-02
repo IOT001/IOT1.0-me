@@ -528,7 +528,7 @@
             var checked = $(checkIn[index]).is(":checked")
             var disabled=$(checkIn[index]).attr("disabled")
             if (!disabled) {              
-                var options = $(checkOutOption[index]).val();
+                var options = checkOutOption[index].value;
                 var tmp = new Object();
                 tmp.StudentID = id;
                 tmp.ClassID = obj.ClassID;
@@ -584,16 +584,17 @@
                 var t2 = $(_this).parent().parent();
                 var t3 = t2.find("input");
                 t3.iCheck("uncheck");
-                t3.iCheck('disable'); //将输入框的状态设置为 disabled 
+                //t3.iCheck('disable'); //将输入框的状态设置为 disabled 
             }
             else {
                 var t2 = $(_this).parent().parent();
                 var t3 = t2.find("input");
-                t3.iCheck('enable'); //将输入框的状态设置为可操作
+                //t3.iCheck('enable'); //将输入框的状态设置为可操作
             }
      
        
     }
+
 
     function ChangeDateFormat(jsondate) {
         if (!jsondate) {
@@ -665,6 +666,15 @@
                 
                 }
             layer.close(loadindex);//关闭加载层
+            //勾选出勤选择框触发
+            $("input[name='chkItem']").on("ifChecked", function (event) {
+                var _this = this;
+                if ($(_this).is(":checked"))//如果勾选了，重置原因下拉框
+                {
+                    $(_this).parent().parent().parent().find("select").val("");
+                    $(_this).parent().parent().parent().find("select").trigger("change")
+                }
+            });
             //重新激活选择框
             $('tbody .i-checks').iCheck({
                 checkboxClass: 'icheckbox_square-green',

@@ -429,7 +429,8 @@ namespace DataProvider.Data
                     {
                         List<vw_ClassAttendanceList> clist = new List<vw_ClassAttendanceList>();
                         clist = db.Query<vw_ClassAttendanceList>("select * from vw_ClassAttendanceList where ClassID = '" + cl.ID + "'", null).ToList();
-                        int aa = Convert.ToInt32(en.ClassHour) < clist.Count() ? Convert.ToInt32(en.ClassHour) : clist.Count();//取较小数做循环
+                        //int aa = Convert.ToInt32(en.ClassHour) < clist.Count() ? Convert.ToInt32(en.ClassHour) : clist.Count();//取较小数做循环
+                        int aa = clist.Count();//循环全部
                         for (int i = 0; i < aa; i++)
                         {
                             AttendanceRecord attendold = db.Query<AttendanceRecord>("select * from AttendanceRecord where  StudentID = '" + en.StudentID + "' and ClassID = '" + en.ClassID + "' and ClassIndex = " + (i + 1), null).FirstOrDefault();
