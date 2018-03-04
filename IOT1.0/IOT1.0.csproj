@@ -4840,6 +4840,7 @@
     <Content Include="Upload\AttendanceList\aaabbccc.docx" />
     <Content Include="Views\Weixin\Password_Update.cshtml" />
     <Content Include="Views\Teach\TimeList.cshtml" />
+    <Content Include="Views\Enroll\DirectEnroll.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

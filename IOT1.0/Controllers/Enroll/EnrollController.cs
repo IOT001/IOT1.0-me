@@ -418,5 +418,14 @@ namespace IOT1._0.Controllers.Enroll
             return View(model);//返回页面模型
         }
 
+        /// <summary>
+        /// 直接报名
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult DirectEnroll()
+        {
+            
+            return View();
+        }
     }
 }
