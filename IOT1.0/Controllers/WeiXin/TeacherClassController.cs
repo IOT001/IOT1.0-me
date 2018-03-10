@@ -28,6 +28,13 @@ namespace IOT1._0.Controllers.WeiXin
             model.search.PageSize = 15;
             model.search.CurrentPage = Convert.ToInt32(Request["CurrentPage"]) <= 0 ? 1 : Convert.ToInt32(Request["CurrentPage"]);//获取当前页
 
+             //上课时间-开始时间 
+            search.timeStart = search.timeStart += " 00:00:00:000";//对日期做特殊处理,取第一个星期的最小值
+        
+             // 上课时间-结束时间 
+             search.timeEnd = search.timeEnd += " 23:59:59.999";//对日期做特殊处理,取最后一个星期的最大值
+
+
             search.PageSize = model.search.PageSize * model.search.CurrentPage;//微信端显示数量
             search.CurrentPage = 1;
 

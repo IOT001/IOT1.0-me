@@ -30,34 +30,11 @@ namespace IOT1._0.Controllers.WeiXin
             {
                 search.AttendanceRecord_StudentID = s.ID;//获取学号
             }
-            //if (search.timeStart == null && search.timeEnd == null)
-            //{
-            
-            //DateTime datetime = DateTime.Now;
-            //int weeknow = Convert.ToInt32(datetime.DayOfWeek);
+            //开始时间 
+            search.timeStart = search.timeStart += " 00:00:00:000";//对日期做特殊处理,取第一个星期的最小值
 
-            ////因为是以星期一为第一天，所以要判断weeknow等于0时，要向前推6天。  
-            //weeknow = (weeknow == 0 ? (7 - 1) : (weeknow - 1));
-            //int daydiff = (-1) * weeknow;
-
-            ////本周第一天  
-            //string FirstDay = datetime.AddDays(daydiff).ToString("yyyy-MM-dd");
-            //DateTime timeStart = Convert.ToDateTime(FirstDay);
-
-            ////星期天为最后一天  
-            //int weeknow_sum = Convert.ToInt32(datetime.DayOfWeek);
-            //weeknow_sum = (weeknow_sum == 0 ? 7 : weeknow_sum);
-            //int daydiff_sum = (7 - weeknow_sum);
-
-            ////本周最后一天  
-            //string LastDay = datetime.AddDays(daydiff_sum).ToString("yyyy-MM-dd");
-            //DateTime timeEnd = Convert.ToDateTime(LastDay);  
-
-
-            //search.timeStart = timeStart.ToString();//开始时间
-            //search.timeEnd = timeEnd.ToString();//结束时间
-
-            //}
+            // 结束时间 
+            search.timeEnd = search.timeEnd += " 23:59:59.999";//对日期做特殊处理,取最后一个星期的最大值
 
             PagedList<vw_AttendanceRecord> vw_AttendanceRecord = StudentScheduleListData.GetAttendanceRecordList(search);//查询学员课程表
             model.FSConnectionlist = vw_AttendanceRecord;
