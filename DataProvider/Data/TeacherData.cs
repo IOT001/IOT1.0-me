@@ -103,7 +103,7 @@ namespace DataProvider.Data
         /// <returns></returns>
         public static Teachers GetTeachByID(String loginid)
         {
-            string strsql = "select * from Teachers where MobilePhone = '" + loginid + "'";
+            string strsql = "select * from Teachers where ID = '" + loginid + "'";
             return MsSqlMapperHepler.SqlWithParamsSingle<Teachers>(strsql, null, DBKeys.PRX);
         }
 
