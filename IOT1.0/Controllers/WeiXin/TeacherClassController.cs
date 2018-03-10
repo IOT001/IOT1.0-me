@@ -31,7 +31,7 @@ namespace IOT1._0.Controllers.WeiXin
             search.PageSize = model.search.PageSize * model.search.CurrentPage;//微信端显示数量
             search.CurrentPage = 1;
 
-            Teachers s = TeacherData.GetTeachByID(UserSessionWX.userid);//获取当前教师
+            Teachers s = TeacherData.GetTeachByMobilePhone(UserSessionWX.userid);//获取当前教师
             if (s != null)
             {
                 model.search.teacherID = s.ID;

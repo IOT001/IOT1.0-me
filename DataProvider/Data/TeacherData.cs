@@ -96,14 +96,27 @@ namespace DataProvider.Data
             return MsSqlMapperHepler.Update(btnto, DBKeys.PRX);
         }
 
+
         /// <summary>
         /// 根据登录ID获取教师信息
         /// </summary>
         /// <param name="ID"></param>
         /// <returns></returns>
-        public static Teachers GetTeachByID(String loginid)
+        public static Teachers GetTeachByID(string ID)
         {
-            string strsql = "select * from Teachers where ID = '" + loginid + "'";
+            string strsql = "select * from Teachers where ID = '" + ID + "'";
+            return MsSqlMapperHepler.SqlWithParamsSingle<Teachers>(strsql, null, DBKeys.PRX);
+        }
+
+
+        /// <summary>
+        /// 根据登录手机号码获取教师信息
+        /// </summary>
+        /// <param name="ID"></param>
+        /// <returns></returns>
+        public static Teachers GetTeachByMobilePhone(String loginid)
+        {
+            string strsql = "select * from Teachers where MobilePhone = '" + loginid + "'";
             return MsSqlMapperHepler.SqlWithParamsSingle<Teachers>(strsql, null, DBKeys.PRX);
         }
 
