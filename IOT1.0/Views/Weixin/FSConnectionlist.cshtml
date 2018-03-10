@@ -160,13 +160,17 @@
         var MondayTime = new Date(nowTime - (day - 1) * oneDayLong);
         var SundayTime = new Date(nowTime + (7 - day) * oneDayLong);
 
+
+        var monday = (new Date(MondayTime)).Format("yyyy-MM-dd");//星期一
+        var sunday = (new Date(SundayTime)).Format("yyyy-MM-dd");//星期天
+
         var MondayTimeText = document.getElementById('search_timeStart');
 
 
-        MondayTimeText.value = new Date(MondayTime.setDate(0)).Format("yyyy-MM-dd");
+        MondayTimeText.value = monday;//星期一
 
         var SundayTimeText = document.getElementById('search_timeEnd');
-        SundayTimeText.value = new Date(SundayTime.setDate(6)).Format("yyyy-MM-dd");
+        SundayTimeText.value = sunday; //星期天
     })
 
 
