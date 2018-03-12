@@ -145,6 +145,46 @@ namespace DataProvider.Data
 
 
         /// <summary>
+        /// 修改班级信息,传事务的，请不要乱修改
+        /// </summary>
+        /// <param name="btn"></param>
+        /// <returns></returns>
+        public static bool Update_DB(Classes Cla, DBRepository db)
+        {
+            Classes Classes = ClassesData.GetClassesByID(Cla.ID);//获取对象
+            Cloner<Classes, Classes>.CopyTo(Cla, Classes);//代码克隆，把前台或者的值也就是变更内容复制到目标对象，不做变更的数据不变
+            return db.Update(Classes);
+
+        }
+
+        /// <summary>
+        /// 修改课程教师1的信息,传事务的，请不要乱修改
+        /// </summary>
+        /// <param name="btn"></param>
+        /// <returns></returns>
+        public static int Update_TeacherID_DB(string TeacherID, string ClassID, DBRepository db)
+        {
+        string strsql = "UPDATE  ClassList  SET TeacherID='" + TeacherID + "'  where StateID = 1 and ClassID = '" + ClassID + "'";
+          
+            return db.Execute(strsql);//修改课程表状态是1并且班级表的教师字段有变更的
+
+        }
+
+        /// <summary>
+        /// 修改课程教师2的信息,传事务的，请不要乱修改
+        /// </summary>
+        /// <param name="btn"></param>
+        /// <returns></returns>
+        public static int Update_Teacher2ID_DB(string Teacher2ID, string ClassID, DBRepository db)
+        {
+            string strsql = "UPDATE  ClassList  SET Teacher2ID='" + Teacher2ID + "'  where StateID = 1 and ClassID = '" + ClassID + "'";
+
+            return db.Execute(strsql);//修改课程表状态是1并且班级表的教师字段有变更的
+
+        }
+
+
+        /// <summary>
         /// 获取列表
         /// </summary>
         /// <param name="Stockid"></param>

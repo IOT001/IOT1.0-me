@@ -2,6 +2,7 @@
 using DataProvider.Data;
 using DataProvider.Entities;
 using DataProvider.Models;
+using DataProvider.SqlServer;
 using IOT1._0.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -111,16 +112,44 @@ namespace IOT1._0.Controllers.Teach
             }
             Classes Clas = (Classes)(JsonConvert.DeserializeObject(data.ToString(), typeof(Classes)));
 
-             
+
 
             Clas.UpdateTime = DateTime.Now;
             Clas.UpdatorId = UserSession.userid;
 
-            if (ClassesData.Update(Clas))//注意时间类型，而且需要在前台把所有的值
+            DBRepository db = new DBRepository(DBKeys.PRX);
+            db.BeginTransaction();//事务开始
+            Classes ClassesList = ClassesData.GetClassesByID(Clas.ID);//根据ID获取数据,然后对比 
+            try
             {
-                ajax.msg = "保存成功！";
-                ajax.status = EnumAjaxStatus.Success;
+                if (ClassesList.TeacherID != Clas.TeacherID)//对比教师一是否相同
+                {
+                    ClassesData.Update_TeacherID_DB(Clas.TeacherID, Clas.ID, db);
+                }
+
+                if (ClassesList.Teacher2ID != Clas.Teacher2ID)//对比教师2是否相同
+                {
+                    ClassesData.Update_Teacher2ID_DB(Clas.Teacher2ID, Clas.ID, db);
+                } 
+
+                if (ClassesData.Update_DB(Clas,db))//最后修改班级数据,注意时间类型，而且需要在前台把所有的值
+                {
+                    ajax.msg = "保存成功！";
+                    ajax.status = EnumAjaxStatus.Success;
+
+                    db.Commit(); //事务提交
+                    db.Dispose();  //资源释放
+                }
+
             }
+            catch (Exception ex)
+            {
+                db.Rollback();
+                db.Dispose();//资源释放
+                throw new Exception(ex.Message + "。" + ex.InnerException.Message);
+            }
+
+
             return Json(ajax);
         }
 
