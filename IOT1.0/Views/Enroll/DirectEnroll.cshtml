@@ -50,6 +50,123 @@
                         </div>
                     </div>
                 </form>
+                <form class="form-horizontal">
+                    <div class="form-group ">
+                        <label class="col-xs-3 control-label">姓名：</label>
+                        <div class="col-xs-8">
+                            <input type="text" placeholder="姓名" class="form-control input-sm" id="Name">
+
+
+                            <img id="img" style="height: 180px;" />
+
+
+                            <input class="form-control" type="text" id="Picurl" />
+                            <button type="button" class="btn btn-w-m btn-primary " onclick="OpenUploadWindow()">选择文件</button>
+                            <button onclick="UploadPic()" class="btn btn-primary" type="button">上传</button>
+
+                            <input id="uploadFile" type="file" class="hidden" />
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="form-group ">
+                        <label class="col-xs-3 control-label">绑定手机：</label>
+                        <div class="col-xs-8">
+                            <input type="text" placeholder="重要！请填写能联系到学员的手机，比如父母手机号！" class="form-control input-sm" id="BindPhone">
+                        </div>
+                    </div>
+
+                    <div class="form-group  ">
+                        <label class="col-xs-3 control-label">性别：</label>
+
+                        <div class="col-xs-4">
+                            <div class="radio i-checks">
+                                <label class="">
+                                    <input type="radio" id="Sex" checked="checked" value="1" name="a" style="position: absolute; opacity: 0;"> 男
+                                </label>
+                            </div>
+                        </div>
+
+
+                        <div class="col-xs-4">
+                            <div class="radio i-checks">
+                                <label class="">
+                                    <input type="radio" id="Sex1" name="a" value="2" style="position: absolute; opacity: 0;"> 女
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="form-group  ">
+                        <label class="col-xs-3 control-label">出生年月日：</label>
+                        <div class="col-xs-8">
+
+                            <div class="DateS input-group date">
+                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                <input type="text" class="form-control input-sm" id="Birthday">
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="form-group ">
+                        <label class="col-xs-3 control-label">父亲姓名：</label>
+                        <div class="col-xs-8">
+                            <input type="text" placeholder="父亲姓名" class="form-control input-sm" id="FatherName">
+                        </div>
+                    </div>
+                    <div class="form-group ">
+                        <label class="col-xs-3 control-label">父亲联系方式：</label>
+                        <div class="col-xs-8">
+                            <input type="text" placeholder="父亲联系方式" class="form-control input-sm" id="FatherContract">
+                        </div>
+                    </div>
+                    <div class="form-group ">
+                        <label class="col-xs-3 control-label">母亲姓名：</label>
+                        <div class="col-xs-8">
+                            <input type="text" placeholder="母亲姓名" class="form-control input-sm" id="MotherName">
+                        </div>
+                    </div>
+
+                    <div class="form-group ">
+                        <label class="col-xs-3 control-label">母亲联系方式：</label>
+                        <div class="col-xs-8">
+                            <input type="text" placeholder="母亲联系方式" class="form-control input-sm" id="MotherContract">
+                        </div>
+                    </div>
+                    <div class="form-group ">
+                        <label class="col-xs-3 control-label">家庭地址：</label>
+                        <div class="col-xs-8">
+                            <input type="text" placeholder="家庭地址" class="form-control input-sm" id="Address">
+                        </div>
+                    </div>
+                    <div class="form-group ">
+                        <label class="col-xs-3 control-label">E-mail/QQ/微信：</label>
+                        <div class="col-xs-8">
+                            <input type="text" placeholder="E-mail/QQ/微信" class="form-control input-sm" id="Wechart">
+                        </div>
+                    </div>
+
+                    <div class="form-group ">
+                        <label class="col-sm-3 control-label">来源渠道：</label>
+
+                        <div class="col-sm-8">
+
+
+                        </div>
+                    </div>
+                    <div class="form-group ">
+                        <label class="col-xs-3 control-label">备注：</label>
+                        <div class="col-xs-8">
+                            <textarea class="form-control input-sm" placeholder="备注" id="Remark"> </textarea>
+                        </div>
+                    </div>
+
+                </form>
             </div>
         </div>
     </div>
