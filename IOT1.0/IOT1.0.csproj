@@ -161,6 +161,7 @@
     <Compile Include="Controllers\Authority\TestController.cs" />
     <Compile Include="Controllers\Authority\UpLoadController.cs" />
     <Compile Include="Controllers\Common\CommonController.cs" />
+    <Compile Include="Controllers\Enroll\DirectEnrollController.cs" />
     <Compile Include="Controllers\Enroll\EnrollManageListController.cs" />
     <Compile Include="Controllers\Enroll\EnrollProtocolController.cs" />
     <Compile Include="Controllers\Enroll\FollowListController.cs" />

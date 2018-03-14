@@ -1,8 +1,10 @@
-﻿@{
+﻿@using DataProvider.Models
+@using DataProvider.Paging
+@{
     ViewBag.Title = "直接报名";
 }
-
-<div class="ibox float-e-margins" id="buttoninfo">
+@model EnrollListViewModel
+<div class="ibox float-e-margins" id="Direct" >
     <div class="row">
         <div class="col-sm-12">
             <div class="ibox-content">
@@ -27,9 +29,9 @@
                     </div>
                     <div class="form-group ">
                         <label class="col-sm-3 control-label ">所属分校 ：</label>
-                        <div class="col-sm-8">
-
-
+                        <div class="col-sm-8"> 
+                                @Html.DropDownListFor(t => t.search.ComCode,Model.search.ComCodeIL, new { @class = "input-md form-control" ,@style = "width:100%;height:100%;", @tabindex = "4 "})
+                             
                         </div>
                     </div>
                     <div class="form-group">
@@ -46,11 +48,18 @@
                     </div>
                     <div class="form-group">
                         <div class="col-sm-12" style="text-align:center">
-                            <button type="submit" id="submit" class="btn btn-w-m btn-primary btn-sm">保&nbsp;&nbsp;&nbsp;&nbsp;存</button>
+                            <button type="button"   onclick="save()" class="btn btn-w-m btn-primary btn-sm">保&nbsp;&nbsp;&nbsp;&nbsp;存</button>
                         </div>
                     </div>
                 </form>
-                <form class="form-horizontal">
+
+
+
+
+
+
+
+                <form class="form-horizontal" style="display:none" id="Students">
                     <div class="form-group ">
                         <label class="col-xs-3 control-label">姓名：</label>
                         <div class="col-xs-8">
@@ -156,6 +165,8 @@
 
                         <div class="col-sm-8">
 
+                               @Html.DropDownListFor(t => t.search.DicItemID, Model.SourceIL, new { @class = "form-control input-sm chosen-select", @style = "width:100%;height:100%;", @tabindex = "4", @id = "SourceID" })
+
 
                         </div>
                     </div>
@@ -171,3 +182,241 @@
         </div>
     </div>
 </div>
+
+
+<script type="text/javascript">
+     
+
+    //新增预约
+    function save() {
+        var obj = new Object; 
+        obj.ApName = $("#ApName").val().trim();//赋值必须和数据库字段对应
+        if (!obj.ApName) {
+            layer.msg("请输入学员姓名！");
+            return false;
+        } 
+        obj.ApTel = $("#ApTel").val().trim();
+        if (!obj.ApName) {
+            layer.msg("请输入联系电话！");
+            return false;
+        }
+        obj.APLinkMan = $("#APLinkMan").val().trim();
+        obj.APGrade = $("#APGrade").val().trim();
+        obj.APRemark = $("#APRemark").val().trim();
+        obj.SourceID = 1;//系统录入
+        obj.ComCode = $("#search_ComCode").val().trim();
+        if (!obj.ComCode) {
+            layer.msg("请选择所属分校！");
+            return false;
+        }
+        var action = '@Url.Action("AddDirect", "Enroll")';
+        $.post(action, {
+            "data": JSON.stringify(obj)//序列化对象
+        }, function (json) {
+            if (json.status == 200) {//成功
+
+                layer.msg(json.msg);//弹出服务器返回的消息
+                setTimeout(function () {//操作
+
+                    if (json.data == 1) {
+                        cleanData("Students");
+                        $("#Name").val($("#ApName").val().trim());//赋值姓名
+                        $("#BindPhone").val($("#ApTel").val().trim());//赋值电话号码
+                        layer.open({
+                            type: 1,
+                            title: "<h3 class=''>编辑</h3>",
+                            area: ['660px', '610px'],
+                            content: $('#Students'),
+                            btn: ['保存', '取消'],
+                            yes: function () {
+                                saveStudents()
+                            },
+                            cancel: function (index) {
+                                layer.close(index);
+                            }
+                        });
+
+                        //激活日期控件
+                        $('.DateS').datepicker({
+                            keyboardNavigation: false,
+                            forceParse: false,
+                            autoclose: true
+                        });
+
+
+                    } else {
+                        layer.closeAll();//关闭所有层
+                        window.location.reload(); //刷新
+                    }
+
+                }, 3000);
+            }
+        }, 'json');
+    }
+
+
+
+
+
+
+
+
+    //保存或者新增
+    function saveStudents(id) {
+        var obj = new Object;
+        if (id) {//有ID就是修改模式，没有就是新增模式
+            obj.ID = id;
+        }
+        obj.Name = $("#Name").val().trim();
+        if (!obj.Name) {
+            layer.msg("请输入姓名！");
+            return false;
+        }
+        obj.BindPhone = $("#BindPhone").val().trim();//赋值必须和数据库字段对应
+        if (!obj.BindPhone) {
+            layer.msg("请输入手机号码！");
+            return false;
+        }
+
+        var pattern = /^1[34578]\d{9}$/;
+        if (!pattern.test(obj.BindPhone)) {
+            layer.msg("您输入的手机号码不正确");
+            return false;
+        }
+
+
+        if ($("#Sex").is(':checked')) {//判断停用按钮是否选中 
+            obj.Sex = $("#Sex").val().trim();
+        }
+        else {
+            obj.Sex = $("#Sex1").val().trim();
+
+        }
+
+        obj.Birthday = $("#Birthday").val().trim();
+        obj.Picurl = $("#Picurl").val().trim();
+        obj.FatherName = $("#FatherName").val().trim();
+        obj.FatherContract = $("#FatherContract").val().trim();
+        obj.MotherName = $("#MotherName").val().trim();
+        obj.MotherContract = $("#MotherContract").val().trim();
+        obj.Address = $("#Address").val().trim();
+        obj.Wechart = $("#Wechart").val().trim();
+        obj.SourceID = $("#SourceID").val().trim();
+        if (!obj.SourceID) {
+            layer.msg("请选择来源渠道！");
+            return false;
+        }
+
+        
+
+        obj.Remark = $("#Remark").val().trim();
+
+
+        var action = '@Url.Action("AddStudent", "Student")';
+        $.post(action, {
+            "data": JSON.stringify(obj)//序列化对象
+        }, function (json) {
+            if (json.status == 200) {//成功
+
+                layer.msg(json.msg);//弹出服务器返回的消息
+                setTimeout(function () {//操作
+                    layer.closeAll();//关闭所有层
+                    window.location.reload(); //刷新
+                }, 3000);
+            }
+            else {
+                layer.msg(json.msg);//弹出服务器返回的消息
+            }
+        }, 'json');
+    }
+
+
+
+
+
+
+
+
+
+    //上传文件
+    function UploadPic() {
+        var extensionName = /.JPG|.JPEG|.jpg|.png|.gif|.jpeg/;
+        var file = $("#uploadFile")[0].files[0];
+
+        if (!file) {
+            layer.msg("未找到相关文件！");
+            return false;
+        }
+
+        //如果文件大于5M
+        if (file.size > 1048576 * 5) {
+            layer.msg("您上传的文件太大了，最多允许5MB，请重新选择文件！");
+            return false;
+        }
+
+        if (extensionName.test(file.name)) {
+            if (window.FileReader) {
+                var reader = new FileReader();
+                reader.onload = function (evt) {
+                    if (evt.target.readyState === FileReader.DONE) {
+                        var offset = evt.target.result.indexOf(";base64,");
+                        var fileTemp = null;
+                        if (offset > 0) {
+                            //前八个字节是数据流的头所以要去除。
+                            fileTemp = evt.target.result.substr(offset + 8);
+                        }
+                        //取得文件的扩展名
+                        var fileExt = file.name.replace(/.+\./, "");
+                        //将分离出来的二进制文件流放到参数里
+
+
+
+                        var obj = new Object;
+                        obj.fileTemp = fileTemp;
+                        obj.fileExt = fileExt;
+
+                        var action = '@Url.Action("Upload", "Student")'
+                        $.post(action, {
+                            "data": JSON.stringify(obj)//序列化对象
+                        }, function (json) {
+                            if (json.status == 200) {//成功
+
+
+                                $("#img").attr("src", json.data.thumbnailImage);
+                                $("#Picurl").val(json.data.thumbnailImage);//弹出服务器返回的消息
+                                layer.msg(json.msg);//弹出服务器返回的消息 
+                            }
+                        }, 'json');
+
+
+
+                    }
+                }
+          
+                reader.onerror = function () {
+                    layer.msg("文件读取时发生错误！");
+                    return false;
+                }
+                reader.readAsDataURL(file);    // 将文件读取成一段以 data:开头的字符串
+            }
+        }
+        else {
+            layer.msg("只支持jpg,png,gif,jpeg类型的文件上传，请重新选择文件！");
+            return false;
+        }
+
+
+
+    }
+    function OpenUploadWindow() {
+        $("#uploadFile").click().change(
+            function () {
+                var file = document.getElementById("uploadFile").value;
+                $("#Picurl").val(file);
+                document.getElementById("Picurl").value = file;
+            }
+            );
+
+    }
+
+</script>

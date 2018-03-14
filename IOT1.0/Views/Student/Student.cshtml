@@ -432,17 +432,7 @@
 
                         }
                     }
-                    //reader.onprogress = function (e, file) {
-                    //    //console.info(e);
-                    //    if (e.lengthComputable) {
-                    //        var loaded = (e.loaded / e.total);
-                    //        if (loaded <= 1) {
-                    //            self.UploadStat('正在上传，请稍候……');
-                    //            self.UploadPrecent(loaded);
-                    //        }
-                    //    }
-
-                    //}
+             
                     reader.onerror = function () {
                         layer.msg("文件读取时发生错误！");
                         return false;
