@@ -174,6 +174,8 @@
                                         <td>@m.StateIDname</td>
                                         <td>
                                             <a href="javascript:modify('@m.ID');" class="btn btn-primary btn-xs" type="button"><i class="fa fa-edit"></i>编辑</a>
+                                            <a href="javascript:DELETE('@m.ID','@m.People_Number','@m.PresentLesson');" class="btn btn-primary btn-xs" type="button"><i class="fa fa-edit" ></i>删除</a>
+
                                             <a href="javascript:ClassList('@m.ID','@m.ClassName','@m.Enroll','@m.StateID','@m.TeachTypeID','@m.TotalLesson')" class="btn btn-primary btn-xs" type="button"><i class="fa fa-forward"></i>排课</a>
                                             <a href="javascript:adjust('@m.ID')" class="btn btn-primary btn-xs" type="button"><i class="fa fa-adjust"></i>分配</a>
                                             <a href="javascript:Upgrade('@m.ID')" class="btn btn-primary btn-xs" type="button"><i class="fa fa-level-up"></i>升班</a>
@@ -709,6 +711,39 @@
       
     }
 
+    function DELETE(ID, People_Number, PresentLesson) {
+        if (People_Number > 0) {//判断如果这个班级的已报名人数大于1都不允许删除,不管报名数是冻结还是完结的
+            layer.msg("该班级已经有人报名,不允许删除！");
+            return false;
+        }
+
+        if ( PresentLesson > 0) {//判断如果这个班级的已上课时大于1都不允许删除
+            layer.msg("该班级已经有人上课,不允许删除！");
+            return false;
+        }
+        layer.confirm('您确定要删除么？', {
+            btn: ['确定', '取消'] //按钮
+        }, function () {
+             
+            var action = '@Url.Action("DELETE", "Teach")';
+            $.post(action, {
+                "ID": ID//序列化对象
+            }, function (json) {
+                if (json.status == 200) {//成功
+
+                    layer.msg(json.msg);//弹出服务器返回的消息
+                    setTimeout(function () {//操作
+                        layer.closeAll();//关闭所有层
+                        window.location.reload(); //刷新
+                    }, 3000);
+                }
+            }, 'json');
+
+
+        });
+
+
+    }
 
 
     //排课弹窗

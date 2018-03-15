@@ -350,5 +350,42 @@ namespace DataProvider.Data
             }
             return ret;
         }
+
+
+
+
+
+        /// <summary>
+        /// 根据ID修改Classes的删除人和删除时间
+        /// </summary>
+        /// <param name="ID"></param>
+        /// <returns></returns>
+        public static int DELETE_Classes(string ID, string userID, DateTime Time)
+        {
+
+            StringBuilder sb = new StringBuilder();
+            sb.Append(" UPDATE Classes SET  ");
+            sb.Append(" DeletorId = @DeletorId ,");
+            sb.Append(" DeleteTime = @DeleteTime");
+            sb.Append(" where ID = @ID");
+            var parameters = new DynamicParameters();
+            parameters.Add("@DeletorId", userID);
+            parameters.Add("@DeleteTime", Time);
+            parameters.Add("@ID", ID);
+            return MsSqlMapperHepler.InsertUpdateOrDeleteSql(sb.ToString(), parameters, DBKeys.PRX);
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
 }

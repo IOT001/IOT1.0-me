@@ -490,6 +490,34 @@ namespace IOT1._0.Controllers.Teach
             return Json(ajax);
         }
 
+
+        /// <summary>
+        /// 删除
+        /// </summary>
+        /// <param name="json"></param>
+        /// <returns></returns>
+        public JsonResult DELETE()
+        {
+            AjaxStatusModel ajax = new AjaxStatusModel();//功能操作类的返回类型都是AjaxStatusModel，数据放到AjaxStatusModel.data中，前台获取json后加载
+            ajax.status = EnumAjaxStatus.Error;//默认失败
+            ajax.msg = "删除失败！";//前台获取，用于显示提示信息
+            var ID = Request["ID"];//获取前台传递的数据，主要序列化
+            if (string.IsNullOrEmpty(ID))
+            {
+                return Json(ajax);
+            }
+            if (ClassesData.DELETE_Classes(ID,UserSession.userid,DateTime.Now) > 0)//注意时间类型，而且需要在前台把所有的值
+            {
+                ajax.msg = "删除成功！";
+                ajax.status = EnumAjaxStatus.Success;
+            }
+            return Json(ajax);
+        }
+
+
+
+
+
         
 
     }

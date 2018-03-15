@@ -68,6 +68,10 @@ namespace IOT1._0.Controllers.Enroll
                 {
                     ajax.data = 1;
                 }
+                else
+                {
+                    ajax.msg = "您已经是正式学员！";
+                }
             }
             return Json(ajax);
         }

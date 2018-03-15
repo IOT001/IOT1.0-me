@@ -16,6 +16,10 @@ namespace DataProvider.Entities
         public string CourseName { get; set; }
         public int CourseID { get; set; }
         public string TeachTypeID { get; set; }
+
+        public string People_Number { get; set; }// 已上人数
+        public string PresentLesson { get; set; } //已报人数
+
         public string Enroll { get; set; } 
         public string Lesson { get; set; } 
         public Nullable<System.DateTime> StartTime { get; set; }
