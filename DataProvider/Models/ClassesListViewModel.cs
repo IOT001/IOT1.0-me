@@ -77,7 +77,10 @@ namespace DataProvider.Models
         /// </summary>
         public string ClassName { set; get; }
 
-
+        /// <summary>
+        ///课程名称 
+        /// </summary>
+        public string CourseName { set; get; }
          /// <summary>
         ///课程名称
         /// </summary>

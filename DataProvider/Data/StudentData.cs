@@ -165,6 +165,26 @@ namespace DataProvider.Data
         }
 
 
+        /// <summary>
+        ///  手机号+姓名 获取列表vw_Appointment
+        /// </summary>
+        /// <param name="Stockid"></param>
+        /// <returns></returns>
+        public static vw_Appointment Getvw_AppointmentList(string BindPhone, string name)
+        {
+
+            string strsql = "select top 1 * from vw_Appointment WITH(NOLOCK) where  ApTel=@BindPhone and ApName = @Name ";
+            var parameters = new DynamicParameters();
+            parameters.Add("@BindPhone", BindPhone);
+            parameters.Add("@Name", name);
+            return MsSqlMapperHepler.SqlWithParamsSingle<vw_Appointment>(strsql.ToString(), parameters, DBKeys.PRX);
+
+
+
+        }
+
+
+
 
         /// <summary>
         /// 获取列表

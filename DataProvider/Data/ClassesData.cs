@@ -34,9 +34,13 @@ namespace DataProvider.Data
 
             if (!string.IsNullOrWhiteSpace(search.ClassName))//班级名称或ID
                 sb.AppendFormat(" and (ClassName like '%{0}%' OR  ID LIKE '%{0}%')", search.ClassName);
-            if (!string.IsNullOrWhiteSpace(search.CourseID))//课程名称
+            if (!string.IsNullOrWhiteSpace(search.CourseID))//课程名称ID
                 sb.AppendFormat(" and CourseID like '%{0}%' ", search.CourseID);
-   
+
+
+            if (!string.IsNullOrWhiteSpace(search.CourseName))//课程名称中文
+                sb.AppendFormat(" and CourseName like '%{0}%' ", search.CourseName);
+    
 
             if (!string.IsNullOrWhiteSpace(search.StartTime_start))//开班时间
                 sb.AppendFormat(" and StartTime > = '{0}' ", search.StartTime_start);
@@ -141,6 +145,39 @@ namespace DataProvider.Data
         }
 
 
+        /// <summary>
+        /// 修改班级表并修改考勤数据
+        /// </summary>
+        /// <param name="Clas"></param>
+        /// <returns></returns>
+        public static bool Update_Classes(Classes Clas)
+        {
+
+            DBRepository db = new DBRepository(DBKeys.PRX);
+            db.BeginTransaction();//事务开始
+            Classes Classes = ClassesData.GetClassesByID(Clas.ID);//根据ID获取数据,然后对比 
+            try
+            {
+                   
+                if (ClassesData.Update_DB(Clas, db))//最后修改班级数据,注意时间类型，而且需要在前台把所有的值
+                {
+                    ClassesData.Update_TeacherID_DB(Clas.TeacherID, Clas.Teacher2ID, Clas.ID, db); //修改班级信息 
+                    db.Commit(); //事务提交
+                    db.Dispose();  //资源释放
+                    
+                }
+                return true;
+            }  
+            catch (Exception ex)
+            {
+                db.Rollback();
+                db.Dispose();//资源释放
+                throw new Exception(ex.Message + "。" + ex.InnerException.Message);
+                 
+            }
+
+
+        }
 
 
 
@@ -157,27 +194,16 @@ namespace DataProvider.Data
 
         }
 
+       
+
         /// <summary>
-        /// 修改课程教师1的信息,传事务的，请不要乱修改
+        /// 修改课程教师的信息,传事务的，请不要乱修改
         /// </summary>
         /// <param name="btn"></param>
         /// <returns></returns>
-        public static int Update_TeacherID_DB(string TeacherID, string ClassID, DBRepository db)
+        public static int Update_TeacherID_DB(string TeacherID, string Teacher2ID, string ClassID, DBRepository db)
         {
-        string strsql = "UPDATE  ClassList  SET TeacherID='" + TeacherID + "'  where StateID = 1 and ClassID = '" + ClassID + "'";
-          
-            return db.Execute(strsql);//修改课程表状态是1并且班级表的教师字段有变更的
-
-        }
-
-        /// <summary>
-        /// 修改课程教师2的信息,传事务的，请不要乱修改
-        /// </summary>
-        /// <param name="btn"></param>
-        /// <returns></returns>
-        public static int Update_Teacher2ID_DB(string Teacher2ID, string ClassID, DBRepository db)
-        {
-            string strsql = "UPDATE  ClassList  SET Teacher2ID='" + Teacher2ID + "'  where StateID = 1 and ClassID = '" + ClassID + "'";
+            string strsql = "UPDATE  ClassList  SET Teacher2ID='" + Teacher2ID + "',TeacherID='" + TeacherID + "'   where StateID = 1 and ClassID = '" + ClassID + "'";
 
             return db.Execute(strsql);//修改课程表状态是1并且班级表的教师字段有变更的
 

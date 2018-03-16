@@ -64,14 +64,18 @@ namespace IOT1._0.Controllers.Enroll
                 ajax.msg = "新增成功！";
                 ajax.status = EnumAjaxStatus.Success;
                 string studid = StudentData.BindPhone_insert(obj.ApTel, obj.ApName);
-                if (string.IsNullOrEmpty(studid))// 
+                if (string.IsNullOrEmpty(studid))// 判断是否已经有该学生信息
                 {
-                    ajax.data = 1;
+                     
                 }
                 else
                 {
+                   
                     ajax.msg = "您已经是正式学员！";
                 }
+                vw_Appointment vw_Appointment = StudentData.Getvw_AppointmentList(obj.ApTel, obj.ApName);
+                ajax.data = vw_Appointment;//因为不是学员的话要取到相应的预约单号,直接根据是否已经有相应的学号来判断是否是学员
+
             }
             return Json(ajax);
         }

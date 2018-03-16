@@ -49,6 +49,8 @@
                     <div class="form-group">
                         <div class="col-sm-12" style="text-align:center">
                             <button type="button"   onclick="save()" class="btn btn-w-m btn-primary btn-sm">保&nbsp;&nbsp;&nbsp;&nbsp;存</button>
+ 
+
                         </div>
                     </div>
                 </form>
@@ -63,7 +65,7 @@
                     <div class="form-group ">
                         <label class="col-xs-3 control-label">姓名：</label>
                         <div class="col-xs-8">
-                            <input type="text" placeholder="姓名" class="form-control input-sm" id="Name">
+                            <input type="text" placeholder="姓名" class="form-control input-sm" id="Name" readonly="readonly">
 
 
                             <img id="img" style="height: 180px;" />
@@ -83,7 +85,7 @@
                     <div class="form-group ">
                         <label class="col-xs-3 control-label">绑定手机：</label>
                         <div class="col-xs-8">
-                            <input type="text" placeholder="重要！请填写能联系到学员的手机，比如父母手机号！" class="form-control input-sm" id="BindPhone">
+                            <input type="text" placeholder="重要！请填写能联系到学员的手机，比如父母手机号！" class="form-control input-sm" id="BindPhone" readonly="readonly">
                         </div>
                     </div>
 
@@ -184,8 +186,113 @@
 </div>
 
 
+
+
+
+
+
+
+
+
+
+
+@*弹出层，报名*@
+<div class="ibox float-e-margins" id="baoming" style="margin:0px; display:none">
+    <div class="ibox-content">
+        <form class=" form-inline">
+
+             <div class="form-group">
+
+                  <label class="col-sm-4 control-label">课程名称：</label>
+                  <div class="col-sm-8"> 
+                <input type="text" class="form-control input-sm" id="CourseName2">&nbsp;
+              </div>
+                  </div>
+
+             <div class="form-group">
+                 <div class="col-sm-3">
+                  <label class="control-label">开班时间：</label>
+                   </div>
+
+                <div class="input-daterange input-group col-sm-9" id="datepicker">
+                    <input type="text" class="input-sm form-control" name="start" value="" id="StartTime_start2">
+                    <span class="input-group-addon">到</span>
+                    <input type="text" class="input-sm form-control" name="end" value="" id="StartTime_end2">
+                </div>
+             </div>
+          
+                
+
+
+
+
+              <div class="form-group">
+                  <div class="col-sm-4">&nbsp;  </div>
+                     <div class="col-sm-8 project-actions">
+                                 <button type="button" class="btn btn-w-m btn-primary btn-sm" id="QueryClass2">查&nbsp;&nbsp;&nbsp;&nbsp;询</button>
+                            </div>
+
+            </div>
+
+            <div class="m-t-md">
+                <!-- m=marging ,t=top ,md=20px -->
+                <div class="">
+                    <table class="table table-striped table-bordered table-hover dataTables-example" id="classes2"></table>
+
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+
+@*报名下的二级弹出层，编辑收款记录*@
+<div class="ibox float-e-margins" id="collection" style="display:none">
+    <div class="ibox-content">
+        <form class="form-horizontal">
+            <div class="form-group">
+                <label class="col-sm-3 control-label">现金：</label>
+                <div class="col-sm-8">
+                    <input type="text" placeholder="现金" class="form-control" id="PayType1">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">Pos：</label>
+                <div class="col-sm-8">
+                    <input type="text" placeholder="Pos" class="form-control" id="PayType2">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">微信：</label>
+                <div class="col-sm-8">
+                    <input type="text" placeholder="微信" class="form-control" id="PayType3">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">支付宝：</label>
+                <div class="col-sm-8">
+                    <input type="text" placeholder="支付宝" class="form-control" id="PayType4">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">扣卡：</label>
+                <div class="col-sm-8">
+                    <input type="text" placeholder="扣卡" class="form-control" id="PayType5">
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
 <script type="text/javascript">
      
+  
+  
+
 
     //新增预约
     function save() {
@@ -218,9 +325,11 @@
                 layer.msg(json.msg);//弹出服务器返回的消息
                 setTimeout(function () {//操作
 
-                    if (json.data == 1) {
+                    if (json.data.ApStudentID == null) {
                         cleanData("Students");
-                        $("#Name").val($("#ApName").val().trim());//赋值姓名
+                        var ApName = $("#ApName").val().trim();
+                        
+                        $("#Name").val(ApName);//赋值姓名
                         $("#BindPhone").val($("#ApTel").val().trim());//赋值电话号码
                         layer.open({
                             type: 1,
@@ -229,7 +338,7 @@
                             content: $('#Students'),
                             btn: ['保存', '取消'],
                             yes: function () {
-                                saveStudents()
+                                saveStudents(json.data.ID)
                             },
                             cancel: function (index) {
                                 layer.close(index);
@@ -244,9 +353,8 @@
                         });
 
 
-                    } else {
-                        layer.closeAll();//关闭所有层
-                        window.location.reload(); //刷新
+                    } else { //如果已经有了
+                        baoming(json.data.ID, json.data.ApStudentID, json.data.ApStateID);
                     }
 
                 }, 3000);
@@ -262,11 +370,9 @@
 
 
     //保存或者新增
-    function saveStudents(id) {
+    function saveStudents(_apid) {
         var obj = new Object;
-        if (id) {//有ID就是修改模式，没有就是新增模式
-            obj.ID = id;
-        }
+      
         obj.Name = $("#Name").val().trim();
         if (!obj.Name) {
             layer.msg("请输入姓名！");
@@ -314,14 +420,14 @@
 
         var action = '@Url.Action("AddStudent", "Student")';
         $.post(action, {
-            "data": JSON.stringify(obj)//序列化对象
+            "data": JSON.stringify(obj),//序列化对象
+            "apid": _apid
         }, function (json) {
             if (json.status == 200) {//成功
 
                 layer.msg(json.msg);//弹出服务器返回的消息
                 setTimeout(function () {//操作
-                    layer.closeAll();//关闭所有层
-                    window.location.reload(); //刷新
+                    baoming(json.data.ID, json.data.ApStudentID, json.data.ApStateID); 
                 }, 3000);
             }
             else {
@@ -417,6 +523,379 @@
             }
             );
 
+    }
+
+
+
+
+
+
+
+
+
+
+    //报名
+    function baoming(apid, studentid, apstateid) {
+        cleanData("baoming");//清空数据
+        _apid = apid;//存全局，爬丢失
+        _studentid = studentid;
+        if (!studentid) {
+            layer.msg("非正式学员不允许直接报名，请先加入学员！")
+            return;
+        }
+        if (apstateid == "3") {
+            layer.msg("预约单已完成报名！")
+            return;
+        }
+        if (apstateid == "4") {
+            layer.msg("预约单已作废！")
+            return;
+        }
+        if (apstateid == "5") {
+            layer.msg("请耐心等待上级审核！")
+            return;
+        }
+       
+
+        layer.open({
+            type: 1,
+            title: "<h3 class=''>报名</h3>",
+            area: ['100%', '100%'],
+            content: $('#baoming'),
+            btn: ['结算', '取消'],
+            yes: function () {
+
+                if ($("#classes2 tbody input[type='checkbox']:checked").length <= 0) {
+                    layer.msg("至少选择一条记录进行报名！")
+                    return;
+                }
+                var loadindex = layer.load();//启动遮罩放在重复提交
+                var did = "";   //选中班级List，用分行分开
+                var Enrolldata = [];//需要提交报名数据
+                $("#classes2 tbody input[type='checkbox']:checked").each(function (ai, am) {//循环选中的班级列表
+
+                    var classid = $(this).parent().parent().parent().data("did");//取到班级号
+                    var payment = $(this).parent().parent().parent().parent().parent().find("td").eq(10).text();//实际报名费用
+                    var apid = _apid;//预约号
+                    var studentid = _studentid;//学员号
+                    var classhour = $(this).parent().parent().parent().parent().parent().find("td").eq(6).children('input').val();//实际报名课时，取input填写值
+                    var discountid = $(this).parent().parent().parent().parent().parent().find("td").eq(7).children('select').val()//取到优惠ID
+                    var discountprice = $(this).parent().parent().parent().parent().parent().find("td").eq(8).children('input').val();//本次优惠金额
+                    var collectionrec = $(this).parent().parent().parent().parent().parent().find("td").eq(12).text();//自己明细记录需要登录本次付款
+                    Enrolldata.push({
+                        "classid": classid,
+                        "payment": payment,
+                        "apid": apid,
+                        "studentid": studentid,
+                        "classhour": classhour,
+                        "discountid": discountid,
+                        "discountprice": discountprice,
+                        "collectionrec": collectionrec
+                    })
+                });
+
+                $.post('@Url.Action("AddEnroll", "Enroll")', {
+                    _did: JSON.stringify(Enrolldata)
+                },
+                function (json) {
+                    if (json.status == 200) {
+                        layer.msg(json.msg);
+                        setTimeout(function () {
+                            window.location.reload(); //刷新
+                        }, 3000);
+                        layer.close(loadindex);//关闭遮罩
+                    }
+                    else {
+                        layer.close(loadindex);//关闭遮罩
+                        layer.msg(json.msg);
+                    }
+                }, 'json').error(function (XMLHttpRequest, textStatus, errorThrown) {
+                    layer.close(loadindex);//关闭遮罩
+                    layer.msg(textStatus);
+                })
+
+            },
+            cancel: function (index) {
+                layer.close(index);
+            }
+        });
+    }
+
+
+
+    //打开资金明细,传入行索引
+    function opencollection(trindex) {
+        cleanData("collection");//清空数据
+        layer.open({
+            type: 1,
+            title: "<h3 class=''>资金明细</h3>",
+            area: ['680px', '400px'],
+            content: $('#collection'),
+            btn: ['保存', '取消'],
+            yes: function (index) {
+                var collecttext = "";//自己明细记录用逗号隔开
+                $("#collection input").each(function (ai, am) {//循环自己明细的文本框，给父级行赋值
+                    collecttext += $(this).val() + ","
+                })
+                $("#classes2 tbody tr:eq(" + trindex + ")").find("td").eq(12).text(collecttext)
+                layer.close(index);
+            },
+            cancel: function (index) {
+                layer.close(index);
+            }
+        });
+
+    }
+
+    //点击报名弹出窗口的查询按钮事件
+    $("#QueryClass2").click(function () {
+        //重新刷新
+        $('#classes2').bootstrapTable('refresh');
+    })
+
+
+
+    //-------------报名----------------------------------------------------------
+    //报名列表
+    $('#classes2').bootstrapTable({
+        method: 'POST',
+        dataType: 'json',
+        contentType: "application/x-www-form-urlencoded",
+        cache: false,
+        striped: true,                              //是否显示行间隔色
+        sidePagination: "server",           //分页方式：client客户端分页，server服务端分页（*）
+        url: '@Url.Content("~/Enroll/STClassList")',
+        showColumns: false,
+        pagination: false,
+        queryParams: queryParams_bm,
+        onLoadSuccess: function (data) {
+            loadDiscountCom();//执行完查询列表后再执行加载下拉框，不然又时候取不到优惠，因为异步
+        },
+        columns: [
+        {
+            field: 'ID',
+            title: 'ID号',
+            align: 'center',
+            valign: 'middle',
+            sortable: true
+        }, {
+            field: 'ClassName',
+            title: '班级名称',
+            align: 'center',
+            valign: 'middle',
+            sortable: true
+        }, {
+            field: 'CourseName',
+            title: '课程',
+            align: 'center',
+            valign: 'middle'
+        }, {
+            field: 'StartTime',
+            title: '上课时间',
+            align: 'center',
+            valign: 'middle',
+            formatter: function (value, row, index) {//用于格式化数据
+                return ChangeDateFormat(value);//调用模板页的通用方法格式化时间
+            }
+        }, {
+            field: 'Enroll',
+            title: '报名/总数',
+            align: 'center',
+            valign: 'middle'
+        }, {
+            field: 'TotalLesson',
+            title: '总课时',
+            align: 'center',
+            valign: 'middle'
+        }, {
+            field: '',
+            title: '报名课时',
+            align: 'center',
+            valign: 'middle',
+            formatter: editCol
+        }, {
+            field: '',
+            title: '选择优惠',
+            align: 'center',
+            valign: 'middle',
+            formatter: dropdownCol
+        }, {
+            field: '',
+            title: '优惠金额',
+            align: 'center',
+            valign: 'middle',
+            formatter: editDiscount
+        }, {
+            field: 'Expenses',
+            title: '原费用',
+            align: 'center',
+            valign: 'middle'
+        }, {
+            field: 'Expenses',
+            title: '本次付款',
+            align: 'center',
+            valign: 'middle'
+        }, {
+            field: '',
+            title: '操作',
+            align: 'center',
+            formatter: checkCol
+        }, {
+            title: '资金明细',
+            align: 'center'
+        }
+        ]
+    });
+    //查询参数
+    function queryParams_bm(params) {
+
+        return {
+
+            pageSize: 1,
+
+            pageIndex: 1,
+
+            CourseName: $("#CourseName2").val().trim(),
+            StartTime_start: $("#StartTime_start2").val().trim(),
+            StartTime_end: $("#StartTime_end2").val().trim(),
+            islisten: "0"
+        };
+
+    }
+
+
+
+
+
+    //加载优惠下拉框信息
+    function loadDiscountCom() {
+        //重新激活选择框
+        $('.i-checks').iCheck({
+            checkboxClass: 'icheckbox_square-green',
+            radioClass: 'iradio_square-green',
+        });
+        //改版课时的时候触发，重新计算应付金额
+        $("input[name='txtks'],input[name='discountText']").change(function () {
+
+            var och = $(this).parent().parent().find("td").eq(9).text()//原来的费用
+            var oks = $(this).parent().parent().find("td").eq(5).text()//总课时数
+            var realbm = $(this).parent().parent().find("td").eq(6).children('input').val()//实际报名课时，取input填写值
+
+            var yhje = $(this).parent().parent().find("td").eq(8).children('input').val()//取出优惠金额
+            var bcff = (realbm / oks) * och - yhje;//算本次最终报名费用
+            bcff = parseInt(bcff);//舍弃小数取整
+
+            $(this).parent().parent().find("td").eq(10).text(bcff);//赋值报名费用
+
+        })
+        //如果勾选，弹出金额明细
+        $("#classes2 tbody input[type='checkbox']").on('ifChecked', function (event) {
+            var trindex = $(this).parent().parent().parent().parent().parent().data("index");//取到行索引
+            opencollection(trindex);
+        });
+        var dataHTML = '';
+        $.post('@Url.Action("GetDiscountItems", "Enroll")', {}, function (json) {
+            //注册优惠下拉框change事件，选择自定义时允许自己输入优惠金额,要放在回调的这个地方，不然无效，
+            $(".discountSelect.form-control.input-sm").change(function () {
+
+                $(this).children('option:selected').each(function () {
+                    var _DiscountTypeID = $(this).data("discounttypeid")//获取选中优惠的类别
+                    if (_DiscountTypeID == 1)//打折
+                    {
+                        var och = $(this).parent().parent().parent().find("td").eq(9).text()//原来的费用
+                        var oks = $(this).parent().parent().parent().find("td").eq(5).text()//总课时数
+                        var realbm = $(this).parent().parent().parent().find("td").eq(6).children('input').val();//实际报名课时，取input填写值
+                        var _DiscountRate = $(this).data("discountrate");//折扣率
+                        var yhje = (realbm / oks) * (1 - _DiscountRate).toFixed(10) * och//算出优惠金额
+                        var bcff = (realbm / oks) * och - yhje;//算本次最终报名费用
+                        bcff = parseInt(bcff);//舍弃小数取整
+                        $(this).parent().parent().parent().find("td").eq(8).children('input').val(yhje);//赋值优惠金额
+                        $(this).parent().parent().parent().find("td").eq(10).val(bcff);//赋值报名费用
+                        $(this).parent().parent().parent().find("td").eq(10).text(bcff);//赋值报名费用
+
+                    }
+                    else if (_DiscountTypeID == 2)//减免方式
+                    {
+                        var och = $(this).parent().parent().parent().find("td").eq(9).text()//原来的费用
+                        var oks = $(this).parent().parent().parent().find("td").eq(5).text()//总课时数
+                        var realbm = $(this).parent().parent().parent().find("td").eq(6).children('input').val();//实际报名课时，取input填写值
+                        var _ReduceAmount = $(this).data("reduceamount");//减免的金额
+                        var yhje = _ReduceAmount//算出优惠金额,优惠的金额就是减免的金额
+                        var bcff = (realbm / oks) * och - yhje;//算本次最终报名费用
+                        bcff = parseInt(bcff);//舍弃小数取整
+                        $(this).parent().parent().parent().find("td").eq(8).children('input').val(yhje);//赋值优惠金额
+                        $(this).parent().parent().parent().find("td").eq(10).val(bcff);//赋值报名费用
+                        $(this).parent().parent().parent().find("td").eq(10).text(bcff);//赋值报名费用
+                        //$(this).parent().parent().parent().find("td").eq(6).children('input').attr("disabled", "true");
+                    }
+                    else {
+                        var och = $(this).parent().parent().parent().find("td").eq(9).text()//原来的费用
+                        var oks = $(this).parent().parent().parent().find("td").eq(5).text()//总课时数
+                        var realbm = $(this).parent().parent().parent().find("td").eq(6).children('input').val();//实际报名课时，取input填写值
+                        var bcff = (realbm / oks) * och;//算本次最终报名费用
+                        bcff = parseInt(bcff);//舍弃小数取整
+                        $(this).parent().parent().parent().find("td").eq(8).children('input').val(0);//赋值优惠金额
+                        $(this).parent().parent().parent().find("td").eq(10).val(bcff);//赋值报名费用
+                        $(this).parent().parent().parent().find("td").eq(10).text(bcff);//赋值报名费用
+                        //$(this).parent().parent().parent().find("td").eq(6).children('input').removeAttr("disabled");
+                    }
+                    var _DiscountID = $(this).val()//获取选中优惠的id
+                    if (_DiscountID == -1) {//如果选择的是自定义优惠
+                        $(this).parent().parent().parent().find("td").eq(8).children('input').removeAttr("disabled");//设置优惠金额可以用
+
+                    }
+                    else {
+
+                        $(this).parent().parent().parent().find("td").eq(8).children('input').attr("disabled", "true");//设置优惠金额不可用
+                    }
+                });
+
+
+            });
+            for (var i = 0; i < json.length; i++) {
+                $(".discountSelect").append("<option data-reduceamount = '" + json[i].ReduceAmount + "' data-discountrate = '" + json[i].DiscountRate + "' data-discounttypeid = '" + json[i].DiscountTypeID + "' value='" + json[i].ID + "'>" + json[i].DiscountName + "</option>");
+            }
+        }, 'json').error(function () { alter("ERRPR!") });
+    }
+
+
+    //根据填写的课时和优惠计算实际报名费用
+    function compute(oldcharge, oldlessons, reallessons, discounttype, number) {
+        var realcharge = 0;
+        if (discounttype = 1)//折扣：报名课时/总课时 * 原来的报名费用*折扣率
+        {
+            realcharge = reallessons / oldlessons * oldcharge * number
+        }
+        else {//减免方式 报名课时/总课时 * 原来的报名费用 - 折扣金额
+            realcharge = reallessons / oldlessons * oldcharge - number
+        }
+        return realcharge;
+    }
+    //编辑项，填写报名课时
+    function editCol(value, row, index, key) {
+        return [
+             '<input type="text" value="" class="input-sm form-control" style="width:50px" name="txtks">'
+        ].join('');
+
+    }
+    //编辑项，当自定义优惠时允许修改优惠金额
+    function editDiscount(value, row, index, key) {
+        return [
+             '<input name="discountText" type="text" value="0" class="input-sm form-control" style="width:80px" disabled="disabled">'
+        ].join('');
+
+    }
+    //编辑项，下拉选择优惠
+    function dropdownCol(value, row, index, key) {
+        return [
+           '<select data-placeholder="选择优惠..." id = "discountSelect' + row.ID + '"  class="discountSelect form-control input-sm" style="width:100%;" ><option value="">请选择</option></select>'
+        ].join('');
+    }
+    //选择报名列表
+    function checkCol(value, row, index) {
+        return [
+            '<div class="checkbox i-checks" name="chkDiscount" data-did="' + row.ID + '"><label><input type="checkbox" value=""> <i></i> </label></div>'
+        ]
     }
 
 </script>
