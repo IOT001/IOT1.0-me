@@ -110,16 +110,46 @@
         $("form").submit();
     }
 
-    $('#This_Week').click(function This_Week() {
-        var now = new Date();
-        var nowTime = now.getTime();
-        var day = now.getDay();
-        var oneDayLong = 24 * 60 * 60 * 1000;
-        // var date = new Date(now.getTime() - 7 * 24 * 3600 * 1000).Format("yyyy-MM-dd");
 
-        var MondayTime = new Date(nowTime - (day - 1) * oneDayLong);
-        var SundayTime = new Date(nowTime + (7 - day) * oneDayLong);
+ 
+
+
+    //function getDates(currentTime) {//JS获取当前周从星期一到星期天的日期
+    //    var currentDate = new Date(currentTime)
+    //    var timesStamp = currentDate.getTime();
+    //    var currenDay = currentDate.getDay();
+    //    var dates = [];
+    //    for (var i = 0; i < 7; i++) {
+    //        dates.push(new Date(timesStamp + 24 * 60 * 60 * 1000 * (i - (currenDay + 6) % 7)).toLocaleDateString().replace(/\//g, '-'));
+    //    }
+    //    return dates
+    //}
+
+
+    $('#This_Week').click(function This_Week() {
+
+        var now = new Date();//获取当前时间
+        var day = now.getDay();//获取当前天数
+
+        ///这个是因为星期天就获取的有问题，会获取下一个星期的
+        //var nowTime = now.getTime();
+        //var oneDayLong = 24 * 60 * 60 * 1000; 
+        //var MondayTime = new Date(nowTime - (day - 1) * oneDayLong);
+        //var SundayTime = new Date(nowTime + (7 - day) * oneDayLong);
+
+          
+        var millisecond = 1000 * 60 * 60 * 24;
+        //减去的天数    
+        var minusDay = day != 0 ? day - 1 : 6; 
+        //本周 周一    
+        var MondayTime = new Date(now.getTime() - (minusDay * millisecond));
+        //本周 周日    
+        var SundayTime = new Date(MondayTime.getTime() + (6 * millisecond));
+
          
+
+
+
         var monday = (new Date(MondayTime)).Format("yyyy-MM-dd");//星期一
         var sunday = (new Date(SundayTime)).Format("yyyy-MM-dd");//星期天
 

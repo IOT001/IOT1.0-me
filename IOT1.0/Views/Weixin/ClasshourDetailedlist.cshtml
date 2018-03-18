@@ -59,68 +59,43 @@
 
 
 <script type="text/javascript" >
-    //$(function () {
-    //    var first = document.getElementById('first');
-    //    if (first.value == 1) {
-    //        first.value = 2;
-    //    var now = new Date();
-    //    var nowTime = now.getTime();
-    //    var day = now.getDay();
-    //    var oneDayLong = 24 * 60 * 60 * 1000;
-    //   // var date = new Date(now.getTime() - 7 * 24 * 3600 * 1000).Format("yyyy-MM-dd");
+   
 
-    //    var MondayTime = new Date(nowTime - (day - 1) * oneDayLong);
-    //    var SundayTime = new Date(nowTime + (7 - day) * oneDayLong);
+    $('#This_Week').click(function This_Week() {
 
-    //    var MondayTimeText = document.getElementById('MondayTime_Text');
-       
+        var now = new Date();//获取当前时间
+        var day = now.getDay();//获取当前天数
 
-    //    MondayTimeText.value = new Date(MondayTime.setDate(0)).Format("yyyy-MM-dd");
-       
-    //    var SundayTimeText = document.getElementById('SundayTime_Text');
-    //    SundayTimeText.value = new Date(SundayTime.setDate(6)).Format("yyyy-MM-dd");
-
-    //    //var now = new Date();
-    //    //var nowTime = now.getTime();
-    //    //var day = now.getDay();
-    //    //var oneDayTime = 24 * 60 * 60 * 1000;
-
-    //    ////显示周一
-    //    //var MondayTime = nowTime - (day - 1) * oneDayTime;
-
-    //    ////显示周日
-
-    //    //var SundayTime = nowTime + (7 - day) * oneDayTime;
+        ///这个是因为星期天就获取的有问题，会获取下一个星期的
+        //var nowTime = now.getTime();
+        //var oneDayLong = 24 * 60 * 60 * 1000; 
+        //var MondayTime = new Date(nowTime - (day - 1) * oneDayLong);
+        //var SundayTime = new Date(nowTime + (7 - day) * oneDayLong);
 
 
-    //    ////初始化日期时间
-    //    //var monday = new Date(MondayTime).Format("yyyy-MM-dd");
+        var millisecond = 1000 * 60 * 60 * 24;
+        //减去的天数    
+        var minusDay = day != 0 ? day - 1 : 6;
+        //本周 周一    
+        var MondayTime = new Date(now.getTime() - (minusDay * millisecond));
+        //本周 周日    
+        var SundayTime = new Date(MondayTime.getTime() + (6 * millisecond));
 
-    //    //var sunday = new Date(SundayTime).Format("yyyy-MM-dd");
 
-    //    }
 
-    //})
 
-    $('#This_Week').click(function This_Week() { 
-        var now = new Date();
-        var nowTime = now.getTime();
-        var day = now.getDay();
-        var oneDayLong = 24 * 60 * 60 * 1000;
-        // var date = new Date(now.getTime() - 7 * 24 * 3600 * 1000).Format("yyyy-MM-dd");
 
-        var MondayTime = new Date(nowTime - (day - 1) * oneDayLong);
-        var SundayTime = new Date(nowTime + (7 - day) * oneDayLong);
+        var monday = (new Date(MondayTime)).Format("yyyy-MM-dd");//星期一
+        var sunday = (new Date(SundayTime)).Format("yyyy-MM-dd");//星期天
 
         var MondayTimeText = document.getElementById('search_timeStart');
 
 
-        MondayTimeText.value = new Date(MondayTime.setDate(0)).Format("yyyy-MM-dd");
+        MondayTimeText.value = monday;
 
         var SundayTimeText = document.getElementById('search_timeEnd');
-        SundayTimeText.value = new Date(SundayTime.setDate(6)).Format("yyyy-MM-dd");
+        SundayTimeText.value = sunday;
     })
-
 
     $('#Next_Week').click(function Next_Week() {
     
