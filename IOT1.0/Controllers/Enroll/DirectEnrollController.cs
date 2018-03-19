@@ -70,7 +70,7 @@ namespace IOT1._0.Controllers.Enroll
                 }
                 else
                 {
-                   
+                    StudentData.BindStudentforAP(studid,obj.ID);
                     ajax.msg = "您已经是正式学员！";
                 }
                 vw_Appointment vw_Appointment = StudentData.Getvw_AppointmentList(obj.ApTel, obj.ApName);
@@ -79,6 +79,43 @@ namespace IOT1._0.Controllers.Enroll
             }
             return Json(ajax);
         }
+
+
+
+
+
+        /// <summary>
+        /// 修改预约单,根据填写的姓名和手机号码查询是否已经存在相应的(Students表)学生信息
+        /// </summary>
+        /// <returns></returns>
+        public JsonResult UpdateDirect()
+        {
+            AjaxStatusModel ajax = new AjaxStatusModel();//功能操作类的返回类型都是AjaxStatusModel，数据放到AjaxStatusModel.data中，前台获取json后加载
+            ajax.status = EnumAjaxStatus.Error;//默认失败
+            ajax.msg = "新增失败！";//前台获取，用于显示提示信息
+            var data = Request["data"];//获取前台传递的数据，主要序列化
+            if (string.IsNullOrEmpty(data))
+            {
+                return Json(ajax);
+            }
+            Appointment obj = (Appointment)(JsonConvert.DeserializeObject(data.ToString(), typeof(Appointment)));
+
+            obj.UpdateTime = DateTime.Now;
+            obj.UpdatorId= UserSession.userid;
+
+            if (AppointmentData.Update(obj))//注意时间类型
+            {
+                ajax.msg = "保存成功！";
+                ajax.status = EnumAjaxStatus.Success;
+               
+            }
+            return Json(ajax);
+        }
+
+
+
+
+
 
 
     }
