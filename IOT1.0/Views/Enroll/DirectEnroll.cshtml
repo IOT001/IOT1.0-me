@@ -360,8 +360,8 @@
                 layer.msg(json.msg);//弹出服务器返回的消息
 
                 
-                if (_AppointmentID) {//如果是修改，那不做任何操作。有ID就是修改模式，没有就是新增模式
-                    $("#Name").val(ApName);//赋值姓名
+                if (_AppointmentID) {//如果是修改，那不做任何操作。有ID就是修改模式，没有就是新增模式 
+                    $("#Name").val($("#ApName").val().trim());//赋值姓名
                     $("#BindPhone").val($("#ApTel").val().trim());//赋值电话号码
                 }
                 else{ 
@@ -418,11 +418,14 @@
 
 
 
-
+    var StudentID = "";
 
     //保存或者新增
     function saveStudents() {
         var obj = new Object;
+        if (StudentID) {//有ID就是修改模式，没有就是新增模式
+            obj.ID = StudentID;
+        }
       
         obj.Name = $("#Name").val().trim();
         if (!obj.Name) {
@@ -472,7 +475,7 @@
 
 
         var action = '';
-        if (id) {//有ID就是修改模式，没有就是新增模式
+        if (StudentID) {//有ID就是修改模式，没有就是新增模式
             action = '@Url.Action("SaveStudent", "Student")';
         }
         else { action = '@Url.Action("AddStudent", "Student")' }
@@ -482,11 +485,19 @@
             "apid": _apid
         }, function (json) {
             if (json.status == 200) {//成功
-                layer.close(loadindex);//关闭遮罩
                 layer.msg(json.msg);//弹出服务器返回的消息 
-                setTimeout(function () {//操作
-                    baoming(json.data.ID, json.data.ApStudentID, json.data.ApStateID); 
-                }, 3000);
+                layer.close(loadindex);//关闭遮罩
+
+                if (StudentID) {
+
+                } else {
+                    StudentID = json.data.ApStudentID; 
+                    setTimeout(function () {//操作
+                        baoming(json.data.ID, json.data.ApStudentID, json.data.ApStateID);
+                    }, 3000);
+                }
+
+              
             }
             else {
                 layer.msg(json.msg);//弹出服务器返回的消息
