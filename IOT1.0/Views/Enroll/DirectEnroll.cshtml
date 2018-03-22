@@ -50,7 +50,7 @@
                         <div class="col-sm-12" style="text-align:center">
                  <button type="button" id="Direct_save"  onclick="saveDirect()" class="btn btn-w-m btn-primary btn-sm">保&nbsp;&nbsp;&nbsp;&nbsp;存 </button>
  
-                           
+                          
                         </div>
                     </div>
                 </form>
@@ -212,18 +212,16 @@
 
              <div class="form-group">
 
-                  <label class="col-sm-4 control-label">课程名称：</label>
-                  <div class="col-sm-8"> 
+                  <label class="col-sm-2 control-label">课程名称：</label>
+                  <div class="col-sm-2"> 
                 <input type="text" class="form-control input-sm" id="CourseName2">&nbsp;
               </div>
-                  </div>
-
-             <div class="form-group">
-                 <div class="col-sm-3">
+                  <div class="col-sm-2"> </div>
+                 <div class="col-sm-2">
                   <label class="control-label">开班时间：</label>
                    </div>
 
-                <div class="input-daterange input-group col-sm-9" id="datepicker">
+                <div class="input-daterange input-group col-sm-4" id="datepicker">
                     <input type="text" class="input-sm form-control" name="start" value="" id="StartTime_start2">
                     <span class="input-group-addon">到</span>
                     <input type="text" class="input-sm form-control" name="end" value="" id="StartTime_end2">
@@ -232,8 +230,9 @@
           
                 
 
-
-
+            
+              <div class="form-group">
+                    </div>
 
               <div class="form-group">
                   <div class="col-sm-4">&nbsp;  </div>
@@ -258,7 +257,7 @@
                             
                         <div    style="float:right">
                          
-                            <button type="button"     onclick="baoming_SAVA()" class="btn btn-w-m btn-primary btn-sm">保&nbsp;&nbsp;&nbsp;&nbsp;存</button>
+                            <button type="button"     onclick="baoming_SAVA()" class="btn btn-w-m btn-primary btn-sm">结&nbsp;&nbsp;&nbsp;&nbsp;算</button>
  
 
                         </div>
@@ -314,7 +313,7 @@
 <script type="text/javascript">
      
   
-  
+
     var _apid = "";//全局的，不然取不到值
     var _AppointmentID = "";
     //新增预约
@@ -668,7 +667,8 @@
                     if (json.status == 200) {
                         layer.msg(json.msg);
                         setTimeout(function () {
-                            window.location.reload(); //刷新
+                            //window.location.reload(); //刷新
+                            window.close();//直接关闭
                         }, 3000);
                         layer.close(loadindex);//关闭遮罩
                     }

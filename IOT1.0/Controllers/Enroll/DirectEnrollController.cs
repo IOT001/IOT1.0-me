@@ -73,7 +73,7 @@ namespace IOT1._0.Controllers.Enroll
                     StudentData.BindStudentforAP(studid,obj.ID);
                     ajax.msg = "您已经是正式学员！";
                 }
-                vw_Appointment vw_Appointment = StudentData.Getvw_AppointmentList(obj.ApTel, obj.ApName);
+                vw_Appointment vw_Appointment = StudentData.Getvw_AppointmentList(obj.ID);
                 ajax.data = vw_Appointment;//因为不是学员的话要取到相应的预约单号,直接根据是否已经有相应的学号来判断是否是学员
 
             }

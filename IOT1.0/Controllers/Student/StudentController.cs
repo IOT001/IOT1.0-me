@@ -223,7 +223,7 @@ namespace IOT1._0.Controllers.Teach
                     StudentData.BindStudentforAP(stuid, apid);
                     ajax.msg = "绑定成功！";
                 }
-                vw_Appointment vw_Appointment = StudentData.Getvw_AppointmentList(Stu.BindPhone, Stu.Name);//查询预约单相应的信息
+                vw_Appointment vw_Appointment = StudentData.Getvw_AppointmentList(apid);//查询预约单相应的信息
                 ajax.data = vw_Appointment;//让前台的直报功能能获取到值
                 ajax.status = EnumAjaxStatus.Success;
             }
