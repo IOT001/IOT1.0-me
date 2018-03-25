@@ -461,6 +461,7 @@
         obj.Address = $("#Address").val().trim();
         obj.Wechart = $("#Wechart").val().trim();
         obj.SourceID = $("#SourceID").val().trim();
+        obj.ComCode = $("#search_ComCode").val().trim();;
         if (!obj.SourceID) {
             layer.msg("请选择来源渠道！");
             return false;
