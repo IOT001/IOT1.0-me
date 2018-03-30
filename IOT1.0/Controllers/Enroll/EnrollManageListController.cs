@@ -6,6 +6,7 @@ using IOT1._0.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -147,6 +148,23 @@ namespace IOT1._0.Controllers.Enroll
             }
             return Json(ajax);
         }
+
+
+
+        /// <summary>
+        /// 导出到Excel的操作
+        /// </summary>
+        /// <param name="json"></param>
+
+        public void ExportToExcel(string Name, string BindPhone, string timeStart, string timeEnd, string ComCode, string Large, string Small)
+        {
+
+            DataTable datasource = EnrollData.DPExportToExcel(Name, BindPhone, timeStart, timeEnd, ComCode, Large, Small);
+            ERP.Models.MyNPOIModel.ExportByWeb(datasource, "报名管理", "报名管理" + ".xls");
+
+        }
+
+
 
 
     }

@@ -51,7 +51,19 @@
                         </div>
                         
 
+                             <div class="form-group">
+                            <div class="col-sm-2">
+                                <label class="control-label">剩余课时大于：</label>
+                            </div>
 
+                            <div class="col-sm-3">
+                                @Html.TextBoxFor(t => t.search.Large, new { @class = "form-control input-sm", @type = "text", @placeholder = "请输入剩余课时", @id = "Large" })
+                            </div>
+                            <label class="col-sm-2 control-label">剩余课时小于：</label>
+                            <div class="col-sm-3">
+                                @Html.TextBoxFor(t => t.search.Small, new { @class = "form-control input-sm", @type = "text", @placeholder = "请输入剩余课时", @id = "Small" })
+                            </div>
+                        </div>
 
                   
                         
@@ -60,7 +72,7 @@
 
                             <div class="col-sm-12 project-actions">
                                 <button type="submit" class="btn btn-w-m btn-primary btn-sm">查&nbsp;&nbsp;&nbsp;&nbsp;询</button>
-
+                                   <button type="button" id="Export" onclick="ExportToExcel()" class="btn btn-w-m btn-primary btn-sm">导&nbsp;&nbsp;&nbsp;&nbsp;出</button>
                             </div>
                         </div>
                     }
@@ -137,7 +149,7 @@
                                     else
                                     {
                                         <tr>
-                                            <td colspan="10" style="text-align: center; color: red;">未查询到数据,请更换查询条件试试!</td>
+                                            <td colspan="13" style="text-align: center; color: red;">未查询到数据,请更换查询条件试试!</td>
                                         </tr>
                                     }
                                 </tbody>
@@ -216,6 +228,9 @@
         </form>
     </div>
 </div>                     
+
+
+<script src="~/Scripts/base.js"></script>
 <script type="text/javascript">
     $(document).ready(function () {
         $('#AdjustNum').bind('input', function () {//给文本框绑定input事件
@@ -403,6 +418,27 @@
 
     }
 
+
+
+
+    function ExportToExcel() {
+
+        var btn = $("#Export");//找按钮
+        btn.button("loading");// 替换成loading
+        var Name = $("#Name").val();
+        var BindPhone = $("#BindPhone").val();
+        var ComCode = $("#search_ComCode").val();
+        var timeStart = $("#search_timeStart").val();
+        var timeEnd = $("#search_timeEnd").val();
+        var Large = $("#Large").val();
+        var Small = $("#Small").val();
+
+    
+
+        window.location = SiteRoot + "Enroll/ExportToExcel?Name=" + Name + "&BindPhone=" + BindPhone + "&timeStart=" + timeStart + "&timeEnd=" + timeEnd + "&ComCode=" + ComCode + "&Large=" + Large + "&Small=" + Small;
+        alert("正在导出，请耐心等待一段时间，请点击确定继续......")
+        btn.button("reset");//重置初始状态
+    }
 
 
 
