@@ -5,6 +5,9 @@ using DataProvider.Paging;
 using DataProvider.SqlServer;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -171,7 +174,7 @@ namespace DataProvider.Data
             {
                 sb.AppendFormat(" and (Name like '%{0}%' or studentid like '%{0}%')", search.Name);
             }
-            if (!string.IsNullOrWhiteSpace(search.BindPhone))//正式学员的姓名
+            if (!string.IsNullOrWhiteSpace(search.BindPhone))//手机号码
             {
                 sb.AppendFormat(" and BindPhone like '%{0}%' ", search.BindPhone);
             }
@@ -189,7 +192,32 @@ namespace DataProvider.Data
 
 
             if (!string.IsNullOrWhiteSpace(search.ComCode))//校区
+            {
                 sb.AppendFormat(" and ComCode = '{0}' ", search.ComCode);
+            }
+
+
+            if (!string.IsNullOrWhiteSpace(search.Large))//剩余课时大于
+            {
+                sb.AppendFormat(" and RemainClassHour >= '{0}' ", search.Large);
+
+
+            }
+            if (!string.IsNullOrWhiteSpace(search.Small))//剩余课时小于
+            {
+                sb.AppendFormat(" and RemainClassHour <= '{0}' ", search.Small);
+
+            }
+
+            if (!string.IsNullOrWhiteSpace(search.timeStart))//开班时间
+            {
+                sb.AppendFormat(" and CreateTime >= '{0}' ", search.timeStart);  
+            }
+
+            if (!string.IsNullOrWhiteSpace(search.timeEnd)) //结束时间
+            {
+                sb.AppendFormat(" and CreateTime <= '{0}' ", search.timeEnd); 
+            }
 
             where = sb.ToString();
 
@@ -503,6 +531,82 @@ namespace DataProvider.Data
                 throw new Exception(ex.Message);
             }
         }
+
+
+
+
+
+        /// <summary>
+        /// 导出到Excel表格
+        /// </summary>
+        /// <returns></returns>
+        public static DataTable DPExportToExcel(string Name, string BindPhone, string timeStart, string timeEnd, string ComCode, string Large, string Small)
+        {
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["PrxConnectionString"].ToString()))//创建连接字符串，因为连接的库不同
+                {
+                    string sql = "";
+                    sql = " SELECT CompName as '校区名称',CreateTime as '报名日期',Name as '学员姓名',StudentID as '学号',BindPhone as '学员电话',ClassName as '报名班级',ClassID as '班级编号',ClassHour as '报名课时',UsedHour as '消耗课时',RemainClassHour as '剩余课时',Paid as '报名费用',StateName as '状态' FROM [vw_Enroll] where 1=1";
+
+
+                    if (!string.IsNullOrWhiteSpace(Name))//正式学员的姓名或学号
+                    {
+                        sql += " and (Name like '" + Name + "' or studentid like  '" + Name + "')"; 
+                    }
+
+                    if (!string.IsNullOrWhiteSpace(BindPhone))//联系电话
+                    {
+                        sql += " and BindPhone like  '" + BindPhone + "'";
+                    }
+
+                    if (!string.IsNullOrWhiteSpace(timeStart))//开班时间
+                    {
+                        sql += "and CreateTime >=  '" + timeStart + "'";
+                    }
+
+                    if (!string.IsNullOrWhiteSpace(timeEnd)) //结束时间
+                    {
+                        sql += "and CreateTime <=  '" + timeEnd + "'";
+                    }
+
+                    if (!string.IsNullOrWhiteSpace(Large))//剩余课时大于
+                    {
+                        sql += "and RemainClassHour >=  '" + Large + "'";  
+
+                    }
+
+                    if (!string.IsNullOrWhiteSpace(Small))//剩余课时小于
+                    {
+                        sql += "and RemainClassHour <=  '" + Small + "'"; 
+                    }
+
+
+
+
+                    sql += "  order by ID desc ";
+
+
+                    using (SqlDataAdapter da = new SqlDataAdapter(sql, conn))
+                    {
+                        DataTable dt = new DataTable();
+                        da.Fill(dt);
+                        return dt;
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message + "转换的过程中发生了错误!");
+            }
+        }
+
+
+
+
+
+
 
 
     }

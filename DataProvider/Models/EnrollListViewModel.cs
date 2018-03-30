@@ -122,6 +122,18 @@ namespace DataProvider.Models
        /// 资源表状态值
        /// </summary>
        public int? ApStateID { get; set; }
+
+
+
+       /// <summary>
+       /// 剩余课时大于
+       /// </summary>
+       public string Large { set; get; }
+
+       /// <summary>
+       /// 剩余课时小于
+       /// </summary>
+       public string Small { set; get; }
    }
 
 }
