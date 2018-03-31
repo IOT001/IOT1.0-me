@@ -540,7 +540,7 @@ namespace DataProvider.Data
         /// 导出到Excel表格
         /// </summary>
         /// <returns></returns>
-        public static DataTable DPExportToExcel(string Name, string BindPhone, string timeStart, string timeEnd, string ComCode, string Large, string Small)
+        public static DataTable DPExportToExcel(string Name, string BindPhone, string timeStart, string timeEnd, string ComCode, string Large, string Small, string islesson)
         {
             try
             {
@@ -550,14 +550,26 @@ namespace DataProvider.Data
                     sql = " SELECT CompName as '校区名称',CreateTime as '报名日期',Name as '学员姓名',StudentID as '学号',BindPhone as '学员电话',ClassName as '报名班级',ClassID as '班级编号',ClassHour as '报名课时',UsedHour as '消耗课时',RemainClassHour as '剩余课时',Paid as '报名费用',StateName as '状态' FROM [vw_Enroll] where 1=1";
 
 
+                    if (!string.IsNullOrWhiteSpace(islesson))//正式学员的姓名
+                    {
+                        if (islesson == "1")//试听
+                        {
+                            sql += " and TeachTypeID = 1";  
+                        }
+                        else
+                        {
+                            sql += " and TeachTypeID > 1  ";  
+                        }
+                    }
+
                     if (!string.IsNullOrWhiteSpace(Name))//正式学员的姓名或学号
                     {
-                        sql += " and (Name like '" + Name + "' or studentid like  '" + Name + "')"; 
+                        sql += " and (Name like '%" + Name + "%' or studentid like  '%" + Name + "%')"; 
                     }
 
                     if (!string.IsNullOrWhiteSpace(BindPhone))//联系电话
                     {
-                        sql += " and BindPhone like  '" + BindPhone + "'";
+                        sql += " and BindPhone like  '%" + BindPhone + "%'";
                     }
 
                     if (!string.IsNullOrWhiteSpace(timeStart))//开班时间
@@ -569,6 +581,13 @@ namespace DataProvider.Data
                     {
                         sql += "and CreateTime <=  '" + timeEnd + "'";
                     }
+
+
+                    if (!string.IsNullOrWhiteSpace(ComCode))//校区
+                    {
+                        sql += "and ComCode =  '" + ComCode + "'";  
+                    }
+
 
                     if (!string.IsNullOrWhiteSpace(Large))//剩余课时大于
                     {

@@ -2,6 +2,7 @@
 using DataProvider.Data;
 using DataProvider.Entities;
 using DataProvider.Models;
+using EBiWeb.Common;
 using IOT1._0.Models;
 using Newtonsoft.Json;
 using System;
@@ -151,18 +152,128 @@ namespace IOT1._0.Controllers.Enroll
 
 
 
+
         /// <summary>
         /// 导出到Excel的操作
         /// </summary>
         /// <param name="json"></param>
-
         public void ExportToExcel(string Name, string BindPhone, string timeStart, string timeEnd, string ComCode, string Large, string Small)
         {
 
-            DataTable datasource = EnrollData.DPExportToExcel(Name, BindPhone, timeStart, timeEnd, ComCode, Large, Small);
+            DataTable datasource = EnrollData.DPExportToExcel(Name, BindPhone, timeStart, timeEnd, ComCode, Large, Small,"0");
             ERP.Models.MyNPOIModel.ExportByWeb(datasource, "报名管理", "报名管理" + ".xls");
 
         }
+
+
+        /// <summary>
+        /// 导出到Excel的操作
+        /// </summary>
+        /// <param name="json"></param>
+        //public FileResult ExportToExcel(string Name, string BindPhone, string timeStart, string timeEnd, string ComCode, string Large, string Small)
+        //{
+        //    EnrollListSearchModel search = new EnrollListSearchModel();
+        //    //获取记录信息 
+        //    search.TotalPageCount = 1;
+        //    search.PageSize = int.MaxValue;//每页显示 
+        //    //传值
+        //    search.islesson = "0";
+        //    search.Name = Name;
+        //    search.BindPhone = BindPhone;
+        //    search.timeStart = timeStart;
+        //    search.timeEnd = timeEnd;
+        //    search.ComCode = ComCode;
+        //    search.Large = Large;
+        //    search.Small = Small;
+
+        //    var retdata = EnrollData.GeEnrollList(search);
+        //    //初始化需要导出字段
+        
+        //    List<ExportFieldInfo> fieldInfo = new List<ExportFieldInfo>();
+        //    fieldInfo.Add(new ExportFieldInfo()
+        //    {
+        //        FieldName = "CompName",
+        //        DisplayName = "校区名称",
+        //        DataType = DataTypeEnum.String
+        //    });
+        //    fieldInfo.Add(new ExportFieldInfo()
+        //    {
+        //        FieldName = "CreateTime",
+        //        DisplayName = "报名日期",
+        //        DataType = DataTypeEnum.String
+        //    });
+        //    fieldInfo.Add(new ExportFieldInfo()
+        //    {
+        //        FieldName = "Name",
+        //        DisplayName = "学员姓名",
+        //        DataType = DataTypeEnum.String
+        //    });
+        //    fieldInfo.Add(new ExportFieldInfo()
+        //    {
+        //        FieldName = "StudentID",
+        //        DisplayName = "学号",
+        //        DataType = DataTypeEnum.String
+        //    });
+        //    fieldInfo.Add(new ExportFieldInfo()
+        //    {
+        //        FieldName = "BindPhone",
+        //        DisplayName = "学员电话",
+        //        DataType = DataTypeEnum.String
+        //    });
+        //    fieldInfo.Add(new ExportFieldInfo()
+        //    {
+        //        FieldName = "ClassName",
+        //        DisplayName = "报名班级",
+        //        DataType = DataTypeEnum.String
+        //    });
+
+        //    fieldInfo.Add(new ExportFieldInfo()
+        //    {
+        //        FieldName = "ClassID",
+        //        DisplayName = "班级编号",
+        //        DataType = DataTypeEnum.String
+        //    });
+
+        //    fieldInfo.Add(new ExportFieldInfo()
+        //    {
+        //        FieldName = "ClassHour",
+        //        DisplayName = "报名课时",
+        //        DataType = DataTypeEnum.String
+        //    });
+
+        //    fieldInfo.Add(new ExportFieldInfo()
+        //    {
+        //        FieldName = "UsedHour",
+        //        DisplayName = "消耗课时",
+        //        DataType = DataTypeEnum.String
+        //    });
+
+        //    fieldInfo.Add(new ExportFieldInfo()
+        //    {
+        //        FieldName = "RemainClassHour",
+        //        DisplayName = "剩余课时",
+        //        DataType = DataTypeEnum.String
+        //    });
+
+
+        //    fieldInfo.Add(new ExportFieldInfo()
+        //    {
+        //        FieldName = "Paid",
+        //        DisplayName = "报名费用",
+        //        DataType = DataTypeEnum.String
+        //    });
+
+        //    fieldInfo.Add(new ExportFieldInfo()
+        //    {
+        //        FieldName = "StateName",
+        //        DisplayName = "状态",
+        //        DataType = DataTypeEnum.String
+        //    });
+
+        //    return File(ExcelHelper<vw_Enroll>.ToExcel(retdata, fieldInfo), "application/vnd.ms -excel", "报名管理.xls");
+        //}
+
+
 
 
 
