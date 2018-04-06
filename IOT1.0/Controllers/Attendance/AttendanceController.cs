@@ -176,6 +176,17 @@ namespace IOT1._0.Controllers.Attendance
             List<AttendanceRecord> cls = (List<AttendanceRecord>)(JsonConvert.DeserializeObject(data.ToString(), typeof(List<AttendanceRecord>)));
 
             cls = cls.Where(t => t !=null && t.AttendanceTypeID != 1).ToList();
+            if (cls.Count() > 0)
+            {
+                string _classid = cls.FirstOrDefault().ClassID;
+                int _classindex = cls.FirstOrDefault().ClassIndex;
+                ClassList cl = ClassListData.GetOneByid(_classid, _classindex);
+                if (cl.ClassDate.Date > DateTime.Now.Date)
+                {
+                    ajax.msg = "你要处理的考勤时间还未发生！";
+                    return Json(ajax);
+                }
+            }
             if (AttendaceData.saveStudentAttendance(cls,UserSession.userid))
             {
                 ajax.status = EnumAjaxStatus.Success;

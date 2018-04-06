@@ -351,7 +351,7 @@ namespace DataProvider.Data
                     upen.UpPrice = upprice;
 
                     db.Insert(upen);
-
+                    
                     FundsFlow fl = new FundsFlow();//资金流水
                     fl.TypeID = 4;//类型为升班
                     fl.Amount = upprice;
@@ -363,6 +363,10 @@ namespace DataProvider.Data
                     Classes ca = db.GetById<Classes>(oldclassid);
                     ca.StateID = 4;//原来班级状态
                     db.Update(ca); 
+
+                    //原课时清零
+                    en.UsedHour = en.ClassHour;
+                    db.Update(en); 
                 }
                 ret = true;
                 db.Commit();

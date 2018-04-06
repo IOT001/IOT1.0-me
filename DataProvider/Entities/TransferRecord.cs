@@ -57,6 +57,10 @@ namespace DataProvider.Entities
         /// 转换类型中文
         /// </summary>
         public string TypeName { get; set; }
+        /// <summary>
+        /// 班次号
+        /// </summary>
+        public int ClassIndex { get; set; }
     }
 
    /// <summary>

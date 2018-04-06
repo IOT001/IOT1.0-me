@@ -77,68 +77,22 @@ namespace DataProvider.Data
                             ar.StudentID = ao.UserID;
                             ar.ClassID = cl.ClassID;
                             ar.ClassIndex = cl.ClassIndex;
-                            ar.ClockTime = ao.workDates;
-                            ar.AttendanceTypeID = 2;//正常
-                            ar.AttendanceWayID = 2;//设备考勤
+                            ar.ClockTime = null;
+                            ar.AttendanceTypeID = 1;//未考勤
+                            ar.AttendanceWayID = null;
                             ar.CreateTime = DateTime.Now;
                             ar.CreatorId = operatorid;
-                            
-
-                            string stren = "select * from Enroll where StudentID = '" + ao.UserID + "' and ClassID = '" + cl.ClassID + "'";
-                            Enroll en = db.Query<Enroll>(stren).FirstOrDefault();// 找到报名记录
-                            if (en == null)
-                            {
-                                ao.Recognise = "无效";
-                                ao.Remark = "没有报名记录";
-                                ao.RecogniseTime = DateTime.Now;
-                                db.Update(ao);
-                                throw new Exception("没有报名记录");
-                            }
-                            else//扣掉学时
-                            {
-                                //-----添加课时变化日志记录 begin
-                                TransferRecord tr = new TransferRecord();//添加课时变化日志记录
-                                tr.StudentID = en.StudentID;
-                                tr.BeforeHours = en.ClassHour - en.UsedHour;
-                                tr.AfterHours = en.ClassHour - en.UsedHour - 1;
-                                tr.TypeID = 4;//考勤机自动识别
-                                tr.CreateTime = DateTime.Now;
-                                tr.CreatorId = operatorid;
-                                tr.ENID = en.ID;
-                                tr.ClassID = en.ClassID;
-                                db.Insert(tr);
-                                //-----添加课时变化日志记录 end
-
-                                en.UsedHour = en.UsedHour + 1;
-                                en.UpdateTime = DateTime.Now;
-                                en.UpdatorId = operatorid;
-                                db.Update(en);
-                                if (cl.StateID < 3)//班级状态如果没上课，设置成上课
-                                {
-                                    cl.StateID = 3;
-                                    db.Update(cl);
-                                }
-                                ao.Recognise = "有效";
-                                ao.Remark = "新增考勤记录，识别成功,当前剩余课时：" + (en.ClassHour -en.UsedHour).ToString();
-                                ao.Classid = cl.ClassID;
-                                ao.ClassIndex = cl.ClassIndex;
-                                ao.RecogniseTime = DateTime.Now;
-                                db.Update(ao);
-                            }
-                            ar.Remark = ao.Remark;
-                            db.Insert(ar);
+                            int arid =  db.Insert(ar);
+                            ar = db.GetById<AttendanceRecord>(arid);
                         }
-                        else
-                        {
-                            if (ar.ClockTime == null)//没考勤过
+
+                            if (ar.AttendanceTypeID == 1)//还没考勤过
                             {
                                 ar.ClockTime = ao.workDates;
                                 ar.AttendanceTypeID = 2;//正常
                                 ar.AttendanceWayID = 2;//设备考勤
                                 ar.UpdateTime = DateTime.Now;
                                 ar.UpdatorId = operatorid;
-     
-
                                 string stren = "select * from Enroll where StudentID = '" + ao.UserID + "' and ClassID = '" + cl.ClassID + "'";
                                 Enroll en = db.Query<Enroll>(stren).FirstOrDefault();// 找到报名记录
                                 if (en == null)
@@ -147,7 +101,8 @@ namespace DataProvider.Data
                                     ao.Remark = "没有报名记录";
                                     ao.RecogniseTime = DateTime.Now;
                                     db.Update(ao);
-                                    throw new Exception("没有报名记录");
+                                    return;
+                                    //throw new Exception("没有报名记录");
                                 }
                                 else//扣掉学时
                                 {
@@ -161,6 +116,7 @@ namespace DataProvider.Data
                                     tr.CreatorId = operatorid;
                                     tr.ENID = en.ID;
                                     tr.ClassID = en.ClassID;
+                                    tr.ClassIndex = ar.ClassIndex;
                                     db.Insert(tr);
                                     //-----添加课时变化日志记录 end
 
@@ -191,7 +147,7 @@ namespace DataProvider.Data
                                 ao.ClassIndex = cl.ClassIndex;
                                 db.Update(ao);
                             }
-                        }
+
                     }
                     else//没找到对应的班次
                     {
