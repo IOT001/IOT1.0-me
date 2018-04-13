@@ -144,6 +144,7 @@
     <Compile Include="Data\ClasshourDetailedlistData.cs" />
     <Compile Include="Data\RefundInfoData.cs" />
     <Compile Include="Data\TimeData.cs" />
+    <Compile Include="Data\TeachAttendanceOriginalData.cs" />
     <Compile Include="DPBase.cs" />
     <Compile Include="Entities\Appointment.cs" />
     <Compile Include="Entities\AttendanceOriginal.cs" />
@@ -234,6 +235,7 @@
     <Compile Include="Models\WX_ClasshourDetailedlistModel.cs" />
     <Compile Include="Models\RefundInfoModel.cs" />
     <Compile Include="Models\DictionaryItemViewModel.cs" />
+    <Compile Include="Models\TeachAttendanceOriginalListViewModel.cs" />
     <Compile Include="NERP.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
