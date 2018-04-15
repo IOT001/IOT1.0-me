@@ -263,6 +263,7 @@
     <Content Include="Images\perCenter\topimg.jpg" />
     <Content Include="Images\qllogo.jpg" />
     <Content Include="Images\uploadify-cancel.png" />
+    <Content Include="Images\seal.png" />
     <Content Include="Login - 复制.html" />
     <Content Include="Pages\Admin\Account.html" />
     <Content Include="Pages\Admin\assets\css\animate.css" />
