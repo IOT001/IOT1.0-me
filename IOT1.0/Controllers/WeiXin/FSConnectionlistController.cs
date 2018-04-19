@@ -30,11 +30,31 @@ namespace IOT1._0.Controllers.WeiXin
 
 
 
+
             DateTime dt = DateTime.Now;  //当前时间  
 
-            //本周
-            DateTime startWeek = dt.AddDays(1 - Convert.ToInt32(dt.DayOfWeek.ToString("d")));  //本周周一  
-            DateTime endWeek = startWeek.AddDays(6);  //本周周日  
+            //本周,以星期天为第一天
+            //DateTime startWeek = dt.AddDays(1 - Convert.ToInt32(dt.DayOfWeek.ToString("d")));  //本周周一  
+            //DateTime endWeek = startWeek.AddDays(6);  //本周周日  
+
+
+            int weeknow = Convert.ToInt32(dt.DayOfWeek);
+
+            //因为是以星期一为第一天，所以要判断weeknow等于0时，要向前推6天。  
+            weeknow = (weeknow == 0 ? (7 - 1) : (weeknow - 1));
+            int daydiff = (-1) * weeknow;
+
+            //本周第一天  
+            DateTime startWeek = dt.AddDays(daydiff);
+
+            //星期天为最后一天  
+            int weeknow1 = Convert.ToInt32(dt.DayOfWeek);
+            weeknow1 = (weeknow1 == 0 ? 7 : weeknow1);
+            int daydiff1 = (7 - weeknow1);
+
+            //本周最后一天  
+            DateTime endWeek = dt.AddDays(daydiff1);
+             
 
             if (search.timeStart == null)
             {

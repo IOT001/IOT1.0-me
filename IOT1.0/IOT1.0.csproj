@@ -178,6 +178,7 @@
     </Compile>
     <Compile Include="Controllers\Office\ReimbursetListController.cs" />
     <Compile Include="Controllers\Office\FileManageController.cs" />
+    <Compile Include="Controllers\Teach\TeachAttendanceOriginalController.cs" />
     <Compile Include="Controllers\Teach\TimeController.cs" />
     <Compile Include="Controllers\WeiXin\EnrollAuditController.cs" />
     <Compile Include="Controllers\WeiXin\IndexController.cs" />
@@ -262,6 +263,7 @@
     <Content Include="Images\perCenter\topimg.jpg" />
     <Content Include="Images\qllogo.jpg" />
     <Content Include="Images\uploadify-cancel.png" />
+    <Content Include="Images\seal.png" />
     <Content Include="Login - 复制.html" />
     <Content Include="Pages\Admin\Account.html" />
     <Content Include="Pages\Admin\assets\css\animate.css" />
@@ -4844,6 +4846,7 @@
     <Content Include="Views\Weixin\Password_Update.cshtml" />
     <Content Include="Views\Teach\TimeList.cshtml" />
     <Content Include="Views\Enroll\DirectEnroll.cshtml" />
+    <Content Include="Views\Teach\TeachAttendanceOriginal.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

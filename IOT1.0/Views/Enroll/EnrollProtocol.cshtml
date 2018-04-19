@@ -53,7 +53,7 @@
             <div class="page page2">
                 <div class="header">
                     <div class="logo"><img src="~/Images/qllogo.jpg" style="width:130px" /></div>
-                    <h1>学员入学协议</h1>
+                    <h1>学员入学报名表</h1>
                 </div>
                 <div class="row">
                     <div class="col-sm-12">
@@ -220,19 +220,20 @@
                 </div>
                 @if (Model.si != null)
                 {
-                    <div class="sign" style="width:45%;float:left">学员家长签字：<img style="width:300px;width:150px" src="@Model.si.ImageData"></div>
+                    <div class="sign" style="width:45%;float:left"><span>学员家长签字：</span><span style="height:150px;width:210px"><img style="height:100px;width:200px;margin:25px 0px" src="@Model.si.ImageData"></span></div>
                 }
                 else
                 {
-                    <div class="sign" style="width:45%;float:left">学员家长签字：<span onclick="signname(0)">___________________</span></div>
+                    <div class="sign" style="width:45%;float:left"><span>学员家长签字：</span><span onclick="signname(0)">___________________</span></div>
                 }
                 @if (Model.si_jbr != null)
                 {
-                    <div class="sign" style="width:45%;float:left">校区经办人签字：<img style="width:300px;width:150px" src="@Model.si_jbr.ImageData"></div>
+                    <div class="sign" style="width:45%;float:left"><span>校区经办人签字：</span><img src="~/Images/seal.png" style="height: 150px; width: 150px" /></div>
                 }
                 else
                 {
-                    <div class="sign" style="width:45%;float:left">校区经办人签字：<span onclick="signname(1)">___________________</span></div>
+                    <div class="sign" style="width:45%;float:left"><span>校区经办人签字：</span><img src="~/Images/seal.png" style="height: 150px; width: 150px" /></div>
+                        
                 }
                 <div class="footer">2/2</div>
             </div>
