@@ -62,6 +62,12 @@ namespace DataProvider
         public Nullable<System.DateTime> DeleteTime { get; set; }
         public string Remark { get; set; }
         public int StateID { get; set; }
+
+        /// <summary>
+        /// 收款记录，用逗号隔开，1现金，2pos，3微信，4支付宝，5扣卡
+        /// </summary>
+        public string CollectionRec { get; set; }
+
         public string ApprovedBy { get; set; }
         public Nullable<System.DateTime> ApprovedTime { get; set; }
         public string ApprovedRemark { get; set; }

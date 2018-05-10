@@ -628,5 +628,63 @@ namespace DataProvider.Data
 
 
 
+
+
+
+
+        /// <summary>
+        /// 调整报名课时
+        /// </summary>
+        /// <param name="enid"></param>
+        /// <returns></returns>
+        public static bool AjustmentEnroll(string ENID, int ClassHour, decimal Price, string userid)
+        {
+       
+            DBRepository db = new DBRepository(DBKeys.PRX);
+            try
+            {
+                db.BeginTransaction();
+                Enroll en = db.GetById<Enroll>(ENID);
+                if (en == null)
+                {
+                    return false;
+                }
+                 
+
+                FundsFlow fundsflow = new FundsFlow();//添加日志记录
+                fundsflow.TypeID=5;
+                fundsflow.Amount = ClassHour;
+                fundsflow.KeyID=ENID;
+                fundsflow.CreatorId=userid;
+                fundsflow.CreateTime = DateTime.Now;
+                fundsflow.StateID = 0;
+
+                 db.Insert(fundsflow);
+
+
+                en.Price = Price;//金额
+                en.ClassHour = ClassHour;//课时
+                en.UpdateTime = DateTime.Now;
+                en.UpdatorId = userid;
+
+                db.Update(en);
+
+                db.Commit();
+                db.Dispose();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                db.Rollback();
+                db.Dispose();
+                throw new Exception(ex.Message);
+            }
+        }
+
+
+
+
+
+
     }
 }

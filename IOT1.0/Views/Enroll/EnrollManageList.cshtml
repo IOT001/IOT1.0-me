@@ -120,13 +120,19 @@
                                         {
                                         
 
-                                            <a href="@Url.Action("RefundInfo", "Enroll", new { id = @m.ID, typeID = 1 })" target="view_window" class="btn btn-primary btn-xs " type="button" ><i class="fa fa-edit"></i>申请退款</a>
-                                             <a href="javascript:tiaozheng('@m.ID','@m.Name','@(m.ClassHour - m.UsedHour)');" class="btn btn-primary btn-xs" type="button"><i class="fa fa-edit"></i>调整</a>
+                                            <a href="@Url.Action("RefundInfo", "Enroll", new { id = @m.ID, typeID = 1 })" target="view_window" class="btn btn-primary btn-xs " type="button" ><i class="fa fa-edit"></i>申请退款</a> 
+                                                <a href="javascript:tiaozheng('@m.ID','@m.Name','@(m.ClassHour - m.UsedHour)');" class="btn btn-primary btn-xs" type="button"><i class="fa fa-edit"></i>调整</a>
                                          
+                                            
+                                            
+                                     <a href="javascript:tiaozhengClassHour('@m.ID','@m.Name','@m.ClassHour','@m.Price');" class="btn btn-primary btn-xs" type="button"><i class="fa fa-edit"></i>调整报名课时</a>
                                         }
                                         else
                                         {
                                           <a href="javascript:tiaozheng('@m.ID','@m.Name','@(m.ClassHour - m.UsedHour)');" class="btn btn-primary btn-xs" type="button"><i class="fa fa-edit"></i>调整</a> 
+                                            
+                                            
+                                             <a href="javascript:tiaozhengClassHour('@m.ID','@m.Name','@m.ClassHour','@m.Price');" class="btn btn-primary btn-xs" type="button"><i class="fa fa-edit"></i>调整报名课时</a>
                                         }
 
 
@@ -230,6 +236,77 @@
 </div>                     
 
 
+
+
+
+
+@*弹出层，调整课时*@
+<div class="ibox float-e-margins" id="tiaozhengClassHour" style="display:none">
+    <div class="ibox-content">
+        <form class="form-horizontal">
+            <div class="form-group ">
+                <label class="col-xs-3 control-label">学员姓名：</label>
+                <div class="col-xs-9">
+                    <input type="text" placeholder="姓名" class="form-control input-sm" disabled="disabled" id="Primary_StudentName">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-xs-3 control-label">原学员报名课时：</label>
+                <div class="col-xs-3">
+                    <input type="text" class="form-control input-sm" disabled="disabled" id="Primary_Hour">
+                </div>
+
+
+                 <label class="col-xs-3 control-label">费用：</label>
+                <div class="col-xs-3">
+                    <input type="text" class="form-control input-sm" disabled="disabled" id="Primary_Price">
+                </div>
+
+            </div>
+
+
+
+               <div class="form-group">
+                <label class="col-xs-3 control-label">本次调整课时数：</label>
+                <div class="col-xs-3">
+                    <input type="text" class="form-control input-sm"   id="This_AdjustNum" placeholder="正数增加课时，负数减少课时，只能输入整数！">
+                </div>
+
+
+                 <label class="col-xs-3 control-label">费用：</label>
+                <div class="col-xs-3">
+                    <input type="text" class="form-control input-sm"    id="This_Price">
+                </div> 
+            </div>
+
+
+            <div class="form-group">
+                <label class="col-xs-3 control-label">调整后报名课时：</label>
+                <div class="col-xs-3">
+                    <input type="text" class="form-control input-sm" disabled="disabled" id="Adjustment_ClassHour">
+                </div>
+
+
+                 <label class="col-xs-3 control-label">费用：</label>
+                <div class="col-xs-3">
+                    <input type="text" class="form-control input-sm" disabled="disabled" id="Adjustment_Price">
+                </div>
+
+            </div>
+           
+             
+
+        </form>
+    </div>
+</div>                 
+
+ 
+
+
+
+
+
 <script src="~/Scripts/base.js"></script>
 <script type="text/javascript">
     $(document).ready(function () {
@@ -292,6 +369,8 @@
     });
     //调整课时
     function tiaozheng(ENID, StudentName, LeftHour) {
+       
+
         $('#StudentName').val(StudentName);
         $('#LeftHour').val(LeftHour);
 
@@ -441,5 +520,100 @@
     }
 
 
+
+
+
+
+
+
+    //调整报名课时
+    function tiaozhengClassHour(ENID, StudentName, ClassHour, Price) {
+        cleanData("tiaozhengClassHour");
+        $('#Primary_StudentName').val(StudentName);
+        $('#Primary_Hour').val(ClassHour);
+        $('#Primary_Price').val(Price);
+         
+
+        layer.open({
+            type: 1,
+            title: "<h3 class=''>调整报名课时</h3>",
+            area: ['600px', '370px'],
+            content: $('#tiaozhengClassHour'),
+            btn: ['调整报名课时', '取消'],
+            yes: function () {
+                Ajustment(ENID) 
+            }, 
+            cancel: function (index, layero) {  
+                layer.close(index);
+               
+            }
+
+        });
+
+    }
+
+
+
+
+
+
+    //保存剩余课时调整
+    function Ajustment(ENID) {
+        var ClassHour = $('#This_AdjustNum').val();
+        if (!ClassHour) {
+            layer.msg("请输入本次调整课时数！");
+            return false;
+        }
+         
+        var Price = $('#This_Price').val();
+        if (!Price) {
+            layer.msg("请输入本次调整费用！");
+            return false;
+        }
+       
+
+        var action = '@Url.Action("Ajustment", "Enroll")';
+        $.post(action, {
+            "ENID": ENID,
+            "ClassHour": $('#Adjustment_ClassHour').val(),
+            "Price": $('#Adjustment_Price').val()
+        }, function (json) {
+            if (json.status == 200) {//成功
+
+                layer.msg(json.msg);//弹出服务器返回的消息
+                setTimeout(function () {//操作
+                    layer.closeAll();//关闭所有层
+                    window.location.reload(); //刷新
+                }, 3000);
+            }
+        }, 'json');
+    }
+
+
+
+
+
+
+    //新报名课时
+    $('#This_AdjustNum').change(function () {
+        var Primary_Hour = $('#Primary_Hour').val();
+        var ThisHour = $('#This_AdjustNum').val();
+       
+
+        $('#Adjustment_ClassHour').val(Number(ThisHour) + Number(Primary_Hour));
+    });
+
+
+  
+    //新报名金额
+    $('#This_Price').change(function () {
+        var Primary_Price = $('#Primary_Price').val();
+        var This_Price = $('#This_Price').val();
+
+
+        $('#Adjustment_Price').val(Number(This_Price) + Number(Primary_Price));
+    });
+
+     
 
 </script>

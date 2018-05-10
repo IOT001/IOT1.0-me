@@ -166,114 +166,33 @@ namespace IOT1._0.Controllers.Enroll
         }
 
 
+
+
+
         /// <summary>
-        /// 导出到Excel的操作
+        /// 调整报名课时
         /// </summary>
         /// <param name="json"></param>
-        //public FileResult ExportToExcel(string Name, string BindPhone, string timeStart, string timeEnd, string ComCode, string Large, string Small)
-        //{
-        //    EnrollListSearchModel search = new EnrollListSearchModel();
-        //    //获取记录信息 
-        //    search.TotalPageCount = 1;
-        //    search.PageSize = int.MaxValue;//每页显示 
-        //    //传值
-        //    search.islesson = "0";
-        //    search.Name = Name;
-        //    search.BindPhone = BindPhone;
-        //    search.timeStart = timeStart;
-        //    search.timeEnd = timeEnd;
-        //    search.ComCode = ComCode;
-        //    search.Large = Large;
-        //    search.Small = Small;
+        /// <returns></returns>
+        public JsonResult Ajustment()
+        {
+            AjaxStatusModel ajax = new AjaxStatusModel();//功能操作类的返回类型都是AjaxStatusModel，数据放到AjaxStatusModel.data中，前台获取json后加载
+            ajax.status = EnumAjaxStatus.Error;//默认失败
 
-        //    var retdata = EnrollData.GeEnrollList(search);
-        //    //初始化需要导出字段
-        
-        //    List<ExportFieldInfo> fieldInfo = new List<ExportFieldInfo>();
-        //    fieldInfo.Add(new ExportFieldInfo()
-        //    {
-        //        FieldName = "CompName",
-        //        DisplayName = "校区名称",
-        //        DataType = DataTypeEnum.String
-        //    });
-        //    fieldInfo.Add(new ExportFieldInfo()
-        //    {
-        //        FieldName = "CreateTime",
-        //        DisplayName = "报名日期",
-        //        DataType = DataTypeEnum.String
-        //    });
-        //    fieldInfo.Add(new ExportFieldInfo()
-        //    {
-        //        FieldName = "Name",
-        //        DisplayName = "学员姓名",
-        //        DataType = DataTypeEnum.String
-        //    });
-        //    fieldInfo.Add(new ExportFieldInfo()
-        //    {
-        //        FieldName = "StudentID",
-        //        DisplayName = "学号",
-        //        DataType = DataTypeEnum.String
-        //    });
-        //    fieldInfo.Add(new ExportFieldInfo()
-        //    {
-        //        FieldName = "BindPhone",
-        //        DisplayName = "学员电话",
-        //        DataType = DataTypeEnum.String
-        //    });
-        //    fieldInfo.Add(new ExportFieldInfo()
-        //    {
-        //        FieldName = "ClassName",
-        //        DisplayName = "报名班级",
-        //        DataType = DataTypeEnum.String
-        //    });
+            ajax.msg = "调整报名课时失败！";//前台获取，用于显示提示信息
+            var data = Request["data"];//获取前台传递的数据，主要序列化
 
-        //    fieldInfo.Add(new ExportFieldInfo()
-        //    {
-        //        FieldName = "ClassID",
-        //        DisplayName = "班级编号",
-        //        DataType = DataTypeEnum.String
-        //    });
+            string ENID = Request["ENID"];//报名ID
+            int ClassHour = int.Parse(Request["ClassHour"].ToString());//调整课时数
+            decimal Price = decimal.Parse(Request["Price"].ToString());//调整金额
 
-        //    fieldInfo.Add(new ExportFieldInfo()
-        //    {
-        //        FieldName = "ClassHour",
-        //        DisplayName = "报名课时",
-        //        DataType = DataTypeEnum.String
-        //    });
-
-        //    fieldInfo.Add(new ExportFieldInfo()
-        //    {
-        //        FieldName = "UsedHour",
-        //        DisplayName = "消耗课时",
-        //        DataType = DataTypeEnum.String
-        //    });
-
-        //    fieldInfo.Add(new ExportFieldInfo()
-        //    {
-        //        FieldName = "RemainClassHour",
-        //        DisplayName = "剩余课时",
-        //        DataType = DataTypeEnum.String
-        //    });
-
-
-        //    fieldInfo.Add(new ExportFieldInfo()
-        //    {
-        //        FieldName = "Paid",
-        //        DisplayName = "报名费用",
-        //        DataType = DataTypeEnum.String
-        //    });
-
-        //    fieldInfo.Add(new ExportFieldInfo()
-        //    {
-        //        FieldName = "StateName",
-        //        DisplayName = "状态",
-        //        DataType = DataTypeEnum.String
-        //    });
-
-        //    return File(ExcelHelper<vw_Enroll>.ToExcel(retdata, fieldInfo), "application/vnd.ms -excel", "报名管理.xls");
-        //}
-
-
+            if (EnrollData.AjustmentEnroll(ENID, ClassHour, Price, UserSession.userid))//注意时间类型，而且需要在前台把所有的值
+            {
+                ajax.msg = "调整报名课时成功！";
+                ajax.status = EnumAjaxStatus.Success;
+            }
+            return Json(ajax);
+        }
 
 
 
