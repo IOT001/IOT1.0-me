@@ -180,8 +180,6 @@ namespace IOT1._0.Controllers.Enroll
             ajax.status = EnumAjaxStatus.Error;//默认失败
 
             ajax.msg = "调整报名课时失败！";//前台获取，用于显示提示信息
-            var data = Request["data"];//获取前台传递的数据，主要序列化
-
             string ENID = Request["ENID"];//报名ID
             int ClassHour = int.Parse(Request["ClassHour"].ToString());//调整课时数
             decimal Price = decimal.Parse(Request["Price"].ToString());//调整金额

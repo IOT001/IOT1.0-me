@@ -575,8 +575,8 @@
         var action = '@Url.Action("Ajustment", "Enroll")';
         $.post(action, {
             "ENID": ENID,
-            "ClassHour": $('#Adjustment_ClassHour').val(),
-            "Price": $('#Adjustment_Price').val()
+            "ClassHour": $('#This_AdjustNum').val(),
+            "Price": $('#This_Price').val()
         }, function (json) {
             if (json.status == 200) {//成功
 

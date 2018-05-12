@@ -649,25 +649,36 @@ namespace DataProvider.Data
                 {
                     return false;
                 }
-                 
+                //增加调整课时日志
+                TransferRecord tr = new TransferRecord();//添加日志记录
+                tr.StudentID = en.StudentID;
+                tr.BeforeHours = en.ClassHour - en.UsedHour;
+                tr.AfterHours = en.ClassHour - en.UsedHour + +decimal.Parse(ClassHour.ToString());
+                tr.TypeID = 8;//调整报名课时
+                tr.CreateTime = DateTime.Now;
+                tr.CreatorId = userid;
+                tr.ENID = en.ID;
+                tr.ClassID = en.ClassID;
+                db.Insert(tr);
 
+                //增加资金日志
                 FundsFlow fundsflow = new FundsFlow();//添加日志记录
                 fundsflow.TypeID=5;
-                fundsflow.Amount = ClassHour;
+                fundsflow.Amount = Price;
                 fundsflow.KeyID=ENID;
                 fundsflow.CreatorId=userid;
                 fundsflow.CreateTime = DateTime.Now;
                 fundsflow.StateID = 0;
+                db.Insert(fundsflow);
 
-                 db.Insert(fundsflow);
-
-
-                en.Price = Price;//金额
-                en.ClassHour = ClassHour;//课时
+                //增加报名费用
+                en.Price =en.Price + Price;//金额
+                en.Paid = en.Paid + Price;
+                en.ClassHour =en.ClassHour + ClassHour;//课时
                 en.UpdateTime = DateTime.Now;
                 en.UpdatorId = userid;
-
                 db.Update(en);
+
 
                 db.Commit();
                 db.Dispose();
