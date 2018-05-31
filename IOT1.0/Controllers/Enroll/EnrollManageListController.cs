@@ -34,6 +34,11 @@ namespace IOT1._0.Controllers.Enroll
             model.search.ComCodeIL = CommonData.Instance.GetBropDownListData(ComCodeIL);
 
 
+            //学员状态下拉项
+            List<CommonEntity> StudentSourceIL = CommonData.GetDictionaryList(19);//1是字典类型值,仅供测试参考
+            model.search.StudentSourceIL = CommonData.Instance.GetBropDownListData(StudentSourceIL);
+
+
             model.EnrollManagelist = EnrollData.GeEnrollList(search);//填充页面模型数据
             return View(model);//返回页面模型
         }

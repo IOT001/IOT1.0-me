@@ -219,6 +219,11 @@ namespace DataProvider.Data
                 sb.AppendFormat(" and CreateTime <= '{0}' ", search.timeEnd); 
             }
 
+
+            if (!string.IsNullOrWhiteSpace(search.StudentDicItemID))//学员状态
+            {
+                sb.AppendFormat(" and  StateID = '{0}' ", search.StudentDicItemID);
+            }
             where = sb.ToString();
 
             int allcount = 0;
