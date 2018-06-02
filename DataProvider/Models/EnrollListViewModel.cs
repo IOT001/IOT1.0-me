@@ -51,6 +51,10 @@ namespace DataProvider.Models
        public Appointment ap { get; set; }
 
 
+
+
+      
+
     }
 
    public class EnrollListSearchModel : CommonPageEntity
@@ -134,6 +138,18 @@ namespace DataProvider.Models
        /// 剩余课时小于
        /// </summary>
        public string Small { set; get; }
+
+
+       /// <summary>
+       ///学员状态下拉框  
+       /// </summary>
+       public List<SelectListItem> StudentSourceIL { get; set; }
+       /// <summary>
+       /// 学员下拉框按钮的选中值
+       /// </summary>
+       public string StudentDicItemID { set; get; }
+
+
    }
 
 }

@@ -138,7 +138,7 @@
                                         
                                         <td>
                                             <a href="javascript:modify(@m.ID);" class="btn btn-primary btn-xs" type="button"><i class="fa fa-edit"></i> 编辑</a>
-                                            @if (@m.StateID == "3" )
+                                    @*        @if (@m.StateID == "3" )
                                             {
                                                 <a href="javascript:Recovery(@m.ID);" class="btn btn-primary btn-xs" type="button"><i class="fa fa-edit"></i> 恢复</a>
                                             }
@@ -146,7 +146,7 @@
                                              @if (@m.StateID == "1"  || @m.StateID == "2")
                                             {
                                                <a href="javascript:Frozen(@m.ID);" class="btn btn-primary btn-xs" type="button"><i class="fa fa-edit"></i> 冻结</a>
-                                             } 
+                                             } *@
                                             
                                                <a href="javascript:DELETE(@m.ID);" class="btn btn-primary btn-xs" type="button"><i class="fa fa-edit"></i> 删除</a>
                                            
