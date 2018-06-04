@@ -54,7 +54,7 @@ namespace IOT1._0.Controllers.Teach
 
 
 
-            model.TeacherComCode = UserSession.comcode;//获取Session存储的当前校区
+            model.TeacherComCode = UserSession.comcode;//获取Session存储的当前校区,为了判断前台下拉框绑定的条件的
 
 
             model.Teacherslist = TeacherData.GetTeachersList(search);//填充页面模型数据
