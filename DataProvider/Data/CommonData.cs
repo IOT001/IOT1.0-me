@@ -139,6 +139,33 @@ namespace DataProvider.Data
         }
         #endregion
 
+
+        #region 根据登录人获取分校，值是1或者null查询全部，否则只查询当前校区信息
+        /// <summary>
+        /// 获取分校字典列表
+        /// </summary>
+        /// <param name="dicTypeID"></param>
+        /// <returns>用于分校下拉的绑定项目</returns>
+        public static List<CommonEntity> Get_SYS_Company_COMP_Code(string COMP_Code)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append(" select COMP_Code as ID,COMP_Name as name from SYS_Company ");
+            if (string.IsNullOrEmpty(COMP_Code) || COMP_Code == "1")
+            {
+                sb.Append(" WHERE 1 = @COMP_Code");
+            }
+            else
+            {
+                sb.Append(" WHERE COMP_Code = @COMP_Code");
+            } 
+            var parameters = new DynamicParameters();
+         
+            parameters.Add("@COMP_Code", COMP_Code);
+            return MsSqlMapperHepler.SqlWithParams<CommonEntity>(sb.ToString(), parameters, DBKeys.PRX);
+
+        }
+        #endregion
+
         #region 获取班级字典信息
 
         /// <summary>

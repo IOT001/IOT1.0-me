@@ -48,7 +48,17 @@
                             </div>
 
                             <div class="col-sm-3">
-                                @Html.DropDownListFor(t => t.search.ComCode,Model.search.ComCodeIL1, new { @class = "input-sm form-control" ,@style = "width:100%;height:100%;", @tabindex = "4 "})
+                                @if (string.IsNullOrEmpty(Model.TeacherComCode) || Model.TeacherComCode == "1")
+                                {
+                                     @Html.DropDownListFor(t => t.search.ComCode,Model.search.ComCodeIL1, new { @class = "input-sm form-control" ,@style = "width:100%;height:100%;", @tabindex = "4 "})
+                                }
+                                else
+                                {
+                                      @Html.DropDownListFor(t => t.search.ComCode,Model.search.ComCodeIL1, new { @class = "input-sm form-control" ,@style = "width:100%;height:100%;", @tabindex = "4",@Enabled = "false"})
+                                }
+                              
+                                    
+                               
                             </div>
 
                             <div class="col-sm-2">

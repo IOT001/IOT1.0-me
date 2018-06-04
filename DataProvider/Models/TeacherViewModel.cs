@@ -32,6 +32,11 @@ namespace DataProvider.Models
         /// </summary>
         public List<SelectListItem> ComCodeIL { get; set; } 
 
+        /// <summary>
+        /// 存储当前用户分校值
+        /// </summary>
+        public string TeacherComCode { get; set; } 
+
     }
     public class TeacherSearchModel : CommonPageEntity
     {

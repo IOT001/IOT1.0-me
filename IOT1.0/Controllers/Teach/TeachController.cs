@@ -36,19 +36,26 @@ namespace IOT1._0.Controllers.Teach
             model.buttonIL = CommonData.Instance.GetBropDownListData(ButtonIL);
 
 
+            
+
 
             //分校下拉项
-            List<CommonEntity> ComCodeIL = CommonData.Get_SYS_Company_List();//分校
+            List<CommonEntity> ComCodeIL = CommonData.Get_SYS_Company_COMP_Code(UserSession.comcode);//分校
             model.ComCodeIL = CommonData.Instance.GetBropDownListData(ComCodeIL);
 
             //分校下拉项
-            List<CommonEntity> ComCodeIL1 = CommonData.Get_SYS_Company_List();//分校
+            List<CommonEntity> ComCodeIL1 = CommonData.Get_SYS_Company_COMP_Code(UserSession.comcode);//分校
             model.ComCodeIL = CommonData.Instance.GetBropDownListData(ComCodeIL);
             model.search.ComCodeIL1 = CommonData.Instance.GetBropDownListData(ComCodeIL);
 
             //多沟选框
             List<DataProvider.Data.CommonData.SYS_Role> SourceIL = CommonData.GetSYS_SystemRole_IS(0);
             ViewData["SYS_Role"] = SourceIL;
+
+
+
+            model.TeacherComCode = UserSession.comcode;//获取Session存储的当前校区
+
 
             model.Teacherslist = TeacherData.GetTeachersList(search);//填充页面模型数据
             return View(model);//返回页面模型
