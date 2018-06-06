@@ -35,11 +35,12 @@ namespace IOT1._0.Controllers.Enroll
 
 
             //学员状态下拉项
-            List<CommonEntity> StudentSourceIL = CommonData.GetDictionaryList(19);//1是字典类型值,仅供测试参考
+            List<CommonEntity> StudentSourceIL = CommonData.GetDictionary_StudentSource_List(19);//1是字典类型值,仅供测试参考
             model.search.StudentSourceIL = CommonData.Instance.GetBropDownListData(StudentSourceIL);
 
 
             model.TeacherComCode = UserSession.comcode;//获取Session存储的当前校区,为了判断前台下拉框绑定的条件的
+
 
             model.EnrollManagelist = EnrollData.GeEnrollList(search);//填充页面模型数据
             return View(model);//返回页面模型

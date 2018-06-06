@@ -37,6 +37,30 @@ namespace DataProvider.Data
         }
         #endregion
 
+
+
+        #region 获取字典列表
+        /// <summary>
+        /// 获取字典列表
+        /// </summary>
+        /// <param name="dicTypeID"></param>
+        /// <returns>因为学员状态有重新的名称，所以单独写一个下拉的绑定</returns>
+        public static List<CommonEntity> GetDictionary_StudentSource_List(int DicTypeID)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append("SELECT DicItemID id,DicItemName name");
+            sb.Append(" FROM DictionaryItem a WITH(NOLOCK)");
+            sb.Append(" INNER JOIN DictionaryType b WITH(NOLOCK) ON a.DicTypeID = b.DicTypeID");
+            sb.Append(" WHERE b.DicTypeID = @DicTypeID and a.recordState <> '2' AND  a.DicItemID < > 0  AND  a.DicItemID <> 1");
+            sb.Append(" ORDER BY Sort");
+            var parameters = new DynamicParameters();
+            parameters.Add("@DicTypeID", DicTypeID);
+            return MsSqlMapperHepler.SqlWithParams<CommonEntity>(sb.ToString(), parameters, DBKeys.PRX);
+        }
+        #endregion
+
+
+
         public List<SelectListItem> GetBropDownListData(List<CommonEntity> list)
         {
             return GetBropDownListData(list, true);

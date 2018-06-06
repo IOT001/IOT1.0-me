@@ -222,7 +222,15 @@ namespace DataProvider.Data
 
             if (!string.IsNullOrWhiteSpace(search.StudentDicItemID))//学员状态
             {
-                sb.AppendFormat(" and  StateID = '{0}' ", search.StudentDicItemID);
+                if (search.StudentDicItemID == "3")
+                {
+                    sb.AppendFormat(" and  StateID in (0,1,3) ");
+                }
+                else
+                {
+                    sb.AppendFormat(" and  StateID = '{0}' ", search.StudentDicItemID);
+                }
+               
             }
             where = sb.ToString();
 
