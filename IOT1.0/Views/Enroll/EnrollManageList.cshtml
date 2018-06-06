@@ -72,7 +72,7 @@
                            </div>
                                     <div class="col-sm-3"> 
                  
-                                            @Html.DropDownListFor(t => t.search.StudentDicItemID,Model.search.StudentSourceIL, new { @class = "form-control input-sm chosen-select", @style = "width:100%;height:100%;", @tabindex = "4 "}) 
+                                            @Html.DropDownListFor(t => t.search.StudentDicItemID,Model.search.StudentSourceIL, new { @class = "form-control input-sm chosen-select", @style = "width:100%;height:100%;", @tabindex = "4", @id = "StudentDicItemID"}) 
                                               
                             </div>
 
@@ -187,7 +187,8 @@
                                            { "timeStart",  Model.search.timeStart },
                                            { "timeEnd",  Model.search.timeEnd },
                                            { "Large",  Model.search.Large },
-                                           { "Small",  Model.search.Small }
+                                           { "Small",  Model.search.Small },
+                                           { "StudentDicItemID",  Model.search.StudentDicItemID }
                                        }, null)
                                     </div>
 
