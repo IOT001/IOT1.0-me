@@ -44,14 +44,13 @@ namespace IOT1._0.Controllers.Teach
 
             //分校下拉项
             List<CommonEntity> ComCodeIL = CommonData.Get_SYS_Company_COMP_Code(UserSession.comcode);//分校
-            model.ComCodeIL = CommonData.Instance.GetBropDownListData(ComCodeIL);
-            model.search.ComCodeIL = CommonData.Instance.GetBropDownListData(ComCodeIL);
+            model.ComCodeIL = CommonData.Instance.GetBropDownListData_Choice(ComCodeIL);
+            model.search.ComCodeIL = CommonData.Instance.GetBropDownListData_Choice(ComCodeIL);
 
 
  
 
-
-            model.TeacherComCode = UserSession.comcode;//获取Session存储的当前校区,为了判断前台下拉框绑定的条件的
+ 
 
             model.Studentlist = StudentData.GetStudentList(search);//填充页面模型数据
             return View(model);//返回页面模型

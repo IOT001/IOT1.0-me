@@ -24,8 +24,8 @@ namespace IOT1._0.Controllers.Enroll
             EnrollListViewModel model = new EnrollListViewModel();//页面模型 
             //分校下拉项
             List<CommonEntity> ComCodeIL = CommonData.Get_SYS_Company_COMP_Code(UserSession.comcode);//分校
-            model.ComCodeIL = CommonData.Instance.GetBropDownListData(ComCodeIL);
-            model.search.ComCodeIL = CommonData.Instance.GetBropDownListData(ComCodeIL);
+            model.ComCodeIL = CommonData.Instance.GetBropDownListData_Choice(ComCodeIL);
+            model.search.ComCodeIL = CommonData.Instance.GetBropDownListData_Choice(ComCodeIL);
 
 
             //来源渠道
@@ -33,7 +33,7 @@ namespace IOT1._0.Controllers.Enroll
             model.SourceIL = CommonData.Instance.GetBropDownListData(SourceIL);
 
 
-            model.TeacherComCode = UserSession.comcode;//获取Session存储的当前校区
+        
 
             return View(model);//返回页面模型
         }

@@ -30,14 +30,9 @@
                     <div class="form-group ">
                         <label class="col-sm-3 control-label ">所属分校 ：</label>
                         <div class="col-sm-8"> 
-                             @if (string.IsNullOrEmpty(Model.TeacherComCode) || Model.TeacherComCode == "1")
-                                {
+                             
                                 @Html.DropDownListFor(t => t.search.ComCode,Model.search.ComCodeIL, new { @class = "input-md form-control" ,@style = "width:100%;height:100%;", @tabindex = "4 "})
-                             }
-                             else
-                             {
-                                @Html.DropDownListFor(t => t.search.ComCode,Model.search.ComCodeIL, new { @class = "input-md form-control" ,@style = "width:100%;height:100%;", @tabindex = "4 "})
-                             }
+                            
                         </div>
                     </div>
                     <div class="form-group">

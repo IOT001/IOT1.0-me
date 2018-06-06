@@ -32,10 +32,7 @@ namespace DataProvider.Models
         /// </summary>
         public List<SelectListItem> ComCodeIL { get; set; } 
 
-        /// <summary>
-        /// 存储当前用户分校值,来判断前端页面的绑定条件
-        /// </summary>
-        public string TeacherComCode { get; set; } 
+  
 
     }
     public class TeacherSearchModel : CommonPageEntity

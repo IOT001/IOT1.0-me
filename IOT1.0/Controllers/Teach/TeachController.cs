@@ -40,13 +40,13 @@ namespace IOT1._0.Controllers.Teach
 
 
             //分校下拉项
-            List<CommonEntity> ComCodeIL = CommonData.Get_SYS_Company_COMP_Code(UserSession.comcode);//分校
+            List<CommonEntity> ComCodeIL = CommonData.Get_SYS_Company_List();//分校
             model.ComCodeIL = CommonData.Instance.GetBropDownListData(ComCodeIL);
 
             //分校下拉项
             List<CommonEntity> ComCodeIL1 = CommonData.Get_SYS_Company_COMP_Code(UserSession.comcode);//分校
-            model.ComCodeIL = CommonData.Instance.GetBropDownListData(ComCodeIL);
-            model.search.ComCodeIL1 = CommonData.Instance.GetBropDownListData(ComCodeIL);
+ 
+            model.search.ComCodeIL1 = CommonData.Instance.GetBropDownListData_Choice(ComCodeIL1);
 
             //多沟选框
             List<DataProvider.Data.CommonData.SYS_Role> SourceIL = CommonData.GetSYS_SystemRole_IS(0);
@@ -54,7 +54,7 @@ namespace IOT1._0.Controllers.Teach
 
 
 
-            model.TeacherComCode = UserSession.comcode;//获取Session存储的当前校区,为了判断前台下拉框绑定的条件的
+           
 
 
             model.Teacherslist = TeacherData.GetTeachersList(search);//填充页面模型数据
