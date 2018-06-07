@@ -181,13 +181,13 @@
                                         @Html.Pager(Model.EnrollManagelist, new PagerOptions(), "", new RouteValueDictionary {
                                            { "pageindex",  Model.search.CurrentPage },
                                            { "pagesize", ViewBag.PageSize },
-                                           { "Name",  Model.search.Name },
-                                           { "BindPhone",  Model.search.BindPhone },
-                                           { "ComCode",  Model.search.ComCode },
-                                           { "timeStart",  Model.search.timeStart },
-                                           { "timeEnd",  Model.search.timeEnd },
-                                           { "Large",  Model.search.Large },
-                                           { "Small",  Model.search.Small },
+                                           { "search.Name",  Model.search.Name },
+                                           { "search.BindPhone",  Model.search.BindPhone },
+                                           { "search.ComCode",  Model.search.ComCode },
+                                           { "search.timeStart",  Model.search.timeStart },
+                                           { "search.timeEnd",  Model.search.timeEnd },
+                                           { "search.Large",  Model.search.Large },
+                                           { "search.Small",  Model.search.Small },
                                            { "search.StudentDicItemID",  Model.search.StudentDicItemID }
                                        }, null)
                                     </div>

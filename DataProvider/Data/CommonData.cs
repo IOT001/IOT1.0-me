@@ -193,13 +193,15 @@ namespace DataProvider.Data
         public static List<CommonEntity> Get_SYS_Company_COMP_Code(string COMP_Code)
         {
             StringBuilder sb = new StringBuilder();
-            sb.Append(" select COMP_Code as ID,COMP_Name as name from SYS_Company ");
+           
             if (string.IsNullOrEmpty(COMP_Code) || COMP_Code == "1")
             {
-                sb.Append(" WHERE 1 = @COMP_Code");
+                sb.Append("SELECT '' AS ID,'--请选择--' AS name UNION ALL  select COMP_Code as ID,COMP_Name as name from SYS_Company ");
+                sb.Append(" WHERE 1 = 1 ");
             }
             else
             {
+                sb.Append("select COMP_Code as ID,COMP_Name as name from SYS_Company ");
                 sb.Append(" WHERE COMP_Code = @COMP_Code");
             } 
             var parameters = new DynamicParameters();

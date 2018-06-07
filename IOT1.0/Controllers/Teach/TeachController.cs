@@ -54,6 +54,11 @@ namespace IOT1._0.Controllers.Teach
 
 
 
+            if (search.ComCode == null)
+            {
+                search.ComCode = UserSession.comcode;//默认查询当前分校的人员
+            }
+
            
 
 

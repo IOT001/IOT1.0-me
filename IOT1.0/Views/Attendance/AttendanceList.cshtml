@@ -133,7 +133,7 @@
                             }
                             else
                             {
-                                @*<tr><td colspan="7" style="text-align:center; color:red;">未查询到数据,请更换查询条件试试!</td></tr>*@
+                                <tr><td colspan="12" style="text-align:center; color:red;">未查询到数据,请更换查询条件试试!</td></tr>
                             }
                         </tbody>
                         @*<tfoot>
@@ -155,10 +155,10 @@
                                 @Html.Pager(Model.buttonlist, new PagerOptions(), "", new RouteValueDictionary {
                                    { "pageindex",  Model.search.CurrentPage },
                                    { "pagesize", ViewBag.PageSize },
-                                   {"className",Model.search.className},
-                                   {"timeStart",Model.search.timeStart},
-                                   {"timeEnd",Model.search.timeEnd},
-                                   {"ComCode",Model.search.ComCode}
+                                   {"search.className",Model.search.className},
+                                   {"search.timeStart",Model.search.timeStart},
+                                   {"search.timeEnd",Model.search.timeEnd},
+                                   {"search.ComCode",Model.search.ComCode}
                                }, null)
                             </div>
 

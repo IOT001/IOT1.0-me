@@ -207,10 +207,14 @@
                                 @Html.Pager(Model.Classeslist, new PagerOptions(), "", new RouteValueDictionary {
                                    { "pageindex",  Model.search.CurrentPage },
                                    { "pagesize", ViewBag.PageSize },
-                                   { "ClassName",  Model.search.ClassName },
-                                   { "CourseID",  Model.search.CourseID },
-                                   { "TeacherID",  Model.search.TeacherID },
-                                   { "ComCode",  Model.search.ComCode }
+                                   { "search.ClassName",  Model.search.ClassName },
+                                   { "search.CourseID",  Model.search.CourseID },
+                                   { "search.StartTime_start",  Model.search.StartTime_start },
+                                   { "search.StartTime_end",  Model.search.StartTime_end },
+                                   { "search.EndTime_start",  Model.search.EndTime_start },
+                                   { "search.EndTime_end",  Model.search.EndTime_end },
+                                   { "search.TeacherID",  Model.search.TeacherID },
+                                   { "search.ComCode",  Model.search.ComCode }
                                }, null)
                             </div>
 

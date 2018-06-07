@@ -54,17 +54,9 @@
                             <div class="col-sm-2">
                                 <label class="control-label">所属分校：</label>
                             </div>
-                                    <div class="col-sm-3">
-                                      
-                                        
-                   
-                 
+                                    <div class="col-sm-3"> 
                                             @Html.DropDownListFor(t => t.search.ComCode,Model.search.ComCodeIL, new { @class = "form-control input-sm chosen-select", @style = "width:100%;height:100%;", @tabindex = "4 "})
-                               
-                                            
-                                             
-                                             
-                                             
+                                 
                             </div>
                 
 
@@ -169,10 +161,11 @@
                                 @Html.Pager(Model.Studentlist, new PagerOptions(), "", new RouteValueDictionary {
                                    { "pageindex",  Model.search.CurrentPage },
                                    { "pagesize", ViewBag.PageSize },
-                                   { "Name",  Model.search.Name },
-                                   { "CreateTime_start",  Model.search.CreateTime_start },
-                                   { "CreateTime_end",  Model.search.CreateTime_end },
-                                   { "ComCode",  Model.search.ComCode }
+                                   { "search.Name",  Model.search.Name },
+                                   { "search.CreateTime_start",  Model.search.CreateTime_start },
+                                   { "search.CreateTime_end",  Model.search.CreateTime_end },
+                                   { "search.ComCode",  Model.search.ComCode} ,
+                                   { "search.StudentDicItemID",  Model.search.StudentDicItemID }
                                }, null)
                             </div>
 

@@ -31,8 +31,12 @@ namespace IOT1._0.Controllers.Attendance
             model.ComCodeIL = CommonData.Instance.GetBropDownListData_Choice(ComCodeIL);
             model.search.ComCodeIL = CommonData.Instance.GetBropDownListData_Choice(ComCodeIL);
 
-             
 
+            if (search.ComCode ==null)
+            {
+                search.ComCode = UserSession.comcode;//默认查询当前分校的人员
+            }
+           
             model.buttonlist = AttendaceData.GetClassAttendanceList(search);
             return View(model);
         }

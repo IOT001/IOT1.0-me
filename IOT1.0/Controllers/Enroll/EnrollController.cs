@@ -44,8 +44,11 @@ namespace IOT1._0.Controllers.Enroll
             //资源表状态
             List<CommonEntity> ApStateIL = CommonData.GetDictionaryList(12);//状态
             model.search.ApStateIL = CommonData.Instance.GetBropDownListData(ApStateIL);
-             
 
+            if (search.ComCode == null)
+            {
+                search.ComCode = UserSession.comcode;//默认查询当前分校的人员
+            }
             model.AppointmentList = AppointmentData.GetAPList(search); //填充页面模型数据
             return View(model);//返回页面模型
         }

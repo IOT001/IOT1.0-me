@@ -166,13 +166,12 @@
                                 @Html.Pager(Model.AppointmentList, new PagerOptions(), "", new RouteValueDictionary {
                                    { "pageindex",  Model.search.CurrentPage },
                                    { "pagesize", ViewBag.PageSize },
-                                   { "ApName",  Model.search.ApName },
-                                   { "ApTel",  Model.search.ApTel },
-                                   { "ComCode",  Model.search.ComCode },
-                                   { "timeStart",  Model.search.timeStart },
-                                   { "timeEnd",  Model.search.timeEnd },
-                                   { "Large",  Model.search.Large },
-                                   { "Small",  Model.search.Small }
+                                   { "search.ApName",  Model.search.ApName },
+                                   { "search.ApTel",  Model.search.ApTel },
+                                   { "search.ComCode",  Model.search.ComCode },
+                                   { "search.timeStart",  Model.search.timeStart },
+                                   { "search.timeEnd",  Model.search.timeEnd },
+                                   { "search.ApStateID",  Model.search.ApStateID } 
                                }, null)
                             </div>
 

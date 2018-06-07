@@ -33,6 +33,7 @@ namespace IOT1._0.Controllers.Office
             List<CommonEntity> TeacherIDIL = CommonData.GetTeachersList();//1是字典类型值,仅供测试参考
             model.TeacherIDIL = CommonData.Instance.GetBropDownListData(TeacherIDIL);
 
+
             //分校下拉项
             List<CommonEntity> ComCodeIL = CommonData.Get_SYS_Company_COMP_Code(UserSession.comcode);//分校
             model.ComCodeIL = CommonData.Instance.GetBropDownListData_Choice(ComCodeIL);
@@ -54,7 +55,13 @@ namespace IOT1._0.Controllers.Office
                 search.CreatorId = UserSession.userid;
             }
 
-             
+
+
+            if (search.ComCode == null)
+            {
+                search.ComCode = UserSession.comcode;//默认查询当前分校的人员
+            }
+           
 
             model.Reimbursetlist = ReimburseData.GetReimburseList(search);//填充页面模型数据
             return View(model);//返回页面模型
