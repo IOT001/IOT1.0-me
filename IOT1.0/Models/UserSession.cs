@@ -61,7 +61,7 @@ namespace IOT1._0.Models
             {
                 if (HttpContext.Current.Session["comcode"] == null || HttpContext.Current.Session["userid"].ToString().Trim() == "")
                 {
-                    HttpContext.Current.Response.Redirect("~/Weixin/Login", true);
+                   // HttpContext.Current.Response.Redirect("~/Weixin/Login", true);
                     return null;
                 }
                 else
