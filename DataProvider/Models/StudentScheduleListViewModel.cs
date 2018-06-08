@@ -25,9 +25,10 @@ namespace DataProvider.Models
         /// <summary>
         ///下拉框  
         /// </summary>
-        public List<SelectListItem> AttendanceRecordIL { get; set; } 
+        public List<SelectListItem> AttendanceRecordIL { get; set; }
 
-        
+
+     
     }
     public class StudentScheduleSearchModel : CommonPageEntity
     {
@@ -66,5 +67,17 @@ namespace DataProvider.Models
         /// 学生学号
         /// </summary>
         public string StudentID { set; get; }
+
+
+        /// 所属分校下拉
+        /// </summary>
+        public List<SelectListItem> ComCodeIL { get; set; }
+        
+        /// <summary>
+        /// 所属分校的选中值
+        /// </summary>
+        public string ComCode { get; set; }
+
+
     }
 }

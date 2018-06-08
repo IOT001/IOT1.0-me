@@ -33,8 +33,16 @@ namespace DataProvider
         public string weekday { get; set; }
         public string CourseName { get; set; }
         public string TeachersName { get; set; }
-        public string JobContent { get; set; } 
-        
+        public string JobContent { get; set; }
+        /// <summary>
+        /// 分校ID
+        /// </summary>
+        public string ComCode { get; set; }
+
+        /// <summary>
+        /// 分校名称
+        /// </summary>
+        public string CompName { get; set; }
         
     }
 }

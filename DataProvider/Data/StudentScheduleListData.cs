@@ -44,6 +44,10 @@ namespace DataProvider.Data
 
            if (!string.IsNullOrWhiteSpace(search.StudentID))//vw_AttendanceRecord ID
                sb.AppendFormat(" and  StudentID ='{0}' ", search.StudentID);
+
+           if (!string.IsNullOrWhiteSpace(search.ComCode))//校区
+               sb.AppendFormat(" and [ComCode] = '{0}' ", search.ComCode);
+
            where = sb.ToString();
            int allcount = 0;
            var list = CommonPage<vw_AttendanceRecord>.GetPageList(
