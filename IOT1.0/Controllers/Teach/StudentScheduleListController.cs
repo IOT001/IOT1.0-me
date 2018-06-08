@@ -24,6 +24,16 @@ namespace IOT1._0.Controllers.Teach
             model.search.PageSize = 15;//每页显示
             model.search.CurrentPage = Convert.ToInt32(Request["pageindex"]) <= 0 ? 1 : Convert.ToInt32(Request["pageindex"]);//当前页
 
+
+            //分校下拉项
+            List<CommonEntity> ComCodeIL = CommonData.Get_SYS_Company_COMP_Code(UserSession.comcode);//分校
+            model.search.ComCodeIL = CommonData.Instance.GetBropDownListData_Choice(ComCodeIL);
+
+
+            if (search.ComCode == null)
+            {
+                search.ComCode = UserSession.comcode;//默认查询当前分校的人员
+            }
            
             model.AttendanceRecordlist = StudentScheduleListData.GetAttendanceRecordList(search);//填充页面模型数据
             return View(model);//返回页面模型
