@@ -8,6 +8,7 @@ using DataProvider.Data;
 using DataProvider.Entities;
 using DataProvider;
 using Newtonsoft.Json;
+using IOT1._0.Models;
 
 namespace IOT1._0.Controllers.Teach
 {
@@ -22,7 +23,19 @@ namespace IOT1._0.Controllers.Teach
             model.search = search;//页面的搜索模型
             model.search.PageSize = 15;//每页显示
             model.search.CurrentPage = Convert.ToInt32(Request["pageindex"]) <= 0 ? 1 : Convert.ToInt32(Request["pageindex"]);//当前页
-          
+
+            //分校下拉项
+            List<CommonEntity> ComCodeIL = CommonData.Get_SYS_Company_COMP_Code(UserSession.comcode);//分校
+            model.ComCodeIL = CommonData.Instance.GetBropDownListData_Choice(ComCodeIL);
+            model.search.ComCodeIL1 = CommonData.Instance.GetBropDownListData_Choice(ComCodeIL);
+
+
+
+            if (UserSession.comcode != null && UserSession.comcode != "1")
+            { 
+                search.ComCode = UserSession.comcode;//默认查询当前分校的人员 
+            }
+
 
             model.buttonlist = CourseData.GetButtonList(search);//填充页面模型数据
             return View(model);//返回页面模型

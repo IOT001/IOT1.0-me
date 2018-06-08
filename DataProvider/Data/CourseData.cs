@@ -19,25 +19,27 @@ namespace DataProvider.Data
         /// </summary>
         /// <param name="search"></param>
         /// <returns></returns>
-       public static PagedList<Course> GetButtonList(CurriculumSearchModel search)
+       public static PagedList<vw_Course> GetButtonList(CurriculumSearchModel search)
         {
             ///UPDATE TOP(1) [PRX].[dbo].[Course] SET [ID]='3', [CourseName]=N'绘画', [CoursePrice]='11.00', [StateID]='2', [Hours]='11', [Introduce]=N'没有介绍' WHERE ([ID]='3');
             string table = string.Empty, fields = string.Empty, orderby = string.Empty, where = string.Empty;//定义结构
-            fields = @"  *,dbo.getDicNameByID(17,StateID) as StateName, dbo.getDicNameByID(17,TypeID) as TypeName ";//输出字段
-            table = @" Course ";//表或者视图
+            fields = @"  * ";//输出字段
+            table = @" vw_Course ";//表或者视图
             orderby = "ID";//排序信息
             StringBuilder sb = new StringBuilder();//构建where条件
             sb.Append(" 1=1 ");
             if (!string.IsNullOrWhiteSpace(search.CourseName))//按钮中文名称
                 sb.AppendFormat(" and CourseName like '%{0}%' ", search.CourseName);
-            //if (!string.IsNullOrWhiteSpace(search.BTN_Name_En))//城市
-            //    sb.AppendFormat(" and BTN_Name_En like '%{0}%' ", search.BTN_Name_En);
+
+            if (!string.IsNullOrWhiteSpace(search.ComCode))//分校
+                sb.AppendFormat(" and ComCode = '{0}' ", search.ComCode);
+
             where = sb.ToString();
             int allcount = 0;
-            var list = CommonPage<Course>.GetPageList(
+            var list = CommonPage<vw_Course>.GetPageList(
     out allcount, table, fields: fields, where: where.Trim(),
     orderby: orderby, pageindex: search.CurrentPage, pagesize: search.PageSize, connect: DBKeys.PRX);
-            return new PagedList<Course>(list, search.CurrentPage, search.PageSize, allcount);
+            return new PagedList<vw_Course>(list, search.CurrentPage, search.PageSize, allcount);
         }
 
        public static Course getCourseById(int id)

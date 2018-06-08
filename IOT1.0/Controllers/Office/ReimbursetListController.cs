@@ -57,9 +57,11 @@ namespace IOT1._0.Controllers.Office
 
 
 
-            if (search.ComCode == null)
+            if (UserSession.comcode != null && UserSession.comcode != "1")
             {
+
                 search.ComCode = UserSession.comcode;//默认查询当前分校的人员
+
             }
            
 

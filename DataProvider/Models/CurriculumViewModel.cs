@@ -18,7 +18,13 @@ namespace DataProvider.Models
         /// <summary>
         /// 页面的列表数据
         /// </summary>
-        public PagedList<Course> buttonlist { get; set; }
+        public PagedList<vw_Course> buttonlist { get; set; }
+
+
+        /// 所属分校下拉
+        /// </summary>
+        public List<SelectListItem> ComCodeIL { get; set; }
+
     }
     public class CurriculumSearchModel : CommonPageEntity
     {
@@ -26,5 +32,17 @@ namespace DataProvider.Models
         ///课程名称 
         ///</summary>
         public string CourseName { set; get; }
+
+
+        /// <summary>
+        /// 所属分校下拉
+        /// </summary>
+        public List<SelectListItem> ComCodeIL1 { get; set; }
+
+        /// <summary>
+        /// 所属分校的选中值
+        /// </summary>
+        public string ComCode { get; set; }
+
     }
 }

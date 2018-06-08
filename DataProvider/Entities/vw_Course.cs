@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace DataProvider.Entities
 {
     //Course
-    public class Course
+    public class vw_Course
     {
 
         /// <summary>
@@ -82,24 +82,18 @@ namespace DataProvider.Entities
             set;
         }
 
-     
-
-    }
-    /// <summary>
-    /// Deploy：实体对象映射关系
-    /// </summary>
-    [Serializable]
-    public sealed class CourseORMMapper : ClassMapper<Course>
-    {
-        public CourseORMMapper()
+        /// 校区中文名称
+        /// </summary>
+        public string COMP_Name
         {
-            base.Table("Course");
-
-            //Map(f => f.IsJoin).Ignore();//设置忽略
-            Map(f => f.StateName).Ignore();//设置忽略
-            Map(f => f.TypeName).Ignore();//设置忽略
-            Map(f => f.ID).Key(KeyType.Identity);//设置主键  (如果主键名称不包含字母“ID”，请设置)      
-            AutoMap();
+            get;
+            set;
         }
+
+        
+
+
+
     }
+ 
 }

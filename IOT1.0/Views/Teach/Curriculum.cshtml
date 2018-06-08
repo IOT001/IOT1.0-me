@@ -24,6 +24,18 @@
                                    @Html.TextBoxFor(t => t.search.CourseName, new { @class = "form-control input-sm", @type = "text", @placeholder = "请输入课程名称" })
                                 </div>
 
+
+                                             <div class="col-sm-2">
+                                <label class="control-label">所属分校：</label>
+                            </div>
+
+                            <div class="col-sm-3">
+                               
+                                     @Html.DropDownListFor(t => t.search.ComCode,Model.search.ComCodeIL1, new { @class = "input-sm form-control" ,@style = "width:100%;height:100%;", @tabindex = "4 "})
+                                   
+                               
+                            </div>
+
                         </div>
                     
 
@@ -50,8 +62,9 @@
                         <table class="table table-striped table-bordered table-hover dataTables-example">
                             <thead>
                                 <tr>
+                                     <th>所属分校</th>
                                     <th>课程名称</th>
-                   
+                  
                                     <th>费用</th>
                                     <th>课程状态</th> 
                                     <th>课时</th>
@@ -66,7 +79,8 @@
                                     foreach (var m in Model.buttonlist)
                                     {
                                         <tr>
-                                            <td class="jz">@m.CourseName</td>
+                                             <td class="jz">@m.COMP_Name</td>
+                                            <td >@m.CourseName</td>
                                             <td>@m.CoursePrice</td>
                                             <td>@m.StateName</td>
                                             <td>@m.Hours</td>
@@ -98,7 +112,8 @@
                                     @Html.Pager(Model.buttonlist, new PagerOptions(), "", new RouteValueDictionary {
                                    { "pageindex",  Model.search.CurrentPage },
                                    { "pagesize", ViewBag.PageSize },
-                                   { "CourseName",  Model.search.CourseName }
+                                   { "search.CourseName",  Model.search.CourseName },
+                                   { "search.ComCode",  Model.search.ComCode }
                                }, null)
                                 </div>
                                 
@@ -154,6 +169,10 @@
             data: {id:id},
             success: function (json) {
                 if (json.status == 200) {//成功
+
+                    $("#ComCode").val(json.data[0].ComCode);//所属分校
+
+
                     $("#BTN_Name").val(json.data[0].CourseName);
                     $("#BTN_Price").val(json.data[0].CoursePrice);
                     $("#BTN_Hour").val(json.data[0].Hours);
@@ -193,6 +212,14 @@
             layer.msg("请输入课程名称");
             return false;
         }
+
+        obj.ComCode = $("#ComCode").val().trim();
+
+        if (!obj.ComCode) {
+            layer.msg("请选择所属分校！");
+            return false;
+        }
+
         obj.CoursePrice = $("#BTN_Price").val().trim();//赋值必须和数据库字段对应
         obj.Hours = $("#BTN_Hour").val().trim();
         obj.TypeID = $("#course_way").val().trim();
@@ -267,6 +294,16 @@
                 </div>
             </div>
             
+              <div class="form-group ">
+                <label class="col-sm-3 control-label">所属分校：</label>
+                <div class="col-sm-8">
+                      @Html.DropDownListFor(t => t.search.ComCode,Model.search.ComCodeIL1, new { @class = "input-sm form-control" ,@style = "width:100%;height:100%;", @tabindex = "4 ",@id="ComCode"})
+                </div>
+            </div>
+
+            
+                                  
+
             <div class="form-group ">
                 <label class="col-sm-3 control-label">是否停用：</label>
                 <div class="checkbox i-checks col-sm-8">

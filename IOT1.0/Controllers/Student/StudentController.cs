@@ -50,9 +50,11 @@ namespace IOT1._0.Controllers.Teach
 
 
 
-            if (search.ComCode == null)
+            if (UserSession.comcode != null && UserSession.comcode != "1")
             {
+
                 search.ComCode = UserSession.comcode;//默认查询当前分校的人员
+
             }
 
             model.Studentlist = StudentData.GetStudentList(search);//填充页面模型数据

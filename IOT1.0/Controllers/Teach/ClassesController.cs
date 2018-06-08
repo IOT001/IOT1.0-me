@@ -64,12 +64,15 @@ namespace IOT1._0.Controllers.Teach
             List<CommonEntity> ComCodeIL = CommonData.Get_SYS_Company_COMP_Code(UserSession.comcode);//分校
             model.ComCodeIL = CommonData.Instance.GetBropDownListData_Choice(ComCodeIL);
             model.search.ComCodeIL = CommonData.Instance.GetBropDownListData_Choice(ComCodeIL);
+ 
 
-
-            if (search.ComCode == null)
+            if (UserSession.comcode != null && UserSession.comcode != "1")
             {
+
                 search.ComCode = UserSession.comcode;//默认查询当前分校的人员
+
             }
+
             model.Classeslist = ClassesData.GeClassesList(search);//填充页面模型数据
             return View(model);//返回页面模型
         }

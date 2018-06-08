@@ -195,6 +195,7 @@
     <Compile Include="Entities\Reimburse.cs" />
     <Compile Include="Entities\vw_Transfer.cs" />
     <Compile Include="Entities\vw_AttendanceOriginal.cs" />
+    <Compile Include="Entities\vw_Course.cs" />
     <Compile Include="Implement\ExcuteModelImplement.cs" />
     <Compile Include="Interface\IExcuteModal.cs" />
     <Compile Include="Models\AppointmentPrintModel.cs" />
