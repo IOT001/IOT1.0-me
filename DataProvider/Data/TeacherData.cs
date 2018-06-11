@@ -80,20 +80,47 @@ namespace DataProvider.Data
         /// <returns></returns>
         public static bool UpdateTeacher(Teachers btn)
         {
-            Teachers btnto = TeacherData.GetTeachByID(btn.ID);//获取对象
-            btnto.IDNumber = btn.IDNumber;
-            btnto.sex = btn.sex;
-            btnto.name = btn.name;
-            btnto.MobilePhone = btn.MobilePhone;
-            btnto.LeaveDate = btn.LeaveDate;
-            btnto.EntryDate = btn.EntryDate;
-            btnto.WeChat = btn.WeChat;
-            btnto.Remark = btn.Remark;
-            btnto.Email = btn.Email;
-            btnto.ContactAddress = btn.ContactAddress;
-            btnto.ComCode = btn.ComCode;
-            //Cloner<Teachers, Teachers>.CopyTo(btn, btnto);//代码克隆，把前台或者的值也就是变更内容复制到目标对象，不做变更的数据不变
-            return MsSqlMapperHepler.Update(btnto, DBKeys.PRX);
+            DBRepository db = new DBRepository(DBKeys.PRX);
+            bool ret = false;
+            try
+            {
+
+
+                Teachers btnto = TeacherData.GetTeachByID(btn.ID);//获取对象
+                btnto.IDNumber = btn.IDNumber;
+                btnto.sex = btn.sex;
+                btnto.name = btn.name;
+                btnto.MobilePhone = btn.MobilePhone;
+                btnto.LeaveDate = btn.LeaveDate;
+                btnto.EntryDate = btn.EntryDate;
+                btnto.WeChat = btn.WeChat;
+                btnto.Remark = btn.Remark;
+                btnto.Email = btn.Email;
+                btnto.ContactAddress = btn.ContactAddress;
+                btnto.ComCode = btn.ComCode; 
+                db.BeginTransaction();//事务开始 
+                db.Update<Teachers>(btnto);
+
+
+                SYSAccount sysa = TeacherData.GetSYS_AccountByID(btnto.BindAccountID);//获取对象
+                sysa.ACC_ComCode = btn.ComCode; 
+              
+                db.Update<SYSAccount>(sysa);//修改权限表
+
+                db.Commit(); //事务提交 
+
+                db.Dispose();  //资源释放
+                ret = true;//修改成功 
+            }
+            catch (Exception ex)
+            {
+                db.Rollback();
+                db.Dispose();//资源释放
+                throw new Exception(ex.Message + "。" + ex.InnerException.Message);
+
+            }
+              
+            return ret;
         }
 
 
@@ -106,6 +133,19 @@ namespace DataProvider.Data
         {
             string strsql = "select * from Teachers where ID = '" + ID + "'";
             return MsSqlMapperHepler.SqlWithParamsSingle<Teachers>(strsql, null, DBKeys.PRX);
+        }
+
+
+
+        /// <summary>
+        /// 根据ACC_Account获取SYS_Account表信息
+        /// </summary>
+        /// <param name="ID"></param>
+        /// <returns></returns>
+        public static SYSAccount GetSYS_AccountByID(string ACC_Account)
+        {
+            string strsql = "select * from SYS_Account where ACC_Account = '" + ACC_Account + "'";
+            return MsSqlMapperHepler.SqlWithParamsSingle<SYSAccount>(strsql, null, DBKeys.PRX);
         }
 
 

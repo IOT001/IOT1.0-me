@@ -76,7 +76,7 @@ namespace IOT1._0.Controllers.Teach
             Course btn = (Course)(JsonConvert.DeserializeObject(data.ToString(), typeof(Course)));
             if (CourseData.updateCourse(btn))
             {
-                ajax.msg = "新增成功！";
+                ajax.msg = "保存成功！";
                 ajax.status = EnumAjaxStatus.Success;
             }
 
