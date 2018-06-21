@@ -25,7 +25,7 @@ namespace DataProvider.Data
            table = @" vw_AttendanceOriginal ";//表或者视图
            orderby = "InputDate desc";//排序信息
            StringBuilder sb = new StringBuilder();//构建where条件
-           sb.Append(" 1=1 AND UserID <=5");
+           sb.Append(" 1=1 AND len(UserID) <=5");
            if (!string.IsNullOrWhiteSpace(search.username))//姓名
                sb.AppendFormat(" and username like '%{0}%' ", search.username);  
 
