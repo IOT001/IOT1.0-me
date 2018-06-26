@@ -30,9 +30,9 @@ namespace DataProvider.Data
                sb.AppendFormat(" and username like '%{0}%' ", search.username);  
 
            if (!string.IsNullOrWhiteSpace(search.InputDate_start))//开班时间
-               sb.AppendFormat(" and InputDate > = '{0}' ", search.InputDate_start);
+               sb.AppendFormat(" and workDates > = '{0}' ", search.InputDate_start);
            if (!string.IsNullOrWhiteSpace(search.InputDate_end))//结束时间
-               sb.AppendFormat(" and InputDate <= '{0}' ", search.InputDate_end);
+               sb.AppendFormat(" and workDates <= '{0}' ", search.InputDate_end + " 23:59:59");
            where = sb.ToString();
            int allcount = 0;
            var list = CommonPage<vw_AttendanceOriginal>.GetPageList(
