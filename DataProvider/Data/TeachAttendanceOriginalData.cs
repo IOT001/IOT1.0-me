@@ -33,6 +33,17 @@ namespace DataProvider.Data
                sb.AppendFormat(" and workDates > = '{0}' ", search.InputDate_start);
            if (!string.IsNullOrWhiteSpace(search.InputDate_end))//结束时间
                sb.AppendFormat(" and workDates <= '{0}' ", search.InputDate_end + " 23:59:59");
+           if (!string.IsNullOrEmpty(search.ComCode))
+           {
+               if (search.ComCode == "1")//顺普
+               {
+                   sb.AppendFormat(" and [iMachineNumber] = 1 ", search.username);
+               }
+               else if (search.ComCode == "3")
+               {
+                   sb.AppendFormat(" and [iMachineNumber] = 7 ", search.username);
+               }
+           }
            where = sb.ToString();
            int allcount = 0;
            var list = CommonPage<vw_AttendanceOriginal>.GetPageList(

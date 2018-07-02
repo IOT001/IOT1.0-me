@@ -24,7 +24,7 @@ namespace IOT1._0.Controllers.Teach
         /// <returns></returns>
         public ActionResult TeachAttendanceOriginal(TeachAttendanceOriginalListSearchModel search)
         {
-
+            search.ComCode = UserSession.comcode;
             TeachAttendanceOriginalListViewModel model = new TeachAttendanceOriginalListViewModel();//页面模型
             model.search = search;//页面的搜索模型
             model.search.PageSize = 15;//每页显示

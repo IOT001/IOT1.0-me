@@ -54,7 +54,10 @@ namespace DataProvider.Models
         public string InputDate_end
         { set; get; }
 
-         
+        /// <summary>
+        /// 所属分校的选中值
+        /// </summary>
+        public string ComCode { get; set; }
     }
 
 }

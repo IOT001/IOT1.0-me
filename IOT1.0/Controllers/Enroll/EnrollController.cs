@@ -199,6 +199,7 @@ namespace IOT1._0.Controllers.Enroll
             string StartTime_start = Request["StartTime_start"];
             string StartTime_end = Request["StartTime_end"];
             string islisten = Request["islisten"];//是否查询试听列表
+            search.ComCode = UserSession.comcode;
             search.CourseName = CourseName;
             if (!string.IsNullOrEmpty(StartTime_start))
                 search.StartTime_start = StartTime_start;
